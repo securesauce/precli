@@ -2,7 +2,6 @@
 
 
 class BaseImpl:
-
     def file_extension(self):
         return ""
 
@@ -10,7 +9,7 @@ class BaseImpl:
         cursor = tree.walk()
 
         reached_root = False
-        while reached_root == False:
+        while reached_root is False:
             yield cursor.node
 
             if cursor.goto_first_child():

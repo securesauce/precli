@@ -9,7 +9,7 @@ def traverse_tree(tree):
     cursor = tree.walk()
 
     reached_root = False
-    while reached_root == False:
+    while reached_root is False:
         yield cursor.node
 
         if cursor.goto_first_child():
@@ -37,7 +37,6 @@ class Python:
         discovered_rules = entry_points(group="precli.rules.python")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()
-
 
     def file_extension(self):
         return ".py"
