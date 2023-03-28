@@ -1,4 +1,3 @@
-pbr # Apache-2.0
 rich # MIT
 tree_sitter
 tree-sitter-languages

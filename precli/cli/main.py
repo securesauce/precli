@@ -9,7 +9,6 @@ import traceback
 from importlib.metadata import entry_points
 
 from rich import progress
-from stevedore import extension
 
 import precli
 
@@ -18,6 +17,7 @@ LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 
 parsers = {}
+
 
 def traverse_tree(tree):
     cursor = tree.walk()
