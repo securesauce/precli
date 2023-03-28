@@ -1,12 +1,16 @@
+# Copyright 2023 Secure Saurce LLC
 import argparse
+from importlib.metadata import entry_points
 import logging
 import os
+import pathlib
 import sys
 import traceback
 
+from rich import progress
+from stevedore import extension
 from tree_sitter_languages import get_language
 from tree_sitter_languages import get_parser
-from rich import progress
 
 import precli
 
@@ -14,6 +18,7 @@ import precli
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 
+parsers = {}
 
 def traverse_tree(tree):
     cursor = tree.walk()
@@ -146,19 +151,15 @@ def parse_file(fname, fdata, new_files_list):
         #self.scores.append(score)
         #self.metrics.count_issues([score])
 
-        if fname.endswith(".py"):
-            language = get_language("python")
-            parser = get_parser("python")
-        else:
-            # Unsupported language
-            return
-        tree = parser.parse(data)
+        file_extension = pathlib.Path(fname).suffix
+        if file_extension in parsers.keys():
+            parser = parsers[file_extension]
+            #tree = parser.parse(data)
+            parser.parse(data)
 
-        for node in traverse_tree(tree):
-            print(node)
+            #for node in traverse_tree(tree):
+            #    print(node)
 
-        #for node in traverse_tree(tree):
-        #    print(node)
     except KeyboardInterrupt:
         sys.exit(2)
     except SyntaxError as e:
@@ -185,6 +186,11 @@ def parse_file(fname, fdata, new_files_list):
 def main():
     # Setup the command line arguments
     args = setup_arg_parser()
+
+    discovered_plugins = entry_points(group="precli.parsers")
+    for plugin in discovered_plugins:
+        parser = plugin.load()()
+        parsers[parser.file_extension()] = parser
 
     # Compile a list of the targets
     files_list = discover_files(args.targets)
