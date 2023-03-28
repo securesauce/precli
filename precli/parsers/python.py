@@ -1,8 +1,7 @@
 # Copyright 2023 Secure Saurce LLC
 from importlib.metadata import entry_points
 
-from tree_sitter_languages import get_language
-from tree_sitter_languages import get_parser
+import tree_sitter_languages
 
 
 def traverse_tree(tree):
@@ -30,8 +29,8 @@ def traverse_tree(tree):
 
 class Python:
     def __init__(self):
-        self.language = get_language("python")
-        self.parser = get_parser("python")
+        self.language = tree_sitter_languages.get_language("python")
+        self.parser = tree_sitter_languages.get_parser("python")
         self.rules = {}
 
         discovered_rules = entry_points(group="precli.rules.python")

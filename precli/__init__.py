@@ -1,4 +1,4 @@
-import pbr.version
+from importlib import metadata
 
 
-__version__ = pbr.version.VersionInfo("precli").version_string()
+__version__ = metadata.version("precli")
