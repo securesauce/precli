@@ -1,9 +1,25 @@
 # Copyright 2023 Secure Saurce LLC
+from abc import ABC
+from abc import abstractmethod
+from importlib.metadata import entry_points
+
+import tree_sitter_languages
 
 
-class BaseImpl:
+class Parser(ABC):
+
+    def __init__(self, lang):
+        self.language = tree_sitter_languages.get_language(lang)
+        self.parser = tree_sitter_languages.get_parser(lang)
+        self.rules = {}
+
+        discovered_rules = entry_points(group=f"precli.rules.{lang}")
+        for rule in discovered_rules:
+            self.rules[rule.name] = rule.load()
+
+    @abstractmethod
     def file_extension(self):
-        return ""
+        pass
 
     def traverse_tree(self, tree):
         cursor = tree.walk()

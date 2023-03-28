@@ -1,12 +1,11 @@
 # Copyright 2023 Secure Saurce LLC
-import tree_sitter_languages
+from precli.parsers import base_parser
 
 
-class Java:
+class Java(base_parser.Parser):
+
     def __init__(self):
-        self.language = tree_sitter_languages.get_language("java")
-        self.parser = tree_sitter_languages.get_parser("java")
-        self.rules = {}
+        super().__init__("java")
 
     def file_extension(self):
         return ".java"
