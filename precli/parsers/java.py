@@ -1,5 +1,4 @@
 # Copyright 2023 Secure Saurce LLC
-
 from tree_sitter_languages import get_language
 from tree_sitter_languages import get_parser
 
