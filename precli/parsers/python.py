@@ -37,6 +37,8 @@ class Python(base_parser.Parser):
             from_module = module.text
         elif module.type == "relative_import":
             # No known way to resolve the relative to absolute
+            # However, shouldn't matter much since most rules
+            # won't check for local modules.
             from_module = b""
 
         result = self.import_statement(nodes)
@@ -47,9 +49,8 @@ class Python(base_parser.Parser):
         return imports
 
     def parse(self, data):
-        tree = self.parser.parse(data)
-
         imports = dict()
+        tree = self.parser.parse(data)
 
         for node in self.traverse_tree(tree):
             match node.type:
@@ -62,17 +63,30 @@ class Python(base_parser.Parser):
                     imports.update(imps)
 
                 case "call":
-                    #print(node)
-                    #print(node.text)
+                    children = iter(node.children)
+
+                    first_node = next(children)
+                    if first_node.type == "attribute":
+                        attribute = first_node
+
+                    arguments = []
+                    second_node = next(children)
+                    if second_node.type == "argument_list":
+                        for child in second_node.children:
+                            print(child)
+                            if child.type not in ("(", ",", ")"):
+                                arguments.append(child)
+
+                    print(attribute)
+                    print(arguments)
+
+
                     #print(node.start_point)
                     #print(node.end_point)
                     #for rule in self.rules.values():
                     #    rule()
-                    pass
 
                 case _:
                     #print("Unknown node type.")
                     pass
 
-        print("")
-        print(imports)
