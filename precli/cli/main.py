@@ -19,29 +19,6 @@ PROGRESS_THRESHOLD = 50
 parsers = {}
 
 
-def traverse_tree(tree):
-    cursor = tree.walk()
-
-    reached_root = False
-    while reached_root is False:
-        yield cursor.node
-
-        if cursor.goto_first_child():
-            continue
-
-        if cursor.goto_next_sibling():
-            continue
-
-        retracing = True
-        while retracing:
-            if not cursor.goto_parent():
-                retracing = False
-                reached_root = True
-
-            if cursor.goto_next_sibling():
-                retracing = False
-
-
 def setup_arg_parser():
     parser = argparse.ArgumentParser(
         description="precli - a static analysis security tool",
@@ -153,11 +130,7 @@ def parse_file(fname, fdata, new_files_list):
         file_extension = pathlib.Path(fname).suffix
         if file_extension in parsers.keys():
             parser = parsers[file_extension]
-            # tree = parser.parse(data)
             parser.parse(data)
-
-            # for node in traverse_tree(tree):
-            #    print(node)
 
     except KeyboardInterrupt:
         sys.exit(2)
@@ -168,7 +141,7 @@ def parse_file(fname, fdata, new_files_list):
         # )
         new_files_list.remove(fname)
     except Exception as e:
-        print(e)
+        print(traceback.format_exc())
         LOG.error(
             "Exception occurred when executing tests against "
             '%s. Run "precli --debug %s" to see the full '

@@ -1,9 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.parsers import base_parser
+from precli.core import base_parser
 
 
 class Java(base_parser.Parser):
-
     def __init__(self):
         super().__init__("java")
 

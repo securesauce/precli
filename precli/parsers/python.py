@@ -1,9 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.parsers import base_parser
+from precli.core.base_parser import Parser
 
 
-class Python(base_parser.Parser):
-
+class Python(Parser):
     def __init__(self):
         super().__init__("python")
 
@@ -48,45 +47,44 @@ class Python(base_parser.Parser):
 
         return imports
 
+    def call(self, nodes):
+        first_node = next(nodes)
+        if first_node.type == "attribute":
+            attribute = first_node
+
+        arguments = []
+        second_node = next(nodes)
+        if second_node.type == "argument_list":
+            for child in second_node.children:
+                if child.type not in "(,)":
+                    arguments.append(child)
+
+        # print(attribute)
+        # print(arguments) 
+
     def parse(self, data):
-        imports = dict()
+        results = []
+        context = dict()
+        context["imports"] = {}
         tree = self.parser.parse(data)
 
-        for node in self.traverse_tree(tree):
+        for node in Parser.traverse_tree(tree):
+            context["node"] = node
             match node.type:
                 case "import_statement":
                     imps = self.import_statement(iter(node.children))
-                    imports.update(imps)
+                    context["imports"].update(imps)
 
                 case "import_from_statement":
                     imps = self.import_from_statement(iter(node.children))
-                    imports.update(imps)
+                    context["imports"].update(imps)
 
                 case "call":
-                    children = iter(node.children)
+                    self.call(iter(node.children))
 
-                    first_node = next(children)
-                    if first_node.type == "attribute":
-                        attribute = first_node
+            for rule in self.rules.values():
+                result = rule.analyze(context)
+                if result:
+                    results.append(result)
 
-                    arguments = []
-                    second_node = next(children)
-                    if second_node.type == "argument_list":
-                        for child in second_node.children:
-                            print(child)
-                            if child.type not in ("(", ",", ")"):
-                                arguments.append(child)
-
-                    print(attribute)
-                    print(arguments)
-
-
-                    #print(node.start_point)
-                    #print(node.end_point)
-                    #for rule in self.rules.values():
-                    #    rule()
-
-                case _:
-                    #print("Unknown node type.")
-                    pass
-
+        print(results)
