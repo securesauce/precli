@@ -15,13 +15,14 @@ class Parser(ABC):
 
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
-            self.rules[rule.name] = rule.load()
+            self.rules[rule.name] = rule.load()()
 
     @abstractmethod
     def file_extension(self):
         pass
 
-    def traverse_tree(self, tree):
+    @staticmethod
+    def traverse_tree(tree):
         cursor = tree.walk()
 
         reached_root = False
