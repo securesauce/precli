@@ -1,5 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.base_parser import Parser
+from precli.core.parser import Parser
+from precli.core.result import Result
 
 
 class Python(Parser):
@@ -62,7 +63,7 @@ class Python(Parser):
         # print(attribute)
         # print(arguments) 
 
-    def parse(self, data):
+    def parse(self, data) -> list[Result]:
         results = []
         context = dict()
         context["imports"] = {}
@@ -87,4 +88,4 @@ class Python(Parser):
                 if result:
                     results.append(result)
 
-        print(results)
+        return results
