@@ -1,7 +1,7 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.base_rule import Rule
 from precli.core.config import Configuration
 from precli.core.result import Result
+from precli.core.rule import Rule
 
 
 class YamlLoad(Rule):

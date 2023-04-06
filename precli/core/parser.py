@@ -5,6 +5,8 @@ from importlib.metadata import entry_points
 
 import tree_sitter_languages
 
+from precli.core.result import Result
+
 
 class Parser(ABC):
 
@@ -43,3 +45,7 @@ class Parser(ABC):
 
                 if cursor.goto_next_sibling():
                     retracing = False
+
+    @abstractmethod
+    def parse(self, data) -> list[Result]:
+        pass
