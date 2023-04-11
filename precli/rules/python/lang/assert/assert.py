@@ -5,7 +5,6 @@ from precli.core.rule import Rule
 
 
 class Assert(Rule):
-
     def __init__(self):
         super().__init__(
             id="PRE1001",
@@ -26,4 +25,3 @@ class Assert(Rule):
                 self.message,
             )
             return result
-

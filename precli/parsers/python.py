@@ -1,4 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
+from tree_sitter import Node
+
 from precli.core.parser import Parser
 from precli.core.result import Result
 
@@ -7,15 +9,15 @@ class Python(Parser):
     def __init__(self):
         super().__init__("python")
 
-    def file_extension(self):
+    def file_extension(self) -> str:
         return ".py"
 
-    def child_by_type(self, node, type):
+    def child_by_type(self, node: Node, type: str) -> Node:
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.children))
         return child[0] if child else None
 
-    def import_statement(self, nodes):
+    def import_statement(self, nodes: list[Node]) -> dict:
         imports = dict()
         for child in nodes:
             if child.type == "dotted_name":
@@ -26,7 +28,7 @@ class Python(Parser):
                 imports[alias.text] = module.text
         return imports
 
-    def import_from_statement(self, nodes):
+    def import_from_statement(self, nodes: list[Node]) -> dict:
         imports = dict()
 
         # Skip over the "from" node
@@ -48,22 +50,36 @@ class Python(Parser):
 
         return imports
 
-    def call(self, nodes):
+    def call(self, context: dict, nodes: list[Node]):
+        # Resolve the fully qualified function name
+        func_call_qual = ""
         first_node = next(nodes)
         if first_node.type == "attribute":
             attribute = first_node
+            name = attribute.text
+            if b"." in name:
+                name = name.rpartition(b".")[0]
 
-        arguments = []
+            if name in context["imports"]:
+                func_call_qual = attribute.text.replace(
+                    name, context["imports"][name]
+                )
+        elif first_node.type == "identifier":
+            name = first_node.text
+            if name in context["imports"]:
+                func_call_qual = context["imports"][name]
+
+        # Get the arguments of the function call
+        func_call_args = []
         second_node = next(nodes)
         if second_node.type == "argument_list":
             for child in second_node.children:
                 if child.type not in "(,)":
-                    arguments.append(child)
+                    func_call_args.append(child)
 
-        # print(attribute)
-        # print(arguments) 
+        return (func_call_qual, func_call_args)
 
-    def parse(self, data) -> list[Result]:
+    def parse(self, data: bytes) -> list[Result]:
         results = []
         context = dict()
         context["imports"] = {}
@@ -81,7 +97,9 @@ class Python(Parser):
                     context["imports"].update(imps)
 
                 case "call":
-                    self.call(iter(node.children))
+                    (func, args) = self.call(context, iter(node.children))
+                    context["func_call_qual"] = func
+                    context["func_call_args"] = args
 
             for rule in self.rules.values():
                 result = rule.analyze(context)

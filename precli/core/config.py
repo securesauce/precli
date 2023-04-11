@@ -3,12 +3,12 @@ from precli.core.level import Level
 
 
 class Configuration:
-
     def __init__(
-            self, enabled: bool=True,
-            level: Level=Level.WARNING,
-            rank: float=-1.0,
-        ):
+        self,
+        enabled: bool = True,
+        level: Level = Level.WARNING,
+        rank: float = -1.0,
+    ):
         self._enabled = enabled
         self._level = level
         self._rank = rank

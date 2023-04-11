@@ -4,13 +4,13 @@ from abc import abstractmethod
 from importlib.metadata import entry_points
 
 import tree_sitter_languages
+from tree_sitter import Tree
 
 from precli.core.result import Result
 
 
 class Parser(ABC):
-
-    def __init__(self, lang):
+    def __init__(self, lang: str):
         self.language = tree_sitter_languages.get_language(lang)
         self.parser = tree_sitter_languages.get_parser(lang)
         self.rules = {}
@@ -20,11 +20,11 @@ class Parser(ABC):
             self.rules[rule.name] = rule.load()()
 
     @abstractmethod
-    def file_extension(self):
+    def file_extension(self) -> str:
         pass
 
     @staticmethod
-    def traverse_tree(tree):
+    def traverse_tree(tree: Tree):
         cursor = tree.walk()
 
         reached_root = False
@@ -47,5 +47,5 @@ class Parser(ABC):
                     retracing = False
 
     @abstractmethod
-    def parse(self, data) -> list[Result]:
+    def parse(self, data: bytes) -> list[Result]:
         pass

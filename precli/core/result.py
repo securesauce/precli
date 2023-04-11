@@ -5,18 +5,20 @@ from precli.core.location import Location
 
 
 class Result:
-
     def __init__(self, id, level, message):
         self._id = id
         self._level = level
         self._message = message
 
+    @property
     def rule_id(self) -> str:
         return self._id
 
+    @property
     def level(self) -> Level:
         return self._level
 
+    @property
     def message(self) -> str:
         return self._message
 
