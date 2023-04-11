@@ -48,7 +48,7 @@ def setup_arg_parser():
     return args
 
 
-def discover_files(targets):
+def discover_files(targets: list[str]):
     files_list = []
     for fname in targets:
         if os.path.isdir(fname):
@@ -59,7 +59,7 @@ def discover_files(targets):
     return files_list
 
 
-def run_checks(files_list):
+def run_checks(files_list: list[str]):
     """Runs through all files in the scope
 
     :return: -
@@ -94,15 +94,7 @@ def run_checks(files_list):
             new_files_list.remove(fname)
 
 
-def format_captures(tree, captures):
-    for c in captures:
-        node = c[0]
-        print(node.text)
-        print(node.start_point)
-        print(node.end_point)
-
-
-def parse_file(fname, fdata, new_files_list):
+def parse_file(fname: str, fdata: io.BufferedReader, new_files_list: list):
     try:
         # parse the current file
         data = fdata.read()

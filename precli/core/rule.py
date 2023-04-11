@@ -11,9 +11,16 @@ class Rule(ABC):
     _rules = dict()
 
     def __init__(
-            self, id: str, name: str, short_descr: str, full_descr: str,
-            help_url: str, configuration: Configuration, cwe: int, message: str
-        ):
+        self,
+        id: str,
+        name: str,
+        short_descr: str,
+        full_descr: str,
+        help_url: str,
+        configuration: Configuration,
+        cwe: int,
+        message: str,
+    ):
         self._id = id
         self._name = name
         self._short_descr = short_descr
@@ -48,7 +55,7 @@ class Rule(ABC):
         return self._help_url
 
     @property
-    def defaultConfiguration(self) -> Configuration:
+    def default_configuration(self) -> Configuration:
         return self._configuration
 
     @property
@@ -58,6 +65,24 @@ class Rule(ABC):
     @property
     def message(self) -> str:
         return self._message
+
+    @staticmethod
+    def match_call(
+        context: dict,
+        func: str,
+        arg_pos: int = 0,
+        arg_name: str = None,
+        arg_value: str = None,
+    ) -> bool:
+        if context["node"].type == "call":
+            # is full qual func name
+            if context["func_call_qual"] == func:
+                if not arg_value:
+                    print("found match")
+                    return True
+                else:
+                    print("no match")
+                    # matches args
 
     @abstractmethod
     def analyze(self, context: dict) -> Result:

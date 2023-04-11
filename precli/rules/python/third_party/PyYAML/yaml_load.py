@@ -1,11 +1,11 @@
 # Copyright 2023 Secure Saurce LLC
 from precli.core.config import Configuration
+from precli.core.level import Level
 from precli.core.result import Result
 from precli.core.rule import Rule
 
 
 class YamlLoad(Rule):
-
     def __init__(self):
         super().__init__(
             id="PRE1010",
@@ -19,4 +19,16 @@ class YamlLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        return None
+        if Rule.match_call(context, b"yaml.load"):
+            return Result(
+                id="PRE1010",
+                level=Level.WARNING,
+                message="",
+            )
+
+        # Fail on anything but Loader=SafeLoader or CSafeLoader
+        # , 1, "Loader", "SafeLoader"
+
+        # print(context["func_call_qual"])
+        # print(context["func_call_args"])
+        # print()
