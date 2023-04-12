@@ -89,7 +89,7 @@ def run_checks(files_list: list[str]):
             else:
                 with open(fname, "rb") as fdata:
                     parse_file(fname, fdata, new_files_list)
-        except OSError as e:
+        except OSError:
             # self.skipped.append((fname, e.strerror))
             new_files_list.remove(fname)
 
