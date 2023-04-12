@@ -67,22 +67,38 @@ class Rule(ABC):
         return self._message
 
     @staticmethod
-    def match_call(
+    def match_calls(
         context: dict,
-        func: str,
+        funcs: list[str],
+    ) -> bool:
+        if context["node"].type == "call":
+            if context["func_call_qual"] in funcs:
+                return True
+
+    @staticmethod
+    def match_call_arg_pos(
+        context: dict,
         arg_pos: int = 0,
-        arg_name: str = None,
         arg_value: str = None,
     ) -> bool:
         if context["node"].type == "call":
-            # is full qual func name
-            if context["func_call_qual"] == func:
-                if not arg_value:
-                    print("found match")
+            func_call_args = context["func_call_args"]
+            if func_call_args and len(func_call_args) > arg_pos:
+                arg = func_call_args[arg_pos]
+                if not isinstance(arg, dict) and arg == arg_value:
                     return True
-                else:
-                    print("no match")
-                    # matches args
+
+    @staticmethod
+    def match_call_kwarg(
+        context: dict,
+        arg_name: str,
+        arg_value: str = None,
+    ) -> bool:
+        if context["node"].type == "call" and context["func_call_args"]:
+            for arg in context["func_call_args"]:
+                if isinstance(arg, dict):
+                    if arg.get(arg_name) == arg_value:
+                        return True
 
     @abstractmethod
     def analyze(self, context: dict) -> Result:

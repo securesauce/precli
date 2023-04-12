@@ -2,7 +2,7 @@ import json
 import yaml
 from yaml import CSafeLoader
 from yaml import SafeLoader
-import os.path
+
 
 def test_yaml_load():
     ystr = yaml.dump({'a': 1, 'b': 2, 'c': 3})
