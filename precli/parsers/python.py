@@ -50,24 +50,30 @@ class Python(Parser):
 
         return imports
 
-    def call(self, context: dict, nodes: list[Node]):
-        # Resolve the fully qualified function name
-        func_call_qual = ""
-        first_node = next(nodes)
-        if first_node.type == "attribute":
-            attribute = first_node
+    def get_qual_value(self, context: dict, node: Node) -> str:
+        if node.type == "attribute":
+            attribute = node
             name = attribute.text
             if b"." in name:
                 name = name.rpartition(b".")[0]
 
             if name in context["imports"]:
-                func_call_qual = attribute.text.replace(
-                    name, context["imports"][name]
-                )
-        elif first_node.type == "identifier":
-            name = first_node.text
+                return attribute.text.replace(name, context["imports"][name])
+        elif node.type == "identifier":
+            name = node.text
             if name in context["imports"]:
-                func_call_qual = context["imports"][name]
+                return context["imports"][name]
+        elif node.type == "keyword_argument":
+            kwarg = {}
+            keyword = node.children[0].text
+            kwarg[keyword] = self.get_qual_value(context, node.children[2])
+            return kwarg
+
+    def call(self, context: dict, nodes: list[Node]):
+        # Resolve the fully qualified function name
+        func_call_qual = ""
+        first_node = next(nodes)
+        func_call_qual = self.get_qual_value(context, first_node)
 
         # Get the arguments of the function call
         func_call_args = []
@@ -75,7 +81,8 @@ class Python(Parser):
         if second_node.type == "argument_list":
             for child in second_node.children:
                 if child.type not in "(,)":
-                    func_call_args.append(child)
+                    arg_value = self.get_qual_value(context, child)
+                    func_call_args.append(arg_value)
 
         return (func_call_qual, func_call_args)
 

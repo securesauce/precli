@@ -19,16 +19,21 @@ class YamlLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if Rule.match_call(context, b"yaml.load"):
+        if all(
+            [
+                Rule.match_calls(context, [b"yaml.load"]),
+                not Rule.match_call_kwarg(
+                    context, b"Loader", b"yaml.SafeLoader"
+                ),
+                not Rule.match_call_kwarg(
+                    context, b"Loader", b"yaml.CSafeLoader"
+                ),
+                not Rule.match_call_arg_pos(context, 1, b"yaml.SafeLoader"),
+                not Rule.match_call_arg_pos(context, 1, b"yaml.CSafeLoader"),
+            ]
+        ):
             return Result(
                 id="PRE1010",
                 level=Level.WARNING,
                 message="",
             )
-
-        # Fail on anything but Loader=SafeLoader or CSafeLoader
-        # , 1, "Loader", "SafeLoader"
-
-        # print(context["func_call_qual"])
-        # print(context["func_call_args"])
-        # print()
