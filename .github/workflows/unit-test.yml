@@ -57,7 +57,7 @@ jobs:
         python-version: [
           ["3.11", "311"]
         ]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} (${{ matrix.python-version[0] }})
     steps:
