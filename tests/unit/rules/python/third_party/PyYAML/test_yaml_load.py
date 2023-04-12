@@ -179,7 +179,7 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual("", result.message)
 
-    def test_yaml_load_kwarg_csafeloader(self):
+    def test_yaml_load_kwarg_json_safeloader(self):
         fdata = textwrap.dedent(
             """
             import json
