@@ -36,7 +36,7 @@ class Rule(ABC):
         return self._id
 
     def get_by_id(id: str) -> Self:
-        return _rules[id]
+        return Rule._rules[id]
 
     @property
     def name(self) -> str:

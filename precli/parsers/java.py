@@ -11,4 +11,4 @@ class Java(Parser):
         return ".java"
 
     def parse(self, data: bytes) -> list[Result]:
-        tree = self.parser.parse(data)
+        self.parser.parse(data)
