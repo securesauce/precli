@@ -4,6 +4,7 @@ from abc import abstractmethod
 from importlib.metadata import entry_points
 
 import tree_sitter_languages
+from tree_sitter import Node
 from tree_sitter import Tree
 
 from precli.core.result import Result
@@ -24,7 +25,7 @@ class Parser(ABC):
         pass
 
     @staticmethod
-    def traverse_tree(tree: Tree):
+    def traverse_tree(tree: Tree) -> Node:
         cursor = tree.walk()
 
         reached_root = False
