@@ -95,10 +95,8 @@ class Rule(ABC):
         arg_value: str = None,
     ) -> bool:
         if context["node"].type == "call" and context["func_call_args"]:
-            for arg in context["func_call_args"]:
-                if isinstance(arg, dict):
-                    if arg.get(arg_name) == arg_value:
-                        return True
+            if arg_name in context["func_call_kwargs"]:
+                return context["func_call_kwargs"][arg_name] == arg_value
 
     @abstractmethod
     def analyze(self, context: dict) -> Result:
