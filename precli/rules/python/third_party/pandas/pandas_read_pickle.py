@@ -26,5 +26,5 @@ class PandasReadPickle(Rule):
                 file_name=context["file_name"],
                 start_point=context["node"].start_point,
                 end_point=context["node"].end_point,
-                message=self.message.format("pandas.read_pickle"),
+                message=self.message.format(context["func_call_qual"]),
             )
