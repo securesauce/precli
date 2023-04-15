@@ -48,5 +48,5 @@ class Parser(ABC):
                     retracing = False
 
     @abstractmethod
-    def parse(self, data: bytes) -> list[Result]:
+    def parse(self, file_name: str, data: bytes) -> list[Result]:
         pass

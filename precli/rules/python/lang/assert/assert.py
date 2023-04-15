@@ -1,5 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.config import Configuration
+from precli.core.config import Config
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -12,16 +12,16 @@ class Assert(Rule):
             short_descr="",
             full_descr="",
             help_url="",
-            configuration=Configuration(),
+            config=Config(),
             cwe=703,
             message="",
         )
 
     def analyze(self, context: dict) -> Result:
         if context["node"].type == "assert":
-            result = Result(
-                self.id,
-                self.defaultConfiguration.level,
-                self.message,
+            return Result(
+                rule_id=self.id,
+                file_name=context["file_name"],
+                start_point=context["node"].start_point,
+                end_point=context["node"].end_point,
             )
-            return result

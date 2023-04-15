@@ -11,6 +11,8 @@ from importlib.metadata import entry_points
 from rich import progress
 
 import precli
+from precli.core.result import Result
+from precli.core.result import Rule
 
 
 LOG = logging.getLogger(__name__)
@@ -35,9 +37,8 @@ def setup_arg_parser():
     parser.add_argument(
         "--version",
         action="version",
-        version="%(prog)s {version}\n  python version = {python}".format(
-            version=precli.__version__, python=python_ver
-        ),
+        version=f"%(prog)s {precli.__version__}\n"
+        f"  python version = {python_ver}",
     )
     args = parser.parse_args()
 
@@ -85,16 +86,25 @@ def run_checks(files_list: list[str]):
                 new_files_list = [
                     "<stdin>" if x == "-" else x for x in new_files_list
                 ]
-                parse_file("<stdin>", fdata, new_files_list)
+                results = parse_file("<stdin>", fdata, new_files_list)
             else:
                 with open(fname, "rb") as fdata:
-                    parse_file(fname, fdata, new_files_list)
+                    results = parse_file(fname, fdata, new_files_list)
         except OSError:
             # self.skipped.append((fname, e.strerror))
             new_files_list.remove(fname)
 
+        for result in results:
+            rule = Rule.get_by_id(result.rule_id)
+            print(f"{rule.id}: {rule.cwe.name}")
+            print(f"{result.level.name}: {result.message}")
+            print(f"{result.location.file_name}: {result.location.start_line}")
+            print()
 
-def parse_file(fname: str, fdata: io.BufferedReader, new_files_list: list):
+
+def parse_file(
+    fname: str, fdata: io.BufferedReader, new_files_list: list
+) -> list[Result]:
     try:
         # parse the current file
         data = fdata.read()
@@ -122,7 +132,7 @@ def parse_file(fname: str, fdata: io.BufferedReader, new_files_list: list):
         file_extension = pathlib.Path(fname).suffix
         if file_extension in parsers.keys():
             parser = parsers[file_extension]
-            parser.parse(data)
+            return parser.parse(fname, data)
 
     except KeyboardInterrupt:
         sys.exit(2)

@@ -1,3 +1,4 @@
+cwe
 rich # MIT
 tree_sitter
 tree-sitter-languages

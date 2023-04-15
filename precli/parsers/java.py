@@ -10,5 +10,5 @@ class Java(Parser):
     def file_extension(self) -> str:
         return ".java"
 
-    def parse(self, data: bytes) -> list[Result]:
-        self.parser.parse(data)
+    def parse(self, file_name: str, data: bytes) -> list[Result]:
+        self.parser.parse(file_name, data)
