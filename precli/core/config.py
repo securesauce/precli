@@ -2,7 +2,7 @@
 from precli.core.level import Level
 
 
-class Configuration:
+class Config:
     def __init__(
         self,
         enabled: bool = True,

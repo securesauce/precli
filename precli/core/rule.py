@@ -3,12 +3,14 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Self
 
-from precli.core.config import Configuration
-from precli.core.result import Result
+from cwe import Database
+
+from precli.core.config import Config
 
 
 class Rule(ABC):
-    _rules = dict()
+    _rules = {}
+    _cwedb = Database()
 
     def __init__(
         self,
@@ -17,7 +19,7 @@ class Rule(ABC):
         short_descr: str,
         full_descr: str,
         help_url: str,
-        configuration: Configuration,
+        config: Config,
         cwe: int,
         message: str,
     ):
@@ -26,7 +28,7 @@ class Rule(ABC):
         self._short_descr = short_descr
         self._full_descr = full_descr
         self._help_url = help_url
-        self._configuration = configuration
+        self._config = config
         self._cwe = cwe
         self._message = message
         Rule._rules[id] = self
@@ -35,6 +37,7 @@ class Rule(ABC):
     def id(self) -> str:
         return self._id
 
+    @staticmethod
     def get_by_id(id: str) -> Self:
         return Rule._rules[id]
 
@@ -43,11 +46,11 @@ class Rule(ABC):
         return self._name
 
     @property
-    def short_description(self) -> str:
+    def short_descr(self) -> str:
         return self._short_descr
 
     @property
-    def full_description(self) -> str:
+    def full_descr(self) -> str:
         return self._full_descr
 
     @property
@@ -55,12 +58,13 @@ class Rule(ABC):
         return self._help_url
 
     @property
-    def default_configuration(self) -> Configuration:
-        return self._configuration
+    def default_config(self) -> Config:
+        return self._config
 
     @property
     def cwe(self) -> int:
-        return self._cwe
+        cwe = Rule._cwedb.get(self._cwe)
+        return cwe
 
     @property
     def message(self) -> str:
@@ -76,7 +80,7 @@ class Rule(ABC):
                 return True
 
     @staticmethod
-    def match_call_arg_pos(
+    def match_call_pos_arg(
         context: dict,
         arg_pos: int = 0,
         arg_value: str = None,
@@ -99,10 +103,9 @@ class Rule(ABC):
                 return context["func_call_kwargs"][arg_name] == arg_value
 
     @abstractmethod
-    def analyze(self, context: dict) -> Result:
+    def analyze(self, context: dict):
         """Analyze the code and return a result.
 
         :return: an issue as a Result object or None
         :rtype: Result
         """
-        pass

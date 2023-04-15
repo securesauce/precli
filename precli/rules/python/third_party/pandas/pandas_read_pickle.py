@@ -4,10 +4,10 @@ from precli.core.result import Result
 from precli.core.rule import Rule
 
 
-class YamlLoad(Rule):
+class PandasReadPickle(Rule):
     def __init__(self):
         super().__init__(
-            id="PRE317",
+            id="PRE310",
             name="deserialization_of_untrusted_data",
             short_descr="The application deserializes untrusted data without "
             "sufficiently verifying that the resulting data will be valid.",
@@ -20,23 +20,11 @@ class YamlLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if all(
-            [
-                Rule.match_calls(context, [b"yaml.load"]),
-                not Rule.match_call_kwarg(
-                    context, b"Loader", b"yaml.SafeLoader"
-                ),
-                not Rule.match_call_kwarg(
-                    context, b"Loader", b"yaml.CSafeLoader"
-                ),
-                not Rule.match_call_pos_arg(context, 1, b"yaml.SafeLoader"),
-                not Rule.match_call_pos_arg(context, 1, b"yaml.CSafeLoader"),
-            ]
-        ):
+        if Rule.match_calls(context, [b"pandas.read_pickle"]):
             return Result(
                 rule_id=self.id,
                 file_name=context["file_name"],
                 start_point=context["node"].start_point,
                 end_point=context["node"].end_point,
-                message=self.message.format("yaml.load"),
+                message=self.message.format("pandas.read_pickle"),
             )
