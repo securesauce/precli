@@ -9,22 +9,43 @@ class Result:
     def __init__(
         self,
         rule_id: str,
-        file_name: str,
-        start_point: tuple,
-        end_point: tuple,
+        context: dict,
+        file_name: str = None,
+        start_point: tuple = None,
+        end_point: tuple = None,
         level: Level = None,
         message: str = None,
     ):
         self._rule_id = rule_id
+        if start_point:
+            start_line = start_point[0]
+            start_column = start_point[1]
+        else:
+            start_line = context["node"].start_point[0]
+            start_column = context["node"].start_point[1]
+        if end_point:
+            end_line = end_point[0]
+            end_column = end_point[1]
+        else:
+            end_line = context["node"].end_point[0]
+            end_column = context["node"].end_point[1]
         self._location = Location(
-            file_name=file_name,
-            start_line=start_point[0],
-            end_line=end_point[0],
-            start_column=start_point[1],
-            end_column=end_point[1],
+            file_name=file_name if file_name else context["file_name"],
+            start_line=start_line,
+            end_line=end_line,
+            start_column=start_column,
+            end_column=end_column,
         )
-        self._level = level
-        self._message = message
+        default_config = Rule.get_by_id(self._rule_id).default_config
+        self._rank = default_config.rank
+        if level:
+            self._level = level
+        else:
+            self._level = default_config.level
+        if message:
+            self._message = message
+        else:
+            self._message = Rule.get_by_id(self._rule_id).message
 
     @property
     def rule_id(self) -> str:
@@ -36,21 +57,15 @@ class Result:
 
     @property
     def level(self) -> Level:
-        if not self._level:
-            default_config = Rule.get_by_id(self._rule_id).default_config
-            return default_config.level
         return self._level
 
     @property
     def message(self) -> str:
-        if not self._message:
-            return Rule.get_by_id(self._rule_id).message
         return self._message
 
     @property
     def rank(self):
-        default_config = Rule.get_by_id(self._rule_id).default_config
-        return default_config.rank
+        return self._rank
 
     def fixes(self) -> list[Fix]:
         pass
