@@ -18,19 +18,22 @@ class Rule(ABC):
         name: str,
         short_descr: str,
         full_descr: str,
-        help_url: str,
-        config: Config,
         cwe: int,
         message: str,
+        config: Config = None,
+        help_url: str = None,
     ):
         self._id = id
         self._name = name
         self._short_descr = short_descr
         self._full_descr = full_descr
-        self._help_url = help_url
-        self._config = config
         self._cwe = cwe
         self._message = message
+        if not config:
+            self._config = Config()
+        if not help_url:
+            # TDOO: generate URL based on rule
+            self._help_url = ""
         Rule._rules[id] = self
 
     @property
