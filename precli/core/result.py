@@ -18,16 +18,16 @@ class Result:
     ):
         self._rule_id = rule_id
         if start_point:
-            start_line = start_point[0]
+            start_line = start_point[0] + 1
             start_column = start_point[1]
         else:
-            start_line = context["node"].start_point[0]
+            start_line = context["node"].start_point[0] + 1
             start_column = context["node"].start_point[1]
         if end_point:
-            end_line = end_point[0]
+            end_line = end_point[0] + 1
             end_column = end_point[1]
         else:
-            end_line = context["node"].end_point[0]
+            end_line = context["node"].end_point[0] + 1
             end_column = context["node"].end_point[1]
         self._location = Location(
             file_name=file_name if file_name else context["file_name"],

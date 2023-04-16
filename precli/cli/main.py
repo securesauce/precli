@@ -8,9 +8,12 @@ import sys
 import traceback
 from importlib.metadata import entry_points
 
+from rich import console
 from rich import progress
+from rich import syntax
 
 import precli
+from precli.core.level import Level
 from precli.core.result import Result
 from precli.core.result import Rule
 
@@ -19,6 +22,7 @@ LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 
 parsers = {}
+console = console.Console(highlight=False)
 
 
 def setup_arg_parser():
@@ -79,6 +83,7 @@ def run_checks(files_list: list[str]):
     for fname in files:
         LOG.debug("working on file : %s", fname)
 
+        results = []
         try:
             if fname == "-":
                 open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
@@ -96,10 +101,39 @@ def run_checks(files_list: list[str]):
 
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
-            print(f"{rule.id}: {rule.cwe.name}")
-            print(f"{result.level.name}: {result.message}")
-            print(f"{result.location.file_name}: {result.location.start_line}")
-            print()
+            if result.level == Level.NOTE:
+                style = "logging.level.info"
+            else:
+                style = f"logging.level.{result.level.value}"
+
+            console.print(
+                f":warning-emoji:  {result.level.name.title()} on line "
+                f"{result.location.start_line} in {result.location.file_name}",
+                style=style,
+                markup=False,
+            )
+            console.print(
+                f"{rule.id}: {rule.cwe.name}",
+                style=style,
+            )
+            console.print(
+                f"{result.message}",
+                style=style,
+            )
+            code = syntax.Syntax.from_path(
+                result.location.file_name,
+                line_numbers=True,
+                line_range=(
+                    result.location.start_line - 1,
+                    result.location.end_line + 1,
+                ),
+                highlight_lines=(
+                    result.location.start_line,
+                    result.location.end_line,
+                ),
+            )
+            console.print(code)
+            console.print()
 
 
 def parse_file(

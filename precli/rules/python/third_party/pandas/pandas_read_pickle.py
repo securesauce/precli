@@ -21,5 +21,7 @@ class PandasReadPickle(Rule):
             return Result(
                 rule_id=self.id,
                 context=context,
-                message=self.message.format(context["func_call_qual"]),
+                message=self.message.format(
+                    context["func_call_qual"].decode()
+                ),
             )
