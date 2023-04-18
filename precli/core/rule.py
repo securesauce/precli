@@ -4,6 +4,7 @@ from abc import abstractmethod
 from typing import Self
 
 from cwe import Database
+from cwe import Weakness
 
 from precli.core.config import Config
 
@@ -16,7 +17,6 @@ class Rule(ABC):
         self,
         id: str,
         name: str,
-        short_descr: str,
         full_descr: str,
         cwe: int,
         message: str,
@@ -25,9 +25,8 @@ class Rule(ABC):
     ):
         self._id = id
         self._name = name
-        self._short_descr = short_descr
         self._full_descr = full_descr
-        self._cwe = cwe
+        self._cwe = Rule._cwedb.get(cwe)
         self._message = message
         if not config:
             self._config = Config()
@@ -50,7 +49,7 @@ class Rule(ABC):
 
     @property
     def short_descr(self) -> str:
-        return self._short_descr
+        return self._cwe.description
 
     @property
     def full_descr(self) -> str:
@@ -65,9 +64,8 @@ class Rule(ABC):
         return self._config
 
     @property
-    def cwe(self) -> int:
-        cwe = Rule._cwedb.get(self._cwe)
-        return cwe
+    def cwe(self) -> Weakness:
+        return self._cwe
 
     @property
     def message(self) -> str:
@@ -92,6 +90,7 @@ class Rule(ABC):
             func_call_args = context["func_call_args"]
             if func_call_args and len(func_call_args) > arg_pos:
                 arg = func_call_args[arg_pos]
+                # TODO: what if a tuple or list? arg_value assumes str
                 if not isinstance(arg, dict) and arg == arg_value:
                     return True
 
@@ -103,6 +102,7 @@ class Rule(ABC):
     ) -> bool:
         if context["node"].type == "call" and context["func_call_args"]:
             if arg_name in context["func_call_kwargs"]:
+                # TODO: what if a tuple or list? arg_value assumes str
                 return context["func_call_kwargs"][arg_name] == arg_value
 
     @abstractmethod

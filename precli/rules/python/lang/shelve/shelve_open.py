@@ -6,10 +6,8 @@ from precli.core.rule import Rule
 class ShelveOpen(Rule):
     def __init__(self):
         super().__init__(
-            id="PRE018",
+            id="PRE019",
             name="deserialization_of_untrusted_data",
-            short_descr="The application deserializes untrusted data without "
-            "sufficiently verifying that the resulting data will be valid.",
             full_descr=__doc__,
             cwe=502,
             message="Potential unsafe usage of {} that can allow "

@@ -8,7 +8,6 @@ class Assert(Rule):
         super().__init__(
             id="PRE001",
             name="assert",
-            short_descr="",
             full_descr=__doc__,
             cwe=703,
             message="",

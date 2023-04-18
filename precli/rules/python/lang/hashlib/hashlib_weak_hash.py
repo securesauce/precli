@@ -1,0 +1,46 @@
+# Copyright 2023 Secure Saurce LLC
+from precli.core.level import Level
+from precli.core.result import Result
+from precli.core.rule import Rule
+
+
+WEAK_HASHES = ("md4", "md5", "sha", "sha1")
+
+
+class HashlibWeakHash(Rule):
+    def __init__(self):
+        super().__init__(
+            id="PRE007",
+            name="reversible_one-way_hash",
+            full_descr=__doc__,
+            cwe=328,
+            message="Use of weak hash function {} does not meet security "
+            "expectations.",
+        )
+
+    def analyze(self, context: dict) -> Result:
+        if Rule.match_calls(
+            context,
+            ["hashlib.md4", "hashlib.md5", "hashlib.sha", "hashlib.sha1"],
+        ):
+            kwargs = context["func_call_kwargs"]
+            if kwargs.get("usedforsecurity", True) is True:
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(context["func_call_qual"]),
+                )
+        elif Rule.match_calls(context, ["hashlib.new"]):
+            args = context["func_call_args"]
+            kwargs = context["func_call_kwargs"]
+            name = args[0] if args else kwargs.get("name", None)
+
+            if isinstance(name, str) and name.lower() in WEAK_HASHES:
+                if kwargs.get("usedforsecurity", True) is True:
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(name),
+                    )
