@@ -17,11 +17,9 @@ class PandasReadPickle(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if Rule.match_calls(context, [b"pandas.read_pickle"]):
+        if Rule.match_calls(context, ["pandas.read_pickle"]):
             return Result(
                 rule_id=self.id,
                 context=context,
-                message=self.message.format(
-                    context["func_call_qual"].decode()
-                ),
+                message=self.message.format(context["func_call_qual"]),
             )

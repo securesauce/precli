@@ -19,14 +19,12 @@ class MarshalLoad(Rule):
     def analyze(self, context: dict) -> Result:
         if any(
             [
-                Rule.match_calls(context, [b"marshal.load"]),
-                Rule.match_calls(context, [b"marshal.loads"]),
+                Rule.match_calls(context, ["marshal.load"]),
+                Rule.match_calls(context, ["marshal.loads"]),
             ]
         ):
             return Result(
                 rule_id=self.id,
                 context=context,
-                message=self.message.format(
-                    context["func_call_qual"].decode()
-                ),
+                message=self.message.format(context["func_call_qual"]),
             )

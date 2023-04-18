@@ -19,15 +19,13 @@ class PickleLoad(Rule):
     def analyze(self, context: dict) -> Result:
         if any(
             [
-                Rule.match_calls(context, [b"pickle.load"]),
-                Rule.match_calls(context, [b"pickle.loads"]),
-                Rule.match_calls(context, [b"pickle.Unpickler"]),
+                Rule.match_calls(context, ["pickle.load"]),
+                Rule.match_calls(context, ["pickle.loads"]),
+                Rule.match_calls(context, ["pickle.Unpickler"]),
             ]
         ):
             return Result(
                 rule_id=self.id,
                 context=context,
-                message=self.message.format(
-                    context["func_call_qual"].decode()
-                ),
+                message=self.message.format(context["func_call_qual"]),
             )
