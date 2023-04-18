@@ -14,6 +14,38 @@ class Python(Parser):
     def file_extension(self) -> str:
         return ".py"
 
+    def parse(self, file_name: str, data: bytes) -> list[Result]:
+        results = []
+        context = {}
+        context["file_name"] = file_name
+        context["imports"] = {}
+        tree = self.parser.parse(data)
+
+        for node in Parser.traverse_tree(tree):
+            context["node"] = node
+            match node.type:
+                case "import_statement":
+                    children = iter(node.children)
+                    imps = self.import_statement(children)
+                    context["imports"].update(imps)
+                case "import_from_statement":
+                    children = iter(node.children)
+                    imps = self.import_from_statement(children)
+                    context["imports"].update(imps)
+                case "call":
+                    children = iter(node.children)
+                    (func, args, kwargs) = self.call(context, children)
+                    context["func_call_qual"] = func
+                    context["func_call_args"] = args
+                    context["func_call_kwargs"] = kwargs
+
+            for rule in self.rules.values():
+                result = rule.analyze(context)
+                if result:
+                    results.append(result)
+
+        return results
+
     def child_by_type(self, node: Node, type: str) -> Node:
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.children))
@@ -52,59 +84,61 @@ class Python(Parser):
 
         return imports
 
-    def get_call_arg(self, context: dict, node: Node) -> str:
-        call_arg = None
+    def literal_value(self, context: dict, node: Node) -> str:
+        value = None
         match node.type:
             case "attribute":
-                attribute = node
-                name = attribute.text
-                if b"." in name:
-                    name = name.rpartition(b".")[0]
-                if name in context["imports"]:
-                    qual_name = context["imports"][name]
-                    call_arg = attribute.text.replace(name, qual_name)
-                # TODO: else return attr text?
-            case "identifier":
-                name = node.text
-                if name in context["imports"]:
-                    call_arg = context["imports"][name]
+                qual_attr = self.get_qual_name(context, node)
+                if qual_attr is not None:
+                    value = node.text.replace(qual_attr[0], qual_attr[1], 1)
                 else:
-                    call_arg = name
+                    value = node.text
+            case "identifier":
+                value = context["imports"].get(node.text, node.text)
             case "dictionary":
                 # TODO: need to avoid use of decode
-                call_arg = ast.literal_eval(node.text.decode())
+                value = ast.literal_eval(node.text.decode())
             case "list":
                 # TODO: need to avoid use of decode
-                call_arg = ast.literal_eval(node.text.decode())
+                value = ast.literal_eval(node.text.decode())
             case "tuple":
                 # TODO: need to avoid use of decode
-                call_arg = ast.literal_eval(node.text.decode())
+                value = ast.literal_eval(node.text.decode())
             case "string":
                 # TODO: bytes and f-type strings are messed up
-                call_arg = node.text
+                value = node.text
             case "integer":
                 # TODO: hex, octal, binary
-                call_arg = int(node.text)
+                value = int(node.text)
             case "float":
-                call_arg = float(node.text)
+                value = float(node.text)
             case "true":
-                call_arg = True
+                value = True
             case "false":
-                call_arg = False
-
-        return call_arg
+                value = False
+        return value
 
     def get_call_kwarg(self, context: dict, node: Node) -> dict:
         kwarg = {}
         keyword = node.children[0].text
-        kwarg[keyword] = self.get_call_arg(context, node.children[2])
+        kwarg[keyword] = self.literal_value(context, node.children[2])
         return kwarg
+
+    def get_qual_name(self, context: dict, node: Node) -> str:
+        if node.text in context["imports"]:
+            return node.text, context["imports"].get(node.text)
+        elif node.children:
+            for child in node.children:
+                return self.get_qual_name(context, child)
 
     def call(self, context: dict, nodes: list[Node]) -> tuple:
         # Resolve the fully qualified function name
-        func_call_qual = ""
         first_node = next(nodes)
-        func_call_qual = self.get_call_arg(context, first_node)
+        func_call_qual = self.get_qual_name(context, first_node)
+        if func_call_qual is not None:
+            func_call_qual = first_node.text.replace(
+                func_call_qual[0], func_call_qual[1], 1
+            ).decode()
 
         # Get the arguments of the function call
         func_call_args = []
@@ -117,39 +151,7 @@ class Python(Parser):
                         kwarg = self.get_call_kwarg(context, child)
                         func_call_kwargs = func_call_kwargs | kwarg
                     else:
-                        arg = self.get_call_arg(context, child)
+                        arg = self.literal_value(context, child)
                         func_call_args.append(arg)
 
         return (func_call_qual, func_call_args, func_call_kwargs)
-
-    def parse(self, file_name: str, data: bytes) -> list[Result]:
-        results = []
-        context = {}
-        context["file_name"] = file_name
-        context["imports"] = {}
-        tree = self.parser.parse(data)
-
-        for node in Parser.traverse_tree(tree):
-            context["node"] = node
-            match node.type:
-                case "import_statement":
-                    children = iter(node.children)
-                    imps = self.import_statement(children)
-                    context["imports"].update(imps)
-                case "import_from_statement":
-                    children = iter(node.children)
-                    imps = self.import_from_statement(children)
-                    context["imports"].update(imps)
-                case "call":
-                    children = iter(node.children)
-                    (func, args, kwargs) = self.call(context, children)
-                    context["func_call_qual"] = func
-                    context["func_call_args"] = args
-                    context["func_call_kwargs"] = kwargs
-
-            for rule in self.rules.values():
-                result = rule.analyze(context)
-                if result:
-                    results.append(result)
-
-        return results

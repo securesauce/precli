@@ -19,7 +19,7 @@ class YamlLoad(Rule):
     def analyze(self, context: dict) -> Result:
         if all(
             [
-                Rule.match_calls(context, [b"yaml.load"]),
+                Rule.match_calls(context, ["yaml.load"]),
                 not Rule.match_call_kwarg(
                     context, b"Loader", b"yaml.SafeLoader"
                 ),
@@ -33,7 +33,5 @@ class YamlLoad(Rule):
             return Result(
                 rule_id=self.id,
                 context=context,
-                message=self.message.format(
-                    context["func_call_qual"].decode()
-                ),
+                message=self.message.format(context["func_call_qual"]),
             )
