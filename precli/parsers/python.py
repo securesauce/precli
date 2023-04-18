@@ -146,7 +146,7 @@ class Python(Parser):
                 value = ast.literal_eval(nodetext)
             case "string":
                 # TODO: bytes and f-type strings are messed up
-                value = node.text.decode()
+                value = ast.literal_eval(nodetext)
             case "integer":
                 # TODO: hex, octal, binary
                 value = int(nodetext)

@@ -8,8 +8,6 @@ class YamlLoad(Rule):
         super().__init__(
             id="PRE317",
             name="deserialization_of_untrusted_data",
-            short_descr="The application deserializes untrusted data without "
-            "sufficiently verifying that the resulting data will be valid.",
             full_descr=__doc__,
             cwe=502,
             message="Potential unsafe usage of {} that can allow "

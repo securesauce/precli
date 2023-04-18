@@ -101,13 +101,21 @@ def run_checks(files_list: list[str]):
 
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
-            if result.level == Level.NOTE:
-                style = "logging.level.info"
-            else:
-                style = f"logging.level.{result.level.value}"
+            match result.level:
+                case Level.ERROR:
+                    emoji = ":stop_sign-emoji:"
+                    style = "red"
+
+                case Level.WARNING:
+                    emoji = ":warning-emoji:"
+                    style = "yellow"
+
+                case Level.NOTE:
+                    emoji = ":information-emoji:"
+                    style = "blue"
 
             console.print(
-                f":warning-emoji:  {result.level.name.title()} on line "
+                f"{emoji}  {result.level.name.title()} on line "
                 f"{result.location.start_line} in {result.location.file_name}",
                 style=style,
                 markup=False,
