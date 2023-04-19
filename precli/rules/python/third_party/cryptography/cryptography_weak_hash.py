@@ -8,7 +8,7 @@ class CryptographyWeakHash(Rule):
     def __init__(self):
         super().__init__(
             id="PRE301",
-            name="reversible_one-way_hash",
+            name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,
             message="Use of weak hash function {} does not meet security "

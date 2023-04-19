@@ -7,10 +7,10 @@ from precli.core.rule import Rule
 WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
 
 
-class HashlibWeakHash(Rule):
+class HmacWeakHash(Rule):
     def __init__(self):
         super().__init__(
-            id="PRE007",
+            id="PRE008",
             name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,
@@ -19,34 +19,27 @@ class HashlibWeakHash(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "hashlib.md4",
-                "hashlib.md5",
-                "hashlib.ripemd160",
-                "hashlib.sha",
-                "hashlib.sha1",
-            ],
-        ):
+        if Rule.match_calls(context, ["hmac.new"]):
+            args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
-            if kwargs.get("usedforsecurity", True) is True:
+            name = args[2] if len(args) > 2 else kwargs.get("digestmod", None)
+
+            if isinstance(name, str) and name.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format(name),
                 )
-        elif Rule.match_calls(context, ["hashlib.new"]):
+        elif Rule.match_calls(context, ["hmac.digest"]):
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
-            name = args[0] if args else kwargs.get("name", None)
+            name = args[2] if len(args) > 2 else kwargs.get("digest", None)
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
-                if kwargs.get("usedforsecurity", True) is True:
-                    return Result(
-                        rule_id=self.id,
-                        context=context,
-                        level=Level.ERROR,
-                        message=self.message.format(name),
-                    )
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(name),
+                )
