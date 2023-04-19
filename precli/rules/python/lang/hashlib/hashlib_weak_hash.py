@@ -21,7 +21,13 @@ class HashlibWeakHash(Rule):
     def analyze(self, context: dict) -> Result:
         if Rule.match_calls(
             context,
-            ["hashlib.md4", "hashlib.md5", "hashlib.sha", "hashlib.sha1"],
+            [
+                "hashlib.md4",
+                "hashlib.md5",
+                "hashlib.ripemd160",
+                "hashlib.sha",
+                "hashlib.sha1",
+            ],
         ):
             kwargs = context["func_call_kwargs"]
             if kwargs.get("usedforsecurity", True) is True:
