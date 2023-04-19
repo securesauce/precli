@@ -41,7 +41,7 @@ class Rule(ABC):
 
     @staticmethod
     def get_by_id(id: str) -> Self:
-        return Rule._rules[id]
+        return Rule._rules.get(id)
 
     @property
     def name(self) -> str:

@@ -5,9 +5,9 @@ from precli.core.rule import Rule
 
 
 class PycryptodomexWeakHash(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE313",
+            id=id,
             name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,

@@ -4,9 +4,9 @@ from precli.core.rule import Rule
 
 
 class YamlLoad(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE317",
+            id=id,
             name="deserialization_of_untrusted_data",
             full_descr=__doc__,
             cwe=502,

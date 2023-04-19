@@ -8,9 +8,9 @@ WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
 
 
 class HmacWeakHash(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE008",
+            id=id,
             name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,

@@ -5,9 +5,9 @@ from precli.core.rule import Rule
 
 
 class PycryptoWeakHash(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE312",
+            id=id,
             name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,
