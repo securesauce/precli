@@ -18,7 +18,7 @@ class Parser(ABC):
 
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
-            self.rules[rule.name] = rule.load()()
+            self.rules[rule.name] = rule.load()(rule.name)
 
     @abstractmethod
     def file_extension(self) -> str:

@@ -11,10 +11,10 @@ WEAK_CRYPT_HASHES = (
 
 
 class CryptWeakHash(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE002",
-            name="reversible_one-way_hash",
+            id=id,
+            name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe=328,
             message="Use of weak hash function {} does not meet security "

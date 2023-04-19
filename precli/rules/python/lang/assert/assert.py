@@ -4,9 +4,9 @@ from precli.core.rule import Rule
 
 
 class Assert(Rule):
-    def __init__(self):
+    def __init__(self, id: str):
         super().__init__(
-            id="PRE001",
+            id=id,
             name="assert",
             full_descr=__doc__,
             cwe=703,
