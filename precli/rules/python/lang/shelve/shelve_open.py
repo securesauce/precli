@@ -15,11 +15,9 @@ class ShelveOpen(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if any(
-            [
-                Rule.match_calls(context, ["shelve.open"]),
-                Rule.match_calls(context, ["shelve.DbfilenameShelf"]),
-            ]
+        if Rule.match_calls(
+            context,
+            ["shelve.open", "shelve.DbfilenameShelf"],
         ):
             return Result(
                 rule_id=self.id,

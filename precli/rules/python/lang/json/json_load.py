@@ -3,7 +3,7 @@ from precli.core.result import Result
 from precli.core.rule import Rule
 
 
-class PickleLoad(Rule):
+class JsonLoad(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -15,10 +15,7 @@ class PickleLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            ["pickle.load", "pickle.loads", "pickle.Unpickler"],
-        ):
+        if Rule.match_calls(context, ["json.load", "json.loads"]):
             return Result(
                 rule_id=self.id,
                 context=context,

@@ -1,26 +1,25 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.level import Level
 from precli.core.result import Result
 from precli.core.rule import Rule
 
 
-class PickleLoad(Rule):
+class TelnetlibCleartext(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
-            name="deserialization_of_untrusted_data",
+            name="cleartext_transmission",
             full_descr=__doc__,
-            cwe=502,
-            message="Potential unsafe usage of {} that can allow "
-            "instantiation of arbitrary objects.",
+            cwe=319,
+            message="The {} module transmits data in cleartext without "
+            "encryption.",
         )
 
     def analyze(self, context: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            ["pickle.load", "pickle.loads", "pickle.Unpickler"],
-        ):
+        if Rule.match_calls(context, ["telnetlib.Telnet"]):
             return Result(
                 rule_id=self.id,
                 context=context,
+                level=Level.ERROR,
                 message=self.message.format(context["func_call_qual"]),
             )
