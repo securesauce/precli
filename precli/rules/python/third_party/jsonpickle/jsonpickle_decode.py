@@ -15,12 +15,13 @@ class JsonpickleDecode(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if any(
+        if Rule.match_calls(
+            context,
             [
-                Rule.match_calls(context, ["jsonpickle.decode"]),
-                Rule.match_calls(context, ["jsonpickle.unpickler.decode"]),
-                Rule.match_calls(context, ["jsonpickle.unpickler.Unpickler"]),
-            ]
+                "jsonpickle.decode",
+                "jsonpickle.unpickler.decode",
+                "jsonpickle.Unpickler.Unpickler",
+            ],
         ):
             return Result(
                 rule_id=self.id,

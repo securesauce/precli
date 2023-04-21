@@ -98,14 +98,13 @@ class Python(Parser):
         func_call_kwargs = {}
         second_node = next(nodes)
         if second_node.type == "argument_list":
-            for child in second_node.children:
-                if child.type not in "(,)":
-                    if child.type == "keyword_argument":
-                        kwarg = self.get_call_kwarg(context, child)
-                        func_call_kwargs = func_call_kwargs | kwarg
-                    else:
-                        arg = self.literal_value(context, child)
-                        func_call_args.append(arg)
+            for child in second_node.named_children:
+                if child.type == "keyword_argument":
+                    kwarg = self.get_call_kwarg(context, child)
+                    func_call_kwargs = func_call_kwargs | kwarg
+                else:
+                    arg = self.literal_value(context, child)
+                    func_call_args.append(arg)
 
         return (func_call_qual, func_call_args, func_call_kwargs)
 

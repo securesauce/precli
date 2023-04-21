@@ -15,12 +15,9 @@ class DillLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if any(
-            [
-                Rule.match_calls(context, ["dill.load"]),
-                Rule.match_calls(context, ["dill.loads"]),
-                Rule.match_calls(context, ["dill.Unpickler"]),
-            ]
+        if Rule.match_calls(
+            context,
+            ["dill.load", "dill.loads", "dill.Unpickler"],
         ):
             return Result(
                 rule_id=self.id,

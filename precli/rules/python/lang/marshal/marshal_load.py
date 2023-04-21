@@ -15,12 +15,7 @@ class MarshalLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if any(
-            [
-                Rule.match_calls(context, ["marshal.load"]),
-                Rule.match_calls(context, ["marshal.loads"]),
-            ]
-        ):
+        if Rule.match_calls(context, ["marshal.load", "marshal.loads"]):
             return Result(
                 rule_id=self.id,
                 context=context,
