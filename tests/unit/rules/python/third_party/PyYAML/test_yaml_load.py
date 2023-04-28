@@ -132,9 +132,7 @@ class YamlLoadTests(test_case.TestCase):
             """
         )
         results = self.parser.parse("test.py", str.encode(fdata))
-        # FIX(ericwb): false positive, shouldn't be able to find import due
-        # to scope.
-        self.assertEqual(1, len(results))
+        self.assertEqual(0, len(results))
 
     def test_yaml_load_positional_loader(self):
         fdata = textwrap.dedent(

@@ -11,6 +11,7 @@ class Assert(Rule):
             full_descr=__doc__,
             cwe=703,
             message="",
+            targets=("assert"),
         )
 
     def analyze(self, context: dict) -> Result:

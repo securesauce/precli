@@ -20,6 +20,7 @@ class Rule(ABC):
         full_descr: str,
         cwe: int,
         message: str,
+        targets: set[str],
         config: Config = None,
         help_url: str = None,
     ):
@@ -28,6 +29,7 @@ class Rule(ABC):
         self._full_descr = full_descr
         self._cwe = Rule._cwedb.get(cwe)
         self._message = message
+        self._targets = targets
         if not config:
             self._config = Config()
         if not help_url:
@@ -71,14 +73,17 @@ class Rule(ABC):
     def message(self) -> str:
         return self._message
 
+    @property
+    def targets(self) -> str:
+        return self._targets
+
     @staticmethod
     def match_calls(
         context: dict,
         funcs: list[str],
     ) -> bool:
-        if context["node"].type == "call":
-            if context["func_call_qual"] in funcs:
-                return True
+        if context["func_call_qual"] in funcs:
+            return True
 
     @staticmethod
     def match_call_pos_arg(
@@ -86,13 +91,12 @@ class Rule(ABC):
         arg_pos: int = 0,
         arg_value: str = None,
     ) -> bool:
-        if context["node"].type == "call":
-            func_call_args = context["func_call_args"]
-            if func_call_args and len(func_call_args) > arg_pos:
-                arg = func_call_args[arg_pos]
-                # TODO: what if a tuple or list? arg_value assumes str
-                if not isinstance(arg, dict) and arg == arg_value:
-                    return True
+        func_call_args = context["func_call_args"]
+        if func_call_args and len(func_call_args) > arg_pos:
+            arg = func_call_args[arg_pos]
+            # TODO: what if a tuple or list? arg_value assumes str
+            if not isinstance(arg, dict) and arg == arg_value:
+                return True
 
     @staticmethod
     def match_call_kwarg(
@@ -100,7 +104,7 @@ class Rule(ABC):
         arg_name: str,
         arg_value: str = None,
     ) -> bool:
-        if context["node"].type == "call" and context["func_call_args"]:
+        if context["func_call_args"]:
             if arg_name in context["func_call_kwargs"]:
                 # TODO: what if a tuple or list? arg_value assumes str
                 return context["func_call_kwargs"][arg_name] == arg_value

@@ -13,6 +13,7 @@ class FtplibCleartext(Rule):
             cwe=319,
             message="The {} module transmits data in cleartext without "
             "encryption.",
+            targets=("call"),
         )
 
     def analyze(self, context: dict) -> Result:

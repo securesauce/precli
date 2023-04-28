@@ -12,6 +12,7 @@ class PickleLoad(Rule):
             cwe=502,
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
+            targets=("call"),
         )
 
     def analyze(self, context: dict) -> Result:
