@@ -4,7 +4,6 @@ import ast
 from tree_sitter import Node
 
 from precli.core.parser import Parser
-from precli.core.result import Result
 
 
 class Python(Parser):
@@ -14,44 +13,35 @@ class Python(Parser):
     def file_extension(self) -> str:
         return ".py"
 
-    def parse(self, file_name: str, data: bytes) -> list[Result]:
-        self.results = []
-        self.context = {"file_name": file_name}
-        tree = self.parser.parse(data)
-        self.visit([tree.root_node])
-        return self.results
+    def visit_module(self, nodes: list[Node]):
+        self.symbol_table = [{"imports": {}}]
+        self.visit(nodes)
+        self.symbol_table.pop()
 
-    def visit(self, nodes: list[Node]):
-        for node in nodes:
-            self.context["node"] = node
+    def visit_import_statement(self, nodes: list[Node]):
+        imps = self.import_statement(nodes)
+        self.symbol_table[-1]["imports"].update(imps)
 
-            match node.type:
-                case "module":
-                    self.symbol_table = [{"imports": {}}]
-                    self.visit(node.children)
-                    self.symbol_table.pop()
-                case "import_statement":
-                    imps = self.import_statement(node.children)
-                    self.symbol_table[-1]["imports"].update(imps)
-                case "import_from_statement":
-                    imps = self.import_from_statement(node.children)
-                    self.symbol_table[-1]["imports"].update(imps)
-                case "class_definition":
-                    self.symbol_table.append({"imports": {}})
-                    self.visit(node.children)
-                    self.symbol_table.pop()
-                case "function_definition":
-                    self.symbol_table.append({"imports": {}})
-                    self.visit(node.children)
-                    self.symbol_table.pop()
-                case "call":
-                    self.call(node.children)
-                    self.results += self.exec_rule("call")
-                    self.context["func_call_qual"] = None
-                    self.context["func_call_args"] = None
-                    self.context["func_call_kwargs"] = None
-                case _:
-                    self.visit(node.children)
+    def visit_import_from_statement(self, nodes: list[Node]):
+        imps = self.import_from_statement(nodes)
+        self.symbol_table[-1]["imports"].update(imps)
+
+    def visit_class_definition(self, nodes: list[Node]):
+        self.symbol_table.append({"imports": {}})
+        self.visit(nodes)
+        self.symbol_table.pop()
+
+    def visit_function_definition(self, nodes: list[Node]):
+        self.symbol_table.append({"imports": {}})
+        self.visit(nodes)
+        self.symbol_table.pop()
+
+    def visit_call(self, nodes: list[Node]):
+        self.call(nodes)
+        self.exec_rule("call")
+        self.context["func_call_qual"] = None
+        self.context["func_call_args"] = None
+        self.context["func_call_kwargs"] = None
 
     def child_by_type(self, node: Node, type: str) -> Node:
         # Return first child with type as specified
@@ -146,13 +136,10 @@ class Python(Parser):
                 else:
                     value = nodetext
             case "dictionary":
-                # TODO: need to avoid use of decode
                 value = ast.literal_eval(nodetext)
             case "list":
-                # TODO: need to avoid use of decode
                 value = ast.literal_eval(nodetext)
             case "tuple":
-                # TODO: need to avoid use of decode
                 value = ast.literal_eval(nodetext)
             case "string":
                 # TODO: bytes and f-type strings are messed up
@@ -167,12 +154,3 @@ class Python(Parser):
             case "false":
                 value = False
         return value
-
-    def exec_rule(self, target: str) -> list[Result]:
-        results = []
-        for rule in self.rules.values():
-            if target in rule.targets:
-                result = rule.analyze(self.context)
-                if result:
-                    results.append(result)
-        return results
