@@ -16,11 +16,9 @@ class Python(Parser):
 
     def parse(self, file_name: str, data: bytes) -> list[Result]:
         self.results = []
-        self.context = {}
-        self.context["file_name"] = file_name
-        self.symbol_table = [{"imports": {}}]
+        self.context = {"file_name": file_name}
         tree = self.parser.parse(data)
-        self.visit(tree.root_node.children)
+        self.visit([tree.root_node])
         return self.results
 
     def visit(self, nodes: list[Node]):
@@ -28,6 +26,10 @@ class Python(Parser):
             self.context["node"] = node
 
             match node.type:
+                case "module":
+                    self.symbol_table = [{"imports": {}}]
+                    self.visit(node.children)
+                    self.symbol_table.pop()
                 case "import_statement":
                     imps = self.import_statement(node.children)
                     self.symbol_table[-1]["imports"].update(imps)
@@ -44,8 +46,7 @@ class Python(Parser):
                     self.symbol_table.pop()
                 case "call":
                     self.call(node.children)
-                    results = self.exec_rule("call")
-                    self.results += results
+                    self.results += self.exec_rule("call")
                     self.context["func_call_qual"] = None
                     self.context["func_call_args"] = None
                     self.context["func_call_kwargs"] = None
@@ -87,7 +88,7 @@ class Python(Parser):
 
         return imports
 
-    def call(self, nodes: list[Node]) -> tuple:
+    def call(self, nodes: list[Node]):
         # Resolve the fully qualified function name
         first_node = nodes[0]
         func_call_qual = self.get_qual_name(first_node)
@@ -112,7 +113,7 @@ class Python(Parser):
         self.context["func_call_args"] = func_call_args
         self.context["func_call_kwargs"] = func_call_kwargs
 
-    def get_qual_name(self, node: Node) -> str:
+    def get_qual_name(self, node: Node) -> tuple:
         nodetext = node.text.decode()
 
         for symtab in self.symbol_table[::-1]:
