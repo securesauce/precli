@@ -13,6 +13,7 @@ class PycryptoWeakHash(Rule):
             cwe=328,
             message="Use of weak hash function {} does not meet security "
             "expectations.",
+            targets=("call"),
         )
 
     def analyze(self, context: dict) -> Result:

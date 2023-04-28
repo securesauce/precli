@@ -13,6 +13,7 @@ class PyghmiCleartext(Rule):
             cwe=319,
             message="The {} module may transmit data in cleartext without "
             "encryption.",
+            targets=("call"),
         )
 
     def analyze(self, context: dict) -> Result:
