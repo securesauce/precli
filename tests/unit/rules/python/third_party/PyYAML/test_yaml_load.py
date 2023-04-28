@@ -249,3 +249,17 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(39, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
+
+    def test_yaml_load_loader_as_var(self):
+        fdata = textwrap.dedent(
+            """
+            import yaml
+            loader = yaml.SafeLoader
+            yaml.load("{}", loader)
+            """
+        )
+        results = self.parser.parse("test.py", str.encode(fdata))
+        # TODO(ericwb): False positive, doesn't know value of varible args
+        # Perhaps the rule should check for no argument, None, or yaml.Loader
+        # Then at least its a false negative
+        self.assertEqual(1, len(results))
