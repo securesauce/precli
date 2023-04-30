@@ -40,7 +40,7 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
         # self.assertEqual(, result.fixes)
 
-    def test_import_alias_yaml_load(self):
+    def test_yaml_load_import_alias(self):
         fdata = textwrap.dedent(
             """
             import yaml.load as yamlload
@@ -58,7 +58,7 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_from_import_yaml_load(self):
+    def test_yaml_load_from_import(self):
         fdata = textwrap.dedent(
             """
             from yaml import load
@@ -76,7 +76,7 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_from_import_alias_yaml_load(self):
+    def test_yaml_load_from_import_alias(self):
         fdata = textwrap.dedent(
             """
             from yaml import load as yamlload
@@ -94,7 +94,7 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_no_import_yaml_load(self):
+    def test_yaml_load_no_import(self):
         fdata = textwrap.dedent(
             """
             yaml.load("{}")
@@ -103,7 +103,7 @@ class YamlLoadTests(test_case.TestCase):
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
-    def test_invalid_import_yaml_load(self):
+    def test_yaml_load_invalid_import(self):
         fdata = textwrap.dedent(
             """
             import os as yaml
@@ -113,7 +113,7 @@ class YamlLoadTests(test_case.TestCase):
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
-    def test_incomplete_import_yaml_load(self):
+    def test_yaml_load_incomplete_import(self):
         fdata = textwrap.dedent(
             """
             import yaml
@@ -123,7 +123,7 @@ class YamlLoadTests(test_case.TestCase):
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
-    def test_import_in_func_yaml_load(self):
+    def test_yaml_load_import_in_func(self):
         fdata = textwrap.dedent(
             """
             def test_func():
@@ -254,12 +254,10 @@ class YamlLoadTests(test_case.TestCase):
         fdata = textwrap.dedent(
             """
             import yaml
-            loader = yaml.SafeLoader
-            yaml.load("{}", loader)
+            SAFE_LOADER = yaml.SafeLoader
+            yaml.load("{}", SAFE_LOADER)
             """
         )
         results = self.parser.parse("test.py", str.encode(fdata))
-        # TODO(ericwb): False positive, doesn't know value of varible args
-        # Perhaps the rule should check for no argument, None, or yaml.Loader
-        # Then at least its a false negative
+        # TODO(ericwb): False positive, doesn't know value of varible arguments
         self.assertEqual(1, len(results))
