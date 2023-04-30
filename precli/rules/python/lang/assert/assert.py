@@ -9,7 +9,7 @@ class Assert(Rule):
             id=id,
             name="assert",
             full_descr=__doc__,
-            cwe=703,
+            cwe_id=703,
             message="",
             targets=("assert"),
         )

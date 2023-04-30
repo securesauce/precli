@@ -10,7 +10,7 @@ class PycryptoWeakHash(Rule):
             id=id,
             name="reversible_one_way_hash",
             full_descr=__doc__,
-            cwe=328,
+            cwe_id=328,
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
