@@ -18,7 +18,7 @@ class Rule(ABC):
         id: str,
         name: str,
         full_descr: str,
-        cwe: int,
+        cwe_id: int,
         message: str,
         targets: set[str],
         config: Config = None,
@@ -27,7 +27,7 @@ class Rule(ABC):
         self._id = id
         self._name = name
         self._full_descr = full_descr
-        self._cwe = Rule._cwedb.get(cwe)
+        self._cwe = Rule._cwedb.get(cwe_id)
         self._message = message
         self._targets = targets
         if not config:
