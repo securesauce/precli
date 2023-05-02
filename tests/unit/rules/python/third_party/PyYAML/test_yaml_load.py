@@ -94,6 +94,17 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_yaml_load_from_import_wildcard(self):
+        fdata = textwrap.dedent(
+            """
+            from yaml import *
+            load("{}")
+            """
+        )
+        results = self.parser.parse("test.py", str.encode(fdata))
+        # TODO(ericwb): False negative, fails to find yaml.load imported
+        self.assertEqual(0, len(results))
+
     def test_yaml_load_no_import(self):
         fdata = textwrap.dedent(
             """
@@ -123,6 +134,28 @@ class YamlLoadTests(test_case.TestCase):
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
+    def test_yaml_load_import_in_async_func(self):
+        fdata = textwrap.dedent(
+            """
+            async def test_func():
+                import yaml
+            yaml.load("{}", loader=yaml.Loader)
+            """
+        )
+        results = self.parser.parse("test.py", str.encode(fdata))
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_class(self):
+        fdata = textwrap.dedent(
+            """
+            class TestClass:
+                import yaml
+            yaml.load("{}")
+            """
+        )
+        results = self.parser.parse("test.py", str.encode(fdata))
+        self.assertEqual(0, len(results))
+
     def test_yaml_load_import_in_func(self):
         fdata = textwrap.dedent(
             """
@@ -133,6 +166,25 @@ class YamlLoadTests(test_case.TestCase):
         )
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_loop(self):
+        fdata = textwrap.dedent(
+            """
+            for i in range(10):
+                import yaml
+            yaml.load("{}", yaml.Loader)
+            """
+        )
+        results = self.parser.parse("test.py", str.encode(fdata))
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("pre308", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(28, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_positional_loader(self):
         fdata = textwrap.dedent(

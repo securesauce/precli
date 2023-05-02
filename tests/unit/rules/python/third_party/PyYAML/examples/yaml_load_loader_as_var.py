@@ -1,4 +1,5 @@
 import yaml
 
-SAFE_LOADER = yaml.SafeLoader
-yaml.load("{}", SAFE_LOADER)
+a = {}
+a["SAFE_LOADER"] = yaml.SafeLoader
+yaml.load("{}", a["SAFE_LOADER"])
