@@ -14,6 +14,26 @@ class PycryptodomexWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "Cryptodome.*": [
+                    "Hash.MD2.new",
+                    "Hash.MD4.new",
+                    "Hash.MD5.new",
+                    "Hash.RIPEMD.new",
+                    "Hash.RIPEMD160.new",
+                    "Hash.SHA.new",
+                    "Hash.SHA1.new",
+                ],
+                "Cryptodome.Hash.*": [
+                    "MD2.new",
+                    "MD4.new",
+                    "MD5.new",
+                    "RIPEMD.new",
+                    "RIPEMD160.new",
+                    "SHA.new",
+                    "SHA1.new",
+                ],
+            },
         )
 
     def analyze(self, context: dict) -> Result:

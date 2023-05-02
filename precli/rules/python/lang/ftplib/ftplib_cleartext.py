@@ -14,6 +14,11 @@ class FtplibCleartext(Rule):
             message="The {} module transmits data in cleartext without "
             "encryption.",
             targets=("call"),
+            wildcards={
+                "ftplib.*": [
+                    "FTP",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

@@ -13,6 +13,12 @@ class JsonLoad(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "json.*": [
+                    "load",
+                    "loads",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

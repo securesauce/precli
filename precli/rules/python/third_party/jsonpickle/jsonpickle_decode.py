@@ -13,6 +13,14 @@ class JsonpickleDecode(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "jsonpickle.*": [
+                    "decode",
+                ],
+                "jsonpickle.unpickler.*": [
+                    "decode",
+                ],
+            },
         )
 
     def analyze(self, context: dict) -> Result:

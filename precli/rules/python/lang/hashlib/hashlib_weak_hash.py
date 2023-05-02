@@ -17,6 +17,15 @@ class HashlibWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "hashlib.*": [
+                    "md4",
+                    "md5",
+                    "ripemd160",
+                    "sha",
+                    "sha1",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

@@ -71,10 +71,21 @@ class Python(Parser):
             # won't check for local modules.
             from_module = ""
 
-        result = self.import_statement(nodes[2:])
-        for key, value in result.items():
-            full_qual = [from_module, value]
-            imports[key] = ".".join(filter(None, full_qual))
+        if nodes[2].type == "import":
+            if nodes[3].type == "wildcard_import":
+                # FIXME(ericwb): some modules like Cryptodome permit
+                # wildcard imports at various package levels like
+                # from Cryptodome import *
+                # from Cryptodome.Hash import *
+                if f"{from_module}.*" in self.wildcards:
+                    for wc in self.wildcards[f"{from_module}.*"]:
+                        full_qual = [from_module, wc]
+                        imports[wc] = ".".join(filter(None, full_qual))
+            else:
+                result = self.import_statement(nodes[3:])
+                for key, value in result.items():
+                    full_qual = [from_module, value]
+                    imports[key] = ".".join(filter(None, full_qual))
 
         return imports
 

@@ -17,6 +17,12 @@ class HmacWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "hmac.*": [
+                    "new",
+                    "digest",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

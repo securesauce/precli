@@ -13,6 +13,13 @@ class DillLoad(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "dill.*": [
+                    "load",
+                    "loads",
+                    "Unpickler",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

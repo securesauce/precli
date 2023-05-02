@@ -14,10 +14,13 @@ class Parser(ABC):
         self.language = tree_sitter_languages.get_language(lang)
         self.parser = tree_sitter_languages.get_parser(lang)
         self.rules = {}
+        self.wildcards = {}
 
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
+            if self.rules[rule.name].wildcards:
+                self.wildcards |= self.rules[rule.name].wildcards
 
     @abstractmethod
     def file_extension(self) -> str:

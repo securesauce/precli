@@ -21,6 +21,7 @@ class Rule(ABC):
         cwe_id: int,
         message: str,
         targets: set[str],
+        wildcards: dict[str, list[str]] = None,
         config: Config = None,
         help_url: str = None,
     ):
@@ -30,6 +31,7 @@ class Rule(ABC):
         self._cwe = Rule._cwedb.get(cwe_id)
         self._message = message
         self._targets = targets
+        self._wildcards = wildcards
         if not config:
             self._config = Config()
         if not help_url:
@@ -76,6 +78,10 @@ class Rule(ABC):
     @property
     def targets(self) -> str:
         return self._targets
+
+    @property
+    def wildcards(self) -> dict[str, list[str]]:
+        return self._wildcards
 
     @staticmethod
     def match_calls(
