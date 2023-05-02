@@ -13,6 +13,11 @@ class PandasReadPickle(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "pandas.*": [
+                    "read_pickle",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

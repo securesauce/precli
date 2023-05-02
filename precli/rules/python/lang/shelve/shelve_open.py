@@ -13,6 +13,12 @@ class ShelveOpen(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "shelve.*": [
+                    "open",
+                    "DbfilenameShelf",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

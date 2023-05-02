@@ -14,6 +14,22 @@ class PycryptoWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "Crypto.*": [
+                    "Hash.MD2.new",
+                    "Hash.MD4.new",
+                    "Hash.MD5.new",
+                    "Hash.RIPEMD.new",
+                    "Hash.SHA.new",
+                ],
+                "Crypto.Hash.*": [
+                    "MD2.new",
+                    "MD4.new",
+                    "MD5.new",
+                    "RIPEMD.new",
+                    "SHA.new",
+                ],
+            },
         )
 
     def analyze(self, context: dict) -> Result:

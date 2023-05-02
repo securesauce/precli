@@ -14,6 +14,11 @@ class TelnetlibCleartext(Rule):
             message="The {} module transmits data in cleartext without "
             "encryption.",
             targets=("call"),
+            wildcards={
+                "telnetlib.*": [
+                    "Telnet",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

@@ -13,6 +13,12 @@ class MarshalLoad(Rule):
             message="Potential unsafe usage of {} that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
+            wildcards={
+                "marshal.*": [
+                    "load",
+                    "loads",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

@@ -102,8 +102,15 @@ class YamlLoadTests(test_case.TestCase):
             """
         )
         results = self.parser.parse("test.py", str.encode(fdata))
-        # TODO(ericwb): False negative, fails to find yaml.load imported
-        self.assertEqual(0, len(results))
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("pre308", result.rule_id)
+        self.assertEqual(3, result.location.start_line)
+        self.assertEqual(3, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(10, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_no_import(self):
         fdata = textwrap.dedent(

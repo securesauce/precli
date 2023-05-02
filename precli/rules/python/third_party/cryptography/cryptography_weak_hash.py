@@ -14,6 +14,16 @@ class CryptographyWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "cryptography.hazmat.primitives.hashes.*": [
+                    "MD5",
+                    "SHA1",
+                ],
+                "cryptography.hazmat.primitives.*": [
+                    "hashes.MD5",
+                    "hashes.SHA1",
+                ],
+            },
         )
 
     def analyze(self, context: dict) -> Result:

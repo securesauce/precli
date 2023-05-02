@@ -20,6 +20,12 @@ class CryptWeakHash(Rule):
             message="Use of weak hash function {} does not meet security "
             "expectations.",
             targets=("call"),
+            wildcards={
+                "crypt.*": [
+                    "crypt",
+                    "mksalt",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:

@@ -14,6 +14,12 @@ class PyghmiCleartext(Rule):
             message="The {} module may transmit data in cleartext without "
             "encryption.",
             targets=("call"),
+            wildcards={
+                "pyghmi.ipmi.command.*": [
+                    "Command",
+                    "Console",
+                ]
+            },
         )
 
     def analyze(self, context: dict) -> Result:
