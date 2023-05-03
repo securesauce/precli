@@ -14,7 +14,12 @@ class Python(Parser):
         return ".py"
 
     def visit_module(self, nodes: list[Node]):
-        self.symbol_table = [{"imports": {}}]
+        self.symbol_table = [
+            {
+                "imports": {},
+                "identifiers": {},
+            }
+        ]
         self.visit(nodes)
         self.symbol_table.pop()
 
@@ -27,14 +32,34 @@ class Python(Parser):
         self.symbol_table[-1]["imports"].update(imps)
 
     def visit_class_definition(self, nodes: list[Node]):
-        self.symbol_table.append({"imports": {}})
+        self.symbol_table.append(
+            {
+                "imports": {},
+                "identifiers": {},
+            }
+        )
         self.visit(nodes)
         self.symbol_table.pop()
 
     def visit_function_definition(self, nodes: list[Node]):
-        self.symbol_table.append({"imports": {}})
+        self.symbol_table.append(
+            {
+                "imports": {},
+                "identifiers": {},
+            }
+        )
         self.visit(nodes)
         self.symbol_table.pop()
+
+    def visit_assignment(self, nodes: list[Node]):
+        if nodes[0].type == "identifier":
+            left_hand = self.literal_value(nodes[0])
+            right_hand = self.literal_value(nodes[2])
+
+            self.symbol_table[-1]["identifiers"].update(
+                {left_hand: right_hand}
+            )
+        self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
         self.call(nodes)
@@ -118,6 +143,8 @@ class Python(Parser):
         nodetext = node.text.decode()
 
         for symtab in self.symbol_table[::-1]:
+            if nodetext in symtab["identifiers"]:
+                return nodetext, symtab["identifiers"].get(nodetext)
             if nodetext in symtab["imports"]:
                 return nodetext, symtab["imports"].get(nodetext)
         if node.children:
@@ -134,6 +161,12 @@ class Python(Parser):
         value = None
         nodetext = node.text.decode()
         match node.type:
+            case "call":
+                qual_call = self.get_qual_name(node)
+                if qual_call is not None:
+                    value = nodetext.replace(qual_call[0], qual_call[1], 1)
+                else:
+                    value = nodetext
             case "attribute":
                 qual_attr = self.get_qual_name(node)
                 if qual_attr is not None:
