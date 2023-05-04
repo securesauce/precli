@@ -4,6 +4,7 @@ import ast
 from tree_sitter import Node
 
 from precli.core.parser import Parser
+from precli.core.symtab import SymbolTable
 
 
 class Python(Parser):
@@ -14,51 +15,35 @@ class Python(Parser):
         return ".py"
 
     def visit_module(self, nodes: list[Node]):
-        self.symbol_table = [
-            {
-                "imports": {},
-                "identifiers": {},
-            }
-        ]
+        self.current_symtab = SymbolTable()
         self.visit(nodes)
-        self.symbol_table.pop()
+        self.current_symtab = self.current_symtab.parent()
 
     def visit_import_statement(self, nodes: list[Node]):
         imps = self.import_statement(nodes)
-        self.symbol_table[-1]["imports"].update(imps)
+        for key, value in imps.items():
+            self.current_symtab.put(key, "import", value)
 
     def visit_import_from_statement(self, nodes: list[Node]):
         imps = self.import_from_statement(nodes)
-        self.symbol_table[-1]["imports"].update(imps)
+        for key, value in imps.items():
+            self.current_symtab.put(key, "import", value)
 
     def visit_class_definition(self, nodes: list[Node]):
-        self.symbol_table.append(
-            {
-                "imports": {},
-                "identifiers": {},
-            }
-        )
+        self.current_symtab = SymbolTable(self.current_symtab)
         self.visit(nodes)
-        self.symbol_table.pop()
+        self.current_symtab = self.current_symtab.parent()
 
     def visit_function_definition(self, nodes: list[Node]):
-        self.symbol_table.append(
-            {
-                "imports": {},
-                "identifiers": {},
-            }
-        )
+        self.current_symtab = SymbolTable(self.current_symtab)
         self.visit(nodes)
-        self.symbol_table.pop()
+        self.current_symtab = self.current_symtab.parent()
 
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier":
             left_hand = self.literal_value(nodes[0])
             right_hand = self.literal_value(nodes[2])
-
-            self.symbol_table[-1]["identifiers"].update(
-                {left_hand: right_hand}
-            )
+            self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
@@ -140,13 +125,9 @@ class Python(Parser):
         self.context["func_call_kwargs"] = func_call_kwargs
 
     def get_qual_name(self, node: Node) -> tuple:
-        nodetext = node.text.decode()
-
-        for symtab in self.symbol_table[::-1]:
-            if nodetext in symtab["identifiers"]:
-                return nodetext, symtab["identifiers"].get(nodetext)
-            if nodetext in symtab["imports"]:
-                return nodetext, symtab["imports"].get(nodetext)
+        symbol = self.current_symtab.get(node.text.decode())
+        if symbol is not None:
+            return symbol.name, symbol.value
         if node.children:
             for child in node.children:
                 return self.get_qual_name(child)
