@@ -42,7 +42,7 @@ class Python(Parser):
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier":
             left_hand = self.literal_value(nodes[0])
-            right_hand = self.literal_value(nodes[2])
+            right_hand = nodes[2]
             self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
 
@@ -101,46 +101,62 @@ class Python(Parser):
 
     def call(self, nodes: list[Node]):
         # Resolve the fully qualified function name
-        first_node = nodes[0]
-        func_call_qual = self.get_qual_name(first_node)
+        # TODO(ericwb): just use literal_value?
+        func_call_qual = self.get_qual_name(nodes[0])
         if func_call_qual is not None:
-            func_call_qual = first_node.text.decode().replace(
-                func_call_qual[0], func_call_qual[1], 1
+            func_call_qual = (
+                nodes[0]
+                .text.decode()
+                .replace(func_call_qual[0], func_call_qual[1], 1)
             )
         self.context["func_call_qual"] = func_call_qual
 
         # Get the arguments of the function call
-        func_call_args = []
-        func_call_kwargs = {}
-        second_node = nodes[1]
-        if second_node.type == "argument_list":
-            for child in second_node.named_children:
-                if child.type == "keyword_argument":
-                    kwarg = self.get_call_kwarg(child)
-                    func_call_kwargs = func_call_kwargs | kwarg
-                else:
-                    arg = self.literal_value(child)
-                    func_call_args.append(arg)
+        (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
         self.context["func_call_args"] = func_call_args
         self.context["func_call_kwargs"] = func_call_kwargs
+
+    def get_func_args(self, node: Node) -> tuple:
+        if node.type != "argument_list":
+            return [], {}
+
+        args = []
+        kwargs = {}
+        for child in node.named_children:
+            # TODO: can this just pass to literal_value
+            if child.type == "keyword_argument":
+                keyword = child.children[0].text.decode()
+                kwargs[keyword] = self.literal_value(child.children[2])
+            else:
+                arg = self.literal_value(child)
+                args.append(arg)
+        return args, kwargs
 
     def get_qual_name(self, node: Node) -> tuple:
         symbol = self.current_symtab.get(node.text.decode())
         if symbol is not None:
-            return symbol.name, symbol.value
+            if symbol.type == "import":
+                return symbol.name, symbol.value
+            if symbol.type == "identifier":
+                if symbol.value.type == "call":
+                    attribute = symbol.value.children[0]
+                    arguments = symbol.value.children[1]
+                    function = self.literal_value(attribute)
+                    if function == "importlib.import_module":
+                        (args, kwargs) = self.get_func_args(arguments)
+                        name = args[0] if args else kwargs.get("name", None)
+                        return symbol.name, name
+                    return symbol.name, self.literal_value(symbol.value)
+                elif symbol.value.type == "attribute":
+                    return symbol.name, self.literal_value(symbol.value)
         if node.children:
             for child in node.children:
                 return self.get_qual_name(child)
 
-    def get_call_kwarg(self, node: Node) -> dict:
-        kwarg = {}
-        keyword = node.children[0].text.decode()
-        kwarg[keyword] = self.literal_value(node.children[2])
-        return kwarg
-
     def literal_value(self, node: Node) -> str:
         value = None
         nodetext = node.text.decode()
+
         match node.type:
             case "call":
                 qual_call = self.get_qual_name(node)
