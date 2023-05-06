@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+import os
 import textwrap
 
 from precli.core.level import Level
@@ -9,6 +10,15 @@ from tests.unit.rules.python import test_case
 class YamlLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
+        self.base_path = os.path.join(
+            "tests",
+            "unit",
+            "rules",
+            "python",
+            "third_party",
+            "PyYAML",
+            "examples",
+        )
 
     def test_yaml_load_rule_meta(self):
         rule = Rule.get_by_id("PRE309")
@@ -21,13 +31,9 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual("502", rule.cwe.cwe_id)
 
     def test_yaml_load(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            yaml.load("{}")
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -41,13 +47,9 @@ class YamlLoadTests(test_case.TestCase):
         # self.assertEqual(, result.fixes)
 
     def test_yaml_load_import_alias(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml.load as yamlload
-            yamlload("{}")
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_import_alias.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -59,13 +61,9 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_from_import(self):
-        fdata = textwrap.dedent(
-            """
-            from yaml import load
-            load("{}")
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_from_import.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -77,13 +75,9 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_from_import_alias(self):
-        fdata = textwrap.dedent(
-            """
-            from yaml import load as yamlload
-            yamlload("{}")
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_from_import_alias.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -95,13 +89,9 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_from_import_wildcard(self):
-        fdata = textwrap.dedent(
-            """
-            from yaml import *
-            load("{}")
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_from_import_wildcard.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -112,96 +102,74 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_yaml_load_no_import(self):
-        fdata = textwrap.dedent(
-            """
-            yaml.load("{}")
-            """
+    def test_yaml_load_importlib(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_importlib.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_invalid_import(self):
-        fdata = textwrap.dedent(
-            """
-            import os as yaml
-            yaml.load("{}")
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_incomplete_import(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            load("{}")
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_import_in_async_func(self):
-        fdata = textwrap.dedent(
-            """
-            async def test_func():
-                import yaml
-            yaml.load("{}", loader=yaml.Loader)
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_import_in_class(self):
-        fdata = textwrap.dedent(
-            """
-            class TestClass:
-                import yaml
-            yaml.load("{}")
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_import_in_func(self):
-        fdata = textwrap.dedent(
-            """
-            def test_func():
-                import yaml
-            yaml.load("{}")
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
-        self.assertEqual(0, len(results))
-
-    def test_yaml_load_import_in_loop(self):
-        fdata = textwrap.dedent(
-            """
-            for i in range(10):
-                import yaml
-            yaml.load("{}", yaml.Loader)
-            """
-        )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
+        self.assertEqual(15, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_yaml_load_no_import(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_no_import.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_invalid_import(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_invalid_import.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_incomplete_import(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_incomplete_import.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_async_func(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_import_in_async_func.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_class(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_import_in_class.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_func(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_import_in_func.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_import_in_loop(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_import_in_loop.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE309", result.rule_id)
+        self.assertEqual(3, result.location.start_line)
+        self.assertEqual(3, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
         self.assertEqual(28, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_positional_loader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            from yaml import Loader
-            yaml.load("{}", Loader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_positional_loader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -213,33 +181,21 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_positional_safeloader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            yaml.load("{}", yaml.SafeLoader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_positional_safeloader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
     def test_yaml_load_positional_csafeloader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            yaml.load("{}", yaml.CSafeLoader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_positional_csafeloader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
     def test_yaml_load_kwarg_loader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            yaml.load("{}", Loader=yaml.Loader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_kwarg_loader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -251,35 +207,21 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_kwarg_safeloader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            from yaml import SafeLoader
-            yaml.load("{}", Loader=SafeLoader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_kwarg_safeloader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
     def test_yaml_load_kwarg_csafeloader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            yaml.load("{}", Loader=yaml.CSafeLoader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_kwarg_csafeloader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(0, len(results))
 
     def test_yaml_load_kwarg_alias_loader(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            from yaml import Loader as LOADER
-            yaml.load("{}", Loader=LOADER)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_kwarg_alias_loader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
@@ -291,31 +233,27 @@ class YamlLoadTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_kwarg_json_safeloader(self):
-        fdata = textwrap.dedent(
-            """
-            import json
-            import yaml
-            yaml.load("{}", Loader=json.SafeLoader)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_kwarg_json_safeloader.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE309", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
         self.assertEqual(39, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_yaml_load_loader_as_var(self):
-        fdata = textwrap.dedent(
-            """
-            import yaml
-            SAFE_LOADER = yaml.SafeLoader
-            yaml.load("{}", SAFE_LOADER)
-            """
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_loader_as_var.py")
         )
-        results = self.parser.parse("test.py", str.encode(fdata))
+        self.assertEqual(0, len(results))
+
+    def test_yaml_load_yaml_as_identifier(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "yaml_load_yaml_as_identifier.py")
+        )
         self.assertEqual(0, len(results))

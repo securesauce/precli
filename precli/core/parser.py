@@ -26,9 +26,12 @@ class Parser(ABC):
     def file_extension(self) -> str:
         pass
 
-    def parse(self, file_name: str, data: bytes) -> list[Result]:
+    def parse(self, file_name: str, data: bytes = None) -> list[Result]:
         self.results = []
         self.context = {"file_name": file_name}
+        if data is None:
+            with open(file_name, "rb") as fdata:
+                data = fdata.read()
         tree = self.parser.parse(data)
         self.visit([tree.root_node])
         return self.results

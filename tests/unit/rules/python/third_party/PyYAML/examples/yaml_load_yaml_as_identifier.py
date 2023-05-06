@@ -1,0 +1,2 @@
+yaml = "yaml"
+yaml.load("{}")
