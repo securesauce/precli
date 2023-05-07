@@ -41,7 +41,9 @@ class Python(Parser):
 
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier":
-            left_hand = self.literal_value(nodes[0], nodes[0].text.decode())
+            left_hand = self.literal_value(
+                nodes[0], default=nodes[0].text.decode()
+            )
             right_hand = nodes[2]
             self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
@@ -118,7 +120,9 @@ class Python(Parser):
             if child.type == "keyword_argument":
                 kwargs |= self.literal_value(child)
             else:
-                args.append(self.literal_value(child, child.text.decode()))
+                args.append(
+                    self.literal_value(child, default=child.text.decode())
+                )
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> tuple:
@@ -131,7 +135,7 @@ class Python(Parser):
                     attribute = symbol.value.children[0]
                     arguments = symbol.value.children[1]
                     function = self.literal_value(
-                        attribute, attribute.text.decode()
+                        attribute, default=attribute.text.decode()
                     )
                     if function == "importlib.import_module":
                         (args, kwargs) = self.get_func_args(arguments)
@@ -140,19 +144,18 @@ class Python(Parser):
                     return (
                         symbol.name,
                         self.literal_value(
-                            symbol.value, symbol.value.text.decode()
+                            symbol.value, default=symbol.value.text.decode()
                         ),
                     )
                 elif symbol.value.type == "attribute":
                     return (
                         symbol.name,
                         self.literal_value(
-                            symbol.value, symbol.value.text.decode()
+                            symbol.value, default=symbol.value.text.decode()
                         ),
                     )
-        if node.children:
-            for child in node.children:
-                return self.get_qual_name(child)
+        for child in node.children:
+            return self.get_qual_name(child)
 
     def literal_value(self, node: Node, default=None) -> str:
         value = None
@@ -175,7 +178,8 @@ class Python(Parser):
                 keyword = node.children[0].text.decode()
                 value = {
                     keyword: self.literal_value(
-                        node.children[2], node.children[2].text.decode()
+                        node.children[2],
+                        default=node.children[2].text.decode(),
                     )
                 }
             case "dictionary":
