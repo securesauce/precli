@@ -41,9 +41,7 @@ class Python(Parser):
 
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier":
-            left_hand = self.literal_value(
-                nodes[0], default=nodes[0].text.decode()
-            )
+            left_hand = self.literal_value(nodes[0], default=nodes[0])
             right_hand = nodes[2]
             self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
@@ -57,7 +55,7 @@ class Python(Parser):
 
     def child_by_type(self, node: Node, type: str) -> Node:
         # Return first child with type as specified
-        child = list(filter(lambda x: x.type == type, node.children))
+        child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None
 
     def import_statement(self, nodes: list[Node]) -> dict:
@@ -101,11 +99,18 @@ class Python(Parser):
 
         return imports
 
-    def call(self, nodes: list[Node]):
-        # Resolve the fully qualified function name
-        self.context["func_call_qual"] = self.literal_value(nodes[0])
+    def importlib_import_module(self, arguments) -> dict:
+        (args, kwargs) = self.get_func_args(arguments)
+        name = args[0] if args else kwargs.get("name", None)
+        package = args[1] if len(args) > 1 else kwargs.get("package", None)
+        if package is None:
+            return name
+        subpkg = len(name) - len(name.lstrip(".")) - 1
+        package = package.rsplit(".", subpkg)
+        return ".".join((package[0], name.lstrip(".")))
 
-        # Get the arguments of the function call
+    def call(self, nodes: list[Node]):
+        self.context["func_call_qual"] = self.literal_value(nodes[0])
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
         self.context["func_call_args"] = func_call_args
         self.context["func_call_kwargs"] = func_call_kwargs
@@ -120,9 +125,7 @@ class Python(Parser):
             if child.type == "keyword_argument":
                 kwargs |= self.literal_value(child)
             else:
-                args.append(
-                    self.literal_value(child, default=child.text.decode())
-                )
+                args.append(self.literal_value(child, default=child))
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> tuple:
@@ -133,26 +136,19 @@ class Python(Parser):
             if symbol.type == "identifier":
                 if symbol.value.type == "call":
                     attribute = symbol.value.children[0]
-                    arguments = symbol.value.children[1]
-                    function = self.literal_value(
-                        attribute, default=attribute.text.decode()
-                    )
+                    function = self.literal_value(attribute, default=attribute)
                     if function == "importlib.import_module":
-                        (args, kwargs) = self.get_func_args(arguments)
-                        name = args[0] if args else kwargs.get("name", None)
-                        return symbol.name, name
+                        arguments = symbol.value.children[1]
+                        module = self.importlib_import_module(arguments)
+                        return symbol.name, module
                     return (
                         symbol.name,
-                        self.literal_value(
-                            symbol.value, default=symbol.value.text.decode()
-                        ),
+                        self.literal_value(symbol.value, default=symbol.value),
                     )
                 elif symbol.value.type == "attribute":
                     return (
                         symbol.name,
-                        self.literal_value(
-                            symbol.value, default=symbol.value.text.decode()
-                        ),
+                        self.literal_value(symbol.value, default=symbol.value),
                     )
         for child in node.children:
             return self.get_qual_name(child)
@@ -160,6 +156,8 @@ class Python(Parser):
     def literal_value(self, node: Node, default=None) -> str:
         value = None
         nodetext = node.text.decode()
+        if isinstance(default, Node):
+            default = default.text.decode()
 
         match node.type:
             case "call":
@@ -175,13 +173,9 @@ class Python(Parser):
                 if qual_ident is not None:
                     value = nodetext.replace(qual_ident[0], qual_ident[1], 1)
             case "keyword_argument":
-                keyword = node.children[0].text.decode()
-                value = {
-                    keyword: self.literal_value(
-                        node.children[2],
-                        default=node.children[2].text.decode(),
-                    )
-                }
+                keyword = node.named_children[0].text.decode()
+                kwvalue = node.named_children[1]
+                value = {keyword: self.literal_value(kwvalue, default=kwvalue)}
             case "dictionary":
                 value = ast.literal_eval(nodetext)
             case "list":

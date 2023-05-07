@@ -148,34 +148,11 @@ def parse_file(
     fname: str, fdata: io.BufferedReader, new_files_list: list
 ) -> list[Result]:
     try:
-        # parse the current file
         data = fdata.read()
-        # lines = data.splitlines()
-        # self.metrics.begin(fname)
-        # self.metrics.count_locs(lines)
-        # nosec_lines is a dict of line number -> set of tests to ignore
-        #                                         for the line
-        # nosec_lines = dict()
-        # try:
-        #    fdata.seek(0)
-        #    tokens = tokenize.tokenize(fdata.readline)
-
-        #    if not self.ignore_nosec:
-        #        for toktype, tokval, (lineno, _), _, _ in tokens:
-        #            if toktype == tokenize.COMMENT:
-        #                nosec_lines[lineno] = _parse_nosec_comment(tokval)
-
-        # except tokenize.TokenError:
-        #    pass
-        # score = self._execute_ast_visitor(fname, fdata, data, nosec_lines)
-        # self.scores.append(score)
-        # self.metrics.count_issues([score])
-
         file_extension = pathlib.Path(fname).suffix
         if file_extension in parsers.keys():
             parser = parsers[file_extension]
             return parser.parse(fname, data)
-
     except KeyboardInterrupt:
         sys.exit(2)
     except SyntaxError as e:
