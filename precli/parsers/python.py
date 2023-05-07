@@ -41,7 +41,7 @@ class Python(Parser):
 
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier":
-            left_hand = self.literal_value(nodes[0])
+            left_hand = self.literal_value(nodes[0], nodes[0].text.decode())
             right_hand = nodes[2]
             self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
@@ -101,15 +101,7 @@ class Python(Parser):
 
     def call(self, nodes: list[Node]):
         # Resolve the fully qualified function name
-        # TODO(ericwb): just use literal_value?
-        func_call_qual = self.get_qual_name(nodes[0])
-        if func_call_qual is not None:
-            func_call_qual = (
-                nodes[0]
-                .text.decode()
-                .replace(func_call_qual[0], func_call_qual[1], 1)
-            )
-        self.context["func_call_qual"] = func_call_qual
+        self.context["func_call_qual"] = self.literal_value(nodes[0])
 
         # Get the arguments of the function call
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
@@ -123,13 +115,10 @@ class Python(Parser):
         args = []
         kwargs = {}
         for child in node.named_children:
-            # TODO: can this just pass to literal_value
             if child.type == "keyword_argument":
-                keyword = child.children[0].text.decode()
-                kwargs[keyword] = self.literal_value(child.children[2])
+                kwargs |= self.literal_value(child)
             else:
-                arg = self.literal_value(child)
-                args.append(arg)
+                args.append(self.literal_value(child, child.text.decode()))
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> tuple:
@@ -141,19 +130,31 @@ class Python(Parser):
                 if symbol.value.type == "call":
                     attribute = symbol.value.children[0]
                     arguments = symbol.value.children[1]
-                    function = self.literal_value(attribute)
+                    function = self.literal_value(
+                        attribute, attribute.text.decode()
+                    )
                     if function == "importlib.import_module":
                         (args, kwargs) = self.get_func_args(arguments)
                         name = args[0] if args else kwargs.get("name", None)
                         return symbol.name, name
-                    return symbol.name, self.literal_value(symbol.value)
+                    return (
+                        symbol.name,
+                        self.literal_value(
+                            symbol.value, symbol.value.text.decode()
+                        ),
+                    )
                 elif symbol.value.type == "attribute":
-                    return symbol.name, self.literal_value(symbol.value)
+                    return (
+                        symbol.name,
+                        self.literal_value(
+                            symbol.value, symbol.value.text.decode()
+                        ),
+                    )
         if node.children:
             for child in node.children:
                 return self.get_qual_name(child)
 
-    def literal_value(self, node: Node) -> str:
+    def literal_value(self, node: Node, default=None) -> str:
         value = None
         nodetext = node.text.decode()
 
@@ -162,20 +163,21 @@ class Python(Parser):
                 qual_call = self.get_qual_name(node)
                 if qual_call is not None:
                     value = nodetext.replace(qual_call[0], qual_call[1], 1)
-                else:
-                    value = nodetext
             case "attribute":
                 qual_attr = self.get_qual_name(node)
                 if qual_attr is not None:
                     value = nodetext.replace(qual_attr[0], qual_attr[1], 1)
-                else:
-                    value = nodetext
             case "identifier":
                 qual_ident = self.get_qual_name(node)
                 if qual_ident is not None:
                     value = nodetext.replace(qual_ident[0], qual_ident[1], 1)
-                else:
-                    value = nodetext
+            case "keyword_argument":
+                keyword = node.children[0].text.decode()
+                value = {
+                    keyword: self.literal_value(
+                        node.children[2], node.children[2].text.decode()
+                    )
+                }
             case "dictionary":
                 value = ast.literal_eval(nodetext)
             case "list":
@@ -194,4 +196,5 @@ class Python(Parser):
                 value = True
             case "false":
                 value = False
-        return value
+
+        return default if value is None else value
