@@ -159,40 +159,47 @@ class Python(Parser):
         if isinstance(default, Node):
             default = default.text.decode()
 
-        match node.type:
-            case "call":
-                qual_call = self.get_qual_name(node)
-                if qual_call is not None:
-                    value = nodetext.replace(qual_call[0], qual_call[1], 1)
-            case "attribute":
-                qual_attr = self.get_qual_name(node)
-                if qual_attr is not None:
-                    value = nodetext.replace(qual_attr[0], qual_attr[1], 1)
-            case "identifier":
-                qual_ident = self.get_qual_name(node)
-                if qual_ident is not None:
-                    value = nodetext.replace(qual_ident[0], qual_ident[1], 1)
-            case "keyword_argument":
-                keyword = node.named_children[0].text.decode()
-                kwvalue = node.named_children[1]
-                value = {keyword: self.literal_value(kwvalue, default=kwvalue)}
-            case "dictionary":
-                value = ast.literal_eval(nodetext)
-            case "list":
-                value = ast.literal_eval(nodetext)
-            case "tuple":
-                value = ast.literal_eval(nodetext)
-            case "string":
-                # TODO: bytes and f-type strings are messed up
-                value = ast.literal_eval(nodetext)
-            case "integer":
-                # TODO: hex, octal, binary
-                value = int(nodetext)
-            case "float":
-                value = float(nodetext)
-            case "true":
-                value = True
-            case "false":
-                value = False
+        try:
+            match node.type:
+                case "call":
+                    qual_call = self.get_qual_name(node)
+                    if qual_call is not None:
+                        value = nodetext.replace(qual_call[0], qual_call[1], 1)
+                case "attribute":
+                    qual_attr = self.get_qual_name(node)
+                    if qual_attr is not None:
+                        value = nodetext.replace(qual_attr[0], qual_attr[1], 1)
+                case "identifier":
+                    qual_ident = self.get_qual_name(node)
+                    if qual_ident is not None:
+                        value = nodetext.replace(
+                            qual_ident[0], qual_ident[1], 1
+                        )
+                case "keyword_argument":
+                    keyword = node.named_children[0].text.decode()
+                    kwvalue = node.named_children[1]
+                    value = {
+                        keyword: self.literal_value(kwvalue, default=kwvalue)
+                    }
+                case "dictionary":
+                    value = ast.literal_eval(nodetext)
+                case "list":
+                    value = ast.literal_eval(nodetext)
+                case "tuple":
+                    value = ast.literal_eval(nodetext)
+                case "string":
+                    # TODO: bytes and f-type strings are messed up
+                    value = ast.literal_eval(nodetext)
+                case "integer":
+                    # TODO: hex, octal, binary
+                    value = ast.literal_eval(nodetext)
+                case "float":
+                    value = float(nodetext)
+                case "true":
+                    value = True
+                case "false":
+                    value = False
+        except ValueError:
+            value = None
 
         return default if value is None else value
