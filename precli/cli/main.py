@@ -37,6 +37,13 @@ def setup_arg_parser():
         nargs="*",
         help="source file(s) or directory(s) to be tested",
     )
+    parser.add_argument(
+        "-r",
+        "--recursive",
+        dest="recursive",
+        action="store_true",
+        help="find and process files in subdirectories",
+    )
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
@@ -53,13 +60,18 @@ def setup_arg_parser():
     return args
 
 
-def discover_files(targets: list[str]):
+def discover_files(targets: list[str], recursive: bool):
     file_list = []
     for fname in targets:
         if os.path.isdir(fname):
-            for root, _, files in os.walk(fname):
+            if recursive is True:
+                for root, _, files in os.walk(fname):
+                    for file in files:
+                        file_list.append(os.path.join(root, file))
+            else:
+                files = os.listdir(path=fname)
                 for file in files:
-                    file_list.append(os.path.join(root, file))
+                    file_list.append(os.path.join(fname, file))
         else:
             file_list.append(fname)
     return file_list
@@ -83,7 +95,7 @@ def run_checks(file_list: list[str]):
 
     results = []
     for fname in files:
-        # LOG.debug("working on file : %s", fname)
+        LOG.debug("working on file : %s", fname)
 
         try:
             if fname == "-":
@@ -175,6 +187,7 @@ def parse_file(
         new_file_list.remove(fname)
         LOG.debug("  Exception string: %s", e)
         LOG.debug("  Exception traceback: %s", traceback.format_exc())
+    return []
 
 
 def main():
@@ -187,7 +200,7 @@ def main():
         parsers[parser.file_extension()] = parser
 
     # Compile a list of the targets
-    file_list = discover_files(args.targets)
+    file_list = discover_files(args.targets, args.recursive)
 
     run_checks(file_list)
 
