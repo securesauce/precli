@@ -42,7 +42,7 @@ class Parser(ABC):
             visitor_fn = getattr(self, f"visit_{node.type}", self.visit)
             visitor_fn(node.children)
 
-    def exec_rules(self, target: str) -> list[Result]:
+    def process_rules(self, target: str) -> list[Result]:
         for rule in self.rules.values():
             if target in rule.targets:
                 result = rule.analyze(self.context)

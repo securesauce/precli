@@ -48,7 +48,7 @@ class Python(Parser):
 
     def visit_call(self, nodes: list[Node]):
         self.call(nodes)
-        self.exec_rules("call")
+        self.process_rules("call")
         self.context["func_call_qual"] = None
         self.context["func_call_args"] = None
         self.context["func_call_kwargs"] = None
