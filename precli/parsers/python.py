@@ -57,13 +57,13 @@ class Python(Parser):
             self.context["func_call_qual"] == "importlib.import_module"
             and self.context["node"].parent.type == "assignment"
         ):
-            left_hand = self.context["node"].parent.children[0]
-            identifier = left_hand.text.decode()
-            self.current_symtab.remove(identifier)
             module = self.importlib_import_module(
                 self.context["func_call_args"],
                 self.context["func_call_kwargs"],
             )
+            left_hand = self.context["node"].parent.children[0]
+            identifier = left_hand.text.decode()
+            self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
         self.process_rules("call")
