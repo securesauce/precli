@@ -40,14 +40,32 @@ class Python(Parser):
         self.current_symtab = self.current_symtab.parent()
 
     def visit_assignment(self, nodes: list[Node]):
-        if nodes[0].type == "identifier":
+        if nodes[0].type == "identifier" and nodes[2].type in (
+            "call",
+            "attribute",
+            "identifier",
+        ):
             left_hand = self.literal_value(nodes[0], default=nodes[0])
-            right_hand = nodes[2]
+            right_hand = self.literal_value(nodes[2], default=nodes[2])
             self.current_symtab.put(left_hand, "identifier", right_hand)
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
         self.call(nodes)
+
+        if (
+            self.context["func_call_qual"] == "importlib.import_module"
+            and self.context["node"].parent.type == "assignment"
+        ):
+            left_hand = self.context["node"].parent.children[0]
+            identifier = left_hand.text.decode()
+            self.current_symtab.remove(identifier)
+            module = self.importlib_import_module(
+                self.context["func_call_args"],
+                self.context["func_call_kwargs"],
+            )
+            self.current_symtab.put(identifier, "import", module)
+
         self.process_rules("call")
         self.context["func_call_qual"] = None
         self.context["func_call_args"] = None
@@ -99,8 +117,7 @@ class Python(Parser):
 
         return imports
 
-    def importlib_import_module(self, arguments) -> dict:
-        (args, kwargs) = self.get_func_args(arguments)
+    def importlib_import_module(self, args, kwargs) -> dict:
         name = args[0] if args else kwargs.get("name", None)
         package = args[1] if len(args) > 1 else kwargs.get("package", None)
         if package is None:
@@ -131,25 +148,7 @@ class Python(Parser):
     def get_qual_name(self, node: Node) -> tuple:
         symbol = self.current_symtab.get(node.text.decode())
         if symbol is not None:
-            if symbol.type == "import":
-                return symbol.name, symbol.value
-            if symbol.type == "identifier":
-                if symbol.value.type == "call":
-                    attribute = symbol.value.children[0]
-                    function = self.literal_value(attribute, default=attribute)
-                    if function == "importlib.import_module":
-                        arguments = symbol.value.children[1]
-                        module = self.importlib_import_module(arguments)
-                        return symbol.name, module
-                    return (
-                        symbol.name,
-                        self.literal_value(symbol.value, default=symbol.value),
-                    )
-                elif symbol.value.type == "attribute":
-                    return (
-                        symbol.name,
-                        self.literal_value(symbol.value, default=symbol.value),
-                    )
+            return symbol.name, symbol.value
         for child in node.children:
             return self.get_qual_name(child)
 
