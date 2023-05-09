@@ -46,3 +46,6 @@ class Symbol:
     @property
     def value(self) -> str:
         return self._value
+
+    def __repr__(self) -> str:
+        return f"Symbol (type: {self._type} value: {self._value})"
