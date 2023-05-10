@@ -49,23 +49,69 @@ class Result:
 
     @property
     def rule_id(self) -> str:
+        """
+        The ID of the rule.
+
+        The IDs match a of PREXXX where XXX is a unique number. 001-299
+        correspond to stdlib rules, whereas 300-999 corresponds to third-party
+        rules.
+
+        :return: rule ID
+        :rtype: str
+        """
         return self._rule_id
 
     @property
     def location(self) -> Location:
+        """
+        The location of the issue.
+
+        A location object indicates coordinates within a source file where
+        the issue was found.
+
+        :return: location
+        :rtype: Location
+        """
         return self._location
 
     @property
     def level(self) -> Level:
+        """
+        The result severity level.
+
+        :return: severity level
+        :rtype: Level
+        """
         return self._level
 
     @property
     def message(self) -> str:
+        """
+        The result issue message.
+
+        :return: issue message
+        :rtype: str
+        """
         return self._message
 
     @property
-    def rank(self):
+    def rank(self) -> float:
+        """
+        The rank of the issue.
+
+        The value defaults to the value from the default configuration of the
+        rule.
+
+        :return: rank
+        :rtype: float
+        """
         return self._rank
 
     def fixes(self) -> list[Fix]:
+        """
+        The suggested fixes for the issue.
+
+        :return: list of fixes
+        :rtype: list
+        """
         pass
