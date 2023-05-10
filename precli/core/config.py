@@ -15,12 +15,30 @@ class Config:
 
     @property
     def enabled(self) -> bool:
+        """
+        Whether the configuration indicates the rule is enabled.
+
+        :return: true if rule enabled
+        :rtype: bool
+        """
         return self._enabled
 
     @property
     def level(self) -> Level:
+        """
+        The default severity level.
+
+        :return: severity level
+        :rtype: Level
+        """
         return self._level
 
     @property
     def rank(self) -> float:
+        """
+        The default rank for the rule.
+
+        :return: rank
+        :rtype: float
+        """
         return self._rank

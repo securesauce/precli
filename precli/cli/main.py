@@ -116,11 +116,11 @@ def run_checks(file_list: list[str]):
         rule = Rule.get_by_id(result.rule_id)
         match result.level:
             case Level.ERROR:
-                emoji = ":stop_sign-emoji:"
+                emoji = ":cross_mark-emoji:"
                 style = "red"
 
             case Level.WARNING:
-                emoji = ":warning-emoji:"
+                emoji = ":warning-emoji: "
                 style = "yellow"
 
             case Level.NOTE:
@@ -128,7 +128,7 @@ def run_checks(file_list: list[str]):
                 style = "blue"
 
         console.print(
-            f"{emoji}  {result.level.name.title()} on line "
+            f"{emoji} {result.level.name.title()} on line "
             f"{result.location.start_line} in {result.location.file_name}",
             style=style,
             markup=False,

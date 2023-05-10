@@ -1,12 +1,9 @@
-import sys as sysp
 
 
-def test_func(a: int, b: int = 0):
+def init_nntp(n):
+    n.starttls()
 
-    def inner_func():
-        print("hello")
 
-    import hashlib as h
-    h.md5(b"asefadsf")
-
-h.md5(b"asfasdf")
+nntp = nntplib.NNTP('news.gmane.io')
+init_nntp(nntp)
+nntp.login()
