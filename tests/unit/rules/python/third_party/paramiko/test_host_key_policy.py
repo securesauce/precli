@@ -41,7 +41,7 @@ class HostKeyPolicyTests(test_case.TestCase):
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
         self.assertEqual(60, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_host_key_auto_add_policy_in_func(self):
@@ -64,7 +64,7 @@ class HostKeyPolicyTests(test_case.TestCase):
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
         self.assertEqual(68, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_host_key_warning_policy_single_statement(self):

@@ -39,7 +39,6 @@ class Parser(ABC):
         :return: file extension glob such as "*.py"
         :rtype: str
         """
-        pass
 
     def parse(self, file_name: str, data: bytes = None) -> list[Result]:
         """

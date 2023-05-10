@@ -114,4 +114,3 @@ class Result:
         :return: list of fixes
         :rtype: list
         """
-        pass
