@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.level import Level
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -25,16 +26,22 @@ class ParamikoNoHostKeyVerify(Rule):
         if Rule.match_calls(
             context,
             ["paramiko.client.SSHClient().set_missing_host_key_policy"],
-        ) and (
-            Rule.match_call_pos_arg(
-                context, 0, "paramiko.client.AutoAddPolicy"
-            )
-            or Rule.match_call_pos_arg(
-                context, 0, "paramiko.client.WarningPolicy"
-            )
         ):
-            return Result(
-                rule_id=self.id,
-                context=context,
-                message=self.message.format(context["func_call_qual"]),
-            )
+            if Rule.match_call_pos_arg(
+                context, 0, "paramiko.client.AutoAddPolicy"
+            ):
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(context["func_call_qual"]),
+                )
+            if Rule.match_call_pos_arg(
+                context, 0, "paramiko.client.WarningPolicy"
+            ):
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.WARNING,
+                    message=self.message.format(context["func_call_qual"]),
+                )
