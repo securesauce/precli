@@ -28,7 +28,7 @@ class ParamikoNoHostKeyVerify(Rule):
             ["paramiko.client.SSHClient().set_missing_host_key_policy"],
         ):
             if Rule.match_call_pos_arg(
-                context, 0, "paramiko.client.AutoAddPolicy"
+                context, 0, ["paramiko.client.AutoAddPolicy"]
             ):
                 return Result(
                     rule_id=self.id,
@@ -37,7 +37,7 @@ class ParamikoNoHostKeyVerify(Rule):
                     message=self.message.format(context["func_call_qual"]),
                 )
             if Rule.match_call_pos_arg(
-                context, 0, "paramiko.client.WarningPolicy"
+                context, 0, ["paramiko.client.WarningPolicy"]
             ):
                 return Result(
                     rule_id=self.id,

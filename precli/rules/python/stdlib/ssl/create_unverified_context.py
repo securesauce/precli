@@ -1,5 +1,4 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.level import Level
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -20,6 +19,5 @@ class CreateUnverifiedContext(Rule):
             return Result(
                 rule_id=self.id,
                 context=context,
-                level=Level.ERROR,
                 message=self.message.format(context["func_call_qual"]),
             )

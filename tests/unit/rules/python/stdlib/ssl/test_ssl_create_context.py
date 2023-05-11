@@ -41,7 +41,7 @@ class SslCreateContextTests(test_case.TestCase):
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(10, result.location.start_column)
         self.assertEqual(42, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_create_default_context(self):
