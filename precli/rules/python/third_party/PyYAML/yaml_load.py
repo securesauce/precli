@@ -27,13 +27,11 @@ class YamlLoad(Rule):
             [
                 Rule.match_calls(context, ["yaml.load"]),
                 not Rule.match_call_kwarg(
-                    context, "Loader", "yaml.SafeLoader"
+                    context, "Loader", ["yaml.CSafeLoader", "yaml.SafeLoader"]
                 ),
-                not Rule.match_call_kwarg(
-                    context, "Loader", "yaml.CSafeLoader"
+                not Rule.match_call_pos_arg(
+                    context, 1, ["yaml.CSafeLoader", "yaml.SafeLoader"]
                 ),
-                not Rule.match_call_pos_arg(context, 1, "yaml.SafeLoader"),
-                not Rule.match_call_pos_arg(context, 1, "yaml.CSafeLoader"),
             ]
         ):
             return Result(

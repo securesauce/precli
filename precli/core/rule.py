@@ -188,15 +188,15 @@ class Rule(ABC):
     @staticmethod
     def match_call_pos_arg(
         context: dict,
-        arg_pos: int = 0,
-        arg_value: str = None,
+        arg_pos: int,
+        arg_value: list[str],
     ) -> bool:
         """
         Match an argument at given position and value.
 
         :param dict context: current context of the parse
         :param int arg_pos: index of positional argument
-        :param str arg_value: value of positional argument
+        :param list arg_value: value of positional argument
 
         :return: true if match found
         :rtype: bool
@@ -205,21 +205,21 @@ class Rule(ABC):
         if func_call_args and len(func_call_args) > arg_pos:
             arg = func_call_args[arg_pos]
             # TODO: what if a tuple or list? arg_value assumes str
-            if not isinstance(arg, dict) and arg == arg_value:
+            if not isinstance(arg, dict) and arg in arg_value:
                 return True
 
     @staticmethod
     def match_call_kwarg(
         context: dict,
         arg_name: str,
-        arg_value: str = None,
+        arg_value: list[str],
     ) -> bool:
         """
         Match an argument within the keyword arguments.
 
         :param dict context: current context of the parse
         :param str arg_name: name of keyword argument
-        :param str arg_value: value of keyword argument
+        :param list arg_value: value of keyword argument
 
         :return: true if match found
         :rtype: bool
@@ -227,7 +227,7 @@ class Rule(ABC):
         if context["func_call_args"]:
             if arg_name in context["func_call_kwargs"]:
                 # TODO: what if a tuple or list? arg_value assumes str
-                return context["func_call_kwargs"][arg_name] == arg_value
+                return context["func_call_kwargs"][arg_name] in arg_value
 
     @abstractmethod
     def analyze(self, context: dict):
