@@ -21,6 +21,22 @@ class InsecureTlsMethod(Rule):
             cwe_id=326,
             message="The {} method has insufficient encryption strength.",
             targets=("call"),
+            wildcards={
+                "OpenSSL.SSL.*": [
+                    "Context",
+                    "SSLv2_METHOD",
+                    "SSLv3_METHOD",
+                    "TLSv1_METHOD",
+                    "TLSv1_1_METHOD",
+                ],
+                "OpenSSL.*": [
+                    "SSL.Context",
+                    "SSL.SSLv2_METHOD",
+                    "SSL.SSLv3_METHOD",
+                    "SSL.TLSv1_METHOD",
+                    "SSL.TLSv1_1_METHOD",
+                ],
+            },
         )
 
     def analyze(self, context: dict) -> Result:
