@@ -44,6 +44,12 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_wrap_socket_sslv23(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "wrap_socket_sslv23.py")
+        )
+        self.assertEqual(0, len(results))
+
     def test_wrap_socket_sslv3(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "wrap_socket_sslv3.py")
@@ -85,3 +91,9 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual(57, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
+
+    def test_wrap_socket_tlsv12(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "wrap_socket_tlsv12.py")
+        )
+        self.assertEqual(0, len(results))
