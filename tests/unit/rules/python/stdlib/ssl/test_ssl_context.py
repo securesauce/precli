@@ -7,7 +7,7 @@ from precli.core.rule import Rule
 from tests.unit.rules.python import test_case
 
 
-class GetServerCertificateTests(test_case.TestCase):
+class WrapSocketTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.base_path = os.path.join(
@@ -20,7 +20,7 @@ class GetServerCertificateTests(test_case.TestCase):
             "examples",
         )
 
-    def test_get_server_certificate_rule_meta(self):
+    def test_wrap_socket_rule_meta(self):
         rule = Rule.get_by_id("PRE011")
         self.assertEqual("PRE011", rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
@@ -30,9 +30,9 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("326", rule.cwe.cwe_id)
 
-    def test_get_server_certificate_sslv2(self):
+    def test_wrap_socket_sslv2(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_sslv2.py")
+            os.path.join(self.base_path, "ssl_context_sslv2.py")
         )
         self.assertEqual(1, len(results))
         result = results[0]
@@ -40,19 +40,19 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(43, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_get_server_certificate_sslv23(self):
+    def test_wrap_socket_sslv23(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_sslv23.py")
+            os.path.join(self.base_path, "ssl_context_sslv23.py")
         )
         self.assertEqual(0, len(results))
 
-    def test_get_server_certificate_sslv3(self):
+    def test_wrap_socket_sslv3(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_sslv3.py")
+            os.path.join(self.base_path, "ssl_context_sslv3.py")
         )
         self.assertEqual(1, len(results))
         result = results[0]
@@ -60,13 +60,13 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(43, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_get_server_certificate_tlsv1(self):
+    def test_wrap_socket_tlsv1(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_tlsv1.py")
+            os.path.join(self.base_path, "ssl_context_tlsv1.py")
         )
         self.assertEqual(1, len(results))
         result = results[0]
@@ -74,26 +74,26 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(43, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_get_server_certificate_tlsv11(self):
+    def test_wrap_socket_tlsv11(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_tlsv11.py")
+            os.path.join(self.base_path, "ssl_context_tlsv11.py")
         )
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE011", result.rule_id)
         self.assertEqual(4, result.location.start_line)
-        self.assertEqual(6, result.location.end_line)
+        self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(1, result.location.end_column)
+        self.assertEqual(45, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_get_server_certificate_tlsv12(self):
+    def test_wrap_socket_tlsv12(self):
         results = self.parser.parse(
-            os.path.join(self.base_path, "get_server_certificate_tlsv12.py")
+            os.path.join(self.base_path, "ssl_context_tlsv12.py")
         )
         self.assertEqual(0, len(results))

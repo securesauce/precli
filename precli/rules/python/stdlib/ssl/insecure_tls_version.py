@@ -48,3 +48,15 @@ class InsecureTlsVersion(Rule):
                     level=Level.ERROR,
                     message=self.message.format(version),
                 )
+        if Rule.match_calls(context, ["ssl.SSLContext"]):
+            args = context["func_call_args"]
+            kwargs = context["func_call_kwargs"]
+            protocol = args[0] if args else kwargs.get("protocol")
+
+            if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(protocol),
+                )
