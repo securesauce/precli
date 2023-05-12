@@ -7,7 +7,7 @@ from precli.core.rule import Rule
 from tests.unit.rules.python import test_case
 
 
-class WrapSocketTests(test_case.TestCase):
+class SslContextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.base_path = os.path.join(
@@ -15,14 +15,14 @@ class WrapSocketTests(test_case.TestCase):
             "unit",
             "rules",
             "python",
-            "stdlib",
-            "ssl",
+            "third_party",
+            "pyopenssl",
             "examples",
         )
 
     def test_ssl_context_rule_meta(self):
-        rule = Rule.get_by_id("PRE011")
-        self.assertEqual("PRE011", rule.id)
+        rule = Rule.get_by_id("PRE309")
+        self.assertEqual("PRE309", rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -36,11 +36,11 @@ class WrapSocketTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE011", result.rule_id)
+        self.assertEqual("PRE309", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(43, result.location.end_column)
+        self.assertEqual(52, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -56,11 +56,11 @@ class WrapSocketTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE011", result.rule_id)
+        self.assertEqual("PRE309", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(43, result.location.end_column)
+        self.assertEqual(52, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -70,11 +70,11 @@ class WrapSocketTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE011", result.rule_id)
+        self.assertEqual("PRE309", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(43, result.location.end_column)
+        self.assertEqual(52, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -84,11 +84,11 @@ class WrapSocketTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE011", result.rule_id)
+        self.assertEqual("PRE309", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(45, result.location.end_column)
+        self.assertEqual(54, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
