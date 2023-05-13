@@ -161,8 +161,15 @@ class NoCertificateVerifyTests(test_case.TestCase):
                 "requests_session_as_context_get_verify_false.py",
             )
         )
-        # TODO(ericwb): false negative
-        self.assertEqual(0, len(results))
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE312", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(4, result.location.start_column)
+        self.assertEqual(50, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
 
     def test_requests_session_delete_verify_false(self):
         results = self.parser.parse(
