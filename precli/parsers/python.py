@@ -71,20 +71,20 @@ class Python(Parser):
         self.context["func_call_args"] = None
         self.context["func_call_kwargs"] = None
 
-    def visit_with_statement(self, nodes: list[Node]):
-        with_clause = nodes[2] if nodes[0].type == "async" else nodes[1]
-        with_item = with_clause.children[0]
-        as_pattern = with_item.children[0]
-        statement = as_pattern.children[0]
-        as_pattern_target = as_pattern.children[2]
+    def visit_with_item(self, nodes: list[Node]):
+        as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
 
-        if as_pattern_target.children[0].type == "identifier" and (
-            statement.type in ("call", "attribute", "identifier")
-        ):
-            identifier = as_pattern_target.children[0]
-            identifier = self.literal_value(identifier, default=identifier)
-            statement = self.literal_value(statement, default=statement)
-            self.current_symtab.put(identifier, "identifier", statement)
+        if as_pattern is not None:
+            statement = as_pattern.children[0]
+            as_pattern_target = as_pattern.children[2]
+
+            if as_pattern_target.children[0].type == "identifier" and (
+                statement.type in ("call", "attribute", "identifier")
+            ):
+                identifier = as_pattern_target.children[0]
+                identifier = self.literal_value(identifier, default=identifier)
+                statement = self.literal_value(statement, default=statement)
+                self.current_symtab.put(identifier, "identifier", statement)
         self.visit(nodes)
 
     def child_by_type(self, node: Node, type: str) -> Node:
