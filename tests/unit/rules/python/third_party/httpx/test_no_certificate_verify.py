@@ -30,6 +30,22 @@ class NoCertificateVerifyTests(test_case.TestCase):
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("295", rule.cwe.cwe_id)
 
+    def test_httpx_async_client_as_context_verify_false(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "httpx_async_client_as_context_verify_false.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE303", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(11, result.location.start_column)
+        self.assertEqual(42, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_httpx_async_client_verify_false(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "httpx_async_client_verify_false.py")
@@ -41,6 +57,22 @@ class NoCertificateVerifyTests(test_case.TestCase):
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
         self.assertEqual(40, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_httpx_client_as_context_verify_false(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "httpx_client_as_context_verify_false.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE303", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(5, result.location.start_column)
+        self.assertEqual(31, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
