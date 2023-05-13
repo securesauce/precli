@@ -224,10 +224,12 @@ class Rule(ABC):
         :return: true if match found
         :rtype: bool
         """
-        if context["func_call_args"]:
-            if arg_name in context["func_call_kwargs"]:
-                # TODO: what if a tuple or list? arg_value assumes str
-                return context["func_call_kwargs"][arg_name] in arg_value
+        if (
+            context["func_call_kwargs"]
+            and arg_name in context["func_call_kwargs"]
+        ):
+            # TODO: what if a tuple or list? arg_value assumes str
+            return context["func_call_kwargs"][arg_name] in arg_value
 
     @abstractmethod
     def analyze(self, context: dict):

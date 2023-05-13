@@ -21,8 +21,8 @@ class HostKeyPolicyTests(test_case.TestCase):
         )
 
     def test_paramiko_no_host_key_verify_rule_meta(self):
-        rule = Rule.get_by_id("PRE305")
-        self.assertEqual("PRE305", rule.id)
+        rule = Rule.get_by_id("PRE306")
+        self.assertEqual("PRE306", rule.id)
         self.assertEqual("improper_certificate_validation", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -36,7 +36,7 @@ class HostKeyPolicyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE305", result.rule_id)
+        self.assertEqual("PRE306", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -59,7 +59,7 @@ class HostKeyPolicyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE305", result.rule_id)
+        self.assertEqual("PRE306", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -75,7 +75,7 @@ class HostKeyPolicyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE305", result.rule_id)
+        self.assertEqual("PRE306", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
