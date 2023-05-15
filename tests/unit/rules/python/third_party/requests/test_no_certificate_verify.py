@@ -44,6 +44,20 @@ class NoCertificateVerifyTests(test_case.TestCase):
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_requests_get_verify_as_var(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "requests_get_verify_as_var.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE312", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(48, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_requests_get_verify_false(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "requests_get_verify_false.py")
