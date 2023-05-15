@@ -46,6 +46,15 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_insecure_listen_config_port_verify_as_var(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "insecure_listen_config_port_verify_as_var.py"
+            )
+        )
+        # TODO(ericwb): false negative
+        self.assertEqual(0, len(results))
+
     def test_insecure_listen_config_port_verify_none(self):
         results = self.parser.parse(
             os.path.join(
