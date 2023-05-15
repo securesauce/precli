@@ -169,7 +169,6 @@ class Python(Parser):
             return self.get_qual_name(child)
 
     def literal_value(self, node: Node, default=None) -> str:
-        value = None
         nodetext = node.text.decode()
         if isinstance(default, Node):
             default = default.text.decode()
@@ -214,7 +213,9 @@ class Python(Parser):
                     value = True
                 case "false":
                     value = False
+                case "none":
+                    value = None
         except ValueError:
             value = None
 
-        return default if value is None else value
+        return default if "value" not in vars() else value
