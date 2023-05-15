@@ -44,6 +44,11 @@ class Python(Parser):
             "call",
             "attribute",
             "identifier",
+            "integer",
+            "float",
+            "true",
+            "false",
+            "none",
         ):
             left_hand = self.literal_value(nodes[0], default=nodes[0])
             right_hand = self.literal_value(nodes[2], default=nodes[2])
@@ -178,17 +183,30 @@ class Python(Parser):
                 case "call":
                     qual_call = self.get_qual_name(node)
                     if qual_call is not None:
-                        value = nodetext.replace(qual_call[0], qual_call[1], 1)
+                        if isinstance(qual_call[1], str):
+                            value = nodetext.replace(
+                                qual_call[0], qual_call[1], 1
+                            )
+                        else:
+                            value = qual_call[1]
                 case "attribute":
                     qual_attr = self.get_qual_name(node)
                     if qual_attr is not None:
-                        value = nodetext.replace(qual_attr[0], qual_attr[1], 1)
+                        if isinstance(qual_attr[1], str):
+                            value = nodetext.replace(
+                                qual_attr[0], qual_attr[1], 1
+                            )
+                        else:
+                            value = qual_attr[1]
                 case "identifier":
                     qual_ident = self.get_qual_name(node)
                     if qual_ident is not None:
-                        value = nodetext.replace(
-                            qual_ident[0], qual_ident[1], 1
-                        )
+                        if isinstance(qual_ident[1], str):
+                            value = nodetext.replace(
+                                qual_ident[0], qual_ident[1], 1
+                            )
+                        else:
+                            value = qual_ident[1]
                 case "keyword_argument":
                     keyword = node.named_children[0].text.decode()
                     kwvalue = node.named_children[1]
