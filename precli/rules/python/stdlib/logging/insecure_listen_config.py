@@ -23,9 +23,6 @@ class InsecureListenConfig(Rule):
         if Rule.match_calls(context, ["logging.config.listen"]):
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
-
-            print(kwargs)
-
             verify = args[1] if len(args) > 1 else kwargs.get("verify", None)
 
             if verify is None:
