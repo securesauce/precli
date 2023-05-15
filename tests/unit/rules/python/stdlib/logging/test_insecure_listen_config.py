@@ -52,8 +52,15 @@ class InsecureListenConfigTests(test_case.TestCase):
                 self.base_path, "insecure_listen_config_port_verify_as_var.py"
             )
         )
-        # TODO(ericwb): false negative
-        self.assertEqual(0, len(results))
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE007", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(9, result.location.start_column)
+        self.assertEqual(56, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
 
     def test_insecure_listen_config_port_verify_none(self):
         results = self.parser.parse(
