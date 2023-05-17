@@ -1,6 +1,7 @@
 # Copyright 2023 Secure Saurce LLC
 import argparse
 import io
+import linecache
 import logging
 import os
 import pathlib
@@ -154,6 +155,43 @@ def run_checks(file_list: list[str]):
             ),
         )
         console.print(code)
+
+        for fix in result.fixes:
+            console.print(
+                f"Suggested fix: {fix.description}",
+                style=style,
+            )
+            start_line = fix.deleted_location.start_line
+            end_line = fix.deleted_location.end_line
+            start_column = fix.deleted_location.start_column
+            end_column = fix.deleted_location.end_column
+            line_before = linecache.getline(
+                filename=fix.deleted_location.file_name,
+                lineno=start_line - 1,
+            )
+            code = linecache.getline(
+                filename=fix.deleted_location.file_name,
+                lineno=start_line,
+            )
+            line_after = linecache.getline(
+                filename=fix.deleted_location.file_name,
+                lineno=start_line + 1,
+            )
+            code = (
+                code[:start_column] + fix.inserted_content + code[end_column:]
+            )
+            code = line_before + code + line_after
+            for _ in range(start_line - 2):
+                code = "\n" + code
+            code = syntax.Syntax(
+                code,
+                "python",
+                line_numbers=True,
+                line_range=(start_line - 1, end_line + 1),
+                highlight_lines=(start_line, end_line),
+            )
+            console.print(code)
+
         console.print()
 
 
