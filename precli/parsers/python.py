@@ -72,9 +72,6 @@ class Python(Parser):
             self.current_symtab.put(identifier, "import", module)
 
         self.process_rules("call")
-        self.context["func_call_qual"] = None
-        self.context["func_call_args"] = None
-        self.context["func_call_kwargs"] = None
 
     def visit_with_item(self, nodes: list[Node]):
         as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
