@@ -15,6 +15,7 @@ class Result:
         end_point: tuple = None,
         level: Level = None,
         message: str = None,
+        fixes: list[Fix] = None,
     ):
         self._rule_id = rule_id
         if start_point:
@@ -46,6 +47,7 @@ class Result:
             self._message = message
         else:
             self._message = Rule.get_by_id(self._rule_id).message
+        self._fixes = fixes
 
     @property
     def rule_id(self) -> str:
@@ -107,6 +109,7 @@ class Result:
         """
         return self._rank
 
+    @property
     def fixes(self) -> list[Fix]:
         """
         The suggested fixes for the issue.
@@ -114,3 +117,4 @@ class Result:
         :return: list of fixes
         :rtype: list
         """
+        return self._fixes
