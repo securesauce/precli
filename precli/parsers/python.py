@@ -105,6 +105,27 @@ class Python(Parser):
                 imports[alias.text.decode()] = module.text.decode()
         return imports
 
+    def parse_import_statement(self, nodes: list[Node]) -> list:
+        imports = []
+        for child in nodes:
+            if child.type == "dotted_name":
+                imports.append((child.text.decode(), None))
+            elif child.type == "aliased_import":
+                module = self.child_by_type(child, "dotted_name")
+                alias = self.child_by_type(child, "identifier")
+                alias_import = (module.text.decode(), alias.text.decode())
+                imports.append(alias_import)
+        return imports
+
+    def unparse_import_statement(self, imports: list) -> str:
+        modules = []
+        for imp in imports:
+            if imp[1] is not None:
+                modules.append(imp[0] + " as " + imp[1])
+            else:
+                modules.append(imp)
+        return f"import {', '.join(modules)}"
+
     def import_from_statement(self, nodes: list[Node]) -> dict:
         imports = {}
 
@@ -134,6 +155,30 @@ class Python(Parser):
                     imports[key] = ".".join(filter(None, full_qual))
 
         return imports
+
+    def parse_import_from_statement(self, nodes: list[Node]) -> tuple:
+        module = nodes[1]
+        if module.type == "dotted_name":
+            package = module.text.decode()
+        elif module.type == "relative_import":
+            package = module.text.decode()
+
+        if nodes[2].type == "import":
+            if nodes[3].type == "wildcard_import":
+                modules = [("*", None)]
+            else:
+                modules = self.parse_import_statement(nodes[3:])
+            return (package, modules)
+
+    def unparse_import_from_statement(self, imports: tuple) -> str:
+        package = imports[0]
+        modules = []
+        for imp in imports[1]:
+            if imp[1] is not None:
+                modules.append(imp[0] + " as " + imp[1])
+            else:
+                modules.append(imp[0])
+        return f"from {package} import {', '.join(modules)}"
 
     def importlib_import_module(self, args, kwargs) -> dict:
         name = args[0] if args else kwargs.get("name", None)
