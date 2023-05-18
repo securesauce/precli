@@ -36,10 +36,12 @@ class YamlLoad(Rule):
             ]
         ):
             fixes = []
-            # TODO(ericwb): if loader=yaml.Loader, suggest yaml.SafeLoader
-
-            # if yaml imported, then can switch to safe_load
             if context["node"].children[0].type == "attribute":
+                if context["node"].children[1].type == "argument_list":
+                    # If arg[1], set deleted_start_point, deleted_end_point
+                    # on all arguments then add arg[0] as inserted_content
+                    pass
+
                 load_node = context["node"].children[0].named_children[1]
                 fix = Fix(
                     context=context,
@@ -55,9 +57,11 @@ class YamlLoad(Rule):
                     inserted_content="safe_load",
                 )
                 fixes.append(fix)
-
-            # TODO(ericwb): HARD: if load imported, then either add safe_load
-            # to imports or suggest SaleLoader
+            elif context["node"].children[0].type == "identifier":
+                # TODO(ericwb): HARD: if just load imported, then either add
+                # safe_load to imports or suggest SaleLoader (which also needs
+                # an import)
+                load_node = context["node"].children[0]
 
             return Result(
                 rule_id=self.id,

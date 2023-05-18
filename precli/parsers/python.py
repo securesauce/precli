@@ -1,10 +1,14 @@
 # Copyright 2023 Secure Saurce LLC
 import ast
+from collections import namedtuple
 
 from tree_sitter import Node
 
 from precli.core.parser import Parser
 from precli.core.symtab import SymbolTable
+
+
+Import = namedtuple("Import", "module alias")
 
 
 class Python(Parser):
@@ -109,21 +113,22 @@ class Python(Parser):
         imports = []
         for child in nodes:
             if child.type == "dotted_name":
-                imports.append((child.text.decode(), None))
+                plain_import = Import(child.text.decode(), None)
+                imports.append(plain_import)
             elif child.type == "aliased_import":
-                module = self.child_by_type(child, "dotted_name")
-                alias = self.child_by_type(child, "identifier")
-                alias_import = (module.text.decode(), alias.text.decode())
+                module = self.child_by_type(child, "dotted_name").text
+                alias = self.child_by_type(child, "identifier").text
+                alias_import = Import(module.decode(), alias.decode())
                 imports.append(alias_import)
         return imports
 
     def unparse_import_statement(self, imports: list) -> str:
         modules = []
         for imp in imports:
-            if imp[1] is not None:
-                modules.append(imp[0] + " as " + imp[1])
+            if imp.alias is not None:
+                modules.append(imp.module + " as " + imp.alias)
             else:
-                modules.append(imp)
+                modules.append(imp.module)
         return f"import {', '.join(modules)}"
 
     def import_from_statement(self, nodes: list[Node]) -> dict:
@@ -165,7 +170,7 @@ class Python(Parser):
 
         if nodes[2].type == "import":
             if nodes[3].type == "wildcard_import":
-                modules = [("*", None)]
+                modules = [Import("*", None)]
             else:
                 modules = self.parse_import_statement(nodes[3:])
             return (package, modules)
@@ -174,10 +179,10 @@ class Python(Parser):
         package = imports[0]
         modules = []
         for imp in imports[1]:
-            if imp[1] is not None:
-                modules.append(imp[0] + " as " + imp[1])
+            if imp.alias is not None:
+                modules.append(imp.module + " as " + imp.alias)
             else:
-                modules.append(imp[0])
+                modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
     def importlib_import_module(self, args, kwargs) -> dict:

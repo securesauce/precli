@@ -29,6 +29,8 @@ class ParamikoNoHostKeyVerify(Rule):
         ):
             if Rule.match_call_pos_arg(
                 context, 0, ["paramiko.client.AutoAddPolicy"]
+            ) or Rule.match_call_kwarg(
+                context, "policy", ["paramiko.client.AutoAddPolicy"]
             ):
                 return Result(
                     rule_id=self.id,
@@ -38,6 +40,8 @@ class ParamikoNoHostKeyVerify(Rule):
                 )
             if Rule.match_call_pos_arg(
                 context, 0, ["paramiko.client.WarningPolicy"]
+            ) or Rule.match_call_kwarg(
+                context, "policy", ["paramiko.client.WarningPolicy"]
             ):
                 return Result(
                     rule_id=self.id,
