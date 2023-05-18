@@ -47,7 +47,7 @@ class Result:
             self._message = message
         else:
             self._message = Rule.get_by_id(self._rule_id).message
-        self._fixes = fixes
+        self._fixes = fixes if fixes is not None else []
 
     @property
     def rule_id(self) -> str:
