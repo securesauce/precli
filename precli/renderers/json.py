@@ -8,8 +8,8 @@ from precli.renderers.renderer import Renderer
 
 
 class Json(Renderer):
-    def __init__(self, color: bool = False):
-        super().__init__(color=color)
+    def __init__(self, no_color: bool = False):
+        super().__init__(no_color=no_color)
         self.console = console.Console(highlight=False)
 
     def render(self, results: list):

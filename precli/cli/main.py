@@ -54,6 +54,12 @@ def setup_arg_parser():
         action="store_true",
         help="display output in plain, tabular text",
     )
+    parser.add_argument(
+        "--no-color",
+        dest="no_color",
+        action="store_true",
+        help="do not display color in output",
+    )
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
@@ -172,13 +178,13 @@ def main():
     results = run_checks(file_list)
 
     if args.json is True:
-        json = Json()
+        json = Json(args.no_color)
         json.render(results)
     elif args.plain is True:
-        plain = Plain()
+        plain = Plain(args.no_color)
         plain.render(results)
     else:
-        detailed = Detailed()
+        detailed = Detailed(args.no_color)
         detailed.render(results)
 
 
