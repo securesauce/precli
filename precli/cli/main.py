@@ -23,10 +23,31 @@ PROGRESS_THRESHOLD = 50
 parsers = {}
 
 
+def _init_logger(log_level=logging.INFO):
+    """Initialize the logger.
+
+    :param debug: Whether to enable debug mode
+    :return: An instantiated logging instance
+    """
+    LOG.handlers = []
+    logging.captureWarnings(True)
+    LOG.setLevel(log_level)
+    handler = logging.StreamHandler(sys.stderr)
+    LOG.addHandler(handler)
+    LOG.debug("logging initialized")
+
+
 def setup_arg_parser():
     parser = argparse.ArgumentParser(
         description="precli - a static analysis security tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        dest="debug",
+        action="store_true",
+        help="turn on debug mode",
     )
     parser.add_argument(
         "targets",
@@ -164,6 +185,13 @@ def parse_file(
 
 
 def main():
+    debug = (
+        logging.DEBUG
+        if "-d" in sys.argv or "--debug" in sys.argv
+        else logging.INFO
+    )
+    _init_logger(debug)
+
     # Setup the command line arguments
     args = setup_arg_parser()
 
