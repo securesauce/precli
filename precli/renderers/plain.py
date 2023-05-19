@@ -33,31 +33,30 @@ class Plain(Renderer):
 
             self.console.print(
                 f"{rule.id}: {rule.cwe.name}",
-                style=style,
             )
             self.console.print(
                 f'  File "{result.location.file_name}", line '
                 f"{result.location.start_line}, in <module>",
-                style=style,
             )
             code_line = linecache.getline(
                 filename=result.location.file_name,
                 lineno=result.location.start_line,
-            ).rstrip()
-            self.console.print(
-                Padding(code_line, (0, 4)),
-                style=style,
             )
             underline_width = (
                 result.location.end_column - result.location.start_column
             )
-            underline = "^" * underline_width
-            self.console.print(
-                Padding(underline, (0, result.location.start_column + 4)),
-                style=style,
+            underline = (
+                " " * result.location.start_column + "^" * underline_width
             )
             self.console.print(
-                f"{result.level.name.title()}: {result.message}",
+                Padding(code_line + underline, (0, 4)),
+            )
+            self.console.print(
+                f"{result.level.name.title()}: ",
                 style=style,
+                end="",
+            )
+            self.console.print(
+                f"{result.message}",
             )
             self.console.print()

@@ -27,22 +27,48 @@ class ParamikoNoHostKeyVerify(Rule):
             context,
             ["paramiko.client.SSHClient().set_missing_host_key_policy"],
         ):
-            if Rule.match_call_pos_arg(
-                context, 0, ["paramiko.client.AutoAddPolicy"]
-            ) or Rule.match_call_kwarg(
-                context, "policy", ["paramiko.client.AutoAddPolicy"]
-            ):
+            if (
+                node := Rule.match_call_pos_arg(
+                    context, 0, ["paramiko.client.AutoAddPolicy"]
+                )
+            ) is not None:
+                context["node"] = node
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
                     message=self.message.format(context["func_call_qual"]),
                 )
-            if Rule.match_call_pos_arg(
-                context, 0, ["paramiko.client.WarningPolicy"]
-            ) or Rule.match_call_kwarg(
-                context, "policy", ["paramiko.client.WarningPolicy"]
-            ):
+            if (
+                node := Rule.match_call_kwarg(
+                    context, "policy", ["paramiko.client.AutoAddPolicy"]
+                )
+            ) is not None:
+                context["node"] = node
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(context["func_call_qual"]),
+                )
+            if (
+                node := Rule.match_call_pos_arg(
+                    context, 0, ["paramiko.client.WarningPolicy"]
+                )
+            ) is not None:
+                context["node"] = node
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.WARNING,
+                    message=self.message.format(context["func_call_qual"]),
+                )
+            if (
+                node := Rule.match_call_kwarg(
+                    context, "policy", ["paramiko.client.WarningPolicy"]
+                )
+            ) is not None:
+                context["node"] = node
                 return Result(
                     rule_id=self.id,
                     context=context,
