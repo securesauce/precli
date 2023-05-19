@@ -10,15 +10,17 @@ from precli.renderers.renderer import Renderer
 
 
 class Plain(Renderer):
-    def __init__(self, color: bool = False):
-        super().__init__(color=color)
+    def __init__(self, no_color: bool = False):
+        super().__init__(no_color=no_color)
         self.console = console.Console(highlight=False)
 
     def render(self, results: list):
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
 
-            if self._color is True:
+            if self._no_color is True:
+                style = ""
+            else:
                 match result.level:
                     case Level.ERROR:
                         style = "red"
@@ -28,8 +30,6 @@ class Plain(Renderer):
 
                     case Level.NOTE:
                         style = "blue"
-            else:
-                style = ""
 
             self.console.print(
                 f"{rule.id}: {rule.cwe.name}",

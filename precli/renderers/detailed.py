@@ -10,9 +10,12 @@ from precli.renderers.renderer import Renderer
 
 
 class Detailed(Renderer):
-    def __init__(self, color: bool = False):
-        super().__init__(color=color)
-        self.console = console.Console(highlight=False)
+    def __init__(self, no_color: bool = False):
+        super().__init__(no_color=no_color)
+        if no_color is True:
+            self.console = console.Console(color_system=None, highlight=False)
+        else:
+            self.console = console.Console(highlight=False)
 
     def render(self, results: list):
         for result in results:
