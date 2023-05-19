@@ -31,30 +31,29 @@ class NoCertificateVerify(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if all(
+        if Rule.match_calls(
+            context,
             [
-                Rule.match_calls(
-                    context,
-                    [
-                        "httpx.AsyncClient",
-                        "httpx.Client",
-                        "httpx.delete",
-                        "httpx.get",
-                        "httpx.head",
-                        "httpx.options",
-                        "httpx.patch",
-                        "httpx.post",
-                        "httpx.put",
-                        "httpx.request",
-                        "httpx.stream",
-                    ],
-                ),
-                Rule.match_call_kwarg(context, "verify", [False]),
-            ]
+                "httpx.AsyncClient",
+                "httpx.Client",
+                "httpx.delete",
+                "httpx.get",
+                "httpx.head",
+                "httpx.options",
+                "httpx.patch",
+                "httpx.post",
+                "httpx.put",
+                "httpx.request",
+                "httpx.stream",
+            ],
         ):
-            return Result(
-                rule_id=self.id,
-                context=context,
-                level=Level.ERROR,
-                message=self.message.format(context["func_call_qual"]),
-            )
+            if (
+                node := Rule.match_call_kwarg(context, "verify", [False])
+            ) is not None:
+                context["node"] = node
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(context["func_call_qual"]),
+                )

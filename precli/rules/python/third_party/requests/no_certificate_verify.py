@@ -29,35 +29,34 @@ class NoCertificateVerify(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if all(
+        if Rule.match_calls(
+            context,
             [
-                Rule.match_calls(
-                    context,
-                    [
-                        "requests.delete",
-                        "requests.get",
-                        "requests.head",
-                        "requests.options",
-                        "requests.patch",
-                        "requests.post",
-                        "requests.put",
-                        "requests.request",
-                        "requests.Session().delete",
-                        "requests.Session().get",
-                        "requests.Session().head",
-                        "requests.Session().options",
-                        "requests.Session().patch",
-                        "requests.Session().post",
-                        "requests.Session().put",
-                        "requests.Session().request",
-                    ],
-                ),
-                Rule.match_call_kwarg(context, "verify", [False]),
-            ]
+                "requests.delete",
+                "requests.get",
+                "requests.head",
+                "requests.options",
+                "requests.patch",
+                "requests.post",
+                "requests.put",
+                "requests.request",
+                "requests.Session().delete",
+                "requests.Session().get",
+                "requests.Session().head",
+                "requests.Session().options",
+                "requests.Session().patch",
+                "requests.Session().post",
+                "requests.Session().put",
+                "requests.Session().request",
+            ],
         ):
-            return Result(
-                rule_id=self.id,
-                context=context,
-                level=Level.ERROR,
-                message=self.message.format(context["func_call_qual"]),
-            )
+            if (
+                node := Rule.match_call_kwarg(context, "verify", [False])
+            ) is not None:
+                context["node"] = node
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=self.message.format(context["func_call_qual"]),
+                )
