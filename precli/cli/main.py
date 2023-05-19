@@ -1,7 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
 import argparse
 import io
-import linecache
 import logging
 import os
 import pathlib
@@ -9,21 +8,19 @@ import sys
 import traceback
 from importlib.metadata import entry_points
 
-from rich import console
 from rich import progress
-from rich import syntax
 
 import precli
-from precli.core.level import Level
 from precli.core.result import Result
-from precli.core.result import Rule
+from precli.renderers.detailed import Detailed
+from precli.renderers.json import Json
+from precli.renderers.plain import Plain
 
 
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 
 parsers = {}
-console = console.Console(highlight=False)
 
 
 def setup_arg_parser():
@@ -44,6 +41,18 @@ def setup_arg_parser():
         dest="recursive",
         action="store_true",
         help="find and process files in subdirectories",
+    )
+    parser.add_argument(
+        "--json",
+        dest="json",
+        action="store_true",
+        help="display output as formatted JSON",
+    )
+    parser.add_argument(
+        "--plain",
+        dest="plain",
+        action="store_true",
+        help="display output in plain, tabular text",
     )
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
@@ -78,7 +87,7 @@ def discover_files(targets: list[str], recursive: bool):
     return file_list
 
 
-def run_checks(file_list: list[str]):
+def run_checks(file_list: list[str]) -> list[Result]:
     """Runs through all files in the scope
 
     :return: -
@@ -112,87 +121,7 @@ def run_checks(file_list: list[str]):
         except OSError:
             # self.skipped.append((fname, e.strerror))
             new_file_list.remove(fname)
-
-    for result in results:
-        rule = Rule.get_by_id(result.rule_id)
-        match result.level:
-            case Level.ERROR:
-                emoji = ":cross_mark-emoji:"
-                style = "red"
-
-            case Level.WARNING:
-                emoji = ":warning-emoji: "
-                style = "yellow"
-
-            case Level.NOTE:
-                emoji = ":information-emoji:"
-                style = "blue"
-
-        console.print(
-            f"{emoji} {result.level.name.title()} on line "
-            f"{result.location.start_line} in {result.location.file_name}",
-            style=style,
-            markup=False,
-        )
-        console.print(
-            f"{rule.id}: {rule.cwe.name}",
-            style=style,
-        )
-        console.print(
-            f"{result.message}",
-            style=style,
-        )
-        code = syntax.Syntax.from_path(
-            result.location.file_name,
-            line_numbers=True,
-            line_range=(
-                result.location.start_line - 1,
-                result.location.end_line + 1,
-            ),
-            highlight_lines=(
-                result.location.start_line,
-                result.location.end_line,
-            ),
-        )
-        console.print(code)
-
-        for fix in result.fixes:
-            console.print(
-                f"Suggested fix: {fix.description}",
-                style=style,
-            )
-            start_line = fix.deleted_location.start_line
-            end_line = fix.deleted_location.end_line
-            start_column = fix.deleted_location.start_column
-            end_column = fix.deleted_location.end_column
-            line_before = linecache.getline(
-                filename=fix.deleted_location.file_name,
-                lineno=start_line - 1,
-            )
-            code = linecache.getline(
-                filename=fix.deleted_location.file_name,
-                lineno=start_line,
-            )
-            line_after = linecache.getline(
-                filename=fix.deleted_location.file_name,
-                lineno=start_line + 1,
-            )
-            code = (
-                code[:start_column] + fix.inserted_content + code[end_column:]
-            )
-            code = line_before + code + line_after
-            for _ in range(start_line - 2):
-                code = "\n" + code
-            code = syntax.Syntax(
-                code,
-                "python",
-                line_numbers=True,
-                line_range=(start_line - 1, end_line + 1),
-                highlight_lines=(start_line, end_line),
-            )
-            console.print(code)
-
-        console.print()
+    return results
 
 
 def parse_file(
@@ -240,7 +169,17 @@ def main():
     # Compile a list of the targets
     file_list = discover_files(args.targets, args.recursive)
 
-    run_checks(file_list)
+    results = run_checks(file_list)
+
+    if args.json is True:
+        json = Json()
+        json.render(results)
+    elif args.plain is True:
+        plain = Plain()
+        plain.render(results)
+    else:
+        detailed = Detailed()
+        detailed.render(results)
 
 
 if __name__ == "__main__":
