@@ -1,5 +1,4 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.fix import Fix
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -24,48 +23,58 @@ class YamlLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if all(
-            [
-                Rule.match_calls(context, ["yaml.load"]),
-                not Rule.match_call_pos_arg(
-                    context, 1, ["yaml.CSafeLoader", "yaml.SafeLoader"]
-                ),
-                not Rule.match_call_kwarg(
-                    context, "Loader", ["yaml.CSafeLoader", "yaml.SafeLoader"]
-                ),
-            ]
-        ):
-            fixes = []
-            if context["node"].children[0].type == "attribute":
-                if context["node"].children[1].type == "argument_list":
-                    # If arg[1], set deleted_start_point, deleted_end_point
-                    # on all arguments then add arg[0] as inserted_content
-                    pass
+        if (call_node := Rule.match_calls(context, ["yaml.load"])) is not None:
+            args = context["func_call_args"]
+            loader = context["func_call_kwargs"].get("Loader")
 
-                load_node = context["node"].children[0].named_children[1]
-                fix = Fix(
+            if len(args) > 1:
+                if isinstance(args[1], str) and args[1] not in (
+                    "yaml.CSafeLoader",
+                    "yaml.SafeLoader",
+                ):
+                    context["node"] = Rule.get_positional_arg(
+                        context["node"], 1
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use SafeLoader to safely load YAML files",
+                        inserted_content="SafeLoader",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        message=self.message.format(context["func_call_qual"]),
+                        fixes=fixes,
+                    )
+            elif loader is not None:
+                if isinstance(loader, str) and loader not in (
+                    "yaml.CSafeLoader",
+                    "yaml.SafeLoader",
+                ):
+                    context["node"] = Rule.get_keyword_arg(
+                        context["node"], "Loader"
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use SafeLoader to safely load YAML files",
+                        inserted_content="SafeLoader",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        message=self.message.format(context["func_call_qual"]),
+                        fixes=fixes,
+                    )
+            else:
+                context["node"] = call_node
+                fixes = Rule.get_fixes(
                     context=context,
                     description="Use safe_load to safely load YAML files",
-                    deleted_start_point=(
-                        load_node.start_point[0],
-                        load_node.start_point[1],
-                    ),
-                    deleted_end_point=(
-                        load_node.end_point[0],
-                        load_node.end_point[1],
-                    ),
                     inserted_content="safe_load",
                 )
-                fixes.append(fix)
-            elif context["node"].children[0].type == "identifier":
-                # TODO(ericwb): HARD: if just load imported, then either add
-                # safe_load to imports or suggest SaleLoader (which also needs
-                # an import)
-                load_node = context["node"].children[0]
-
-            return Result(
-                rule_id=self.id,
-                context=context,
-                message=self.message.format(context["func_call_qual"]),
-                fixes=fixes,
-            )
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    message=self.message.format(context["func_call_qual"]),
+                    fixes=fixes,
+                )

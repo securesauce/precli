@@ -8,6 +8,7 @@ from cwe import Weakness
 from tree_sitter import Node
 
 from precli.core.config import Config
+from precli.core.fix import Fix
 
 
 class Rule(ABC):
@@ -173,18 +174,18 @@ class Rule(ABC):
     def match_calls(
         context: dict,
         funcs: list[str],
-    ) -> bool:
+    ) -> Node:
         """
         Match any call name to the given function names.
 
         :param dict context: current context of the parse
         :param list funcs: list of function names to match
 
-        :return: true if match found
-        :rtype: bool
+        :return: the call node if match found or None
+        :rtype: Node
         """
         if context["func_call_qual"] in funcs:
-            return True
+            return context["node"].children[0]
 
     @staticmethod
     def match_call_pos_arg(
@@ -256,6 +257,24 @@ class Rule(ABC):
                     keyword = child.named_children[0].text.decode()
                     if keyword == arg_name:
                         return child.named_children[1]
+
+    @staticmethod
+    def get_fixes(
+        context: dict,
+        description: str,
+        inserted_content: str,
+    ) -> list[Fix]:
+        if context["node"].type == "attribute":
+            context["node"] = context["node"].named_children[1]
+            return [
+                Fix(
+                    context=context,
+                    description=description,
+                    inserted_content=inserted_content,
+                )
+            ]
+        # TODO(ericwb): verify the new content will fully resolve, otherwise
+        # only make suggested fix as part of the description.
 
     @abstractmethod
     def analyze(self, context: dict):
