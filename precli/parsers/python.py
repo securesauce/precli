@@ -5,6 +5,7 @@ from collections import namedtuple
 from tree_sitter import Node
 
 from precli.core.parser import Parser
+from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
 
 
@@ -213,10 +214,10 @@ class Python(Parser):
                 args.append(self.literal_value(child, default=child))
         return args, kwargs
 
-    def get_qual_name(self, node: Node) -> tuple:
+    def get_qual_name(self, node: Node) -> Symbol:
         symbol = self.current_symtab.get(node.text.decode())
         if symbol is not None:
-            return symbol.name, symbol.value
+            return symbol
         for child in node.children:
             return self.get_qual_name(child)
 
@@ -228,32 +229,32 @@ class Python(Parser):
         try:
             match node.type:
                 case "call":
-                    qual_call = self.get_qual_name(node)
-                    if qual_call is not None:
-                        if isinstance(qual_call[1], str):
+                    symbol = self.get_qual_name(node)
+                    if symbol is not None:
+                        if isinstance(symbol.value, str):
                             value = nodetext.replace(
-                                qual_call[0], qual_call[1], 1
+                                symbol.name, symbol.value, 1
                             )
                         else:
-                            value = qual_call[1]
+                            value = symbol.value
                 case "attribute":
-                    qual_attr = self.get_qual_name(node)
-                    if qual_attr is not None:
-                        if isinstance(qual_attr[1], str):
+                    symbol = self.get_qual_name(node)
+                    if symbol is not None:
+                        if isinstance(symbol.value, str):
                             value = nodetext.replace(
-                                qual_attr[0], qual_attr[1], 1
+                                symbol.name, symbol.value, 1
                             )
                         else:
-                            value = qual_attr[1]
+                            value = symbol.value
                 case "identifier":
-                    qual_ident = self.get_qual_name(node)
-                    if qual_ident is not None:
-                        if isinstance(qual_ident[1], str):
+                    symbol = self.get_qual_name(node)
+                    if symbol is not None:
+                        if isinstance(symbol.value, str):
                             value = nodetext.replace(
-                                qual_ident[0], qual_ident[1], 1
+                                symbol.name, symbol.value, 1
                             )
                         else:
-                            value = qual_ident[1]
+                            value = symbol.value
                 case "keyword_argument":
                     keyword = node.named_children[0].text.decode()
                     kwvalue = node.named_children[1]
