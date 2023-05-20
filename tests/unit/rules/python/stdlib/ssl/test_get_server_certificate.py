@@ -39,8 +39,8 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(63, result.location.start_column)
+        self.assertEqual(77, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -59,8 +59,8 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(63, result.location.start_column)
+        self.assertEqual(77, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -73,8 +73,8 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(78, result.location.end_column)
+        self.assertEqual(63, result.location.start_column)
+        self.assertEqual(77, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -85,10 +85,10 @@ class GetServerCertificateTests(test_case.TestCase):
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PRE012", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(6, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(1, result.location.end_column)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(40, result.location.start_column)
+        self.assertEqual(56, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 

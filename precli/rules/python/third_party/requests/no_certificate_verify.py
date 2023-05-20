@@ -11,7 +11,7 @@ class NoCertificateVerify(Rule):
             name="improper_certificate_validation",
             full_descr=__doc__,
             cwe_id=295,
-            message="The {} function is set to not verify certificates.",
+            message="The '{}' function is set to not verify certificates.",
             targets=("call"),
             wildcards={
                 "requests.*": [
@@ -54,9 +54,16 @@ class NoCertificateVerify(Rule):
                 node := Rule.match_call_kwarg(context, "verify", [False])
             ) is not None:
                 context["node"] = node
+                fixes = Rule.get_fixes(
+                    context=context,
+                    description="Set the 'verify' argument to 'True' to ensure"
+                    " the server's certificate is verified.",
+                    inserted_content="True",
+                )
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
                     message=self.message.format(context["func_call_qual"]),
+                    fixes=fixes,
                 )

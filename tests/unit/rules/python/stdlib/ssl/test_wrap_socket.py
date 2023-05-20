@@ -39,8 +39,8 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(55, result.location.end_column)
+        self.assertEqual(40, result.location.start_column)
+        self.assertEqual(54, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -59,8 +59,8 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(55, result.location.end_column)
+        self.assertEqual(40, result.location.start_column)
+        self.assertEqual(54, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -73,8 +73,8 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(55, result.location.end_column)
+        self.assertEqual(40, result.location.start_column)
+        self.assertEqual(54, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -87,8 +87,8 @@ class WrapSocketTests(test_case.TestCase):
         self.assertEqual("PRE012", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(57, result.location.end_column)
+        self.assertEqual(40, result.location.start_column)
+        self.assertEqual(56, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
