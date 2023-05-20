@@ -265,7 +265,17 @@ class Rule(ABC):
         inserted_content: str,
     ) -> list[Fix]:
         if context["node"].type == "attribute":
+            # TODO(ericwb): this is unexpected behavior for a get function
             context["node"] = context["node"].named_children[1]
+            return [
+                Fix(
+                    context=context,
+                    description=description,
+                    inserted_content=inserted_content,
+                )
+            ]
+        # TODO(ericwb): handle identifier
+        if context["node"].type in ("true", "false", "none"):
             return [
                 Fix(
                     context=context,

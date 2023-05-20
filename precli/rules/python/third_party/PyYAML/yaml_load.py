@@ -10,7 +10,7 @@ class YamlLoad(Rule):
             name="deserialization_of_untrusted_data",
             full_descr=__doc__,
             cwe_id=502,
-            message="Usage of {} can allow instantiation of arbitrary "
+            message="Usage of '{}' can allow instantiation of arbitrary "
             "objects.",
             targets=("call"),
             wildcards={
@@ -37,7 +37,8 @@ class YamlLoad(Rule):
                     )
                     fixes = Rule.get_fixes(
                         context=context,
-                        description="Use SafeLoader to safely load YAML files",
+                        description="Use 'SafeLoader' as the 'Loader' argument"
+                        " to safely load YAML files.",
                         inserted_content="SafeLoader",
                     )
                     return Result(
@@ -56,7 +57,8 @@ class YamlLoad(Rule):
                     )
                     fixes = Rule.get_fixes(
                         context=context,
-                        description="Use SafeLoader to safely load YAML files",
+                        description="Use 'SafeLoader' as the 'Loader' argument"
+                        " to safely load YAML files.",
                         inserted_content="SafeLoader",
                     )
                     return Result(
@@ -69,7 +71,8 @@ class YamlLoad(Rule):
                 context["node"] = call_node
                 fixes = Rule.get_fixes(
                     context=context,
-                    description="Use safe_load to safely load YAML files",
+                    description="Use 'yaml.safe_load' to safely load YAML "
+                    "files.",
                     inserted_content="safe_load",
                 )
                 return Result(

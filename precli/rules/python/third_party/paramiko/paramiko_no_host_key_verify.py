@@ -11,7 +11,8 @@ class ParamikoNoHostKeyVerify(Rule):
             name="improper_certificate_validation",
             full_descr=__doc__,
             cwe_id=295,
-            message="SSH host key not being properly verified.",
+            message="The '{}' missing host key policy will not properly "
+            "verify the SSH server's host key.",
             targets=("call"),
             wildcards={
                 "paramiko.client.*": [
@@ -33,11 +34,18 @@ class ParamikoNoHostKeyVerify(Rule):
                 )
             ) is not None:
                 context["node"] = node
+                fixes = Rule.get_fixes(
+                    context=context,
+                    description="Use 'RejectPolicy' as the 'policy' argument"
+                    " to safely reject unknown host keys.",
+                    inserted_content="RejectPolicy",
+                )
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format("AutoAddPolicy"),
+                    fixes=fixes,
                 )
             if (
                 node := Rule.match_call_kwarg(
@@ -45,11 +53,18 @@ class ParamikoNoHostKeyVerify(Rule):
                 )
             ) is not None:
                 context["node"] = node
+                fixes = Rule.get_fixes(
+                    context=context,
+                    description="Use 'RejectPolicy' as the 'policy' argument"
+                    " to safely reject unknown host keys.",
+                    inserted_content="RejectPolicy",
+                )
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format("AutoAddPolicy"),
+                    fixes=fixes,
                 )
             if (
                 node := Rule.match_call_pos_arg(
@@ -57,11 +72,18 @@ class ParamikoNoHostKeyVerify(Rule):
                 )
             ) is not None:
                 context["node"] = node
+                fixes = Rule.get_fixes(
+                    context=context,
+                    description="Use 'RejectPolicy' as the 'policy' argument"
+                    " to safely reject unknown host keys.",
+                    inserted_content="RejectPolicy",
+                )
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.WARNING,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format("WarningPolicy"),
+                    fixes=fixes,
                 )
             if (
                 node := Rule.match_call_kwarg(
@@ -69,9 +91,16 @@ class ParamikoNoHostKeyVerify(Rule):
                 )
             ) is not None:
                 context["node"] = node
+                fixes = Rule.get_fixes(
+                    context=context,
+                    description="Use 'RejectPolicy' as the 'policy' argument"
+                    " to safely reject unknown host keys.",
+                    inserted_content="RejectPolicy",
+                )
                 return Result(
                     rule_id=self.id,
                     context=context,
                     level=Level.WARNING,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format("WarningPolicy"),
+                    fixes=fixes,
                 )

@@ -19,44 +19,139 @@ class InsecureTlsVersion(Rule):
             name="inadequate_encryption_strength",
             full_descr=__doc__,
             cwe_id=326,
-            message="The {} protocol has insufficient encryption strength.",
+            message="The '{}' protocol has insufficient encryption strength.",
             targets=("call"),
         )
 
     def analyze(self, context: dict) -> Result:
         if Rule.match_calls(context, ["ssl.get_server_certificate"]):
             args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            version = args[1] if len(args) > 1 else kwargs.get("ssl_version")
+            version = context["func_call_kwargs"].get("ssl_version")
 
-            if isinstance(version, str) and version in INSECURE_VERSIONS:
-                return Result(
-                    rule_id=self.id,
-                    context=context,
-                    level=Level.ERROR,
-                    message=self.message.format(version),
-                )
+            if len(args) > 1:
+                if isinstance(args[1], str) and args[1] in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_positional_arg(
+                        context["node"], 1
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS_CLIENT' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS_CLIENT",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(version),
+                        fixes=fixes,
+                    )
+            elif version is not None:
+                if isinstance(version, str) and version in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_keyword_arg(
+                        context["node"], "ssl_version"
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS_CLIENT' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS_CLIENT",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(version),
+                        fixes=fixes,
+                    )
         if Rule.match_calls(context, ["ssl.wrap_socket"]):
             args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            version = args[5] if len(args) > 5 else kwargs.get("ssl_version")
+            version = context["func_call_kwargs"].get("ssl_version")
 
-            if isinstance(version, str) and version in INSECURE_VERSIONS:
-                return Result(
-                    rule_id=self.id,
-                    context=context,
-                    level=Level.ERROR,
-                    message=self.message.format(version),
-                )
+            # TODO(ericwb): It's better to recommend PROTOCOL_TLS_CLIENT or
+            # PROTOCOL_TLS_SERVER, as PROTOCOL_TLS is deprecated but in order
+            # to know whether this is a client or server socket, the
+            # server_side argument needs to be checked.
+
+            if len(args) > 5:
+                if isinstance(args[5], str) and args[5] in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_positional_arg(
+                        context["node"], 5
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(version),
+                        fixes=fixes,
+                    )
+            elif version is not None:
+                if isinstance(version, str) and version in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_keyword_arg(
+                        context["node"], "ssl_version"
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(version),
+                        fixes=fixes,
+                    )
         if Rule.match_calls(context, ["ssl.SSLContext"]):
             args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            protocol = args[0] if args else kwargs.get("protocol")
+            protocol = context["func_call_kwargs"].get("protocol")
 
-            if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
-                return Result(
-                    rule_id=self.id,
-                    context=context,
-                    level=Level.ERROR,
-                    message=self.message.format(protocol),
-                )
+            if args:
+                if isinstance(args[0], str) and args[0] in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_positional_arg(
+                        context["node"], 0
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(protocol),
+                        fixes=fixes,
+                    )
+            elif protocol is not None:
+                if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
+                    context["node"] = Rule.get_keyword_arg(
+                        context["node"], "protocol"
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'PROTOCOL_TLS' to "
+                        "auto-negotiate the highest protocol version that "
+                        "both the client and server support.",
+                        inserted_content="PROTOCOL_TLS",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(protocol),
+                        fixes=fixes,
+                    )
