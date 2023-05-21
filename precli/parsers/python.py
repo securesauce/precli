@@ -221,7 +221,7 @@ class Python(Parser):
         for child in node.children:
             return self.get_qual_name(child)
 
-    def literal_value(self, node: Node, default=None) -> str:
+    def literal_value(self, node: Node, default=None):
         nodetext = node.text.decode()
         if isinstance(default, Node):
             default = default.text.decode()
@@ -229,7 +229,8 @@ class Python(Parser):
         try:
             match node.type:
                 case "call":
-                    symbol = self.get_qual_name(node)
+                    nodetext = node.children[0].text.decode()
+                    symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
                         if isinstance(symbol.value, str):
                             value = nodetext.replace(
@@ -244,6 +245,10 @@ class Python(Parser):
                             value = nodetext.replace(
                                 symbol.name, symbol.value, 1
                             )
+                            # FIXME(ericwb): feels hacky way to get rid of ()
+                            # in call nodes on single statement
+                            value = value.replace("(", "")
+                            value = value.replace(")", "")
                         else:
                             value = symbol.value
                 case "identifier":
