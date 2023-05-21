@@ -26,7 +26,7 @@ class ParamikoNoHostKeyVerify(Rule):
     def analyze(self, context: dict) -> Result:
         if Rule.match_calls(
             context,
-            ["paramiko.client.SSHClient().set_missing_host_key_policy"],
+            ["paramiko.client.SSHClient.set_missing_host_key_policy"],
         ):
             if (
                 node := Rule.match_call_pos_arg(

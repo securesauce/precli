@@ -42,6 +42,28 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_ftp_login(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ftp_login.py")
+        )
+        self.assertEqual(2, len(results))
+        result = results[0]
+        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(6, result.location.start_column)
+        self.assertEqual(9, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+        result = results[1]
+        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(9, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_ftp_tls(self):
         results = self.parser.parse(os.path.join(self.base_path, "ftp_tls.py"))
         self.assertEqual(0, len(results))
@@ -58,6 +80,28 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(13, result.location.start_column)
         self.assertEqual(16, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ftplib_ftp_login(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ftplib_ftp_login.py")
+        )
+        self.assertEqual(2, len(results))
+        result = results[0]
+        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(13, result.location.start_column)
+        self.assertEqual(16, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+        result = results[1]
+        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(9, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
     def test_ftplib_ftp_tls(self):

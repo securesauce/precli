@@ -55,7 +55,10 @@ class FtpCleartext(Rule):
         )
         """
         if (
-            call_node := Rule.match_calls(context, ["ftplib.FTP"])
+            call_node := Rule.match_calls(
+                context,
+                ["ftplib.FTP"],
+            )
         ) is not None:
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
@@ -68,10 +71,6 @@ class FtpCleartext(Rule):
                 "connection.",
                 inserted_content="FTP_TLS",
             )
-
-            # TODO(ericwb): also check for call to FTP().login(user, password)
-            # but this could trigger two errors, one for the constructor and
-            # one for the login call.
 
             # Default of context=None creates unsecure
             # _create_unverified_context. Therefore need to suggest
@@ -95,4 +94,26 @@ class FtpCleartext(Rule):
                     context=context,
                     message=self.message.format(context["func_call_qual"]),
                     fixes=fixes,
+                )
+        if (
+            call_node := Rule.match_calls(
+                context,
+                ["ftplib.FTP.login"],
+            )
+        ) is not None:
+            args = context["func_call_args"]
+            kwargs = context["func_call_kwargs"]
+            passwd = args[1] if len(args) > 1 else kwargs.get("passwd", None)
+            context["node"] = call_node
+
+            # TODO(ericwb): without a call to get_fixes, the context["node"]
+            # is not the function, but the whole call.
+
+            if passwd is not None:
+                return Result(
+                    rule_id=self.id,
+                    context=context,
+                    level=Level.ERROR,
+                    message=f"The '{context['func_call_qual']}' module will "
+                    f"transmit the password argument in cleartext.",
                 )
