@@ -23,7 +23,7 @@ class YamlLoad(Rule):
         )
 
     def analyze(self, context: dict) -> Result:
-        if (call_node := Rule.match_calls(context, ["yaml.load"])) is not None:
+        if Rule.match_calls(context, ["yaml.load"]):
             args = context["func_call_args"]
             loader = context["func_call_kwargs"].get("Loader")
 
@@ -68,7 +68,6 @@ class YamlLoad(Rule):
                         fixes=fixes,
                     )
             else:
-                context["node"] = call_node
                 fixes = Rule.get_fixes(
                     context=context,
                     description="Use 'yaml.safe_load' to safely load YAML "

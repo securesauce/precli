@@ -7,7 +7,7 @@ from precli.core.rule import Rule
 from tests.unit.rules.python import test_case
 
 
-class WrapSocketTests(test_case.TestCase):
+class SslSocketTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.base_path = os.path.join(

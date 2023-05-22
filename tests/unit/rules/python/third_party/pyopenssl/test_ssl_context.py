@@ -39,8 +39,8 @@ class SslContextTests(test_case.TestCase):
         self.assertEqual("PRE310", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(52, result.location.end_column)
+        self.assertEqual(39, result.location.start_column)
+        self.assertEqual(51, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -59,8 +59,8 @@ class SslContextTests(test_case.TestCase):
         self.assertEqual("PRE310", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(52, result.location.end_column)
+        self.assertEqual(39, result.location.start_column)
+        self.assertEqual(51, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -73,8 +73,8 @@ class SslContextTests(test_case.TestCase):
         self.assertEqual("PRE310", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(52, result.location.end_column)
+        self.assertEqual(39, result.location.start_column)
+        self.assertEqual(51, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -87,8 +87,8 @@ class SslContextTests(test_case.TestCase):
         self.assertEqual("PRE310", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(54, result.location.end_column)
+        self.assertEqual(39, result.location.start_column)
+        self.assertEqual(53, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 

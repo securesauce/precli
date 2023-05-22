@@ -19,7 +19,7 @@ class InsecureTlsMethod(Rule):
             name="inadequate_encryption_strength",
             full_descr=__doc__,
             cwe_id=326,
-            message="The {} method has insufficient encryption strength.",
+            message="The '{}' method has insufficient encryption strength.",
             targets=("call"),
             wildcards={
                 "OpenSSL.SSL.*": [
@@ -42,13 +42,43 @@ class InsecureTlsMethod(Rule):
     def analyze(self, context: dict) -> Result:
         if Rule.match_calls(context, ["OpenSSL.SSL.Context"]):
             args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            version = args[0] if args else kwargs.get("method")
+            method = context["func_call_kwargs"].get("method")
 
-            if isinstance(version, str) and version in INSECURE_METHODS:
-                return Result(
-                    rule_id=self.id,
-                    context=context,
-                    level=Level.ERROR,
-                    message=self.message.format(version),
-                )
+            if method is not None:
+                if isinstance(method, str) and method in INSECURE_METHODS:
+                    context["node"] = Rule.get_keyword_arg(
+                        context["node"], "method"
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'TLS_METHOD' to auto-negotiate the "
+                        "highest protocol version that both the client and "
+                        "server support.",
+                        inserted_content="TLS_METHOD",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(method),
+                        fixes=fixes,
+                    )
+            elif args:
+                if isinstance(args[0], str) and args[0] in INSECURE_METHODS:
+                    context["node"] = Rule.get_positional_arg(
+                        context["node"], 0
+                    )
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        description="Use 'TLS_METHOD' to auto-negotiate the "
+                        "highest protocol version that both the client and "
+                        "server support.",
+                        inserted_content="TLS_METHOD",
+                    )
+                    return Result(
+                        rule_id=self.id,
+                        context=context,
+                        level=Level.ERROR,
+                        message=self.message.format(args[0]),
+                        fixes=fixes,
+                    )

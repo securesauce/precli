@@ -14,7 +14,7 @@ class HashlibWeakHash(Rule):
             name="reversible_one_way_hash",
             full_descr=__doc__,
             cwe_id=328,
-            message="Use of weak hash function {} does not meet security "
+            message="Use of weak hash function '{}' does not meet security "
             "expectations.",
             targets=("call"),
             wildcards={

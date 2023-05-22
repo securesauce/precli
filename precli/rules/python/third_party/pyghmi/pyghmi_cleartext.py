@@ -11,7 +11,7 @@ class PyghmiCleartext(Rule):
             name="cleartext_transmission",
             full_descr=__doc__,
             cwe_id=319,
-            message="The {} module may transmit data in cleartext without "
+            message="The '{}' module may transmit data in cleartext without "
             "encryption.",
             targets=("call"),
             wildcards={

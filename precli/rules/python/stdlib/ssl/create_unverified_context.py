@@ -47,12 +47,7 @@ class CreateUnverifiedContext(Rule):
             cadata=None
         )
         """
-        if (
-            node := Rule.match_calls(
-                context, ["ssl._create_unverified_context"]
-            )
-        ) is not None:
-            context["node"] = node
+        if Rule.match_calls(context, ["ssl._create_unverified_context"]):
             fixes = Rule.get_fixes(
                 context=context,
                 description="Use 'create_default_context' to safely validate "

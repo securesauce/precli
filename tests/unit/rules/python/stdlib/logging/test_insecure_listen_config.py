@@ -42,7 +42,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(32, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -58,7 +58,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(56, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -74,7 +74,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(54, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -88,7 +88,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(36, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -104,7 +104,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(54, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -120,7 +120,7 @@ class InsecureListenConfigTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(9, result.location.start_column)
-        self.assertEqual(43, result.location.end_column)
+        self.assertEqual(30, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 

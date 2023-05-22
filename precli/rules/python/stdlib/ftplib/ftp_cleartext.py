@@ -54,17 +54,11 @@ class FtpCleartext(Rule):
             encoding='utf-8'
         )
         """
-        if (
-            call_node := Rule.match_calls(
-                context,
-                ["ftplib.FTP"],
-            )
-        ) is not None:
+        if Rule.match_calls(context, ["ftplib.FTP"]):
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
             passwd = args[2] if len(args) > 2 else kwargs.get("passwd", None)
 
-            context["node"] = call_node
             fixes = Rule.get_fixes(
                 context=context,
                 description="Use the 'FTP_TLS' module to secure the "
@@ -95,16 +89,10 @@ class FtpCleartext(Rule):
                     message=self.message.format(context["func_call_qual"]),
                     fixes=fixes,
                 )
-        if (
-            call_node := Rule.match_calls(
-                context,
-                ["ftplib.FTP.login"],
-            )
-        ) is not None:
+        if Rule.match_calls(context, ["ftplib.FTP.login"]):
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]
             passwd = args[1] if len(args) > 1 else kwargs.get("passwd", None)
-            context["node"] = call_node
 
             # TODO(ericwb): without a call to get_fixes, the context["node"]
             # is not the function, but the whole call.
@@ -114,6 +102,6 @@ class FtpCleartext(Rule):
                     rule_id=self.id,
                     context=context,
                     level=Level.ERROR,
-                    message=f"The '{context['func_call_qual']}' module will "
+                    message=f"The '{context['func_call_qual']}' function will "
                     f"transmit the password argument in cleartext.",
                 )
