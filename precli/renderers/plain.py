@@ -34,6 +34,7 @@ class Plain(Renderer):
             self.console.print(
                 f"{rule.id}: {rule.cwe.name}",
             )
+            # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
                 f'  File "{result.location.file_name}", line '
                 f"{result.location.start_line}, in <module>",

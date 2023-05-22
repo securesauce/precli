@@ -35,7 +35,7 @@ class JsonPickleDecodeTests(test_case.TestCase):
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
-        self.assertEqual(23, result.location.end_column)
+        self.assertEqual(17, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         # self.assertEqual("", result.message)
         self.assertEqual(-1.0, result.rank)

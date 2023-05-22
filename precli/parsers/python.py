@@ -76,7 +76,12 @@ class Python(Parser):
             self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
+        if self.context["node"].children:
+            # Assign context node to the call attribute/identifier, excluding
+            # the arguments
+            self.context["node"] = self.context["node"].children[0]
         self.process_rules("call")
+        self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
         as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
@@ -221,6 +226,17 @@ class Python(Parser):
         for child in node.children:
             return self.get_qual_name(child)
 
+    def unchain(self, node: Node, result: list):
+        """
+        Unchain an attribute into its component identifiers skipping
+        over argument_list of a call node and such.
+        """
+        if node.type == "identifier":
+            result.append(node.text.decode())
+        for child in node.named_children:
+            if child.type != "argument_list":
+                self.unchain(child, result)
+
     def literal_value(self, node: Node, default=None):
         nodetext = node.text.decode()
         if isinstance(default, Node):
@@ -239,16 +255,15 @@ class Python(Parser):
                         else:
                             value = symbol.value
                 case "attribute":
+                    result = []
+                    self.unchain(node, result)
+                    nodetext = ".".join(result)
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
                         if isinstance(symbol.value, str):
                             value = nodetext.replace(
                                 symbol.name, symbol.value, 1
                             )
-                            # FIXME(ericwb): feels hacky way to get rid of ()
-                            # in call nodes on single statement
-                            value = value.replace("(", "")
-                            value = value.replace(")", "")
                         else:
                             value = symbol.value
                 case "identifier":

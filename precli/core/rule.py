@@ -185,7 +185,7 @@ class Rule(ABC):
         :rtype: Node
         """
         if context["func_call_qual"] in funcs:
-            return context["node"].children[0]
+            return True
 
     @staticmethod
     def match_call_pos_arg(
@@ -212,6 +212,10 @@ class Rule(ABC):
 
     @staticmethod
     def get_positional_arg(parent: Node, position: int) -> Node:
+        if parent.type != "call":
+            # If parent is the attribute/identifier and not a "call" node
+            # use parent instead
+            parent = parent.parent
         if (
             len(parent.children) > 1
             and parent.children[1].type == "argument_list"
@@ -247,6 +251,10 @@ class Rule(ABC):
 
     @staticmethod
     def get_keyword_arg(parent: Node, arg_name: str) -> Node:
+        if parent.type != "call":
+            # If parent is the attribute/identifier and not a "call" node
+            # use parent instead
+            parent = parent.parent
         if (
             len(parent.children) > 1
             and parent.children[1].type == "argument_list"

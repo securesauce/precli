@@ -10,7 +10,7 @@ class JsonLoad(Rule):
             name="deserialization_of_untrusted_data",
             full_descr=__doc__,
             cwe_id=502,
-            message="Potential unsafe usage of {} that can allow "
+            message="Potential unsafe usage of '{}' that can allow "
             "instantiation of arbitrary objects.",
             targets=("call"),
             wildcards={

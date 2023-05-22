@@ -10,7 +10,8 @@ class InsecureListenConfig(Rule):
             name="code_injection",
             full_descr=__doc__,
             cwe_id=94,
-            message="Using {} with unset verify vulnerable to code injection.",
+            message="Using '{}' with unset verify vulnerable to code "
+            "injection.",
             targets=("call"),
             wildcards={
                 "logging.config.*": [

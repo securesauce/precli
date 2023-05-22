@@ -11,7 +11,7 @@ class NoCertificateVerify(Rule):
             name="improper_certificate_validation",
             full_descr=__doc__,
             cwe_id=295,
-            message="The {} function is set to not verify certificates.",
+            message="The '{}' function is set to not verify certificates.",
             targets=("call"),
             wildcards={
                 "httpx.*": [
@@ -47,10 +47,7 @@ class NoCertificateVerify(Rule):
                 "httpx.stream",
             ],
         ):
-            if (
-                node := Rule.match_call_kwarg(context, "verify", [False])
-            ) is not None:
-                context["node"] = node
+            if Rule.match_call_kwarg(context, "verify", [False]):
                 return Result(
                     rule_id=self.id,
                     context=context,
