@@ -1,5 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
 from precli.core.level import Level
+from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -32,7 +33,7 @@ class PycryptoWeakHash(Rule):
             },
         )
 
-    def analyze(self, context: dict) -> Result:
+    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
         if Rule.match_calls(
             context,
             [
@@ -45,7 +46,9 @@ class PycryptoWeakHash(Rule):
         ):
             return Result(
                 rule_id=self.id,
-                context=context,
+                location=Location(
+                    context["file_name"], kwargs.get("func_node")
+                ),
                 level=Level.ERROR,
                 message=self.message.format(context["func_call_qual"]),
             )

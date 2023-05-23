@@ -39,7 +39,7 @@ class SslCreateContextTests(test_case.TestCase):
         self.assertEqual("PRE011", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
-        self.assertEqual(14, result.location.start_column)
+        self.assertEqual(10, result.location.start_column)
         self.assertEqual(40, result.location.end_column)
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)

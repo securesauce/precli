@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -22,29 +23,29 @@ class YamlLoad(Rule):
             },
         )
 
-    def analyze(self, context: dict) -> Result:
+    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["yaml.load"]):
-            args = context["func_call_args"]
-            loader = context["func_call_kwargs"].get("Loader")
+            call_args = kwargs.get("func_call_args")
+            call_kwargs = kwargs.get("func_call_kwargs")
+            loader = call_kwargs.get("Loader")
 
-            if len(args) > 1:
-                if isinstance(args[1], str) and args[1] not in (
+            if len(call_args) > 1:
+                if isinstance(call_args[1], str) and call_args[1] not in (
                     "yaml.CSafeLoader",
                     "yaml.SafeLoader",
                 ):
-                    context["node"] = Rule.get_positional_arg(
-                        context["node"], 1
-                    )
+                    node = Rule.get_positional_arg(context["node"], 1)
                     fixes = Rule.get_fixes(
                         context=context,
+                        deleted_location=Location(node),
                         description="Use 'SafeLoader' as the 'Loader' argument"
                         " to safely load YAML files.",
                         inserted_content="SafeLoader",
                     )
                     return Result(
                         rule_id=self.id,
-                        context=context,
-                        message=self.message.format(context["func_call_qual"]),
+                        location=Location(context["file_name"], node),
+                        message=self.message.format(kwargs["func_call_qual"]),
                         fixes=fixes,
                     )
             elif loader is not None:
@@ -52,31 +53,33 @@ class YamlLoad(Rule):
                     "yaml.CSafeLoader",
                     "yaml.SafeLoader",
                 ):
-                    context["node"] = Rule.get_keyword_arg(
-                        context["node"], "Loader"
-                    )
+                    node = Rule.get_keyword_arg(context["node"], "Loader")
                     fixes = Rule.get_fixes(
                         context=context,
+                        deleted_location=Location(node),
                         description="Use 'SafeLoader' as the 'Loader' argument"
                         " to safely load YAML files.",
                         inserted_content="SafeLoader",
                     )
                     return Result(
                         rule_id=self.id,
-                        context=context,
+                        location=Location(context["file_name"], node),
                         message=self.message.format(context["func_call_qual"]),
                         fixes=fixes,
                     )
             else:
                 fixes = Rule.get_fixes(
                     context=context,
+                    deleted_location=Location(kwargs.get("func_node")),
                     description="Use 'yaml.safe_load' to safely load YAML "
                     "files.",
                     inserted_content="safe_load",
                 )
                 return Result(
                     rule_id=self.id,
-                    context=context,
+                    location=Location(
+                        context["file_name"], kwargs.get("func_node")
+                    ),
                     message=self.message.format(context["func_call_qual"]),
                     fixes=fixes,
                 )

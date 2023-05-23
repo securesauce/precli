@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -15,7 +16,7 @@ class CreateUnverifiedContext(Rule):
             targets=("call"),
         )
 
-    def analyze(self, context: dict) -> Result:
+    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
         """
         _create_unverified_context(
             protocol=None,
@@ -50,13 +51,16 @@ class CreateUnverifiedContext(Rule):
         if Rule.match_calls(context, ["ssl._create_unverified_context"]):
             fixes = Rule.get_fixes(
                 context=context,
+                deleted_location=Location(kwargs.get("func_node")),
                 description="Use 'create_default_context' to safely validate "
                 "certificates.",
                 inserted_content="create_default_context",
             )
             return Result(
                 rule_id=self.id,
-                context=context,
+                location=Location(
+                    context["file_name"], kwargs.get("func_node")
+                ),
                 message=self.message.format(context["func_call_qual"]),
                 fixes=fixes,
             )

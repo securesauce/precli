@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
 
@@ -21,13 +22,15 @@ class ShelveOpen(Rule):
             },
         )
 
-    def analyze(self, context: dict) -> Result:
+    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
         if Rule.match_calls(
             context,
             ["shelve.open", "shelve.DbfilenameShelf"],
         ):
             return Result(
                 rule_id=self.id,
-                context=context,
+                location=Location(
+                    context["file_name"], kwargs.get("func_node")
+                ),
                 message=self.message.format(context["func_call_qual"]),
             )
