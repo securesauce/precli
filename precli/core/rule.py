@@ -9,6 +9,7 @@ from tree_sitter import Node
 
 from precli.core.config import Config
 from precli.core.fix import Fix
+from precli.core.location import Location
 
 
 class Rule(ABC):
@@ -269,16 +270,15 @@ class Rule(ABC):
     @staticmethod
     def get_fixes(
         context: dict,
+        deleted_location: Location,
         description: str,
         inserted_content: str,
     ) -> list[Fix]:
         if context["node"].type == "attribute":
-            # TODO(ericwb): this is unexpected behavior for a get function
-            context["node"] = context["node"].named_children[1]
             return [
                 Fix(
-                    context=context,
                     description=description,
+                    deleted_location=deleted_location,
                     inserted_content=inserted_content,
                 )
             ]
@@ -286,8 +286,8 @@ class Rule(ABC):
         if context["node"].type in ("true", "false", "none"):
             return [
                 Fix(
-                    context=context,
                     description=description,
+                    deleted_location=deleted_location,
                     inserted_content=inserted_content,
                 )
             ]
@@ -295,10 +295,12 @@ class Rule(ABC):
         # only make suggested fix as part of the description.
 
     @abstractmethod
-    def analyze(self, context: dict):
+    def analyze(self, context: dict, *args: list, **kwargs: dict):
         """Analyze the code and return a result.
 
         :param dict context: current context of the parse
+        :param list args: arguments
+        :param dict kwargs: keyword arguments
 
         :return: an issue as a Result object or None
         :rtype: Result

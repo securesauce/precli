@@ -61,26 +61,37 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
-        self.call(nodes)
+        (func_call_qual, func_call_args, func_call_kwargs) = self.call(nodes)
 
         if (
-            self.context["func_call_qual"] == "importlib.import_module"
+            func_call_qual == "importlib.import_module"
             and self.context["node"].parent.type == "assignment"
         ):
             module = self.importlib_import_module(
-                self.context["func_call_args"],
-                self.context["func_call_kwargs"],
+                func_call_args,
+                func_call_kwargs,
             )
             left_hand = self.context["node"].parent.children[0]
             identifier = left_hand.text.decode()
             self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
-        if self.context["node"].children:
-            # Assign context node to the call attribute/identifier, excluding
-            # the arguments
-            self.context["node"] = self.context["node"].children[0]
-        self.process_rules("call")
+        call_node = self.context["node"]
+        if call_node.children:
+            # Assign nodes to the call attribute/identifier and argument
+            # list
+            func_node = call_node.children[0]
+            arg_list_node = call_node.children[1]
+
+        self.process_rules(
+            "call",
+            call_node=call_node,
+            func_node=func_node,
+            arg_list_node=arg_list_node,
+            func_call_qual=func_call_qual,
+            func_call_args=func_call_args,
+            func_call_kwargs=func_call_kwargs,
+        )
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
@@ -191,7 +202,7 @@ class Python(Parser):
                 modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
-    def importlib_import_module(self, args, kwargs) -> dict:
+    def importlib_import_module(self, args: list, kwargs: dict) -> dict:
         name = args[0] if args else kwargs.get("name", None)
         package = args[1] if len(args) > 1 else kwargs.get("package", None)
         if package is None:
@@ -202,9 +213,12 @@ class Python(Parser):
 
     def call(self, nodes: list[Node]):
         self.context["func_call_qual"] = self.literal_value(nodes[0])
+        func_call_qual = self.context["func_call_qual"]
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
         self.context["func_call_args"] = func_call_args
         self.context["func_call_kwargs"] = func_call_kwargs
+
+        return (func_call_qual, func_call_args, func_call_kwargs)
 
     def get_func_args(self, node: Node) -> tuple:
         if node.type != "argument_list":
