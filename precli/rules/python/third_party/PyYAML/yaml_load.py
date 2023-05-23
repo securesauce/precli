@@ -35,9 +35,10 @@ class YamlLoad(Rule):
                     "yaml.SafeLoader",
                 ):
                     node = Rule.get_positional_arg(context["node"], 1)
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'SafeLoader' as the 'Loader' argument"
                         " to safely load YAML files.",
                         inserted_content="SafeLoader",
@@ -54,9 +55,10 @@ class YamlLoad(Rule):
                     "yaml.SafeLoader",
                 ):
                     node = Rule.get_keyword_arg(context["node"], "Loader")
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'SafeLoader' as the 'Loader' argument"
                         " to safely load YAML files.",
                         inserted_content="SafeLoader",
@@ -68,18 +70,17 @@ class YamlLoad(Rule):
                         fixes=fixes,
                     )
             else:
+                node = Rule.get_func_ident(kwargs.get("func_node"))
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(kwargs.get("func_node")),
+                    deleted_location=Location(node=node),
                     description="Use 'yaml.safe_load' to safely load YAML "
                     "files.",
                     inserted_content="safe_load",
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        context["file_name"], kwargs.get("func_node")
-                    ),
+                    location=Location(context["file_name"], node),
                     message=self.message.format(context["func_call_qual"]),
                     fixes=fixes,
                 )

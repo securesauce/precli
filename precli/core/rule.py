@@ -268,29 +268,26 @@ class Rule(ABC):
                         return child.named_children[1]
 
     @staticmethod
+    def get_func_ident(node: Node):
+        if node.type == "attribute":
+            return Rule.get_func_ident(node.named_children[1])
+        if node.type == "identifier":
+            return node
+
+    @staticmethod
     def get_fixes(
         context: dict,
         deleted_location: Location,
         description: str,
         inserted_content: str,
     ) -> list[Fix]:
-        if context["node"].type == "attribute":
-            return [
-                Fix(
-                    description=description,
-                    deleted_location=deleted_location,
-                    inserted_content=inserted_content,
-                )
-            ]
-        # TODO(ericwb): handle identifier
-        if context["node"].type in ("true", "false", "none"):
-            return [
-                Fix(
-                    description=description,
-                    deleted_location=deleted_location,
-                    inserted_content=inserted_content,
-                )
-            ]
+        return [
+            Fix(
+                description=description,
+                deleted_location=deleted_location,
+                inserted_content=inserted_content,
+            )
+        ]
         # TODO(ericwb): verify the new content will fully resolve, otherwise
         # only make suggested fix as part of the description.
 

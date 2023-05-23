@@ -56,7 +56,7 @@ class NoCertificateVerify(Rule):
             ) is not None:
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node),
+                    deleted_location=Location(node=node),
                     description="Set the 'verify' argument to 'True' to ensure"
                     " the server's certificate is verified.",
                     inserted_content="True",

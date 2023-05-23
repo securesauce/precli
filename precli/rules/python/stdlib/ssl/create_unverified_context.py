@@ -49,9 +49,10 @@ class CreateUnverifiedContext(Rule):
         )
         """
         if Rule.match_calls(context, ["ssl._create_unverified_context"]):
+            node = Rule.get_func_ident(kwargs.get("func_node"))
             fixes = Rule.get_fixes(
                 context=context,
-                deleted_location=Location(kwargs.get("func_node")),
+                deleted_location=Location(node=node),
                 description="Use 'create_default_context' to safely validate "
                 "certificates.",
                 inserted_content="create_default_context",

@@ -64,9 +64,10 @@ class FtpCleartext(Rule):
                 else call_kwargs.get("passwd", None)
             )
 
+            node = Rule.get_func_ident(kwargs.get("func_node"))
             fixes = Rule.get_fixes(
                 context=context,
-                deleted_location=Location(kwargs.get("func_node")),
+                deleted_location=Location(node=node),
                 description="Use the 'FTP_TLS' module to secure the "
                 "connection.",
                 inserted_content="FTP_TLS",

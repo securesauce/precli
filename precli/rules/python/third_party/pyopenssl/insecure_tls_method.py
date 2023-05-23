@@ -48,9 +48,10 @@ class InsecureTlsMethod(Rule):
             if method is not None:
                 if isinstance(method, str) and method in INSECURE_METHODS:
                     node = Rule.get_keyword_arg(context["node"], "method")
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'TLS_METHOD' to auto-negotiate the "
                         "highest protocol version that both the client and "
                         "server support.",
@@ -66,9 +67,10 @@ class InsecureTlsMethod(Rule):
             elif args:
                 if isinstance(args[0], str) and args[0] in INSECURE_METHODS:
                     node = Rule.get_positional_arg(context["node"], 0)
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'TLS_METHOD' to auto-negotiate the "
                         "highest protocol version that both the client and "
                         "server support.",
