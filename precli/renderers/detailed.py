@@ -71,15 +71,15 @@ class Detailed(Renderer):
                 start_column = fix.deleted_location.start_column
                 end_column = fix.deleted_location.end_column
                 line_before = linecache.getline(
-                    filename=fix.deleted_location.file_name,
+                    filename=result.location.file_name,
                     lineno=start_line - 1,
                 )
                 code = linecache.getline(
-                    filename=fix.deleted_location.file_name,
+                    filename=result.location.file_name,
                     lineno=start_line,
                 )
                 line_after = linecache.getline(
-                    filename=fix.deleted_location.file_name,
+                    filename=result.location.file_name,
                     lineno=start_line + 1,
                 )
                 code = (

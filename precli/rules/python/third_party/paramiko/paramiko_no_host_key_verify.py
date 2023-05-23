@@ -34,9 +34,10 @@ class ParamikoNoHostKeyVerify(Rule):
                     context, 0, ["paramiko.client.AutoAddPolicy"]
                 )
             ) is not None:
+                node = Rule.get_func_ident(node)
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node),
+                    deleted_location=Location(node=node),
                     description="Use 'RejectPolicy' as the 'policy' argument"
                     " to safely reject unknown host keys.",
                     inserted_content="RejectPolicy",
@@ -53,9 +54,10 @@ class ParamikoNoHostKeyVerify(Rule):
                     context, "policy", ["paramiko.client.AutoAddPolicy"]
                 )
             ) is not None:
+                node = Rule.get_func_ident(node)
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node),
+                    deleted_location=Location(node=node),
                     description="Use 'RejectPolicy' as the 'policy' argument"
                     " to safely reject unknown host keys.",
                     inserted_content="RejectPolicy",
@@ -72,9 +74,10 @@ class ParamikoNoHostKeyVerify(Rule):
                     context, 0, ["paramiko.client.WarningPolicy"]
                 )
             ) is not None:
+                node = Rule.get_func_ident(node)
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node),
+                    deleted_location=Location(node=node),
                     description="Use 'RejectPolicy' as the 'policy' argument"
                     " to safely reject unknown host keys.",
                     inserted_content="RejectPolicy",
@@ -91,9 +94,10 @@ class ParamikoNoHostKeyVerify(Rule):
                     context, "policy", ["paramiko.client.WarningPolicy"]
                 )
             ) is not None:
+                node = Rule.get_func_ident(node)
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node),
+                    deleted_location=Location(node=node),
                     description="Use 'RejectPolicy' as the 'policy' argument"
                     " to safely reject unknown host keys.",
                     inserted_content="RejectPolicy",

@@ -32,9 +32,10 @@ class InsecureTlsVersion(Rule):
             if len(args) > 1:
                 if isinstance(args[1], str) and args[1] in INSECURE_VERSIONS:
                     node = Rule.get_positional_arg(context["node"], 1)
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS_CLIENT' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
@@ -50,9 +51,10 @@ class InsecureTlsVersion(Rule):
             elif version is not None:
                 if isinstance(version, str) and version in INSECURE_VERSIONS:
                     node = Rule.get_keyword_arg(context["node"], "ssl_version")
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS_CLIENT' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
@@ -77,9 +79,10 @@ class InsecureTlsVersion(Rule):
             if len(args) > 5:
                 if isinstance(args[5], str) and args[5] in INSECURE_VERSIONS:
                     node = Rule.get_positional_arg(context["node"], 5)
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
@@ -95,9 +98,10 @@ class InsecureTlsVersion(Rule):
             elif version is not None:
                 if isinstance(version, str) and version in INSECURE_VERSIONS:
                     node = Rule.get_keyword_arg(context["node"], "ssl_version")
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
@@ -117,9 +121,10 @@ class InsecureTlsVersion(Rule):
             if args:
                 if isinstance(args[0], str) and args[0] in INSECURE_VERSIONS:
                     node = Rule.get_positional_arg(context["node"], 0)
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
@@ -135,9 +140,10 @@ class InsecureTlsVersion(Rule):
             elif protocol is not None:
                 if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
                     node = Rule.get_keyword_arg(context["node"], "protocol")
+                    node = Rule.get_func_ident(node)
                     fixes = Rule.get_fixes(
                         context=context,
-                        deleted_location=Location(node),
+                        deleted_location=Location(node=node),
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
