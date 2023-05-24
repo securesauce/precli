@@ -46,7 +46,9 @@ class YamlLoad(Rule):
                     return Result(
                         rule_id=self.id,
                         location=Location(context["file_name"], node),
-                        message=self.message.format(kwargs["func_call_qual"]),
+                        message=self.message.format(
+                            kwargs.get("func_call_qual")
+                        ),
                         fixes=fixes,
                     )
             elif loader is not None:
@@ -66,7 +68,9 @@ class YamlLoad(Rule):
                     return Result(
                         rule_id=self.id,
                         location=Location(context["file_name"], node),
-                        message=self.message.format(context["func_call_qual"]),
+                        message=self.message.format(
+                            kwargs.get("func_call_qual")
+                        ),
                         fixes=fixes,
                     )
             else:
@@ -81,6 +85,6 @@ class YamlLoad(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(context["file_name"], node),
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format(kwargs.get("func_call_qual")),
                     fixes=fixes,
                 )

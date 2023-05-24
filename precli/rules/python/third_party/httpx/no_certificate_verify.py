@@ -62,6 +62,6 @@ class NoCertificateVerify(Rule):
                     rule_id=self.id,
                     location=Location(context["file_name"], node),
                     level=Level.ERROR,
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format(kwargs.get("func_call_qual")),
                     fixes=fixes,
                 )

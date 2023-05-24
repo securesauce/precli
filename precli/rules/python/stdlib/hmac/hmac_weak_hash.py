@@ -28,9 +28,13 @@ class HmacWeakHash(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["hmac.new"]):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            name = args[2] if len(args) > 2 else kwargs.get("digestmod", None)
+            call_args = kwargs["func_call_args"]
+            call_kwargs = kwargs["func_call_kwargs"]
+            name = (
+                call_args[2]
+                if len(call_args) > 2
+                else call_kwargs.get("digestmod", None)
+            )
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
                 return Result(
@@ -42,9 +46,13 @@ class HmacWeakHash(Rule):
                     message=self.message.format(name),
                 )
         elif Rule.match_calls(context, ["hmac.digest"]):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            name = args[2] if len(args) > 2 else kwargs.get("digest", None)
+            call_args = kwargs["func_call_args"]
+            call_kwargs = kwargs["func_call_kwargs"]
+            name = (
+                call_args[2]
+                if len(call_args) > 2
+                else call_kwargs.get("digest", None)
+            )
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
                 return Result(
