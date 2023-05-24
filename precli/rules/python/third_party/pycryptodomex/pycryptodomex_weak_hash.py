@@ -56,5 +56,5 @@ class PycryptodomexWeakHash(Rule):
                     context["file_name"], kwargs.get("func_node")
                 ),
                 level=Level.ERROR,
-                message=self.message.format(context["func_call_qual"]),
+                message=self.message.format(kwargs.get("func_call_qual")),
             )

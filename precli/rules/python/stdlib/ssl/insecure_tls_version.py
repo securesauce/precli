@@ -34,8 +34,8 @@ class InsecureTlsVersion(Rule):
                 timeout=<object object at 0x1007186e0>
             )
             """
-            args = context["func_call_args"]
-            version = context["func_call_kwargs"].get("ssl_version")
+            args = kwargs["func_call_args"]
+            version = kwargs["func_call_kwargs"].get("ssl_version")
 
             if len(args) > 1:
                 if isinstance(args[1], str) and args[1] in INSECURE_VERSIONS:
@@ -90,12 +90,12 @@ class InsecureTlsVersion(Rule):
                 ciphers=None
             )
             """
-            args = context["func_call_args"]
-            version = context["func_call_kwargs"].get("ssl_version")
+            args = kwargs["func_call_args"]
+            version = kwargs["func_call_kwargs"].get("ssl_version")
             server_side = (
                 args[3]
                 if len(args) > 3
-                else context["func_call_kwargs"].get("server_side", False)
+                else kwargs["func_call_kwargs"].get("server_side", False)
             )
             content = (
                 "PROTOCOL_TLS_SERVER" if server_side else "PROTOCOL_TLS_CLIENT"
@@ -147,8 +147,8 @@ class InsecureTlsVersion(Rule):
                 **kwargs
             )
             """
-            args = context["func_call_args"]
-            protocol = context["func_call_kwargs"].get("protocol")
+            args = kwargs["func_call_args"]
+            protocol = kwargs["func_call_kwargs"].get("protocol")
 
             if args:
                 if isinstance(args[0], str) and args[0] in INSECURE_VERSIONS:

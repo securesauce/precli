@@ -38,5 +38,5 @@ class JsonpickleDecode(Rule):
                 location=Location(
                     context["file_name"], kwargs.get("func_node")
                 ),
-                message=self.message.format(context["func_call_qual"]),
+                message=self.message.format(kwargs.get("func_call_qual")),
             )
