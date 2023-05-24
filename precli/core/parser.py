@@ -73,9 +73,7 @@ class Parser(ABC):
             visitor_fn = getattr(self, f"visit_{node.type}", self.visit)
             visitor_fn(node.children)
 
-    def process_rules(
-        self, target: str, *args: list, **kwargs: dict
-    ) -> list[Result]:
+    def process_rules(self, target: str, **kwargs: dict) -> list[Result]:
         """
         Process the rules based on target.
 
@@ -89,6 +87,6 @@ class Parser(ABC):
         """
         for rule in self.rules.values():
             if target in rule.targets:
-                result = rule.analyze(self.context, *args, **kwargs)
+                result = rule.analyze(self.context, **kwargs)
                 if result:
                     self.results.append(result)

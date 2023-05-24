@@ -293,7 +293,7 @@ class Rule(ABC):
         # only make suggested fix as part of the description.
 
     @abstractmethod
-    def analyze(self, context: dict, *args: list, **kwargs: dict):
+    def analyze(self, context: dict, **kwargs: dict):
         """Analyze the code and return a result.
 
         :param dict context: current context of the parse

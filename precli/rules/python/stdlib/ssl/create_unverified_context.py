@@ -16,7 +16,7 @@ class CreateUnverifiedContext(Rule):
             targets=("call"),
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         """
         _create_unverified_context(
             protocol=None,

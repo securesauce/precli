@@ -40,7 +40,7 @@ class InsecureTlsMethod(Rule):
             },
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["OpenSSL.SSL.Context"]):
             args = context["func_call_args"]
             method = context["func_call_kwargs"].get("method")

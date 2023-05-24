@@ -21,7 +21,7 @@ class InsecureListenConfig(Rule):
             },
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["logging.config.listen"]):
             call_args = context["func_call_args"]
             call_kwargs = context["func_call_kwargs"]
