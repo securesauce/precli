@@ -28,7 +28,7 @@ class FtpCleartext(Rule):
             },
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         """
         FTP(
             host='',
@@ -73,7 +73,7 @@ class FtpCleartext(Rule):
                 inserted_content="FTP_TLS",
             )
 
-            # Default of context=None creates unsecure
+            # Default of FTP_TLS context=None creates unsecure
             # _create_unverified_context. Therefore need to suggest
             # create_default_context as part of fix.
 
@@ -109,15 +109,11 @@ class FtpCleartext(Rule):
                 else call_kwargs.get("passwd", None)
             )
 
-            # TODO(ericwb): without a call to get_fixes, the context["node"]
-            # is not the function, but the whole call.
-
+            node = Rule.get_func_ident(kwargs.get("func_node"))
             if passwd is not None:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        context["file_name"], kwargs.get("func_node")
-                    ),
+                    location=Location(context["file_name"], node),
                     level=Level.ERROR,
                     message=f"The '{context['func_call_qual']}' function will "
                     f"transmit the password argument in cleartext.",

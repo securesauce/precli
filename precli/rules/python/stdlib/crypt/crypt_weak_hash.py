@@ -29,7 +29,7 @@ class CryptWeakHash(Rule):
             },
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["crypt.crypt"]):
             args = context["func_call_args"]
             kwargs = context["func_call_kwargs"]

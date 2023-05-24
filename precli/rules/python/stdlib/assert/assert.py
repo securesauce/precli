@@ -15,7 +15,7 @@ class Assert(Rule):
             targets=("assert"),
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if context["node"].type == "assert":
             return Result(
                 rule_id=self.id,

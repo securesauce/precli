@@ -24,7 +24,7 @@ class JsonpickleDecode(Rule):
             },
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(
             context,
             [

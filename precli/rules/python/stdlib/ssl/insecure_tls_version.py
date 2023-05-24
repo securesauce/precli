@@ -24,7 +24,7 @@ class InsecureTlsVersion(Rule):
             targets=("call"),
         )
 
-    def analyze(self, context: dict, *args: list, **kwargs: dict) -> Result:
+    def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["ssl.get_server_certificate"]):
             args = context["func_call_args"]
             version = context["func_call_kwargs"].get("ssl_version")
