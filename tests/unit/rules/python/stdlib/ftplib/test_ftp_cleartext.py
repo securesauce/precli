@@ -82,6 +82,20 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_ftplib_ftp_context_mgr(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ftplib_ftp_context_mgr.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(5, result.location.start_column)
+        self.assertEqual(15, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_ftplib_ftp_login(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "ftplib_ftp_login.py")

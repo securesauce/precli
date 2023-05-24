@@ -26,6 +26,14 @@ class InsecureTlsVersion(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         if Rule.match_calls(context, ["ssl.get_server_certificate"]):
+            """
+            get_server_certificate(
+                addr,
+                ssl_version=<_SSLMethod.PROTOCOL_TLS_CLIENT: 16>,
+                ca_certs=None,
+                timeout=<object object at 0x1007186e0>
+            )
+            """
             args = context["func_call_args"]
             version = context["func_call_kwargs"].get("ssl_version")
 
@@ -68,13 +76,30 @@ class InsecureTlsVersion(Rule):
                         fixes=fixes,
                     )
         if Rule.match_calls(context, ["ssl.wrap_socket"]):
+            """
+            wrap_socket(
+                sock,
+                keyfile=None,
+                certfile=None,
+                server_side=False,
+                cert_reqs=<VerifyMode.CERT_NONE: 0>,
+                ssl_version=<_SSLMethod.PROTOCOL_TLS: 2>,
+                ca_certs=None,
+                do_handshake_on_connect=True,
+                suppress_ragged_eofs=True,
+                ciphers=None
+            )
+            """
             args = context["func_call_args"]
             version = context["func_call_kwargs"].get("ssl_version")
-
-            # TODO(ericwb): It's better to recommend PROTOCOL_TLS_CLIENT or
-            # PROTOCOL_TLS_SERVER, as PROTOCOL_TLS is deprecated but in order
-            # to know whether this is a client or server socket, the
-            # server_side argument needs to be checked.
+            server_side = (
+                args[3]
+                if len(args) > 3
+                else context["func_call_kwargs"].get("server_side", False)
+            )
+            content = (
+                "PROTOCOL_TLS_SERVER" if server_side else "PROTOCOL_TLS_CLIENT"
+            )
 
             if len(args) > 5:
                 if isinstance(args[5], str) and args[5] in INSECURE_VERSIONS:
@@ -86,7 +111,7 @@ class InsecureTlsVersion(Rule):
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS",
+                        inserted_content=content,
                     )
                     return Result(
                         rule_id=self.id,
@@ -105,7 +130,7 @@ class InsecureTlsVersion(Rule):
                         description="Use 'PROTOCOL_TLS' to "
                         "auto-negotiate the highest protocol version that "
                         "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS",
+                        inserted_content=content,
                     )
                     return Result(
                         rule_id=self.id,
@@ -115,6 +140,13 @@ class InsecureTlsVersion(Rule):
                         fixes=fixes,
                     )
         if Rule.match_calls(context, ["ssl.SSLContext"]):
+            """
+            SSLContext(
+                protocol=None,
+                *args,
+                **kwargs
+            )
+            """
             args = context["func_call_args"]
             protocol = context["func_call_kwargs"].get("protocol")
 

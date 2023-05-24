@@ -29,33 +29,33 @@ class FtpCleartext(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        """
-        FTP(
-            host='',
-            user='',
-            passwd='',
-            acct='',
-            timeout=<object object at 0x104730630>,
-            source_address=None,
-            *,
-            encoding='utf-8'
-        )
-
-        FTP_TLS(
-            host='',
-            user='',
-            passwd='',
-            acct='',
-            keyfile=None,
-            certfile=None,
-            context=None,
-            timeout=<object object at 0x104730630>,
-            source_address=None,
-            *,
-            encoding='utf-8'
-        )
-        """
         if Rule.match_calls(context, ["ftplib.FTP"]):
+            """
+            FTP(
+                host='',
+                user='',
+                passwd='',
+                acct='',
+                timeout=<object object at 0x104730630>,
+                source_address=None,
+                *,
+                encoding='utf-8'
+            )
+
+            FTP_TLS(
+                host='',
+                user='',
+                passwd='',
+                acct='',
+                keyfile=None,
+                certfile=None,
+                context=None,
+                timeout=<object object at 0x104730630>,
+                source_address=None,
+                *,
+                encoding='utf-8'
+            )
+            """
             call_args = kwargs["func_call_args"]
             call_kwargs = kwargs["func_call_kwargs"]
             passwd = (
@@ -73,7 +73,7 @@ class FtpCleartext(Rule):
                 inserted_content="FTP_TLS",
             )
 
-            # Default of FTP_TLS context=None creates unsecure
+            # TODO(ericwb): Default of FTP_TLS context=None creates unsecure
             # _create_unverified_context. Therefore need to suggest
             # create_default_context as part of fix.
 
@@ -101,6 +101,9 @@ class FtpCleartext(Rule):
                     fixes=fixes,
                 )
         if Rule.match_calls(context, ["ftplib.FTP.login"]):
+            """
+            login(self, user='', passwd='', acct='')
+            """
             call_args = kwargs["func_call_args"]
             call_kwargs = kwargs["func_call_kwargs"]
             passwd = (
