@@ -48,12 +48,20 @@ class NoCertificateVerify(Rule):
                 "httpx.stream",
             ],
         ):
-            if Rule.match_call_kwarg(context, "verify", [False]):
+            if (
+                node := Rule.match_call_kwarg(context, "verify", [False])
+            ) is not None:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=node),
+                    description="Set the 'verify' argument to 'True' to ensure"
+                    " the server's certificate is verified.",
+                    inserted_content="True",
+                )
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        context["file_name"], kwargs.get("func_node")
-                    ),
+                    location=Location(context["file_name"], node),
                     level=Level.ERROR,
                     message=self.message.format(context["func_call_qual"]),
+                    fixes=fixes,
                 )

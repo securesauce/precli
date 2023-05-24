@@ -269,6 +269,7 @@ class Rule(ABC):
 
     @staticmethod
     def get_func_ident(node: Node):
+        # TODO(ericwb): does this function fail with nested calls?
         if node.type == "attribute":
             return Rule.get_func_ident(node.named_children[1])
         if node.type == "identifier":
