@@ -21,8 +21,8 @@ class FtpCleartextTests(test_case.TestCase):
         )
 
     def test_ftp_cleartext_rule_meta(self):
-        rule = Rule.get_by_id("PRE003")
-        self.assertEqual("PRE003", rule.id)
+        rule = Rule.get_by_id("PRE0003")
+        self.assertEqual("PRE0003", rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -34,7 +34,7 @@ class FtpCleartextTests(test_case.TestCase):
         results = self.parser.parse(os.path.join(self.base_path, "ftp.py"))
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
@@ -48,7 +48,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(2, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
@@ -56,7 +56,7 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
         result = results[1]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(4, result.location.start_column)
@@ -74,7 +74,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
@@ -88,7 +88,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
@@ -102,7 +102,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(2, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
@@ -110,7 +110,7 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
         result = results[1]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(4, result.location.start_column)
@@ -126,7 +126,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(2, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(32, result.location.start_column)
@@ -134,7 +134,7 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
         result = results[1]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -154,7 +154,7 @@ class FtpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE003", result.rule_id)
+        self.assertEqual("PRE0003", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
