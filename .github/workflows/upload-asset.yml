@@ -27,5 +27,5 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-          build/*.whl
-          build/*.tar.gz
+          dist/*.whl
+          dist/*.tar.gz
