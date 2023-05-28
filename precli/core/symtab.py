@@ -3,9 +3,13 @@ from typing import Self
 
 
 class SymbolTable:
-    def __init__(self, parent=None):
-        self._symbols = {}
+    def __init__(self, name, parent=None):
+        self._name = name
         self._parent = parent
+        self._symbols = {}
+
+    def name(self) -> str:
+        return self._name
 
     def parent(self) -> Self:
         return self._parent
@@ -48,4 +52,4 @@ class Symbol:
         return self._value
 
     def __repr__(self) -> str:
-        return f"Symbol (type: {self._type} value: {self._value})"
+        return f"Symbol (type: {self._type}, value: {self._value})"

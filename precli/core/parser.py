@@ -87,6 +87,8 @@ class Parser(ABC):
         """
         for rule in self.rules.values():
             if target in rule.targets:
+                context = self.context
+                context["symtab"] = self.current_symtab
                 result = rule.analyze(self.context, **kwargs)
                 if result:
                     self.results.append(result)
