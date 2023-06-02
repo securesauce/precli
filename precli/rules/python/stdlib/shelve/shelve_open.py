@@ -1,4 +1,48 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+======================================================
+Deserialization of Untrusted Data in the Shelve Module
+======================================================
+
+The Python shelve module provides a way to store Python objects in a file.
+It is backed by the pickle module, which is a serialization format that can
+be used to store arbitrary Python objects.
+
+However, it is important to be aware that the shelve module is not secure
+against malicious data. For example, a malicious shelf could be used to
+cause the decoder to execute arbitrary code.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import shelve
+
+
+    with shelve.open('spam') as db:
+        db['eggs'] = 'eggs'
+
+-----------
+Remediation
+-----------
+
+To avoid this vulnerability, it is important to only use the shelve module
+with data from trusted sources. If you are using the shelve module with
+data from an untrusted source, you should first sanitize the data to remove
+any potential malicious code.
+
+.. seealso::
+
+ - `shelve — Python object persistence <https://docs.python.org/3/library/shelve.html>`_
+ - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
