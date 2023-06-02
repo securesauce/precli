@@ -1,4 +1,87 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+=========================================
+Reversible One Way Hash in Hashlib Module
+=========================================
+
+The Python module hashlib provides a number of functions for hashing data.
+However, some of the hash algorithms supported by hashlib are insecure and
+should not be used. These insecure hash algorithms include ``MD4``, ``MD5``,
+``RIPEMD-160`` and ``SHA-1``.
+
+The MD4 hash algorithm is a cryptographic hash function that was designed
+in the late 1980s. MD4 is no longer considered secure, and passwords hashed
+with MD4 can be easily cracked by attackers.
+
+The MD5 hash algorithm is a cryptographic hash function that was designed in
+the early 1990s. MD5 is no longer considered secure, and passwords hashed
+with MD5 can be easily cracked by attackers.
+
+RIPEMD-160 is a cryptographic hash function that was designed in 1996. It is
+considered to be a secure hash function, but it is not as secure as SHA-256,
+SHA-384, or SHA-512. In 2017, a collision attack was found for RIPEMD-160.
+This means that it is possible to find two different messages that have the
+same RIPEMD-160 hash. While this does not mean that RIPEMD-160 is completely
+insecure, it does mean that it is not as secure as it once was.
+
+The SHA-1 hash algorithm is also a cryptographic hash function that was
+designed in the early 1990s. SHA-1 is no longer considered secure, and
+passwords hashed with SHA-1 can be easily cracked by attackers.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import hashlib
+
+
+    hash = hashlib.md5(b"Nobody inspects the spammish repetition")
+    hash.hexdigest()
+
+-----------
+Remediation
+-----------
+
+The recommendation is to swap the insecure hashing method to one of the more
+secure alternatives, ``SHA256`` or ``SHA512``.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import hashlib
+
+
+    hash = hashlib.sha256(b"Nobody inspects the spammish repetition")
+    hash.hexdigest()
+
+If an insecure hash such as MD5 must be used and not in within a security
+context, then set the keyword-only argument ``usedforsecurity`` in the hashes
+constructor.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import hashlib
+
+
+    hash = hashlib.md5(b"Non-security related text", usedforsecurity=False)
+    hash.hexdigest()
+
+.. seealso::
+
+ - `hashlib — Secure hashes and message digests <https://docs.python.org/3/library/hashlib.html>`_
+ - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
+ - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result

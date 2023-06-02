@@ -1,4 +1,77 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+=======================================================
+Inadequate Encryption Strength Using Weak SSL Protocols
+=======================================================
+
+The Python ssl modules provide a number of different protocols that can be
+used to encrypt data. However, some of these protocols are no longer
+considered secure and should not be used.
+
+The following protocols are considered weak and should not be used:
+
+- ``ssl.PROTOCOL_SSLv2``
+- ``ssl.PROTOCOL_SSLv3``
+- ``ssl.PROTOCOL_TLSv1``
+- ``ssl.PROTOCOL_TLSv1_1``
+
+These protocols have a number of known security vulnerabilities that can be
+exploited by attackers. For example, the BEAST attack can be used to steal
+sensitive data, such as passwords and credit card numbers, from applications
+that use SSL version 2.
+
+Here are some additional reasons why you should not use the weak Python ssl
+protocols:
+
+- They are not secure. As mentioned above, the weak protocols have a number of
+  known security vulnerabilities that can be exploited by attackers.
+- They are not recommended by security experts. Security experts recommend
+  using the ``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol
+  instead.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 5
+
+    import ssl
+
+
+    ssl.get_server_certificate(
+        ("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2
+    )
+
+-----------
+Remediation
+-----------
+
+If you need to connect to a server over HTTPS, you should use the
+``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol instead.
+These protocols are more secure than the weak protocols and will help to
+protect your application from these security risks.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 5
+
+    import ssl
+
+
+    ssl.get_server_certificate(
+        ("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2
+    )
+
+.. seealso::
+
+ - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
+ - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
