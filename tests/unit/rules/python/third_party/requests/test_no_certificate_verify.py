@@ -4,12 +4,14 @@ import textwrap
 
 from precli.core.level import Level
 from precli.core.rule import Rule
+from precli.parsers import python
 from tests.unit.rules.python import test_case
 
 
 class NoCertificateVerifyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
+        self.parser = python.Python(enabled=["PRE0025"])
         self.base_path = os.path.join(
             "tests",
             "unit",

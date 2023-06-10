@@ -64,6 +64,22 @@ def setup_arg_parser():
         help="find and process files in subdirectories",
     )
     parser.add_argument(
+        "--enable",
+        dest="enable",
+        action="store",
+        default=None,
+        type=str,
+        help="comma-separated list of rule IDs or names to enable",
+    )
+    parser.add_argument(
+        "--disable",
+        dest="disable",
+        action="store",
+        default=None,
+        type=str,
+        help="comma-separated list of rule IDs or names to disable",
+    )
+    parser.add_argument(
         "--json",
         dest="json",
         action="store_true",
@@ -195,9 +211,12 @@ def main():
     # Setup the command line arguments
     args = setup_arg_parser()
 
+    enabled = args.enable.split(",") if args.enable else []
+    disabled = args.disable.split(",") if args.disable else []
+
     discovered_plugins = entry_points(group="precli.parsers")
     for plugin in discovered_plugins:
-        parser = plugin.load()()
+        parser = plugin.load()(enabled, disabled)
         parsers[parser.file_extension()] = parser
 
     # Compile a list of the targets
