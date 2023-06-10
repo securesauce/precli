@@ -3,12 +3,14 @@ import textwrap
 
 from precli.core.level import Level
 from precli.core.rule import Rule
+from precli.parsers import python
 from tests.unit.rules.python import test_case
 
 
 class JsonPickleDecodeTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
+        self.parser = python.Python(enabled=["PRE0017"])
 
     def test_jsonpickle_decode_rule_meta(self):
         rule = Rule.get_by_id("PRE0017")

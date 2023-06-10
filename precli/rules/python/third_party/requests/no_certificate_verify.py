@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -27,6 +28,7 @@ class NoCertificateVerify(Rule):
                     "Session",
                 ]
             },
+            config=Config(enabled=False),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:

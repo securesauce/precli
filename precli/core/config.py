@@ -23,6 +23,15 @@ class Config:
         """
         return self._enabled
 
+    @enabled.setter
+    def enabled(self, enabled):
+        """
+        Set whether the rule is enabled
+
+        :param bool enabled: True to enable
+        """
+        self._enabled = enabled
+
     @property
     def level(self) -> Level:
         """

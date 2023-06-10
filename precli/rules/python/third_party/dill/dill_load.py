@@ -1,4 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
+from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.rule import Rule
@@ -21,6 +22,7 @@ class DillLoad(Rule):
                     "Unpickler",
                 ]
             },
+            config=Config(enabled=False),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:

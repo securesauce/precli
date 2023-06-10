@@ -13,8 +13,8 @@ Import = namedtuple("Import", "module alias")
 
 
 class Python(Parser):
-    def __init__(self):
-        super().__init__("python")
+    def __init__(self, enabled: list = None, disabled: list = None):
+        super().__init__("python", enabled, disabled)
 
     def file_extension(self) -> str:
         return ".py"

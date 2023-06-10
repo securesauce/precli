@@ -35,8 +35,7 @@ class Rule(ABC):
         self._message = message
         self._targets = targets
         self._wildcards = wildcards
-        if not config:
-            self._config = Config()
+        self._config = Config() if not config else config
         if not help_url:
             # TDOO: generate URL based on rule
             self._help_url = ""
@@ -47,9 +46,7 @@ class Rule(ABC):
         """
         The ID of the rule.
 
-        The IDs match a of PREXXX where XXX is a unique number. 001-299
-        correspond to stdlib rules, whereas 300-999 corresponds to third-party
-        rules.
+        The IDs match a of PREXXXX where XXXX is a unique number.
 
         :return: rule ID
         :rtype: str

@@ -19,7 +19,14 @@ class Parser(ABC):
     Each parser is designed to operate on a specific programming language.
     """
 
-    def __init__(self, lang: str):
+    def __init__(self, lang: str, enabled: list = None, disabled: list = None):
+        """
+        Initialize a new parser.
+
+        :param str lang: programming language name
+        :param list enabled: list of rules to enable
+        :param list disabled: list of rules to disable
+        """
         self.language = tree_sitter_languages.get_language(lang)
         self.parser = tree_sitter_languages.get_parser(lang)
         self.rules = {}
@@ -28,6 +35,21 @@ class Parser(ABC):
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
+
+            if enabled is not None and (
+                enabled == ["all"]
+                or self.rules[rule.name].id in enabled
+                or self.rules[rule.name].name in enabled
+            ):
+                self.rules[rule.name].default_config.enabled = True
+
+            if disabled is not None and (
+                disabled == ["all"]
+                or self.rules[rule.name].id in disabled
+                or self.rules[rule.name].name in disabled
+            ):
+                self.rules[rule.name].default_config.enabled = False
+
             if self.rules[rule.name].wildcards:
                 self.wildcards |= self.rules[rule.name].wildcards
 
@@ -86,7 +108,7 @@ class Parser(ABC):
         :rtype: list
         """
         for rule in self.rules.values():
-            if target in rule.targets:
+            if rule.default_config.enabled and target in rule.targets:
                 context = self.context
                 context["symtab"] = self.current_symtab
                 result = rule.analyze(self.context, **kwargs)
