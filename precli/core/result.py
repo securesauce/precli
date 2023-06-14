@@ -1,5 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
 from precli.core.fix import Fix
+from precli.core.kind import Kind
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.rule import Rule
@@ -10,6 +11,7 @@ class Result:
         self,
         rule_id: str,
         location: Location,
+        kind: Kind = Kind.FAIL,
         level: Level = None,
         message: str = None,
         fixes: list[Fix] = None,
@@ -18,6 +20,7 @@ class Result:
         self._location = location
         default_config = Rule.get_by_id(self._rule_id).default_config
         self._rank = default_config.rank
+        self._kind = kind
         if level:
             self._level = level
         else:
@@ -33,9 +36,7 @@ class Result:
         """
         The ID of the rule.
 
-        The IDs match a of PREXXX where XXX is a unique number. 001-299
-        correspond to stdlib rules, whereas 300-999 corresponds to third-party
-        rules.
+        The IDs match PREXXXX where XXXX is a unique number.
 
         :return: rule ID
         :rtype: str
@@ -54,6 +55,19 @@ class Result:
         :rtype: Location
         """
         return self._location
+
+    @property
+    def kind(self) -> Kind:
+        """
+        The nature of the result.
+
+        Typically having a value of pass or fail to indicate the nature of
+        the result.
+
+        :return: kind or nature of result
+        :rtype: Kind
+        """
+        return self._kind
 
     @property
     def level(self) -> Level:
