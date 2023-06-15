@@ -4,6 +4,7 @@ from precli.core.kind import Kind
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.rule import Rule
+from precli.core.suppression import Suppression
 
 
 class Result:
@@ -15,6 +16,7 @@ class Result:
         location: Location = None,
         message: str = None,
         fixes: list[Fix] = None,
+        suppressions: list[Suppression] = None,
     ):
         self._rule_id = rule_id
         self._kind = kind
@@ -30,6 +32,7 @@ class Result:
         else:
             self._message = Rule.get_by_id(self._rule_id).message
         self._fixes = fixes if fixes is not None else []
+        self._suppressions = suppressions if suppressions is not None else []
 
     @property
     def rule_id(self) -> str:
@@ -111,3 +114,13 @@ class Result:
         :rtype: list
         """
         return self._fixes
+
+    @property
+    def suppressions(self) -> list[Suppression]:
+        """
+        Possible suppressions of the result.
+
+        :return: list of suppressions
+        :rtype: list
+        """
+        return self._suppressions
