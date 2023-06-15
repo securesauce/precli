@@ -10,21 +10,21 @@ class Result:
     def __init__(
         self,
         rule_id: str,
-        location: Location,
         kind: Kind = Kind.FAIL,
         level: Level = None,
+        location: Location = None,
         message: str = None,
         fixes: list[Fix] = None,
     ):
         self._rule_id = rule_id
-        self._location = location
+        self._kind = kind
         default_config = Rule.get_by_id(self._rule_id).default_config
         self._rank = default_config.rank
-        self._kind = kind
         if level:
             self._level = level
         else:
             self._level = default_config.level
+        self._location = location
         if message:
             self._message = message
         else:
