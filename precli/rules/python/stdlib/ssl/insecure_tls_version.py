@@ -72,6 +72,7 @@ protect your application from these security risks.
 .. versionadded:: 1.0.0
 
 """  # noqa: E501
+from precli.core.argument import Argument
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -98,7 +99,9 @@ class InsecureTlsVersion(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["ssl.get_server_certificate"]):
+        call = kwargs.get("call")
+
+        if call.name_qualified in ["ssl.get_server_certificate"]:
             """
             get_server_certificate(
                 addr,
@@ -107,48 +110,29 @@ class InsecureTlsVersion(Rule):
                 timeout=<object object at 0x1007186e0>
             )
             """
-            args = kwargs["func_call_args"]
-            version = kwargs["func_call_kwargs"].get("ssl_version")
+            argument = call.get_argument(position=1, name="ssl_version")
+            version = argument.value
 
-            if len(args) > 1:
-                if isinstance(args[1], str) and args[1] in INSECURE_VERSIONS:
-                    node = Rule.get_positional_arg(context["node"], 1)
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS_CLIENT' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS_CLIENT",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(version),
-                        fixes=fixes,
-                    )
-            elif version is not None:
-                if isinstance(version, str) and version in INSECURE_VERSIONS:
-                    node = Rule.get_keyword_arg(context["node"], "ssl_version")
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS_CLIENT' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS_CLIENT",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(version),
-                        fixes=fixes,
-                    )
-        if Rule.match_calls(context, ["ssl.wrap_socket"]):
+            if isinstance(version, str) and version in INSECURE_VERSIONS:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.identifier_node),
+                    description="Use 'PROTOCOL_TLS_CLIENT' to "
+                    "auto-negotiate the highest protocol version that "
+                    "both the client and server support.",
+                    inserted_content="PROTOCOL_TLS_CLIENT",
+                )
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
+                    level=Level.ERROR,
+                    message=self.message.format(version),
+                    fixes=fixes,
+                )
+        if call.name_qualified in ["ssl.wrap_socket"]:
             """
             wrap_socket(
                 sock,
@@ -163,56 +147,35 @@ class InsecureTlsVersion(Rule):
                 ciphers=None
             )
             """
-            args = kwargs["func_call_args"]
-            version = kwargs["func_call_kwargs"].get("ssl_version")
-            server_side = (
-                args[3]
-                if len(args) > 3
-                else kwargs["func_call_kwargs"].get("server_side", False)
-            )
+            argument = call.get_argument(position=1, name="ssl_version")
+            version = argument.value
+            server_side = call.get_argument(
+                position=3, name="server_side", default=Argument(None, False)
+            ).value
             content = (
                 "PROTOCOL_TLS_SERVER" if server_side else "PROTOCOL_TLS_CLIENT"
             )
 
-            if len(args) > 5:
-                if isinstance(args[5], str) and args[5] in INSECURE_VERSIONS:
-                    node = Rule.get_positional_arg(context["node"], 5)
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content=content,
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(version),
-                        fixes=fixes,
-                    )
-            elif version is not None:
-                if isinstance(version, str) and version in INSECURE_VERSIONS:
-                    node = Rule.get_keyword_arg(context["node"], "ssl_version")
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content=content,
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(version),
-                        fixes=fixes,
-                    )
-        if Rule.match_calls(context, ["ssl.SSLContext"]):
+            if isinstance(version, str) and version in INSECURE_VERSIONS:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.identifier_node),
+                    description="Use 'PROTOCOL_TLS' to "
+                    "auto-negotiate the highest protocol version that "
+                    "both the client and server support.",
+                    inserted_content=content,
+                )
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
+                    level=Level.ERROR,
+                    message=self.message.format(version),
+                    fixes=fixes,
+                )
+        if call.name_qualified in ["ssl.SSLContext"]:
             """
             SSLContext(
                 protocol=None,
@@ -220,44 +183,25 @@ class InsecureTlsVersion(Rule):
                 **kwargs
             )
             """
-            args = kwargs["func_call_args"]
-            protocol = kwargs["func_call_kwargs"].get("protocol")
+            argument = call.get_argument(position=0, name="protocol")
+            protocol = argument.value
 
-            if args:
-                if isinstance(args[0], str) and args[0] in INSECURE_VERSIONS:
-                    node = Rule.get_positional_arg(context["node"], 0)
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(protocol),
-                        fixes=fixes,
-                    )
-            elif protocol is not None:
-                if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
-                    node = Rule.get_keyword_arg(context["node"], "protocol")
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support.",
-                        inserted_content="PROTOCOL_TLS",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(protocol),
-                        fixes=fixes,
-                    )
+            if isinstance(protocol, str) and protocol in INSECURE_VERSIONS:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.identifier_node),
+                    description="Use 'PROTOCOL_TLS' to "
+                    "auto-negotiate the highest protocol version that "
+                    "both the client and server support.",
+                    inserted_content="PROTOCOL_TLS",
+                )
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
+                    level=Level.ERROR,
+                    message=self.message.format(protocol),
+                    fixes=fixes,
+                )

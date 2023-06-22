@@ -75,9 +75,9 @@ Alternatives to Crypt
 There are a number of alternatives to weak hashing functions. These
 alternatives include ``bcrypt``, ``pbkdf2``, and ``scrypt``.
 
- - ``bcrypt`` is a secure password hashing function that is based on the Blowfish
-   block cipher. Bcrypt is considered to be one of the most secure password
-   hashing functions available.
+ - ``bcrypt`` is a secure password hashing function that is based on the
+   Blowfish block cipher. Bcrypt is considered to be one of the most secure
+   password hashing functions available.
 
  - ``PBKDF2`` is a secure password hashing function that is based on the HMAC
    cryptographic function. PBKDF2 is considered to be one of the most secure
@@ -126,27 +126,29 @@ class CryptWeakHash(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["crypt.crypt"]):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            name = args[1] if len(args) > 1 else kwargs.get("salt", None)
+        call = kwargs.get("call")
+
+        if call.name_qualified in ["crypt.crypt"]:
+            name = call.get_argument(position=1, name="salt").value
+
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     message=self.message.format(name),
                 )
-        elif Rule.match_calls(context, ["crypt.mksalt"]):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            name = args[0] if args else kwargs.get("method", None)
+        elif call.name_qualified in ["crypt.mksalt"]:
+            name = call.get_argument(position=0, name="method").value
+
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     message=self.message.format(name),
                 )

@@ -36,21 +36,21 @@ class PycryptoWeakHash(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "Crypto.Hash.MD2.new",
-                "Crypto.Hash.MD4.new",
-                "Crypto.Hash.MD5.new",
-                "Crypto.Hash.RIPEMD.new",
-                "Crypto.Hash.SHA.new",
-            ],
-        ):
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "Crypto.Hash.MD2.new",
+            "Crypto.Hash.MD4.new",
+            "Crypto.Hash.MD5.new",
+            "Crypto.Hash.RIPEMD.new",
+            "Crypto.Hash.SHA.new",
+        ]:
             return Result(
                 rule_id=self.id,
                 location=Location(
-                    context["file_name"], kwargs.get("func_node")
+                    file_name=context["file_name"],
+                    node=call.function_node,
                 ),
                 level=Level.ERROR,
-                message=self.message.format(kwargs.get("func_call_qual")),
+                message=self.message.format(call.name_qualified),
             )

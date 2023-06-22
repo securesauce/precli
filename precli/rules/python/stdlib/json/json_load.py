@@ -63,11 +63,14 @@ class JsonLoad(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["json.load", "json.loads"]):
+        call = kwargs.get("call")
+
+        if call.name_qualified in ["json.load", "json.loads"]:
             return Result(
                 rule_id=self.id,
                 location=Location(
-                    context["file_name"], kwargs.get("func_node")
+                    file_name=context["file_name"],
+                    node=call.function_node,
                 ),
-                message=self.message.format(context["func_call_qual"]),
+                message=self.message.format(call.name_qualified),
             )

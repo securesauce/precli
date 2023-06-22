@@ -82,6 +82,7 @@ constructor.
 .. versionadded:: 1.0.0
 
 """  # noqa: E501
+from precli.core.argument import Argument
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -113,37 +114,43 @@ class HashlibWeakHash(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "hashlib.md4",
-                "hashlib.md5",
-                "hashlib.ripemd160",
-                "hashlib.sha",
-                "hashlib.sha1",
-            ],
-        ):
-            kwargs = context["func_call_kwargs"]
-            if kwargs.get("usedforsecurity", True) is True:
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "hashlib.md4",
+            "hashlib.md5",
+            "hashlib.ripemd160",
+            "hashlib.sha",
+            "hashlib.sha1",
+        ]:
+            used_for_security = call.get_argument(
+                name="usedforsecurity", default=Argument(None, True)
+            ).value
+
+            if used_for_security is True:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     level=Level.ERROR,
-                    message=self.message.format(kwargs.get("func_call_qual")),
+                    message=self.message.format(call.name_qualified),
                 )
-        elif Rule.match_calls(context, ["hashlib.new"]):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            name = args[0] if args else kwargs.get("name", None)
+        elif call.name_qualified in ["hashlib.new"]:
+            name = call.get_argument(position=0, name="name").value
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
-                if kwargs.get("usedforsecurity", True) is True:
+                used_for_security = call.get_argument(
+                    name="usedforsecurity", default=Argument(None, True)
+                ).value
+
+                if used_for_security is True:
                     return Result(
                         rule_id=self.id,
                         location=Location(
-                            context["file_name"], kwargs.get("func_node")
+                            file_name=context["file_name"],
+                            node=call.function_node,
                         ),
                         level=Level.ERROR,
                         message=self.message.format(name),

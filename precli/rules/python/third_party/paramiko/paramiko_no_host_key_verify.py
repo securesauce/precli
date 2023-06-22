@@ -27,86 +27,40 @@ class ParamikoNoHostKeyVerify(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            ["paramiko.client.SSHClient.set_missing_host_key_policy"],
-        ):
-            if (
-                node := Rule.match_call_pos_arg(
-                    context, 0, ["paramiko.client.AutoAddPolicy"]
-                )
-            ) is not None:
-                node = Rule.get_func_ident(node)
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=node),
-                    description="Use 'RejectPolicy' as the 'policy' argument"
-                    " to safely reject unknown host keys.",
-                    inserted_content="RejectPolicy",
-                )
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "paramiko.client.SSHClient.set_missing_host_key_policy"
+        ]:
+            argument = call.get_argument(position=0, name="policy")
+            policy = argument.value
+
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=argument.identifier_node),
+                description="Use 'RejectPolicy' as the 'policy' argument"
+                " to safely reject unknown host keys.",
+                inserted_content="RejectPolicy",
+            )
+
+            if policy == "paramiko.client.AutoAddPolicy":
                 return Result(
                     rule_id=self.id,
-                    location=Location(context["file_name"], node),
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
                     level=Level.ERROR,
                     message=self.message.format("AutoAddPolicy"),
                     fixes=fixes,
                 )
-            if (
-                node := Rule.match_call_kwarg(
-                    context, "policy", ["paramiko.client.AutoAddPolicy"]
-                )
-            ) is not None:
-                node = Rule.get_func_ident(node)
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=node),
-                    description="Use 'RejectPolicy' as the 'policy' argument"
-                    " to safely reject unknown host keys.",
-                    inserted_content="RejectPolicy",
-                )
+            if policy == "paramiko.client.WarningPolicy":
                 return Result(
                     rule_id=self.id,
-                    location=Location(context["file_name"], node),
-                    level=Level.ERROR,
-                    message=self.message.format("AutoAddPolicy"),
-                    fixes=fixes,
-                )
-            if (
-                node := Rule.match_call_pos_arg(
-                    context, 0, ["paramiko.client.WarningPolicy"]
-                )
-            ) is not None:
-                node = Rule.get_func_ident(node)
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=node),
-                    description="Use 'RejectPolicy' as the 'policy' argument"
-                    " to safely reject unknown host keys.",
-                    inserted_content="RejectPolicy",
-                )
-                return Result(
-                    rule_id=self.id,
-                    location=Location(context["file_name"], node),
-                    level=Level.WARNING,
-                    message=self.message.format("WarningPolicy"),
-                    fixes=fixes,
-                )
-            if (
-                node := Rule.match_call_kwarg(
-                    context, "policy", ["paramiko.client.WarningPolicy"]
-                )
-            ) is not None:
-                node = Rule.get_func_ident(node)
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=node),
-                    description="Use 'RejectPolicy' as the 'policy' argument"
-                    " to safely reject unknown host keys.",
-                    inserted_content="RejectPolicy",
-                )
-                return Result(
-                    rule_id=self.id,
-                    location=Location(context["file_name"], node),
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
                     level=Level.WARNING,
                     message=self.message.format("WarningPolicy"),
                     fixes=fixes,

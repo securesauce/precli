@@ -4,6 +4,7 @@ from collections import namedtuple
 
 from tree_sitter import Node
 
+from precli.core.call import Call
 from precli.core.parser import Parser
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
@@ -33,6 +34,9 @@ class Python(Parser):
         imps = self.import_from_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, "import", value)
+
+    def visit_comment(self, nodes: list[Node]):
+        pass
 
     def visit_class_definition(self, nodes: list[Node]):
         class_id = self.first_match(self.context["node"], "identifier")
@@ -65,7 +69,17 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
-        (func_call_qual, func_call_args, func_call_kwargs) = self.call(nodes)
+        self.context["func_call_qual"] = self.literal_value(nodes[0])
+        func_call_qual = self.context["func_call_qual"]
+        (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
+
+        call = Call(
+            node=self.context["node"],
+            name=func_call_qual,
+            name_qual=func_call_qual,
+            args=func_call_args,
+            kwargs=func_call_kwargs,
+        )
 
         if (
             func_call_qual == "importlib.import_module"
@@ -80,21 +94,9 @@ class Python(Parser):
             self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
-        call_node = self.context["node"]
-        if call_node.children:
-            # Assign nodes to the call attribute/identifier and argument
-            # list
-            func_node = call_node.children[0]
-            arg_list_node = call_node.children[1]
-
         self.process_rules(
             "call",
-            call_node=call_node,
-            func_node=func_node,
-            arg_list_node=arg_list_node,
-            func_call_qual=func_call_qual,
-            func_call_args=func_call_args,
-            func_call_kwargs=func_call_kwargs,
+            call=call,
         )
         self.visit(nodes)
 
@@ -214,15 +216,6 @@ class Python(Parser):
         subpkg = len(name) - len(name.lstrip(".")) - 1
         package = package.rsplit(".", subpkg)
         return ".".join((package[0], name.lstrip(".")))
-
-    def call(self, nodes: list[Node]):
-        self.context["func_call_qual"] = self.literal_value(nodes[0])
-        func_call_qual = self.context["func_call_qual"]
-        (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
-        self.context["func_call_args"] = func_call_args
-        self.context["func_call_kwargs"] = func_call_kwargs
-
-        return (func_call_qual, func_call_args, func_call_kwargs)
 
     def get_func_args(self, node: Node) -> tuple:
         if node.type != "argument_list":
