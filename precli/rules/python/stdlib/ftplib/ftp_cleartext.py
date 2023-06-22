@@ -113,7 +113,9 @@ class FtpCleartext(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["ftplib.FTP"]):
+        call = kwargs.get("call")
+
+        if call.name_qualified in ["ftplib.FTP"]:
             """
             FTP(
                 host='',
@@ -140,18 +142,9 @@ class FtpCleartext(Rule):
                 encoding='utf-8'
             )
             """
-            call_args = kwargs["func_call_args"]
-            call_kwargs = kwargs["func_call_kwargs"]
-            passwd = (
-                call_args[2]
-                if len(call_args) > 2
-                else call_kwargs.get("passwd", None)
-            )
-
-            node = Rule.get_func_ident(kwargs.get("func_node"))
             fixes = Rule.get_fixes(
                 context=context,
-                deleted_location=Location(node=node),
+                deleted_location=Location(node=call.identifier_node),
                 description="Use the 'FTP_TLS' module to secure the "
                 "connection.",
                 inserted_content="FTP_TLS",
@@ -164,14 +157,15 @@ class FtpCleartext(Rule):
             # TODO(ericwb): the fix should also call prot_p() to secure the
             # data connection
 
-            if passwd is not None:
+            if call.get_argument(position=2, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     level=Level.ERROR,
-                    message=f"The '{context['func_call_qual']}' module will "
+                    message=f"The '{call.name_qualified}' module will "
                     f"transmit the password argument in cleartext.",
                     fixes=fixes,
                 )
@@ -179,29 +173,24 @@ class FtpCleartext(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
-                    message=self.message.format(context["func_call_qual"]),
+                    message=self.message.format(call.name_qualified),
                     fixes=fixes,
                 )
-        if Rule.match_calls(context, ["ftplib.FTP.login"]):
+        if call.name_qualified in ["ftplib.FTP.login"]:
             """
             login(self, user='', passwd='', acct='')
             """
-            call_args = kwargs["func_call_args"]
-            call_kwargs = kwargs["func_call_kwargs"]
-            passwd = (
-                call_args[1]
-                if len(call_args) > 1
-                else call_kwargs.get("passwd", None)
-            )
-
-            node = Rule.get_func_ident(kwargs.get("func_node"))
-            if passwd is not None:
+            if call.get_argument(position=1, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
-                    location=Location(context["file_name"], node),
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=call.identifier_node,
+                    ),
                     level=Level.ERROR,
-                    message=f"The '{context['func_call_qual']}' function will "
+                    message=f"The '{call.name_qualified}' function will "
                     f"transmit the password argument in cleartext.",
                 )

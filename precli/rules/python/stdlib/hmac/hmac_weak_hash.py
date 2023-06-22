@@ -102,40 +102,32 @@ class HmacWeakHash(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["hmac.new"]):
-            call_args = kwargs["func_call_args"]
-            call_kwargs = kwargs["func_call_kwargs"]
-            name = (
-                call_args[2]
-                if len(call_args) > 2
-                else call_kwargs.get("digestmod", None)
-            )
+        call = kwargs.get("call")
 
-            # TODO(ericwb): can hashlib.md5 be passed as digestmod
+        if call.name_qualified in ["hmac.new"]:
+            name = call.get_argument(position=2, name="digestmod").value
+
+            # TODO(ericwb): can hashlib.md5 be passed as digestmod?
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     level=Level.ERROR,
                     message=self.message.format(name),
                 )
-        elif Rule.match_calls(context, ["hmac.digest"]):
-            call_args = kwargs["func_call_args"]
-            call_kwargs = kwargs["func_call_kwargs"]
-            name = (
-                call_args[2]
-                if len(call_args) > 2
-                else call_kwargs.get("digest", None)
-            )
+        elif call.name_qualified in ["hmac.digest"]:
+            name = call.get_argument(position=2, name="digest").value
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     level=Level.ERROR,
                     message=self.message.format(name),

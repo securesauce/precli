@@ -104,11 +104,12 @@ class CreateUnverifiedContext(Rule):
             cadata=None
         )
         """
-        if Rule.match_calls(context, ["ssl._create_unverified_context"]):
-            node = Rule.get_func_ident(kwargs.get("func_node"))
+        call = kwargs.get("call")
+
+        if call.name_qualified in ["ssl._create_unverified_context"]:
             fixes = Rule.get_fixes(
                 context=context,
-                deleted_location=Location(node=node),
+                deleted_location=Location(node=call.identifier_node),
                 description="Use 'create_default_context' to safely validate "
                 "certificates.",
                 inserted_content="create_default_context",
@@ -116,8 +117,9 @@ class CreateUnverifiedContext(Rule):
             return Result(
                 rule_id=self.id,
                 location=Location(
-                    context["file_name"], kwargs.get("func_node")
+                    file_name=context["file_name"],
+                    node=call.function_node,
                 ),
-                message=self.message.format(kwargs.get("func_call_qual")),
+                message=self.message.format(call.name_qualified),
                 fixes=fixes,
             )

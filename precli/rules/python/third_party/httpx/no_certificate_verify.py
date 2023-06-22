@@ -34,36 +34,39 @@ class NoCertificateVerify(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "httpx.AsyncClient",
-                "httpx.Client",
-                "httpx.delete",
-                "httpx.get",
-                "httpx.head",
-                "httpx.options",
-                "httpx.patch",
-                "httpx.post",
-                "httpx.put",
-                "httpx.request",
-                "httpx.stream",
-            ],
-        ):
-            if (
-                node := Rule.match_call_kwarg(context, "verify", [False])
-            ) is not None:
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "httpx.AsyncClient",
+            "httpx.Client",
+            "httpx.delete",
+            "httpx.get",
+            "httpx.head",
+            "httpx.options",
+            "httpx.patch",
+            "httpx.post",
+            "httpx.put",
+            "httpx.request",
+            "httpx.stream",
+        ]:
+            argument = call.get_argument(name="verify")
+            version = argument.value
+
+            if version is False:
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node=node),
+                    deleted_location=Location(node=argument.node),
                     description="Set the 'verify' argument to 'True' to ensure"
                     " the server's certificate is verified.",
                     inserted_content="True",
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(context["file_name"], node),
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.node,
+                    ),
                     level=Level.ERROR,
-                    message=self.message.format(kwargs.get("func_call_qual")),
+                    message=self.message.format(call.name_qualified),
                     fixes=fixes,
                 )

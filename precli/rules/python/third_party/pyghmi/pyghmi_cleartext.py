@@ -26,32 +26,32 @@ class PyghmiCleartext(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "pyghmi.ipmi.command.Command",
-                "pyghmi.ipmi.command.Console",
-            ],
-        ):
-            args = context["func_call_args"]
-            kwargs = context["func_call_kwargs"]
-            passwd = args[2] if len(args) > 2 else kwargs.get("password", None)
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "pyghmi.ipmi.command.Command",
+            "pyghmi.ipmi.command.Console",
+        ]:
+            argument = call.get_argument(position=2, name="password")
+            passwd = argument.value
 
             if passwd is not None:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
                     level=Level.ERROR,
-                    message=f"The {context['func_call_qual']} module may "
+                    message=f"The {call.name_qualified} module may "
                     f"transmit the password argument in cleartext.",
                 )
             else:
                 return Result(
                     rule_id=self.id,
                     location=Location(
-                        context["file_name"], kwargs.get("func_node")
+                        file_name=context["file_name"],
+                        node=call.function_node,
                     ),
-                    message=self.message.format(kwargs.get("func_call_qual")),
+                    message=self.message.format(call.name_qualified),
                 )

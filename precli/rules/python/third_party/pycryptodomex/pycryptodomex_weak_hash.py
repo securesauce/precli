@@ -40,23 +40,23 @@ class PycryptodomexWeakHash(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "Cryptodome.Hash.MD2.new",
-                "Cryptodome.Hash.MD4.new",
-                "Cryptodome.Hash.MD5.new",
-                "Cryptodome.Hash.RIPEMD.new",
-                "Cryptodome.Hash.RIPEMD160.new",
-                "Cryptodome.Hash.SHA.new",
-                "Cryptodome.Hash.SHA1.new",
-            ],
-        ):
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "Cryptodome.Hash.MD2.new",
+            "Cryptodome.Hash.MD4.new",
+            "Cryptodome.Hash.MD5.new",
+            "Cryptodome.Hash.RIPEMD.new",
+            "Cryptodome.Hash.RIPEMD160.new",
+            "Cryptodome.Hash.SHA.new",
+            "Cryptodome.Hash.SHA1.new",
+        ]:
             return Result(
                 rule_id=self.id,
                 location=Location(
-                    context["file_name"], kwargs.get("func_node")
+                    file_name=context["file_name"],
+                    node=call.function_node,
                 ),
                 level=Level.ERROR,
-                message=self.message.format(kwargs.get("func_call_qual")),
+                message=self.message.format(call.name_qualified),
             )

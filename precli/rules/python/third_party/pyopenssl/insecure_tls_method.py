@@ -43,45 +43,28 @@ class InsecureTlsMethod(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(context, ["OpenSSL.SSL.Context"]):
-            args = context["func_call_args"]
-            method = context["func_call_kwargs"].get("method")
+        call = kwargs.get("call")
 
-            if method is not None:
-                if isinstance(method, str) and method in INSECURE_METHODS:
-                    node = Rule.get_keyword_arg(context["node"], "method")
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'TLS_METHOD' to auto-negotiate the "
-                        "highest protocol version that both the client and "
-                        "server support.",
-                        inserted_content="TLS_METHOD",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(method),
-                        fixes=fixes,
-                    )
-            elif args:
-                if isinstance(args[0], str) and args[0] in INSECURE_METHODS:
-                    node = Rule.get_positional_arg(context["node"], 0)
-                    node = Rule.get_func_ident(node)
-                    fixes = Rule.get_fixes(
-                        context=context,
-                        deleted_location=Location(node=node),
-                        description="Use 'TLS_METHOD' to auto-negotiate the "
-                        "highest protocol version that both the client and "
-                        "server support.",
-                        inserted_content="TLS_METHOD",
-                    )
-                    return Result(
-                        rule_id=self.id,
-                        location=Location(context["file_name"], node),
-                        level=Level.ERROR,
-                        message=self.message.format(args[0]),
-                        fixes=fixes,
-                    )
+        if call.name_qualified in ["OpenSSL.SSL.Context"]:
+            argument = call.get_argument(position=1, name="method")
+            method = argument.value
+
+            if isinstance(method, str) and method in INSECURE_METHODS:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.identifier_node),
+                    description="Use 'TLS_METHOD' to auto-negotiate the "
+                    "highest protocol version that both the client and "
+                    "server support.",
+                    inserted_content="TLS_METHOD",
+                )
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.identifier_node,
+                    ),
+                    level=Level.ERROR,
+                    message=self.message.format(method),
+                    fixes=fixes,
+                )

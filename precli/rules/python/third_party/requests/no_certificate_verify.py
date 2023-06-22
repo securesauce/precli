@@ -32,41 +32,44 @@ class NoCertificateVerify(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "requests.delete",
-                "requests.get",
-                "requests.head",
-                "requests.options",
-                "requests.patch",
-                "requests.post",
-                "requests.put",
-                "requests.request",
-                "requests.Session.delete",
-                "requests.Session.get",
-                "requests.Session.head",
-                "requests.Session.options",
-                "requests.Session.patch",
-                "requests.Session.post",
-                "requests.Session.put",
-                "requests.Session.request",
-            ],
-        ):
-            if (
-                node := Rule.match_call_kwarg(context, "verify", [False])
-            ) is not None:
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "requests.delete",
+            "requests.get",
+            "requests.head",
+            "requests.options",
+            "requests.patch",
+            "requests.post",
+            "requests.put",
+            "requests.request",
+            "requests.Session.delete",
+            "requests.Session.get",
+            "requests.Session.head",
+            "requests.Session.options",
+            "requests.Session.patch",
+            "requests.Session.post",
+            "requests.Session.put",
+            "requests.Session.request",
+        ]:
+            argument = call.get_argument(name="verify")
+            verify = argument.value
+
+            if verify is False:
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node=node),
+                    deleted_location=Location(node=argument.node),
                     description="Set the 'verify' argument to 'True' to ensure"
                     " the server's certificate is verified.",
                     inserted_content="True",
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(context["file_name"], node),
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=argument.node,
+                    ),
                     level=Level.ERROR,
-                    message=self.message.format(kwargs.get("func_call_qual")),
+                    message=self.message.format(call.name_qualified),
                     fixes=fixes,
                 )

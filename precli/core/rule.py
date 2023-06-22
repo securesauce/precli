@@ -5,7 +5,6 @@ from typing import Self
 
 from cwe import Database
 from cwe import Weakness
-from tree_sitter import Node
 
 from precli.core.config import Config
 from precli.core.fix import Fix
@@ -167,110 +166,6 @@ class Rule(ABC):
         :rtype: dict
         """
         return self._wildcards
-
-    @staticmethod
-    def match_calls(
-        context: dict,
-        funcs: list[str],
-    ) -> Node:
-        """
-        Match any call name to the given function names.
-
-        :param dict context: current context of the parse
-        :param list funcs: list of function names to match
-
-        :return: the call node if match found or None
-        :rtype: Node
-        """
-        if context["func_call_qual"] in funcs:
-            return True
-
-    @staticmethod
-    def match_call_pos_arg(
-        context: dict,
-        arg_pos: int,
-        arg_value: list[str],
-    ) -> Node:
-        """
-        Match an argument at given position and value.
-
-        :param dict context: current context of the parse
-        :param int arg_pos: index of positional argument
-        :param list arg_value: value of positional argument
-
-        :return: the argument node if match found or None
-        :rtype: Node
-        """
-        func_call_args = context["func_call_args"]
-        if func_call_args and len(func_call_args) > arg_pos:
-            arg = func_call_args[arg_pos]
-            # TODO: what if a tuple or list? arg_value assumes str
-            if not isinstance(arg, dict) and arg in arg_value:
-                return Rule.get_positional_arg(context["node"], arg_pos)
-
-    @staticmethod
-    def get_positional_arg(parent: Node, position: int) -> Node:
-        if parent.type != "call":
-            # If parent is the attribute/identifier and not a "call" node
-            # use parent instead
-            parent = parent.parent
-        if (
-            len(parent.children) > 1
-            and parent.children[1].type == "argument_list"
-        ):
-            argument_list = parent.children[1]
-            for i, child in enumerate(argument_list.named_children):
-                if i == position:
-                    return child
-
-    @staticmethod
-    def match_call_kwarg(
-        context: dict,
-        arg_name: str,
-        arg_value: list[str],
-    ) -> Node:
-        """
-        Match an argument within the keyword arguments.
-
-        :param dict context: current context of the parse
-        :param str arg_name: name of keyword argument
-        :param list arg_value: value of keyword argument
-
-        :return: the argument node if match found or None
-        :rtype: Node
-        """
-        if (
-            context["func_call_kwargs"]
-            and arg_name in context["func_call_kwargs"]
-        ):
-            # TODO: what if a tuple or list? arg_value assumes str
-            if context["func_call_kwargs"][arg_name] in arg_value:
-                return Rule.get_keyword_arg(context["node"], arg_name)
-
-    @staticmethod
-    def get_keyword_arg(parent: Node, arg_name: str) -> Node:
-        if parent.type != "call":
-            # If parent is the attribute/identifier and not a "call" node
-            # use parent instead
-            parent = parent.parent
-        if (
-            len(parent.children) > 1
-            and parent.children[1].type == "argument_list"
-        ):
-            argument_list = parent.children[1]
-            for child in argument_list.named_children:
-                if child.type == "keyword_argument":
-                    keyword = child.named_children[0].text.decode()
-                    if keyword == arg_name:
-                        return child.named_children[1]
-
-    @staticmethod
-    def get_func_ident(node: Node):
-        # TODO(ericwb): does this function fail with nested calls?
-        if node.type == "attribute":
-            return Rule.get_func_ident(node.named_children[1])
-        if node.type == "identifier":
-            return node
 
     @staticmethod
     def get_fixes(

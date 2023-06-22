@@ -27,18 +27,18 @@ class JsonpickleDecode(Rule):
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
-        if Rule.match_calls(
-            context,
-            [
-                "jsonpickle.decode",
-                "jsonpickle.unpickler.decode",
-                "jsonpickle.Unpickler.Unpickler",
-            ],
-        ):
+        call = kwargs.get("call")
+
+        if call.name_qualified in [
+            "jsonpickle.decode",
+            "jsonpickle.unpickler.decode",
+            "jsonpickle.Unpickler.Unpickler",
+        ]:
             return Result(
                 rule_id=self.id,
                 location=Location(
-                    context["file_name"], kwargs.get("func_node")
+                    file_name=context["file_name"],
+                    node=call.function_node,
                 ),
-                message=self.message.format(kwargs.get("func_call_qual")),
+                message=self.message.format(call.name_qualified),
             )
