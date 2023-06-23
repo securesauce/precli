@@ -70,34 +70,27 @@ class Python(Parser):
 
     def visit_call(self, nodes: list[Node]):
         self.context["func_call_qual"] = self.literal_value(nodes[0])
-        func_call_qual = self.context["func_call_qual"]
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
 
         call = Call(
             node=self.context["node"],
-            name=func_call_qual,
-            name_qual=func_call_qual,
+            name=self.context["func_call_qual"],
+            name_qual=self.context["func_call_qual"],
             args=func_call_args,
             kwargs=func_call_kwargs,
         )
 
         if (
-            func_call_qual == "importlib.import_module"
+            call.name_qualified == "importlib.import_module"
             and self.context["node"].parent.type == "assignment"
         ):
-            module = self.importlib_import_module(
-                func_call_args,
-                func_call_kwargs,
-            )
+            module = self.importlib_import_module(call)
             left_hand = self.context["node"].parent.children[0]
             identifier = left_hand.text.decode()
             self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
-        self.process_rules(
-            "call",
-            call=call,
-        )
+        self.process_rules("call", call=call)
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
@@ -208,9 +201,9 @@ class Python(Parser):
                 modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
-    def importlib_import_module(self, args: list, kwargs: dict) -> dict:
-        name = args[0] if args else kwargs.get("name", None)
-        package = args[1] if len(args) > 1 else kwargs.get("package", None)
+    def importlib_import_module(self, call: Call) -> dict:
+        name = call.get_argument(position=0, name="name").value
+        package = call.get_argument(position=1, name="package").value
         if package is None:
             return name
         subpkg = len(name) - len(name.lstrip(".")) - 1
