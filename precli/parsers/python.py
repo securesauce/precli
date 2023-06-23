@@ -69,13 +69,13 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
-        self.context["func_call_qual"] = self.literal_value(nodes[0])
+        func_call_qual = self.literal_value(nodes[0])
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
 
         call = Call(
             node=self.context["node"],
-            name=self.context["func_call_qual"],
-            name_qual=self.context["func_call_qual"],
+            name=func_call_qual,
+            name_qual=func_call_qual,
             args=func_call_args,
             kwargs=func_call_kwargs,
         )
