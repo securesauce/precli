@@ -105,6 +105,9 @@ class HmacWeakHash(Rule):
         call = kwargs.get("call")
 
         if call.name_qualified in ["hmac.new"]:
+            """
+            hmac.new(key, msg=None, digestmod='')
+            """
             name = call.get_argument(position=2, name="digestmod").value
 
             # TODO(ericwb): can hashlib.md5 be passed as digestmod?
@@ -120,6 +123,9 @@ class HmacWeakHash(Rule):
                     message=self.message.format(name),
                 )
         elif call.name_qualified in ["hmac.digest"]:
+            """
+            hmac.digest(key, msg, digest)
+            """
             name = call.get_argument(position=2, name="digest").value
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
