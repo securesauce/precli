@@ -81,6 +81,13 @@ from precli.core.rule import Rule
 
 
 WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
+HASHLIB_WEAK_HASHES = (
+    "hashlib.md4",
+    "hashlib.md5",
+    "hashlib.ripemd160",
+    "hashlib.sha",
+    "hashlib.sha1",
+)
 
 
 class HmacWeakHash(Rule):
@@ -108,33 +115,37 @@ class HmacWeakHash(Rule):
             """
             hmac.new(key, msg=None, digestmod='')
             """
-            name = call.get_argument(position=2, name="digestmod").value
+            argument = call.get_argument(position=2, name="digestmod")
+            digestmod = argument.value
 
-            # TODO(ericwb): can hashlib.md5 be passed as digestmod?
-
-            if isinstance(name, str) and name.lower() in WEAK_HASHES:
+            if (
+                isinstance(digestmod, str) and digestmod.lower() in WEAK_HASHES
+            ) or digestmod in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
                         file_name=context["file_name"],
-                        node=call.function_node,
+                        node=argument.node,
                     ),
                     level=Level.ERROR,
-                    message=self.message.format(name),
+                    message=self.message.format(digestmod),
                 )
         elif call.name_qualified in ["hmac.digest"]:
             """
             hmac.digest(key, msg, digest)
             """
-            name = call.get_argument(position=2, name="digest").value
+            argument = call.get_argument(position=2, name="digest")
+            digest = argument.value
 
-            if isinstance(name, str) and name.lower() in WEAK_HASHES:
+            if (
+                isinstance(digest, str) and digest.lower() in WEAK_HASHES
+            ) or digest in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(
                         file_name=context["file_name"],
-                        node=call.function_node,
+                        node=argument.node,
                     ),
                     level=Level.ERROR,
-                    message=self.message.format(name),
+                    message=self.message.format(digest),
                 )
