@@ -1,0 +1,4 @@
+import crypt
+
+
+crypt.mksalt()
