@@ -20,7 +20,7 @@ class CryptWeakHashTests(test_case.TestCase):
             "examples",
         )
 
-    def test_ftp_cleartext_rule_meta(self):
+    def test_crypt_weak_hash_rule_meta(self):
         rule = Rule.get_by_id("PRE0002")
         self.assertEqual("PRE0002", rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)
