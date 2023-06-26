@@ -123,6 +123,13 @@ class HashlibWeakHash(Rule):
             "hashlib.sha",
             "hashlib.sha1",
         ]:
+            """
+            hashlib.md4(string=b'', *, usedforsecurity=True)
+            hashlib.md5(string=b'', *, usedforsecurity=True)
+            hashlib.ripemd160(string=b'', *, usedforsecurity=True)
+            hashlib.sha(string=b'', *, usedforsecurity=True)
+            hashlib.sha1(string=b'', *, usedforsecurity=True)
+            """
             used_for_security = call.get_argument(
                 name="usedforsecurity", default=Argument(None, True)
             ).value
@@ -138,6 +145,9 @@ class HashlibWeakHash(Rule):
                     message=self.message.format(call.name_qualified),
                 )
         elif call.name_qualified in ["hashlib.new"]:
+            """
+            hashlib.new(name, data=b'', **kwargs)
+            """
             name = call.get_argument(position=0, name="name").value
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:
