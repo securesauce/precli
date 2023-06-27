@@ -52,6 +52,11 @@ class Python(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
+    def visit_named_expression(self, nodes: list[Node]):
+        if len(nodes) > 1 and nodes[1].text.decode() == ":=":
+            self.visit_assignment(nodes)
+        self.visit(nodes)
+
     def visit_assignment(self, nodes: list[Node]):
         if nodes[0].type == "identifier" and nodes[2].type in (
             "call",
