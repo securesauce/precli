@@ -71,6 +71,11 @@ class MarshalLoad(Rule):
         call = kwargs.get("call")
 
         if call.name_qualified in ["marshal.load", "marshal.loads"]:
+            """
+            marshal.load(file, /)
+
+            marshal.loads(bytes, /)
+            """
             return Result(
                 rule_id=self.id,
                 location=Location(
