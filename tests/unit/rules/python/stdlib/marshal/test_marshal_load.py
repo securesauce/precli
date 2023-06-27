@@ -43,7 +43,7 @@ class MarshalLoadTests(test_case.TestCase):
         self.assertEqual(Level.WARNING, result.level)
         self.assertEqual(-1.0, result.rank)
 
-    def test_json_loads(self):
+    def test_marshal_loads(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "marshal_loads.py")
         )
