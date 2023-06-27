@@ -82,6 +82,20 @@ class HostKeyPolicyTests(test_case.TestCase):
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_host_key_auto_add_policy_walrus(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "host_key_auto_add_policy_walrus.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0019", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(50, result.location.start_column)
+        self.assertEqual(63, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_host_key_warning_policy_single_statement(self):
         results = self.parser.parse(
             os.path.join(
