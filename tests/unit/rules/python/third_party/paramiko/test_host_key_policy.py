@@ -1,6 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
 import os
-import textwrap
 
 from precli.core.level import Level
 from precli.core.rule import Rule

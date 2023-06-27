@@ -65,7 +65,48 @@ class JsonLoad(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
 
-        if call.name_qualified in ["json.load", "json.loads"]:
+        if call.name_qualified in [
+            "json.load",
+            "json.loads",
+            "json.JSONDecoder.decode",
+        ]:
+            """
+            json.load(
+                fp,
+                *,
+                cls=None,
+                object_hook=None,
+                parse_float=None,
+                parse_int=None,
+                parse_constant=None,
+                object_pairs_hook=None,
+                **kw
+            )
+            json.loads(
+                s,
+                *,
+                cls=None,
+                object_hook=None,
+                parse_float=None,
+                parse_int=None,
+                parse_constant=None,
+                object_pairs_hook=None,
+                **kw
+            )
+            json.JSONDecoder(
+                *,
+                object_hook=None,
+                parse_float=None,
+                parse_int=None,
+                parse_constant=None,
+                strict=True,
+                object_pairs_hook=None
+            ).decode(
+                self,
+                s,
+                _w=<built-in method match of re.Pattern object at 0x1049ec790>
+            )
+            """
             return Result(
                 rule_id=self.id,
                 location=Location(
