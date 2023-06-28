@@ -38,8 +38,8 @@ class HmacTimingAttackTests(test_case.TestCase):
         self.assertEqual("PRE0005", result.rule_id)
         self.assertEqual(13, result.location.start_line)
         self.assertEqual(13, result.location.end_line)
-        self.assertEqual(7, result.location.start_column)
-        self.assertEqual(13, result.location.end_column)
+        self.assertEqual(14, result.location.start_column)
+        self.assertEqual(16, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -52,8 +52,8 @@ class HmacTimingAttackTests(test_case.TestCase):
         self.assertEqual("PRE0005", result.rule_id)
         self.assertEqual(14, result.location.start_line)
         self.assertEqual(14, result.location.end_line)
-        self.assertEqual(7, result.location.start_column)
-        self.assertEqual(13, result.location.end_column)
+        self.assertEqual(14, result.location.start_column)
+        self.assertEqual(16, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
@@ -68,8 +68,8 @@ class HmacTimingAttackTests(test_case.TestCase):
         self.assertEqual("PRE0005", result.rule_id)
         self.assertEqual(11, result.location.start_line)
         self.assertEqual(11, result.location.end_line)
-        self.assertEqual(7, result.location.start_column)
-        self.assertEqual(13, result.location.end_column)
+        self.assertEqual(14, result.location.start_column)
+        self.assertEqual(16, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 

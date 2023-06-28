@@ -121,12 +121,6 @@ class HmacTimingAttack(Rule):
             comparison.left_hand in TIMING_VULNERABLE
             or comparison.right_hand in TIMING_VULNERABLE
         ):
-            node = (
-                comparison.left_node
-                if comparison.left_hand in TIMING_VULNERABLE
-                else comparison.right_node
-            )
-
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=comparison.node),
@@ -142,7 +136,7 @@ class HmacTimingAttack(Rule):
                 rule_id=self.id,
                 location=Location(
                     file_name=context["file_name"],
-                    node=node,
+                    node=comparison.node.children[1],
                 ),
                 level=Level.ERROR,
                 fixes=fixes,
