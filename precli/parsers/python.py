@@ -124,10 +124,8 @@ class Python(Parser):
 
             comparison = Comparison(
                 self.context["node"],
-                left_node=nodes[0],
                 left_hand=left_hand,
                 operator=operator,
-                right_node=nodes[2],
                 right_hand=right_hand,
             )
             self.process_rules("comparison_operator", comparison=comparison)
