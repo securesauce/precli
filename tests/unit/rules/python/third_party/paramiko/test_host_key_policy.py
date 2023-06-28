@@ -31,6 +31,22 @@ class HostKeyPolicyTests(test_case.TestCase):
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("295", rule.cwe.cwe_id)
 
+    def test_host_key_auto_add_policy_import_paramiko(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "host_key_auto_add_policy_import_paramiko.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0020", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(48, result.location.start_column)
+        self.assertEqual(61, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
     def test_host_key_auto_add_policy(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "host_key_auto_add_policy.py")

@@ -21,7 +21,12 @@ class ParamikoNoHostKeyVerify(Rule):
                     "SSHClient",
                     "AutoAddPolicy",
                     "WarningPolicy",
-                ]
+                ],
+                "paramiko.*": [
+                    "SSHClient",
+                    "AutoAddPolicy",
+                    "WarningPolicy",
+                ],
             },
             config=Config(enabled=False),
         )
@@ -30,7 +35,8 @@ class ParamikoNoHostKeyVerify(Rule):
         call = kwargs.get("call")
 
         if call.name_qualified in [
-            "paramiko.client.SSHClient.set_missing_host_key_policy"
+            "paramiko.SSHClient.set_missing_host_key_policy",
+            "paramiko.client.SSHClient.set_missing_host_key_policy",
         ]:
             argument = call.get_argument(position=0, name="policy")
             policy = argument.value
@@ -43,7 +49,10 @@ class ParamikoNoHostKeyVerify(Rule):
                 inserted_content="RejectPolicy",
             )
 
-            if policy == "paramiko.client.AutoAddPolicy":
+            if policy in [
+                "paramiko.AutoAddPolicy",
+                "paramiko.client.AutoAddPolicy",
+            ]:
                 return Result(
                     rule_id=self.id,
                     location=Location(
@@ -54,7 +63,10 @@ class ParamikoNoHostKeyVerify(Rule):
                     message=self.message.format("AutoAddPolicy"),
                     fixes=fixes,
                 )
-            if policy == "paramiko.client.WarningPolicy":
+            if policy in [
+                "paramiko.WarningPolicy",
+                "paramiko.client.WarningPolicy",
+            ]:
                 return Result(
                     rule_id=self.id,
                     location=Location(
