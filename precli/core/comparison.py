@@ -6,18 +6,17 @@ class Comparison:
     def __init__(
         self,
         node: Node,
-        left_node: Node,
         left_hand: str,
         operator: str,
-        right_node: Node,
         right_hand: str,
     ):
         self._node = node
-        self._left_node = left_node
         self._left_hand = left_hand
         self._operator = operator
-        self._right_node = right_node
         self._right_hand = right_hand
+        self._left_node = node.children[0]
+        self._operator_node = node.children[1]
+        self._right_node = node.children[2]
 
     @property
     def node(self) -> Node:
@@ -40,6 +39,26 @@ class Comparison:
         return self._left_node
 
     @property
+    def operator_node(self) -> Node:
+        """
+        The operator node of this comparison.
+
+        :return: operator node of comparison
+        :rtype: Node
+        """
+        return self._operator_node
+
+    @property
+    def right_node(self) -> Node:
+        """
+        The right node of the comparison.
+
+        :return: right node of comparison
+        :rtype: Node
+        """
+        return self._right_node
+
+    @property
     def left_hand(self) -> str:
         """
         The left hand side of the comparison.
@@ -58,16 +77,6 @@ class Comparison:
         :rtype: str
         """
         return self._operator
-
-    @property
-    def right_node(self) -> Node:
-        """
-        The right node of the comparison.
-
-        :return: right node of comparison
-        :rtype: Node
-        """
-        return self._right_node
 
     @property
     def right_hand(self) -> str:

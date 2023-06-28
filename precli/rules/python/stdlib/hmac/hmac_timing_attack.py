@@ -136,7 +136,7 @@ class HmacTimingAttack(Rule):
                 rule_id=self.id,
                 location=Location(
                     file_name=context["file_name"],
-                    node=comparison.node.children[1],
+                    node=comparison.operator_node,
                 ),
                 level=Level.ERROR,
                 fixes=fixes,
