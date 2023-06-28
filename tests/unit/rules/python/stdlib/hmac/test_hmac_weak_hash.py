@@ -20,8 +20,8 @@ class HmacWeakHashTests(test_case.TestCase):
         )
 
     def test_hmac_weak_hash_rule_meta(self):
-        rule = Rule.get_by_id("PRE0005")
-        self.assertEqual("PRE0005", rule.id)
+        rule = Rule.get_by_id("PRE0006")
+        self.assertEqual("PRE0006", rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -59,7 +59,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(7, result.location.start_line)
         self.assertEqual(7, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -73,7 +73,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(7, result.location.start_line)
         self.assertEqual(7, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -87,7 +87,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(7, result.location.start_line)
         self.assertEqual(7, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -101,7 +101,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(7, result.location.start_line)
         self.assertEqual(7, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -115,7 +115,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(7, result.location.start_line)
         self.assertEqual(7, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -189,7 +189,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -203,7 +203,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -217,7 +217,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -231,7 +231,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -245,7 +245,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -347,7 +347,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -361,7 +361,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -377,7 +377,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -391,7 +391,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -405,7 +405,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -499,7 +499,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -513,7 +513,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -527,7 +527,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -541,7 +541,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -555,7 +555,7 @@ class HmacWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual("PRE0006", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)

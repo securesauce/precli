@@ -20,8 +20,8 @@ class PickleLoadTests(test_case.TestCase):
         )
 
     def test_pickle_load_rule_meta(self):
-        rule = Rule.get_by_id("PRE0009")
-        self.assertEqual("PRE0009", rule.id)
+        rule = Rule.get_by_id("PRE0010")
+        self.assertEqual("PRE0010", rule.id)
         self.assertEqual("deserialization_of_untrusted_data", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -35,7 +35,7 @@ class PickleLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0009", result.rule_id)
+        self.assertEqual("PRE0010", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(10, result.location.start_column)
@@ -49,7 +49,7 @@ class PickleLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0009", result.rule_id)
+        self.assertEqual("PRE0010", result.rule_id)
         self.assertEqual(9, result.location.start_line)
         self.assertEqual(9, result.location.end_line)
         self.assertEqual(10, result.location.start_column)
@@ -63,7 +63,7 @@ class PickleLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0009", result.rule_id)
+        self.assertEqual("PRE0010", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(10, result.location.start_column)

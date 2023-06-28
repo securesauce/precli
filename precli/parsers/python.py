@@ -5,6 +5,7 @@ from collections import namedtuple
 from tree_sitter import Node
 
 from precli.core.call import Call
+from precli.core.comparison import Comparison
 from precli.core.parser import Parser
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
@@ -113,6 +114,23 @@ class Python(Parser):
                 identifier = self.literal_value(identifier, default=identifier)
                 statement = self.literal_value(statement, default=statement)
                 self.current_symtab.put(identifier, "identifier", statement)
+        self.visit(nodes)
+
+    def visit_comparison_operator(self, nodes: list[Node]):
+        if len(nodes) > 2:
+            left_hand = self.literal_value(nodes[0], default=nodes[0])
+            operator = nodes[1].text.decode()
+            right_hand = self.literal_value(nodes[2], default=nodes[2])
+
+            comparison = Comparison(
+                self.context["node"],
+                left_node=nodes[0],
+                left_hand=left_hand,
+                operator=operator,
+                right_node=nodes[2],
+                right_hand=right_hand,
+            )
+            self.process_rules("comparison_operator", comparison=comparison)
         self.visit(nodes)
 
     def first_match(self, node: Node, type: str) -> Node:
