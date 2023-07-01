@@ -1,11 +1,15 @@
 # Copyright 2023 Secure Saurce LLC
 import linecache
 
+from rich import box
 from rich import console
 from rich import syntax
+from rich.table import Table
 
 from precli.core.level import Level
-from precli.core.result import Rule
+from precli.core.metrics import Metrics
+from precli.core.result import Result
+from precli.core.rule import Rule
 from precli.renderers.renderer import Renderer
 
 
@@ -17,7 +21,7 @@ class Detailed(Renderer):
         else:
             self.console = console.Console(highlight=False)
 
-    def render(self, results: list):
+    def render(self, results: list[Result], metrics: Metrics):
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
             match result.level:
@@ -30,7 +34,7 @@ class Detailed(Renderer):
                     style = "yellow"
 
                 case Level.NOTE:
-                    emoji = ":information-emoji:"
+                    emoji = ":information-emoji: "
                     style = "blue"
 
             self.console.print(
@@ -99,3 +103,42 @@ class Detailed(Renderer):
                 )
                 self.console.print(code)
             self.console.print()
+
+        # Print the summary
+        table = Table(
+            box=box.HEAVY,
+            min_width=60,
+            show_header=False,
+        )
+        table.add_column(justify="left")
+        table.add_column(justify="right")
+        table.add_column(justify="left")
+        table.add_column(justify="right")
+        table.add_row(
+            "Files analyzed",
+            f"{metrics.files}",
+            "Lines analyzed",
+            f"{metrics.lines}",
+        )
+        table.add_row(
+            "Files skipped",
+            f"{metrics.files_skipped}",
+            "Lines skipped",
+            f"{metrics.lines_skipped}",
+            end_section=True,
+        )
+        table.add_row(
+            "Errors",
+            f"{metrics.errors}",
+            style="red" if metrics.errors else "",
+        )
+        table.add_row(
+            "Warnings",
+            f"{metrics.warnings}",
+            style="yellow" if metrics.errors else "",
+        )
+        table.add_row(
+            "Notes",
+            f"{metrics.notes}",
+        )
+        self.console.print(table)

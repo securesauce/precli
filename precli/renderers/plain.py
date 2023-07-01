@@ -5,7 +5,9 @@ from rich import console
 from rich.padding import Padding
 
 from precli.core.level import Level
-from precli.core.result import Rule
+from precli.core.metrics import Metrics
+from precli.core.result import Result
+from precli.core.rule import Rule
 from precli.renderers.renderer import Renderer
 
 
@@ -14,7 +16,7 @@ class Plain(Renderer):
         super().__init__(no_color=no_color)
         self.console = console.Console(highlight=False)
 
-    def render(self, results: list):
+    def render(self, results: list[Result], metrics: Metrics):
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
 
@@ -61,3 +63,8 @@ class Plain(Renderer):
                 f"{result.message}",
             )
             self.console.print()
+        self.console.print(
+            f"Found {metrics.errors} errors, {metrics.warnings} warnings, "
+            f"and {metrics.notes} notes in {metrics.files} files and "
+            f"{metrics.lines} lines of code."
+        )
