@@ -11,6 +11,8 @@ from importlib.metadata import entry_points
 from rich import progress
 
 import precli
+from precli.core.level import Level
+from precli.core.metrics import Metrics
 from precli.core.result import Result
 from precli.renderers.detailed import Detailed
 from precli.renderers.json import Json
@@ -138,6 +140,7 @@ def run_checks(file_list: list[str]) -> list[Result]:
     # if we have problems with a file, we'll remove it from the file_list
     # and add it to the skipped list instead
     new_file_list = list(file_list)
+    files_skipped = []
     if (
         len(file_list) > PROGRESS_THRESHOLD
         and LOG.getEffectiveLevel() <= logging.INFO
@@ -147,6 +150,8 @@ def run_checks(file_list: list[str]) -> list[Result]:
         files = file_list
 
     results = []
+    lines = 0
+    lines_skipped = 0
     for fname in files:
         LOG.debug("working on file : %s", fname)
 
@@ -160,11 +165,28 @@ def run_checks(file_list: list[str]) -> list[Result]:
                 results += parse_file("<stdin>", fdata, new_file_list)
             else:
                 with open(fname, "rb") as fdata:
+                    lines += sum(1 for _ in fdata)
+                with open(fname, "rb") as fdata:
                     results += parse_file(fname, fdata, new_file_list)
-        except OSError:
-            # self.skipped.append((fname, e.strerror))
+        except OSError as e:
+            files_skipped.append((fname, e.strerror))
             new_file_list.remove(fname)
-    return results
+
+    num_errors = sum(result.level == Level.ERROR for result in results)
+    num_warnings = sum(result.level == Level.WARNING for result in results)
+    num_notes = sum(result.level == Level.NOTE for result in results)
+
+    metrics = Metrics(
+        files=len(new_file_list),
+        files_skipped=len(files_skipped),
+        lines=lines,
+        lines_skipped=lines_skipped,
+        errors=num_errors,
+        warnings=num_warnings,
+        notes=num_notes,
+    )
+
+    return results, metrics
 
 
 def parse_file(
@@ -222,17 +244,17 @@ def main():
     # Compile a list of the targets
     file_list = discover_files(args.targets, args.recursive)
 
-    results = run_checks(file_list)
+    results, metrics = run_checks(file_list)
 
     if args.json is True:
         json = Json(args.no_color)
-        json.render(results)
+        json.render(results, metrics)
     elif args.plain is True:
         plain = Plain(args.no_color)
-        plain.render(results)
+        plain.render(results, metrics)
     else:
         detailed = Detailed(args.no_color)
-        detailed.render(results)
+        detailed.render(results, metrics)
 
 
 if __name__ == "__main__":
