@@ -2,7 +2,7 @@
 import os
 
 from precli.core.level import Level
-from precli.core.rule import Rule
+from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 

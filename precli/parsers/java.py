@@ -1,5 +1,5 @@
 # Copyright 2023 Secure Saurce LLC
-from precli.core.parser import Parser
+from precli.parsers import Parser
 
 
 class Java(Parser):

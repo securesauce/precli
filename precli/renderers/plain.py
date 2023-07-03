@@ -7,8 +7,8 @@ from rich.padding import Padding
 from precli.core.level import Level
 from precli.core.metrics import Metrics
 from precli.core.result import Result
-from precli.core.rule import Rule
-from precli.renderers.renderer import Renderer
+from precli.renderers import Renderer
+from precli.rules import Rule
 
 
 class Plain(Renderer):
