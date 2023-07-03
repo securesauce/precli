@@ -6,9 +6,9 @@ from tree_sitter import Node
 
 from precli.core.call import Call
 from precli.core.comparison import Comparison
-from precli.core.parser import Parser
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
+from precli.parsers import Parser
 
 
 Import = namedtuple("Import", "module alias")

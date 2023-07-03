@@ -2,8 +2,8 @@
 import textwrap
 
 from precli.core.level import Level
-from precli.core.rule import Rule
 from precli.parsers import python
+from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 

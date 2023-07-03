@@ -112,7 +112,7 @@ These alternatives include:
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
-from precli.core.rule import Rule
+from precli.rules import Rule
 
 
 class TelnetlibCleartext(Rule):

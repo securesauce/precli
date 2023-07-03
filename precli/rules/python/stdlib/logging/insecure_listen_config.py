@@ -56,7 +56,7 @@ verify the data is to use encryption and/or signing.
 """  # noqa: E501
 from precli.core.location import Location
 from precli.core.result import Result
-from precli.core.rule import Rule
+from precli.rules import Rule
 
 
 class InsecureListenConfig(Rule):

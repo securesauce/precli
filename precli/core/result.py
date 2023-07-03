@@ -3,8 +3,8 @@ from precli.core.fix import Fix
 from precli.core.kind import Kind
 from precli.core.level import Level
 from precli.core.location import Location
-from precli.core.rule import Rule
 from precli.core.suppression import Suppression
+from precli.rules import Rule
 
 
 class Result:

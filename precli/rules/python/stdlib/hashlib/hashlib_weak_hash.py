@@ -86,7 +86,7 @@ from precli.core.argument import Argument
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
-from precli.core.rule import Rule
+from precli.rules import Rule
 
 
 WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
