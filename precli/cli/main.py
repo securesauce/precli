@@ -6,11 +6,11 @@ import os
 import pathlib
 import sys
 import traceback
-from importlib.metadata import entry_points
 
 from rich import progress
 
 import precli
+from precli.core import loader
 from precli.core.level import Level
 from precli.core.metrics import Metrics
 from precli.core.result import Result
@@ -21,8 +21,6 @@ from precli.renderers.plain import Plain
 
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
-
-parsers = {}
 
 
 def _init_logger(log_level=logging.INFO):
@@ -132,7 +130,7 @@ def discover_files(targets: list[str], recursive: bool):
     return file_list
 
 
-def run_checks(file_list: list[str]) -> list[Result]:
+def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
     """Runs through all files in the scope
 
     :return: -
@@ -162,12 +160,12 @@ def run_checks(file_list: list[str]) -> list[Result]:
                 new_file_list = [
                     "<stdin>" if x == "-" else x for x in new_file_list
                 ]
-                results += parse_file("<stdin>", fdata, new_file_list)
+                results += parse_file(parsers, "<stdin>", fdata, new_file_list)
             else:
                 with open(fname, "rb") as fdata:
                     lines += sum(1 for _ in fdata)
                 with open(fname, "rb") as fdata:
-                    results += parse_file(fname, fdata, new_file_list)
+                    results += parse_file(parsers, fname, fdata, new_file_list)
         except OSError as e:
             files_skipped.append((fname, e.strerror))
             new_file_list.remove(fname)
@@ -190,7 +188,7 @@ def run_checks(file_list: list[str]) -> list[Result]:
 
 
 def parse_file(
-    fname: str, fdata: io.BufferedReader, new_file_list: list
+    parsers: dict, fname: str, fdata: io.BufferedReader, new_file_list: list
 ) -> list[Result]:
     try:
         data = fdata.read()
@@ -235,16 +233,12 @@ def main():
 
     enabled = args.enable.split(",") if args.enable else []
     disabled = args.disable.split(",") if args.disable else []
-
-    discovered_plugins = entry_points(group="precli.parsers")
-    for plugin in discovered_plugins:
-        parser = plugin.load()(enabled, disabled)
-        parsers[parser.file_extension()] = parser
+    parsers = loader.load_parsers(enabled, disabled)
 
     # Compile a list of the targets
     file_list = discover_files(args.targets, args.recursive)
 
-    results, metrics = run_checks(file_list)
+    results, metrics = run_checks(parsers, file_list)
 
     if args.json is True:
         json = Json(args.no_color)
