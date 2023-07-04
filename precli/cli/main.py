@@ -170,18 +170,14 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
             files_skipped.append((fname, e.strerror))
             new_file_list.remove(fname)
 
-    num_errors = sum(result.level == Level.ERROR for result in results)
-    num_warnings = sum(result.level == Level.WARNING for result in results)
-    num_notes = sum(result.level == Level.NOTE for result in results)
-
     metrics = Metrics(
         files=len(new_file_list),
         files_skipped=len(files_skipped),
         lines=lines,
         lines_skipped=lines_skipped,
-        errors=num_errors,
-        warnings=num_warnings,
-        notes=num_notes,
+        errors=sum(result.level == Level.ERROR for result in results),
+        warnings=sum(result.level == Level.WARNING for result in results),
+        notes=sum(result.level == Level.NOTE for result in results),
     )
 
     return results, metrics
