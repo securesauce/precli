@@ -135,7 +135,7 @@ class Detailed(Renderer):
         table.add_row(
             "Warnings",
             f"{metrics.warnings}",
-            style="yellow" if metrics.errors else "",
+            style="yellow" if metrics.warnings else "",
         )
         table.add_row(
             "Notes",
