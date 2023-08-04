@@ -4,7 +4,7 @@ r"""
 Inadequate Encryption Strength Using Weak SSL Protocols
 =======================================================
 
-The Python ssl modules provide a number of different protocols that can be
+The Python ``ssl`` modules provide a number of different protocols that can be
 used to encrypt data. However, some of these protocols are no longer
 considered secure and should not be used.
 

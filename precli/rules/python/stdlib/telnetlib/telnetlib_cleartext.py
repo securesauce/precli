@@ -4,11 +4,11 @@ r"""
 Cleartext Transmission of Sensitive Information in the Telnetlib Module
 =======================================================================
 
-The Python module telnetlib is a low-level module that provides access to the
-telnet protocol. The telnet protocol is a cleartext protocol, which means that
-all data transmitted over the connection is visible to anyone who can sniff
-the network traffic. This includes passwords, usernames, and other sensitive
-data.
+The Python module ``telnetlib`` is a low-level module that provides access to
+the telnet protocol. The telnet protocol is a cleartext protocol, which means
+that all data transmitted over the connection is visible to anyone who can
+sniff the network traffic. This includes passwords, usernames, and other
+sensitive data.
 
 If you need to access a remote system over a network, you should use a more
 secure protocol, such as SSH. SSH is a secure shell protocol that encrypts

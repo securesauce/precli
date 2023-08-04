@@ -4,7 +4,7 @@ r"""
 Reversible One Way Hash in Hmac Module
 ======================================
 
-The Python module hmac provides a number of functions for creating and
+The Python module ``hmac`` provides a number of functions for creating and
 verifying message authentication codes (MACs). However, some of the hash
 algorithms supported by hmac are insecure and should not be used. These
 insecure hash algorithms include `MD4``, ``MD5``, ``RIPEMD-160`` and ``SHA-1``.

@@ -4,7 +4,7 @@ r"""
 Deserialization of Untrusted Data in Pickle Module
 ==================================================
 
-The Python pickle module is a serialization module that can be used to
+The Python ``pickle`` module is a serialization module that can be used to
 serialize and deserialize Python objects. However, pickle is not a secure
 serialization format and should not be used to serialize sensitive data.
 
