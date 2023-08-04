@@ -4,7 +4,7 @@ r"""
 Deserialization of Untrusted Data in the Shelve Module
 ======================================================
 
-The Python shelve module provides a way to store Python objects in a file.
+The Python ``shelve`` module provides a way to store Python objects in a file.
 It is backed by the pickle module, which is a serialization format that can
 be used to store arbitrary Python objects.
 

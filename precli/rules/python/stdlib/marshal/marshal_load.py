@@ -4,7 +4,7 @@ r"""
 Deserialization of Untrusted Data in the Marshal Module
 =======================================================
 
-The Python marshal module provides a way to serialize and deserialize
+The Python ``marshal`` module provides a way to serialize and deserialize
 Python objects. However, it is important to be aware that malicious data
 can be used to attack applications that use the marshal module. For example,
 a malicious data could be used to cause the decoder to execute arbitrary code.

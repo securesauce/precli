@@ -85,7 +85,15 @@ class Rule(ABC):
         :return: rule short description
         :rtype: str
         """
-        return self._cwe.description
+        try:
+            start = self._full_descr.rindex("===\n") + 4
+        except ValueError:
+            start = 0
+        try:
+            end = self._full_descr.index("\n---")
+        except ValueError:
+            end = len(self._full_descr)
+        return self._full_descr[start:end]
 
     @property
     def full_descr(self) -> str:

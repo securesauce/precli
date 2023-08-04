@@ -4,7 +4,7 @@ r"""
 Deserialization of Untrusted Data in the Json Module
 ====================================================
 
-The Python json module provides a way to parse and generate JSON data.
+The Python ``json`` module provides a way to parse and generate JSON data.
 However, it is important to be aware that malicious JSON strings can be used
 to attack applications that use the json module. For example, a malicious
 JSON string could be used to cause the decoder to consume considerable CPU

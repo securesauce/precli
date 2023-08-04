@@ -4,7 +4,7 @@ r"""
 Reversible One Way Hash in Hashlib Module
 =========================================
 
-The Python module hashlib provides a number of functions for hashing data.
+The Python module ``hashlib`` provides a number of functions for hashing data.
 However, some of the hash algorithms supported by hashlib are insecure and
 should not be used. These insecure hash algorithms include ``MD4``, ``MD5``,
 ``RIPEMD-160`` and ``SHA-1``.
