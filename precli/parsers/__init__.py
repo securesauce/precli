@@ -27,8 +27,8 @@ class Parser(ABC):
         :param list enabled: list of rules to enable
         :param list disabled: list of rules to disable
         """
-        self.language = tree_sitter_languages.get_language(lang)
-        self.parser = tree_sitter_languages.get_parser(lang)
+        self.tree_sitter_language = tree_sitter_languages.get_language(lang)
+        self.tree_sitter_parser = tree_sitter_languages.get_parser(lang)
         self.rules = {}
         self.wildcards = {}
 
@@ -77,8 +77,14 @@ class Parser(ABC):
         if data is None:
             with open(file_name, "rb") as fdata:
                 data = fdata.read()
-        tree = self.parser.parse(data)
+        tree = self.tree_sitter_parser.parse(data)
         self.visit([tree.root_node])
+
+        for result in self.results:
+            suppression = self.suppressions.get(result.location.start_line)
+            if suppression and result.rule_id in suppression.rules:
+                result.suppression = suppression
+
         return self.results
 
     def visit(self, nodes: list[Node]):
@@ -112,5 +118,5 @@ class Parser(ABC):
                 context = self.context
                 context["symtab"] = self.current_symtab
                 result = rule.analyze(self.context, **kwargs)
-                if result:
+                if result is not None:
                     self.results.append(result)

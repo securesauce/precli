@@ -16,7 +16,7 @@ class Result:
         location: Location = None,
         message: str = None,
         fixes: list[Fix] = None,
-        suppressions: list[Suppression] = None,
+        suppression: Suppression = None,
     ):
         self._rule_id = rule_id
         self._kind = kind
@@ -32,7 +32,7 @@ class Result:
         else:
             self._message = Rule.get_by_id(self._rule_id).message
         self._fixes = fixes if fixes is not None else []
-        self._suppressions = suppressions if suppressions is not None else []
+        self._suppression = suppression
 
     @property
     def rule_id(self) -> str:
@@ -77,10 +77,12 @@ class Result:
         """
         The result severity level.
 
+        If the result is being supporessed, then the level is set to NOTE.
+
         :return: severity level
         :rtype: Level
         """
-        return self._level
+        return self._level if self._suppression is None else Level.NOTE
 
     @property
     def message(self) -> str:
@@ -90,7 +92,10 @@ class Result:
         :return: issue message
         :rtype: str
         """
-        return self._message
+        if self._suppression is None:
+            return self._message
+        else:
+            return "This issue is being supporessed via an inline comment."
 
     @property
     def rank(self) -> float:
@@ -116,11 +121,20 @@ class Result:
         return self._fixes
 
     @property
-    def suppressions(self) -> list[Suppression]:
+    def suppression(self) -> Suppression:
         """
         Possible suppressions of the result.
 
-        :return: list of suppressions
-        :rtype: list
+        :return: suppression or None
+        :rtype: Suppression
         """
-        return self._suppressions
+        return self._suppression
+
+    @suppression.setter
+    def suppression(self, suppression):
+        """
+        Set the suppression of this result
+
+        :param Suppression suppression: suppression
+        """
+        self._suppression = suppression

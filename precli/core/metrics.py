@@ -7,7 +7,6 @@ class Metrics:
         files: int,
         files_skipped: int,
         lines: int,
-        lines_skipped: int,
         errors: int = 0,
         warnings: int = 0,
         notes: int = 0,
@@ -15,7 +14,6 @@ class Metrics:
         self._files = files
         self._files_skipped = files_skipped
         self._lines = lines
-        self._lines_skipped = lines_skipped
         self._errors = errors
         self._warnings = warnings
         self._notes = notes
@@ -49,16 +47,6 @@ class Metrics:
         :rtype: int
         """
         return self._lines
-
-    @property
-    def lines_skipped(self) -> int:
-        """
-        Total number of lines skipped due to a suppression.
-
-        :return: number of lines skipped
-        :rtype: int
-        """
-        return self._lines_skipped
 
     @property
     def errors(self) -> int:
