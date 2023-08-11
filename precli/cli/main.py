@@ -149,7 +149,6 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
 
     results = []
     lines = 0
-    lines_skipped = 0
     for fname in files:
         LOG.debug("working on file : %s", fname)
 
@@ -174,7 +173,6 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
         files=len(new_file_list),
         files_skipped=len(files_skipped),
         lines=lines,
-        lines_skipped=lines_skipped,
         errors=sum(result.level == Level.ERROR for result in results),
         warnings=sum(result.level == Level.WARNING for result in results),
         notes=sum(result.level == Level.NOTE for result in results),

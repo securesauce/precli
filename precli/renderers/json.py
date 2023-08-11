@@ -39,7 +39,6 @@ class Json(Renderer):
             "files": metrics.files,
             "files_skipped": metrics.files_skipped,
             "lines": metrics.lines,
-            "lines_skipped": metrics.lines_skipped,
             "errors": metrics.errors,
             "warnings": metrics.warnings,
             "notes": metrics.notes,

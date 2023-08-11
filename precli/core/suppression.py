@@ -6,15 +6,37 @@ from precli.core.status import Status
 class Suppression:
     def __init__(
         self,
-        kind: str,
-        status: Status = None,
-        location: Location = None,
+        location: Location,
+        rules: set[str],
+        kind: str = "inSource",
+        status: Status = Status.ACCEPTED,
         justification: str = None,
     ):
+        self._location = location
+        self._rules = rules
         self._kind = kind
         self._status = status
-        self._location = location
         self._justification = justification
+
+    @property
+    def location(self) -> Location:
+        """
+        Specifies the location of the suppression.
+
+        :return: location of suppression
+        :rtype: Location
+        """
+        return self._location
+
+    @property
+    def rules(self) -> set[str]:
+        """
+        What rules are being suppressed.
+
+        :return: set of rule ID/names
+        :rtype: set
+        """
+        return self._rules
 
     @property
     def kind(self) -> str:
@@ -26,7 +48,7 @@ class Suppression:
         :return: kind of suppression
         :rtype: str
         """
-        return "inSource"
+        return self._kind
 
     @property
     def status(self) -> Status:
@@ -39,15 +61,6 @@ class Suppression:
         return self._status
 
     @property
-    def location(self) -> Location:
-        """
-        Specifies the location of the suppression.
-
-        :return: location of suppression
-        :rtype: Location
-        """
-        return self._location
-
     def justification(self) -> str:
         """
         User-supplied string that explains why the result was suppressed.

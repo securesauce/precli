@@ -23,7 +23,6 @@ class Detailed(Renderer):
 
     def render(self, results: list[Result], metrics: Metrics):
         for result in results:
-            rule = Rule.get_by_id(result.rule_id)
             match result.level:
                 case Level.ERROR:
                     emoji = ":cross_mark-emoji:"
@@ -43,6 +42,7 @@ class Detailed(Renderer):
                 style=style,
                 markup=False,
             )
+            rule = Rule.get_by_id(result.rule_id)
             self.console.print(
                 f"{rule.id}: {rule.cwe.name}",
                 style=style,
@@ -65,44 +65,45 @@ class Detailed(Renderer):
             )
             self.console.print(code)
 
-            for fix in result.fixes:
-                self.console.print(
-                    f"Suggested fix: {fix.description}",
-                    style=style,
-                )
-                start_line = fix.deleted_location.start_line
-                end_line = fix.deleted_location.end_line
-                start_column = fix.deleted_location.start_column
-                end_column = fix.deleted_location.end_column
-                line_before = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line - 1,
-                )
-                code = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line,
-                )
-                line_after = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line + 1,
-                )
-                code = (
-                    code[:start_column]
-                    + fix.inserted_content
-                    + code[end_column:]
-                )
-                code = line_before + code + line_after
-                for _ in range(start_line - 2):
-                    code = "\n" + code
-                code = syntax.Syntax(
-                    code,
-                    "python",
-                    line_numbers=True,
-                    line_range=(start_line - 1, end_line + 1),
-                    highlight_lines=(start_line, end_line),
-                )
-                self.console.print(code)
-            self.console.print()
+            if not result.suppression:
+                for fix in result.fixes:
+                    self.console.print(
+                        f"Suggested fix: {fix.description}",
+                        style=style,
+                    )
+                    start_line = fix.deleted_location.start_line
+                    end_line = fix.deleted_location.end_line
+                    start_column = fix.deleted_location.start_column
+                    end_column = fix.deleted_location.end_column
+                    line_before = linecache.getline(
+                        filename=result.location.file_name,
+                        lineno=start_line - 1,
+                    )
+                    code = linecache.getline(
+                        filename=result.location.file_name,
+                        lineno=start_line,
+                    )
+                    line_after = linecache.getline(
+                        filename=result.location.file_name,
+                        lineno=start_line + 1,
+                    )
+                    code = (
+                        code[:start_column]
+                        + fix.inserted_content
+                        + code[end_column:]
+                    )
+                    code = line_before + code + line_after
+                    for _ in range(start_line - 2):
+                        code = "\n" + code
+                    code = syntax.Syntax(
+                        code,
+                        "python",
+                        line_numbers=True,
+                        line_range=(start_line - 1, end_line + 1),
+                        highlight_lines=(start_line, end_line),
+                    )
+                    self.console.print(code)
+                self.console.print()
 
         # Print the summary
         table = Table(
@@ -123,8 +124,6 @@ class Detailed(Renderer):
         table.add_row(
             "Files skipped",
             f"{metrics.files_skipped}",
-            "Lines skipped",
-            f"{metrics.lines_skipped}",
             end_section=True,
         )
         table.add_row(
@@ -140,5 +139,6 @@ class Detailed(Renderer):
         table.add_row(
             "Notes",
             f"{metrics.notes}",
+            style="blue" if metrics.notes else "",
         )
         self.console.print(table)
