@@ -95,7 +95,7 @@ class Result:
         if self._suppression is None:
             return self._message
         else:
-            return "This issue is being supporessed via an inline comment."
+            return "This issue is being suppressed via an inline comment."
 
     @property
     def rank(self) -> float:
