@@ -18,7 +18,7 @@ from precli.rules import Rule
 Import = namedtuple("Import", "module alias")
 
 SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
-SUPPRESSED_RULES = re.compile(r"(?:(PRE\d+|[a-z_]+),?)+", re.IGNORECASE)
+SUPPRESSED_RULES = re.compile(r"(?:(PRE\d\d\d\d|[a-z_]+),?)+")
 
 
 class Python(Parser):
