@@ -118,7 +118,7 @@ class Result:
         :return: list of fixes
         :rtype: list
         """
-        return self._fixes
+        return self._fixes if self._suppression is None else []
 
     @property
     def suppression(self) -> Suppression:
