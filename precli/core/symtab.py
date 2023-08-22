@@ -1,6 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
 from typing import Self
 
+from precli.core.call import Call
+
 
 class SymbolTable:
     def __init__(self, name, parent=None):
@@ -38,6 +40,7 @@ class Symbol:
         self._name = name
         self._type = type
         self._value = value
+        self._call_history = []
 
     @property
     def name(self) -> str:
@@ -50,6 +53,13 @@ class Symbol:
     @property
     def value(self) -> str:
         return self._value
+
+    def push_call(self, call: Call):
+        self._call_history.append(call)
+
+    @property
+    def call_history(self) -> list[Call]:
+        return self._call_history
 
     def __repr__(self) -> str:
         return f"Symbol (type: {self._type}, value: {self._value})"

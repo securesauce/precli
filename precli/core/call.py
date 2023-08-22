@@ -10,8 +10,8 @@ class Call:
         node: Node,
         name: str,
         name_qual: str,
-        args: list,
-        kwargs: dict,
+        args: list = None,
+        kwargs: dict = None,
     ):
         self._node = node
         self._name = name
@@ -24,7 +24,19 @@ class Call:
             # list
             self._func_node = node.children[0]
             self._arg_list_node = node.children[1]
+            self._var_node = Call._get_var_node(self._func_node)
             self._ident_node = Call._get_func_ident(self._func_node)
+
+    @staticmethod
+    def _get_var_node(node: Node) -> Node:
+        if (
+            node.named_children
+            and node.named_children[0].type in ("identifier", "attribute")
+            and node.named_children[1].type == "identifier"
+        ):
+            return node.named_children[0]
+        elif node.type == "attribute":
+            return Call._get_var_node(node.named_children[0])
 
     @staticmethod
     def _get_func_ident(node: Node) -> Node:
@@ -45,11 +57,25 @@ class Call:
         return self._node
 
     @property
+    def var_node(self) -> Node:
+        """
+        The node representing the variable part of a function call.
+
+        For example, if the function call is:
+            a.b.c()
+        The function node would be a.b
+
+        :return: function for the call
+        :rtype: Node
+        """
+        return self._var_node
+
+    @property
     def function_node(self) -> Node:
         """
         The node representing the entire function of the call.
 
-        For example, if the function is:
+        For example, if the function call is:
             a.b.c()
         The function node would be a.b.c
 
@@ -63,7 +89,7 @@ class Call:
         """
         The node representing just the identifier of the function.
 
-        For example, if the function is:
+        For example, if the function call is:
             a.b.c()
         The identifier node would be c
 
@@ -116,3 +142,6 @@ class Call:
                             name=name,
                         )
         return default if default else Argument(node=None, value=None)
+
+    def __repr__(self) -> str:
+        return self._node.text.decode()

@@ -90,19 +90,13 @@ from precli.rules import Rule
 
 
 class FtpCleartext(Rule):
-    """
-    .. seealso::
-
-     - https://docs.python.org/3/library/ftplib.html
-    """
-
     def __init__(self, id: str):
         super().__init__(
             id=id,
             name="cleartext_transmission",
             full_descr=__doc__,
             cwe_id=319,
-            message="The FTP protocol transmits data in cleartext without "
+            message="The FTP protocol can transmit data in cleartext without "
             "encryption.",
             targets=("call"),
             wildcards={

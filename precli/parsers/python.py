@@ -115,6 +115,15 @@ class Python(Parser):
             left_hand = self.literal_value(nodes[0], default=nodes[0])
             right_hand = self.literal_value(nodes[2], default=nodes[2])
             self.current_symtab.put(left_hand, "identifier", right_hand)
+            if nodes[2].type == "call":
+                call = Call(
+                    node=nodes[2],
+                    name=right_hand,
+                    name_qual=right_hand,
+                )
+                symbol = self.current_symtab.get(left_hand)
+                symbol.push_call(call)
+
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
@@ -140,6 +149,15 @@ class Python(Parser):
             self.current_symtab.put(identifier, "import", module)
 
         self.process_rules("call", call=call)
+
+        if call.var_node is not None:
+            symbol = self.current_symtab.get(call.var_node.text.decode())
+            if symbol is not None and symbol.type == "identifier":
+                symbol.push_call(call)
+        else:
+            # TODO: why is var_node None?
+            pass
+
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):

@@ -10,11 +10,11 @@ from tests.unit.rules.python import test_case
 class JsonPickleDecodeTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=["PRE0018"])
+        self.parser = python.Python(enabled=["PRE0504"])
 
     def test_jsonpickle_decode_rule_meta(self):
-        rule = Rule.get_by_id("PRE0018")
-        self.assertEqual("PRE0018", rule.id)
+        rule = Rule.get_by_id("PRE0504")
+        self.assertEqual("PRE0504", rule.id)
         self.assertEqual("deserialization_of_untrusted_data", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -33,7 +33,7 @@ class JsonPickleDecodeTests(test_case.TestCase):
         results = self.parser.parse("test.py", str.encode(fdata))
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0018", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
