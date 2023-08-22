@@ -20,8 +20,8 @@ class TelnetlibCleartextTests(test_case.TestCase):
         )
 
     def test_telnetlib_cleartext_rule_meta(self):
-        rule = Rule.get_by_id("PRE0014")
-        self.assertEqual("PRE0014", rule.id)
+        rule = Rule.get_by_id("PRE0018")
+        self.assertEqual("PRE0018", rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
         self.assertEqual("", rule.help_url)
         self.assertEqual(True, rule.default_config.enabled)
@@ -33,7 +33,7 @@ class TelnetlibCleartextTests(test_case.TestCase):
         results = self.parser.parse(os.path.join(self.base_path, "telnet.py"))
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0014", result.rule_id)
+        self.assertEqual("PRE0018", result.rule_id)
         self.assertEqual(9, result.location.start_line)
         self.assertEqual(9, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
@@ -47,7 +47,7 @@ class TelnetlibCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0014", result.rule_id)
+        self.assertEqual("PRE0018", result.rule_id)
         self.assertEqual(9, result.location.start_line)
         self.assertEqual(9, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
@@ -61,7 +61,7 @@ class TelnetlibCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0014", result.rule_id)
+        self.assertEqual("PRE0018", result.rule_id)
         self.assertEqual(9, result.location.start_line)
         self.assertEqual(9, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
