@@ -16,8 +16,8 @@ class Call:
         self._node = node
         self._name = name
         self._name_qual = name_qual
-        self._args = args
-        self._kwargs = kwargs
+        self._args = args if args is not None else []
+        self._kwargs = kwargs if kwargs is not None else {}
 
         if self._node.children:
             # Assign nodes to the call attribute/identifier and argument
@@ -30,7 +30,7 @@ class Call:
     @staticmethod
     def _get_var_node(node: Node) -> Node:
         if (
-            node.named_children
+            len(node.named_children) >= 2
             and node.named_children[0].type in ("identifier", "attribute")
             and node.named_children[1].type == "identifier"
         ):
