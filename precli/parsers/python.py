@@ -174,6 +174,16 @@ class Python(Parser):
                 identifier = self.literal_value(identifier, default=identifier)
                 statement = self.literal_value(statement, default=statement)
                 self.current_symtab.put(identifier, "identifier", statement)
+
+                if as_pattern.children[0].type == "call":
+                    call = Call(
+                        node=as_pattern.children[0],
+                        name=statement,
+                        name_qual=statement,
+                    )
+                    symbol = self.current_symtab.get(identifier)
+                    symbol.push_call(call)
+
         self.visit(nodes)
 
     def visit_comparison_operator(self, nodes: list[Node]):
