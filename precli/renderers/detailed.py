@@ -116,28 +116,28 @@ class Detailed(Renderer):
         table.add_column(justify="right")
         table.add_row(
             "Files analyzed",
-            f"{metrics.files}",
+            f"{metrics.files:,}",
             "Lines analyzed",
-            f"{metrics.lines}",
+            f"{metrics.lines:,}",
         )
         table.add_row(
             "Files skipped",
-            f"{metrics.files_skipped}",
+            f"{metrics.files_skipped:,}",
             end_section=True,
         )
         table.add_row(
             "Errors",
-            f"{metrics.errors}",
+            f"{metrics.errors:,}",
             style="red" if metrics.errors else "",
         )
         table.add_row(
             "Warnings",
-            f"{metrics.warnings}",
+            f"{metrics.warnings:,}",
             style="yellow" if metrics.warnings else "",
         )
         table.add_row(
             "Notes",
-            f"{metrics.notes}",
+            f"{metrics.notes:,}",
             style="blue" if metrics.notes else "",
         )
         self.console.print(table)
