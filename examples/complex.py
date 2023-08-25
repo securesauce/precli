@@ -1,16 +1,7 @@
-import getpass
-import imaplib
+import os
+import tempfile
 
 
-M = imaplib.IMAP4()
-
-#M.starttls()
-
-M.login(getpass.getuser(), getpass.getpass())
-M.select()
-typ, data = M.search(None, 'ALL')
-for num in data[0].split():
-    typ, data = M.fetch(num, '(RFC822)')
-    print('Message %s\n%s\n' % (num, data[0][1]))
-M.close()
-M.logout()
+filename = tempfile.mktemp('', 'tmp', None)
+with os.open(filename, "w+", buffering=-1, encoding=None, errors=None, newline=None) as f:
+    f.write(b"Hello World!\n")

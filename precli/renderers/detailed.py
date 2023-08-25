@@ -65,41 +65,63 @@ class Detailed(Renderer):
             )
             self.console.print(code)
 
-            for fix in result.fixes:
+            if result.fixes:
                 self.console.print(
-                    f"Suggested fix: {fix.description}",
+                    f"Suggested fix: {result.fixes[0].description}",
                     style=style,
                 )
+
+            highlight_lines = set()
+            for fix in result.fixes:
+                highlight_lines.add(fix.deleted_location.start_line)
+                highlight_lines.add(fix.deleted_location.end_line)
+
+            for fix in result.fixes:
                 start_line = fix.deleted_location.start_line
                 end_line = fix.deleted_location.end_line
                 start_column = fix.deleted_location.start_column
                 end_column = fix.deleted_location.end_column
-                line_before = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line - 1,
-                )
+
+                if (start_line - 1) in highlight_lines:
+                    line_before = ""
+                    before = 0
+                else:
+                    line_before = linecache.getline(
+                        filename=result.location.file_name,
+                        lineno=start_line - 1,
+                    )
+                    before = 1
+
                 code = linecache.getline(
                     filename=result.location.file_name,
                     lineno=start_line,
                 )
-                line_after = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line + 1,
-                )
+
+                if (start_line + 1) in highlight_lines:
+                    line_after = ""
+                    after = 0
+                else:
+                    line_after = linecache.getline(
+                        filename=result.location.file_name,
+                        lineno=start_line + 1,
+                    )
+                    after = 1
+
                 code = (
                     code[:start_column]
                     + fix.inserted_content
                     + code[end_column:]
                 )
                 code = line_before + code + line_after
-                for _ in range(start_line - 2):
+                for _ in range(start_line - 1 - before):
                     code = "\n" + code
+
                 code = syntax.Syntax(
                     code,
                     "python",
                     line_numbers=True,
-                    line_range=(start_line - 1, end_line + 1),
-                    highlight_lines=(start_line, end_line),
+                    line_range=(start_line - before, end_line + after),
+                    highlight_lines=highlight_lines,
                 )
                 self.console.print(code)
             self.console.print()
