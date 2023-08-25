@@ -83,7 +83,6 @@ class MktempRaceCondition(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
 
-        # TODO: the builtin open can't be found because not imported
         if call.name_qualified in ["open"]:
             file_arg = call.get_argument(position=0, name="file")
 

@@ -159,12 +159,16 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
                 new_file_list = [
                     "<stdin>" if x == "-" else x for x in new_file_list
                 ]
-                results += parse_file(parsers, "<stdin>", fdata, new_file_list)
+                results += parse_file(
+                    parsers, "<stdin>", fdata, new_file_list, files_skipped
+                )
             else:
                 with open(fname, "rb") as fdata:
                     lines += sum(1 for _ in fdata)
                 with open(fname, "rb") as fdata:
-                    results += parse_file(parsers, fname, fdata, new_file_list)
+                    results += parse_file(
+                        parsers, fname, fdata, new_file_list, files_skipped
+                    )
         except OSError as e:
             files_skipped.append((fname, e.strerror))
             new_file_list.remove(fname)
@@ -182,7 +186,11 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
 
 
 def parse_file(
-    parsers: dict, fname: str, fdata: io.BufferedReader, new_file_list: list
+    parsers: dict,
+    fname: str,
+    fdata: io.BufferedReader,
+    new_file_list: list,
+    files_skipped: list,
 ) -> list[Result]:
     try:
         data = fdata.read()
@@ -194,23 +202,19 @@ def parse_file(
         sys.exit(2)
     except SyntaxError as e:
         print(e)
-        # self.skipped.append(
-        #    (fname, "syntax error while parsing AST from file")
-        # )
+        files_skipped.append((fname, e))
         new_file_list.remove(fname)
     except Exception as e:
         print(traceback.format_exc())
         LOG.error(
-            "Exception occurred when executing tests against "
-            '%s. Run "precli --debug %s" to see the full '
-            "traceback.",
-            fname,
-            fname,
+            f"Exception occurred when executing rules against "
+            f'{fname}. Run "precli --debug {fname}" to see the full '
+            f"traceback."
         )
         # self.skipped.append((fname, "exception while scanning file"))
         new_file_list.remove(fname)
-        LOG.debug("  Exception string: %s", e)
-        LOG.debug("  Exception traceback: %s", traceback.format_exc())
+        LOG.debug(f"  Exception string: {e}")
+        LOG.debug(f"  Exception traceback: {traceback.format_exc()}")
     return []
 
 
