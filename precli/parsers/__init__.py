@@ -101,6 +101,19 @@ class Parser(ABC):
             visitor_fn = getattr(self, f"visit_{node.type}", self.visit)
             visitor_fn(node.children)
 
+    def visit_ERROR(self, nodes: list[Node]):
+        raise SyntaxError(
+            "Syntax error while parsing file.",
+            (
+                self.context["file_name"],
+                self.context["node"].start_point[0] + 1,
+                self.context["node"].start_point[1] + 1,
+                self.context["node"].text.decode(),
+                self.context["node"].end_point[0] + 1,
+                self.context["node"].end_point[1] + 1,
+            ),
+        )
+
     def process_rules(self, target: str, **kwargs: dict) -> list[Result]:
         """
         Process the rules based on target.

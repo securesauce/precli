@@ -32,8 +32,6 @@ class Python(Parser):
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<module>")
-        for builtin in dir(builtins):
-            self.current_symtab.put(builtin, "import", builtin)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
@@ -324,9 +322,12 @@ class Python(Parser):
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> Symbol:
-        symbol = self.current_symtab.get(node.text.decode())
+        nodetext = node.text.decode()
+        symbol = self.current_symtab.get(nodetext)
         if symbol is not None:
             return symbol
+        if nodetext in dir(builtins):
+            return Symbol(nodetext, "identifier", nodetext)
         for child in node.children:
             return self.get_qual_name(child)
 
