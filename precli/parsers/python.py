@@ -1,5 +1,6 @@
 # Copyright 2023 Secure Saurce LLC
 import ast
+import builtins
 import re
 from collections import namedtuple
 
@@ -31,6 +32,8 @@ class Python(Parser):
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<module>")
+        for builtin in dir(builtins):
+            self.current_symtab.put(builtin, "import", builtin)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
@@ -116,10 +119,15 @@ class Python(Parser):
             right_hand = self.literal_value(nodes[2], default=nodes[2])
             self.current_symtab.put(left_hand, "identifier", right_hand)
             if nodes[2].type == "call":
+                (call_args, call_kwargs) = self.get_func_args(
+                    nodes[2].children[1]
+                )
                 call = Call(
                     node=nodes[2],
                     name=right_hand,
                     name_qual=right_hand,
+                    args=call_args,
+                    kwargs=call_kwargs,
                 )
                 symbol = self.current_symtab.get(left_hand)
                 symbol.push_call(call)
