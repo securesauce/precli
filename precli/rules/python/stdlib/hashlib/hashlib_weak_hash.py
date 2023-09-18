@@ -144,6 +144,28 @@ class HashlibWeakHash(Rule):
                     level=Level.ERROR,
                     message=self.message.format(call.name_qualified),
                 )
+        elif call.name_qualified in ["hashlib.pbkdf2_hmac"]:
+            """
+            hashlib.pbkdf2_hmac(
+                hash_name,
+                password,
+                salt,
+                iterations,
+                dklen=None
+            )
+            """
+            hash_name = call.get_argument(position=0, name="hash_name").value
+
+            if isinstance(hash_name, str) and hash_name.lower() in WEAK_HASHES:
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=call.function_node,
+                    ),
+                    level=Level.ERROR,
+                    message=self.message.format(hash_name),
+                )
         elif call.name_qualified in ["hashlib.new"]:
             """
             hashlib.new(name, data=b'', **kwargs)

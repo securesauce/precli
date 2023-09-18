@@ -263,6 +263,130 @@ class HashlibWeakHashTests(test_case.TestCase):
         )
         self.assertEqual(0, len(results))
 
+    def test_hashlib_pbkdf2_hmac_md4(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_md4.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(19, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_hashlib_pbkdf2_hmac_md5(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_md5.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(19, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_hashlib_pbkdf2_hmac_ripemd160(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_ripemd160.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(19, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_hashlib_pbkdf2_hmac_sha(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(19, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_hashlib_pbkdf2_hmac_sha1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha1.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual(5, result.location.start_line)
+        self.assertEqual(5, result.location.end_line)
+        self.assertEqual(0, result.location.start_column)
+        self.assertEqual(19, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_hashlib_pbkdf2_hmac_sha224(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha224.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha256(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha256.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha384(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha384.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha3_224(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha3_224.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha3_256(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha3_256.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha3_384(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha3_384.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_sha3_512(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_sha3_512.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_shake_128(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_shake_128.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_hashlib_pbkdf2_hmac_shake_256(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "hashlib_pbkdf2_hmac_shake_256.py")
+        )
+        self.assertEqual(0, len(results))
+
     def test_hashlib_ripemd160(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "hashlib_ripemd160.py")
