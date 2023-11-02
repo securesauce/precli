@@ -23,7 +23,9 @@ class SslCreateContextTests(test_case.TestCase):
         rule = Rule.get_by_id("PRE0016")
         self.assertEqual("PRE0016", rule.id)
         self.assertEqual("improper_certificate_validation", rule.name)
-        self.assertEqual("", rule.help_url)
+        self.assertEqual(
+            "https://docs.securesauce.dev/rules/PRE0016", rule.help_url
+        )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)

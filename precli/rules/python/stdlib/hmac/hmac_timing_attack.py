@@ -49,8 +49,8 @@ Example
 Remediation
 -----------
 
-The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
+The recommendation is to replace the == operator with the function
+``compare_digest``.
 
 .. code-block:: python
    :linenos:
@@ -72,6 +72,7 @@ secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
 
 .. seealso::
 
+ - `Observable Timing Discrepancy in Hmac Module <https://docs.securesauce.dev/rules/PRE0005>`_
  - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_
  - `CWE-208: Observable Timing Discrepancy <https://cwe.mitre.org/data/definitions/208.html>`_
 

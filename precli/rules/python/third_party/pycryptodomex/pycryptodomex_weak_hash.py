@@ -1,4 +1,75 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+===============================================
+Reversible One Way Hash in PyCryptodomex Module
+===============================================
+
+The Python module ``pycryptodomex`` provides a number of functions for hashing
+data. However, some of the hash algorithms supported by ``pycryptodomex`` are
+insecure and should not be used. These insecure hash algorithms include
+``MD2``, ``MD4``, ``MD5``, ``RIPEMD`` and ``SHA``.
+
+The MD4 hash algorithm is a cryptographic hash function that was designed in
+the late 1980s. MD4 is no longer considered secure, and passwords hashed with
+MD4 can be easily cracked by attackers.
+
+The MD5 hash algorithm is a cryptographic hash function that was designed in
+the early 1990s. MD5 is no longer considered secure, and passwords hashed
+with MD5 can be easily cracked by attackers.
+
+RIPEMD is a cryptographic hash function that was designed in 1996. It is
+considered to be a secure hash function, but it is not as secure as
+SHA-256, SHA-384, or SHA-512. In 2017, a collision attack was found for
+RIPEMD-160. This means that it is possible to find two different messages
+that have the same RIPEMD-160 hash. While this does not mean that RIPEMD-160
+is completely insecure, it does mean that it is not as secure as it once was.
+
+The SHA hash algorithm is also a cryptographic hash function that was
+designed in the early 1990s. SHA-1 is no longer considered secure, and
+passwords hashed with SHA-1 can be easily cracked by attackers.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    from Crypto.Hash import MD2
+
+
+    h = MD2.new()
+    h.update(b'Hello')
+    print h.hexdigest()
+
+-----------
+Remediation
+-----------
+
+The recommendation is to swap the insecure hashing method to one of the more
+secure alternatives, ``SHA256``, ``SHA384``, or ``SHA512``.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    from Crypto.Hash import SHA256
+
+
+    h = SHA256.new()
+    h.update(b'Hello')
+    print h.hexdigest()
+
+.. seealso::
+
+ - `Reversible One Way Hash in PyCryptodomex Module <https://docs.securesauce.dev/rules/PRE0508>`_
+ - `PyCryptodome <https://www.pycryptodome.org/>`_
+ - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
+ - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location

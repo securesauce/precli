@@ -1,4 +1,56 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+======================================================
+Deserialization of Untrusted Data in the PyYAML Module
+======================================================
+
+The Python ``PyYAML`` module provides a way to parse and generate YAML data.
+However, it is important to be aware that malicious YAML strings can be used
+to attack applications that use the json module. For example, a malicious YAML
+string could be used to cause the decoder to consume considerable CPU and
+memory resources, which could lead to a denial-of-service attack.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import yaml
+
+
+    yaml.load("{}")
+
+-----------
+Remediation
+-----------
+
+To avoid this vulnerability, it is important to only parse YAML data from
+trusted sources. If you are parsing YAML data from an untrusted source, you
+should first sanitize the data to remove any potential malicious code. You
+can also switch to the ``safe_load`` function or use the ``SafeLoader`` value
+to the ``Loader`` argument.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import yaml
+
+
+    yaml.safe_load("{}")
+
+.. seealso::
+
+ - `Deserialization of Untrusted Data in the PyYAML Module <https://docs.securesauce.dev/rules/PRE0511>`_
+ - `PyYAML Documentation <https://pyyaml.org/wiki/PyYAMLDocumentation>`_
+ - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result

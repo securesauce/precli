@@ -49,6 +49,7 @@ to be secure and cannot be used to execute malicious code.
 
 .. seealso::
 
+ - `Deserialization of Untrusted Data in Pickle Module <https://docs.securesauce.dev/rules/PRE0012>`_
  - `pickle — Python object serialization <https://docs.python.org/3/library/pickle.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
  - `json — JSON encoder and decoder <https://docs.python.org/3/library/json.html>`_

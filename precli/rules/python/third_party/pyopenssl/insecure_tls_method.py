@@ -1,4 +1,66 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+=======================================================
+Inadequate Encryption Strength Using Weak SSL Protocols
+=======================================================
+
+The Python ``pyopenssl`` modules provide a number of different methods that
+can be used to encrypt data. However, some of these methods are no longer
+considered secure and should not be used.
+
+The following protocols are considered weak and should not be used:
+
+- SSLv2_METHOD
+- SSLv3_METHOD
+- TLSv1_METHOD
+- TLSv1_1_METHOD
+
+These protocols have a number of known security vulnerabilities that can be
+exploited by attackers. For example, the BEAST attack can be used to steal
+sensitive data, such as passwords and credit card numbers, from applications
+that use SSL version 2.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import OpenSSL
+
+
+    OpenSSL.SSL.Context(method=OpenSSL.SSL.SSLv2_METHOD)
+
+-----------
+Remediation
+-----------
+
+If you need to connect to a server over HTTPS, you should use the
+``TLS_METHOD``, ``TLS_SERVER_METHOD``, or ``TLS_CLIENT_METHOD`` methods
+instead. The ``SSLv23_METHOD`` and ``TLSv1_2_METHOD`` methods are also
+considered secure, but the aforementioned methods are more future proof as
+they negotiate a secure version of the method for you.
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4
+
+    import OpenSSL
+
+
+    OpenSSL.SSL.Context(method=OpenSSL.SSL.TLS_METHOD)
+
+.. seealso::
+
+ - `Inadequate Encryption Strength Using Weak SSL Protocols <https://docs.securesauce.dev/rules/PRE0510>`_
+ - `pyOpenSSL’s documentation <https://www.pyopenssl.org/en/latest/>`_
+ - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/326.html>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location

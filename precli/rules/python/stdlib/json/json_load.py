@@ -33,6 +33,7 @@ should first sanitize the data to remove any potential malicious code.
 
 .. seealso::
 
+ - `Deserialization of Untrusted Data in the Json Module <https://docs.securesauce.dev/rules/PRE0008>`_
  - `json — JSON encoder and decoder <https://docs.python.org/3/library/json.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 

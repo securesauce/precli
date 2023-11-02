@@ -47,6 +47,7 @@ and cleanup when the file is no longer needed.
 
 .. seealso::
 
+ - `Insecure Temporary File in the Tempfile Module <https://docs.securesauce.dev/rules/PRE0019>`_
  - `tempfile — Generate temporary files and directories <https://docs.python.org/3/library/tempfile.html#tempfile.mktemp>`_
  - `CWE-377: Insecure Temporary File <https://cwe.mitre.org/data/definitions/377.html>`_
 

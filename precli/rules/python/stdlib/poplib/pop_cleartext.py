@@ -11,7 +11,7 @@ including passwords, is sent in cleartext. This makes it possible for attackers
 to intercept and read this data.
 
 The Python module poplib should only in a secure mannner to protect sensitive
-data when accessing NNTP servers.
+data when accessing POP servers.
 
 -------
 Example
@@ -59,6 +59,7 @@ Alternatively, the ``stls`` function can be used to enter a secure session.
 
 .. seealso::
 
+ - `Cleartext Transmission of Sensitive Information in the Poplib Module <https://docs.securesauce.dev/rules/PRE0013>`_
  - `poplib — POP3 protocol client <https://docs.python.org/3/library/poplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
 
