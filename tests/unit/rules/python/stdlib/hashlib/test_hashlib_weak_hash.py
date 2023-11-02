@@ -23,7 +23,9 @@ class HashlibWeakHashTests(test_case.TestCase):
         rule = Rule.get_by_id("PRE0004")
         self.assertEqual("PRE0004", rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)
-        self.assertEqual("", rule.help_url)
+        self.assertEqual(
+            "https://docs.securesauce.dev/rules/PRE0004", rule.help_url
+        )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)

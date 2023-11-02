@@ -35,9 +35,7 @@ class Rule(ABC):
         self._targets = targets
         self._wildcards = wildcards
         self._config = Config() if not config else config
-        if not help_url:
-            # TDOO: generate URL based on rule
-            self._help_url = ""
+        self._help_url = f"https://docs.securesauce.dev/rules/{id}"
         Rule._rules[id] = self
 
     @property

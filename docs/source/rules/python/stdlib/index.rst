@@ -71,10 +71,15 @@ Standard Library
    ftplib/index
    hashlib/index
    hmac/index
+   imaplib/index
    json/index
    logging/index
    marshal/index
+   nntplib/index
    pickle/index
+   poplib/index
    shelve/index
+   smtplib/index
    ssl/index
    telnetlib/index
+   tempfile/index

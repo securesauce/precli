@@ -48,6 +48,7 @@ verify the data is to use encryption and/or signing.
 
 .. seealso::
 
+ - `Code Injection in Logging Config <https://docs.securesauce.dev/rules/PRE0009>`_
  - `logging.config — Logging configuration <https://docs.python.org/3/library/logging.config.html#module-logging.config>`_
  - `CWE-94: Improper Control of Generation of Code ('Code Injection') <https://cwe.mitre.org/data/definitions/94.html>`_
 

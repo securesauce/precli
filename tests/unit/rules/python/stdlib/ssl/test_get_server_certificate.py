@@ -23,7 +23,9 @@ class GetServerCertificateTests(test_case.TestCase):
         rule = Rule.get_by_id("PRE0017")
         self.assertEqual("PRE0017", rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
-        self.assertEqual("", rule.help_url)
+        self.assertEqual(
+            "https://docs.securesauce.dev/rules/PRE0017", rule.help_url
+        )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)

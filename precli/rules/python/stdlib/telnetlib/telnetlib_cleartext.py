@@ -101,6 +101,7 @@ These alternatives include:
 
 .. seealso::
 
+ - `Cleartext Transmission of Sensitive Information in the Telnetlib Module <https://docs.securesauce.dev/rules/PRE0018>`_
  - `telnetlib — Telnet client <https://docs.python.org/3/library/telnetlib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
  - https://www.paramiko.org/

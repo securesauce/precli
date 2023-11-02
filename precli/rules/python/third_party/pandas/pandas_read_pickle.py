@@ -1,4 +1,58 @@
 # Copyright 2023 Secure Saurce LLC
+r"""
+==================================================
+Deserialization of Untrusted Data in Pandas Module
+==================================================
+
+The Python ``pandas`` module is a data analysis and manipulation tool. It
+contains a fucntion to read serialized data using the pickle format. Pickle
+is not secure because it can be used to deserialize malicious code. For
+example, an attacker could create a pickle file that contains malicious
+code and then trick a user into opening the file. When the user opens the
+file, the malicious code would be executed.
+
+-------
+Example
+-------
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 12
+
+    import pickle
+    import pandas as pd
+
+
+    df = pd.DataFrame(
+        {
+            "col_A": [1, 2]
+        }
+    )
+    pick = pickle.dumps(df)
+
+    pd.read_pickle(pick)
+
+-----------
+Remediation
+-----------
+
+Consider signing data with hmac if you need to ensure that pickle data has
+not been tampered with.
+
+Alternatively if you need to serialize sensitive data, you could use a secure
+serialization format, such as JSON or XML. These formats are designed to be
+secure and cannot be used to execute malicious code.
+
+.. seealso::
+
+ - `Deserialization of Untrusted Data in Pandas Module <https://docs.securesauce.dev/rules/PRE0505>`_
+ - `Input_output — pandas <https://pandas.pydata.org/docs/reference/io.html#pickling>`_
+ - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
+ - `pickle — Python object serialization <https://docs.python.org/3/library/pickle.html>`_
+
+.. versionadded:: 1.0.0
+
+"""  # noqa: E501
 from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
