@@ -178,3 +178,77 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         self.assertEqual(32, result.location.end_column)
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
+
+    def test_rsa_generate_private_key_1024(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "rsa_generate_private_key_1024.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(32, result.location.start_column)
+        self.assertEqual(36, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_rsa_generate_private_key_2048(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "rsa_generate_private_key_2048.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_rsa_generate_private_key_4096(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "rsa_generate_private_key_4096.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_rsa_generate_private_key_kwarg_1024(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "rsa_generate_private_key_kwarg_1024.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(57, result.location.start_column)
+        self.assertEqual(61, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_rsa_generate_private_key_kwarg_2048(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "rsa_generate_private_key_kwarg_2048.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_rsa_generate_private_key_kwarg_4096(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "rsa_generate_private_key_kwarg_4096.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_rsa_generate_private_key_var_1024(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "rsa_generate_private_key_var_1024.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(6, result.location.start_line)
+        self.assertEqual(6, result.location.end_line)
+        self.assertEqual(42, result.location.start_column)
+        self.assertEqual(49, result.location.end_column)
+        self.assertEqual(Level.ERROR, result.level)
+        self.assertEqual(-1.0, result.rank)
