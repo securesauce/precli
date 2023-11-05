@@ -179,6 +179,326 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         self.assertEqual(Level.ERROR, result.level)
         self.assertEqual(-1.0, result.rank)
 
+    def test_ec_derive_private_key_brainpoolp256r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_derive_private_key_brainpoolp256r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_brainpoolp384r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_derive_private_key_brainpoolp384r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_brainpoolp512r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_derive_private_key_brainpoolp512r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_secp192r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp192r1.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(6, result.location.start_line)
+        self.assertEqual(6, result.location.end_line)
+        self.assertEqual(37, result.location.start_column)
+        self.assertEqual(42, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_derive_private_key_secp224r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp224r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_secp256k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp256k1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_secp256r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp256r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_secp384r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp384r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_secp521r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_secp521r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect163k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect163k1.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(6, result.location.start_line)
+        self.assertEqual(6, result.location.end_line)
+        self.assertEqual(37, result.location.start_column)
+        self.assertEqual(42, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_derive_private_key_sect163r2(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect163r2.py")
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(6, result.location.start_line)
+        self.assertEqual(6, result.location.end_line)
+        self.assertEqual(37, result.location.start_column)
+        self.assertEqual(42, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_derive_private_key_sect233k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect233k1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect233r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect233r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect283k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect283k1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect283r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect283r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect409k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect409k1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect409r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect409r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect571k1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect571k1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_derive_private_key_sect571r1(self):
+        results = self.parser.parse(
+            os.path.join(self.base_path, "ec_derive_private_key_sect571r1.py")
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_brainpoolp256r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_brainpoolp256r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_brainpoolp384r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_brainpoolp384r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_brainpoolp512r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_brainpoolp512r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_secp192r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp192r1.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(27, result.location.start_column)
+        self.assertEqual(36, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_generate_private_key_secp224r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp224r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_secp256k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp256k1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_secp256r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp256r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_secp384r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp384r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_secp521r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_secp521r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect163k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect163k1.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(27, result.location.start_column)
+        self.assertEqual(36, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_generate_private_key_sect163r2(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect163r2.py"
+            )
+        )
+        self.assertEqual(1, len(results))
+        result = results[0]
+        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual(4, result.location.start_line)
+        self.assertEqual(4, result.location.end_line)
+        self.assertEqual(27, result.location.start_column)
+        self.assertEqual(36, result.location.end_column)
+        self.assertEqual(Level.WARNING, result.level)
+        self.assertEqual(-1.0, result.rank)
+
+    def test_ec_generate_private_key_sect233k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect233k1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect233r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect233r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect283k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect283k1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect283r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect283r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect409k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect409k1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect409r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect409r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect571k1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect571k1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
+    def test_ec_generate_private_key_sect571r1(self):
+        results = self.parser.parse(
+            os.path.join(
+                self.base_path, "ec_generate_private_key_sect571r1.py"
+            )
+        )
+        self.assertEqual(0, len(results))
+
     def test_rsa_generate_private_key_1024(self):
         results = self.parser.parse(
             os.path.join(self.base_path, "rsa_generate_private_key_1024.py")
