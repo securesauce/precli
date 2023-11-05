@@ -56,7 +56,7 @@ they negotiate a secure version of the method for you.
 
  - `Inadequate Encryption Strength Using Weak SSL Protocols <https://docs.securesauce.dev/rules/PRE0510>`_
  - `pyOpenSSL’s documentation <https://www.pyopenssl.org/en/latest/>`_
- - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/326.html>`_
+ - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
 .. versionadded:: 1.0.0
 
