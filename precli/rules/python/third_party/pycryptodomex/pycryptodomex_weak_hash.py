@@ -36,7 +36,7 @@ Example
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.Hash import MD2
+    from Cryptodome.Hash import MD2
 
 
     h = MD2.new()
@@ -54,7 +54,7 @@ secure alternatives, ``SHA256``, ``SHA384``, or ``SHA512``.
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.Hash import SHA256
+    from Cryptodome.Hash import SHA256
 
 
     h = SHA256.new()
