@@ -54,8 +54,7 @@ Example
 Remediation
 -----------
 
-it is advisable to use stronger, more secure cryptographic algorithms such as
-AES.
+It is advisable to use a secure cryptographic algorithms such as CBC.
 
 .. code-block:: python
    :linenos:

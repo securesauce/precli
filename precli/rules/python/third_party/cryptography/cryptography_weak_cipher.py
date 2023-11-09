@@ -66,7 +66,7 @@ Example
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 9
+   :emphasize-lines: 8,9
 
     import os
 
@@ -84,12 +84,12 @@ Example
 Remediation
 -----------
 
-it is advisable to use stronger, more secure cryptographic algorithms such as
+It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 10
+   :emphasize-lines: 10,11
 
     import os
 
