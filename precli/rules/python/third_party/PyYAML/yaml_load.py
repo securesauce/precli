@@ -44,7 +44,7 @@ to the ``Loader`` argument.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in the PyYAML Module <https://docs.securesauce.dev/rules/PRE0511>`_
+ - `Deserialization of Untrusted Data in the PyYAML Module <https://docs.securesauce.dev/rules/PRE0513>`_
  - `PyYAML Documentation <https://pyyaml.org/wiki/PyYAMLDocumentation>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 

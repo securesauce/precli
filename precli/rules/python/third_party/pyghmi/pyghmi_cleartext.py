@@ -87,7 +87,7 @@ secure network.
 
 .. seealso::
 
- - `Cleartext Transmission of Sensitive Information in the Pyghmi Module <https://docs.securesauce.dev/rules/PRE0509>`_
+ - `Cleartext Transmission of Sensitive Information in the Pyghmi Module <https://docs.securesauce.dev/rules/PRE0511>`_
  - `Documentation — pyghmi documentation <https://docs.openstack.org/pyghmi/latest/>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
  - `Risks of Using the Intelligent Platform Management Interface (IPMI) CISA <https://www.cisa.gov/news-events/alerts/2013/07/26/risks-using-intelligent-platform-management-interface-ipmi>`_

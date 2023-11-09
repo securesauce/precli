@@ -10,7 +10,7 @@ from tests.unit.rules.python import test_case
 class YamlLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=["PRE0512"])
+        self.parser = python.Python(enabled=["PRE0514"])
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,11 +22,11 @@ class YamlLoadTests(test_case.TestCase):
         )
 
     def test_yaml_load_rule_meta(self):
-        rule = Rule.get_by_id("PRE0512")
-        self.assertEqual("PRE0512", rule.id)
+        rule = Rule.get_by_id("PRE0514")
+        self.assertEqual("PRE0514", rule.id)
         self.assertEqual("deserialization_of_untrusted_data", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0512", rule.help_url
+            "https://docs.securesauce.dev/rules/PRE0514", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -39,7 +39,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
@@ -55,7 +55,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -69,7 +69,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -83,7 +83,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -97,7 +97,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -111,7 +111,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(5, result.location.start_column)
@@ -161,7 +161,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(21, result.location.start_column)
@@ -175,7 +175,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(16, result.location.start_column)
@@ -201,7 +201,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(3, result.location.start_line)
         self.assertEqual(3, result.location.end_line)
         self.assertEqual(28, result.location.start_column)
@@ -227,7 +227,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(23, result.location.start_column)
@@ -241,7 +241,7 @@ class YamlLoadTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0512", result.rule_id)
+        self.assertEqual("PRE0514", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(28, result.location.start_column)

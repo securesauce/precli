@@ -48,7 +48,7 @@ secure alternatives, ``SHA256`` or ``SHA512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Cryptography Module <https://docs.securesauce.dev/rules/PRE0501>`_
+ - `Reversible One Way Hash in Cryptography Module <https://docs.securesauce.dev/rules/PRE0502>`_
  - `Message digests (Hashing) — Cryptography <https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_

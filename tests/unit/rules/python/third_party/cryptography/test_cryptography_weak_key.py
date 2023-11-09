@@ -10,7 +10,7 @@ from tests.unit.rules.python import test_case
 class CryptographyWeakKeyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=["PRE0502"])
+        self.parser = python.Python(enabled=["PRE0504"])
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,11 +22,11 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
 
     def test_cryptography_weak_key_rule_meta(self):
-        rule = Rule.get_by_id("PRE0502")
-        self.assertEqual("PRE0502", rule.id)
+        rule = Rule.get_by_id("PRE0504")
+        self.assertEqual("PRE0504", rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0502", rule.help_url
+            "https://docs.securesauce.dev/rules/PRE0504", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -39,7 +39,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(24, result.location.start_column)
@@ -67,7 +67,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(33, result.location.start_column)
@@ -97,7 +97,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(24, result.location.start_column)
@@ -111,7 +111,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(25, result.location.start_column)
@@ -139,7 +139,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(34, result.location.start_column)
@@ -171,7 +171,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(25, result.location.start_column)
@@ -209,7 +209,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -253,7 +253,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -267,7 +267,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(37, result.location.start_column)
@@ -355,7 +355,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(27, result.location.start_column)
@@ -411,7 +411,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(27, result.location.start_column)
@@ -427,7 +427,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(27, result.location.start_column)
@@ -505,7 +505,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(32, result.location.start_column)
@@ -533,7 +533,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(57, result.location.start_column)
@@ -565,7 +565,7 @@ class CryptographyWeakKeyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0502", result.rule_id)
+        self.assertEqual("PRE0504", result.rule_id)
         self.assertEqual(6, result.location.start_line)
         self.assertEqual(6, result.location.end_line)
         self.assertEqual(42, result.location.start_column)
