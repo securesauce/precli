@@ -45,7 +45,7 @@ secure and cannot be used to execute malicious code.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in Pandas Module <https://docs.securesauce.dev/rules/PRE0505>`_
+ - `Deserialization of Untrusted Data in Pandas Module <https://docs.securesauce.dev/rules/PRE0507>`_
  - `Input_output — pandas <https://pandas.pydata.org/docs/reference/io.html#pickling>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
  - `pickle — Python object serialization <https://docs.python.org/3/library/pickle.html>`_

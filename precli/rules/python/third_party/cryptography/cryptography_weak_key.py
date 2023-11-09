@@ -74,7 +74,7 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in Cryptography Module <https://docs.securesauce.dev/rules/PRE0502>`_
+ - `Inadequate Encryption Strength Using Weak Keys in Cryptography Module <https://docs.securesauce.dev/rules/PRE0503>`_
  - `Asymmetric algorithms — Cryptography documentation <https://cryptography.io/en/latest/hazmat/primitives/asymmetric/>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
@@ -119,7 +119,7 @@ class CryptographyWeakKey(Rule):
             full_descr=__doc__,
             cwe_id=326,
             message="Using {} key sizes less than {} bits is considered "
-            "vulnerable to qttacks.",
+            "vulnerable to attacks.",
             targets=("call"),
             wildcards={
                 "cryptography.hazmat.primitives.asymmetric.*": [

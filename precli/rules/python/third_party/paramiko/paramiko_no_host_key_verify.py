@@ -48,7 +48,7 @@ connection if the host key is unknown to the client.
 
 .. seealso::
 
- - `Improper Certificate Validation Using Paramiko Module <https://docs.securesauce.dev/rules/PRE0506>`_
+ - `Improper Certificate Validation Using Paramiko Module <https://docs.securesauce.dev/rules/PRE0508>`_
  - `Paramiko’s documentation <https://docs.paramiko.org/en/latest/>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 

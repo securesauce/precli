@@ -34,7 +34,7 @@ not been tampered with.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in JsonPickle Module <https://docs.securesauce.dev/rules/PRE0504>`_
+ - `Deserialization of Untrusted Data in JsonPickle Module <https://docs.securesauce.dev/rules/PRE0506>`_
  - `jsonpickle Documentation <https://jsonpickle.github.io/>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
  - `pickle — Python object serialization <https://docs.python.org/3/library/pickle.html>`_
