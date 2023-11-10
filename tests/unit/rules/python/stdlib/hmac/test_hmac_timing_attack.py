@@ -6,6 +6,9 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
+RULE_ID = "PRE0005"
+
+
 class HmacTimingAttackTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
@@ -20,11 +23,11 @@ class HmacTimingAttackTests(test_case.TestCase):
         )
 
     def test_hmac_timing_attack_rule_meta(self):
-        rule = Rule.get_by_id("PRE0005")
-        self.assertEqual("PRE0005", rule.id)
+        rule = Rule.get_by_id(RULE_ID)
+        self.assertEqual(RULE_ID, rule.id)
         self.assertEqual("observable_timing_discrepancy", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0005", rule.help_url
+            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -37,7 +40,7 @@ class HmacTimingAttackTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(13, result.location.start_line)
         self.assertEqual(13, result.location.end_line)
         self.assertEqual(14, result.location.start_column)
@@ -51,7 +54,7 @@ class HmacTimingAttackTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(14, result.location.start_line)
         self.assertEqual(14, result.location.end_line)
         self.assertEqual(14, result.location.start_column)
@@ -67,7 +70,7 @@ class HmacTimingAttackTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0005", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(11, result.location.start_line)
         self.assertEqual(11, result.location.end_line)
         self.assertEqual(14, result.location.start_column)

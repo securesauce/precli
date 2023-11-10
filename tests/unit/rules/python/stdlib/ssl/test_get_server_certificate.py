@@ -6,6 +6,9 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
+RULE_ID = "PRE0017"
+
+
 class GetServerCertificateTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
@@ -20,8 +23,8 @@ class GetServerCertificateTests(test_case.TestCase):
         )
 
     def test_get_server_certificate_rule_meta(self):
-        rule = Rule.get_by_id("PRE0017")
-        self.assertEqual("PRE0017", rule.id)
+        rule = Rule.get_by_id(RULE_ID)
+        self.assertEqual(RULE_ID, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
         self.assertEqual(
             "https://docs.securesauce.dev/rules/PRE0017", rule.help_url
@@ -37,7 +40,7 @@ class GetServerCertificateTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0017", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(63, result.location.start_column)
@@ -57,7 +60,7 @@ class GetServerCertificateTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0017", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(63, result.location.start_column)
@@ -71,7 +74,7 @@ class GetServerCertificateTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0017", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(63, result.location.start_column)
@@ -85,7 +88,7 @@ class GetServerCertificateTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0017", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(40, result.location.start_column)

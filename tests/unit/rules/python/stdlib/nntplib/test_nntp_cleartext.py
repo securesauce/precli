@@ -6,6 +6,9 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
+RULE_ID = "PRE0011"
+
+
 class NntpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
@@ -20,11 +23,11 @@ class NntpCleartextTests(test_case.TestCase):
         )
 
     def test_nntp_cleartext_rule_meta(self):
-        rule = Rule.get_by_id("PRE0011")
-        self.assertEqual("PRE0011", rule.id)
+        rule = Rule.get_by_id(RULE_ID)
+        self.assertEqual(RULE_ID, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0011", rule.help_url
+            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -37,7 +40,7 @@ class NntpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0011", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(6, result.location.start_column)
@@ -51,7 +54,7 @@ class NntpCleartextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0011", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(2, result.location.start_column)
