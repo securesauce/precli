@@ -74,7 +74,7 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in Cryptography Module <https://docs.securesauce.dev/rules/PRE0503>`_
+ - `Inadequate Encryption Strength Using Weak Keys in Cryptography Module <https://docs.securesauce.dev/rules/PRE0504>`_
  - `Asymmetric algorithms — Cryptography documentation <https://cryptography.io/en/latest/hazmat/primitives/asymmetric/>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
@@ -188,7 +188,7 @@ class CryptographyWeakKey(Rule):
                         node=argument.node,
                     ),
                     level=Level.ERROR if key_size <= 1024 else Level.WARNING,
-                    message=self.message.format("RSA", 3072),
+                    message=self.message.format("RSA", 2048),
                     fixes=fixes,
                 )
         elif call.name_qualified in [
@@ -217,7 +217,6 @@ class CryptographyWeakKey(Rule):
                     message=self.message.format("EC", 224),
                     fixes=fixes,
                 )
-
         elif call.name_qualified in [
             "cryptography.hazmat.primitives.asymmetric.ec."
             "derive_private_key",

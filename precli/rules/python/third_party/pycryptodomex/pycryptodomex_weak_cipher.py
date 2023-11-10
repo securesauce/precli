@@ -1,8 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
 r"""
-=======================================================================
-Use of a Broken or Risky Cryptographic Algorithm in Cryptography Module
-=======================================================================
+========================================================================
+Use of a Broken or Risky Cryptographic Algorithm in PyCryptodomex Module
+========================================================================
 
 Using weak ciphers for cryptographic algorithms can pose significant security
 risks, and it's generally advised to avoid them in favor of stronger, more
@@ -66,19 +66,18 @@ Example
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 8,9
+   :emphasize-lines: 9
 
-    import os
+    from Crypto.Cipher import ARC4
+    from Crypto.Hash import SHA
+    from Crypto import Random
 
-    from cryptography.hazmat.primitives.ciphers import Cipher
-    from cryptography.hazmat.primitives.ciphers import algorithms
 
-
-    key = os.urandom(32)
-    algorithm = algorithms.ARC4(key)
-    cipher = Cipher(algorithm, mode=None)
-    encryptor = cipher.encryptor()
-    ct = encryptor.update(b"a secret message")
+    key = b'Very long and confidential key'
+    nonce = Random.new().read(16)
+    tempkey = SHA.new(key+nonce).digest()
+    cipher = ARC4.new(tempkey)
+    msg = nonce + cipher.encrypt(b'Open the pod bay doors, HAL')
 
 -----------
 Remediation
@@ -89,26 +88,23 @@ AES.
 
 .. code-block:: python
    :linenos:
-   :emphasize-lines: 10,11
+   :emphasize-lines: 1,9
 
-    import os
-
-    from cryptography.hazmat.primitives.ciphers import Cipher
-    from cryptography.hazmat.primitives.ciphers import algorithms
-    from cryptography.hazmat.primitives.ciphers import modes
+    from Crypto.Cipher import AES
+    from Crypto.Hash import SHA
+    from Crypto import Random
 
 
-    key = os.urandom(32)
-    iv = os.urandom(16)
-    algorithm = algorithms.AES(key)
-    cipher = Cipher(algorithm, mode=modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    ct = encryptor.update(b"a secret message") + encryptor.finalize()
+    key = b'Very long and confidential key'
+    nonce = Random.new().read(16)
+    tempkey = SHA.new(key+nonce).digest()
+    cipher = AES.new(tempkey)
+    msg = nonce + cipher.encrypt(b'Open the pod bay doors, HAL')
 
 .. seealso::
 
- - `Use of a Broken or Risky Cryptographic Algorithm in Cryptography Module <https://docs.securesauce.dev/rules/PRE0501>`_
- - `Symmetric encryption — Cryptography documentation <https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#weak-ciphers>`_
+ - `Use of a Broken or Risky Cryptographic Algorithm in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0513>`_
+ - `PyCryptodome <https://www.pycryptodome.org/>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
 
 .. versionadded:: 1.0.0
@@ -122,13 +118,15 @@ from precli.rules import Rule
 
 
 WEAK_CIPHERS = [
-    "cryptography.hazmat.primitives.ciphers.algorithms.ARC4",
-    "cryptography.hazmat.primitives.ciphers.algorithms.Blowfish",
-    "cryptography.hazmat.primitives.ciphers.algorithms.IDEA",
+    "Cryptodome.Cipher.ARC2.new",
+    "Cryptodome.Cipher.ARC4.new",
+    "Cryptodome.Cipher.Blowfish.new",
+    "Cryptodome.Cipher.DES.new",
+    "Cryptodome.Cipher.XOR.new",
 ]
 
 
-class CryptographyWeakCipher(Rule):
+class PycryptodomexWeakCipher(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -139,16 +137,19 @@ class CryptographyWeakCipher(Rule):
             "known vulnerabilities and weaknesses.",
             targets=("call"),
             wildcards={
-                "cryptography.hazmat.primitives.ciphers.algorithms.*": [
-                    "ARC4",
-                    "Blowfish",
-                    "IDEA",
+                "Cryptodome.Cipher.*": [
+                    "ARC2.new",
+                    "ARC4.new",
+                    "Blowfish.new",
+                    "DES.new",
+                    "XOR.new",
                 ],
-                "cryptography.hazmat.primitives.ciphers.*": [
-                    "Cipher",
-                    "algorithms.ARC4",
-                    "algorithms.Blowfish",
-                    "algorithms.IDEA",
+                "Cryptodome.*": [
+                    "Cipher.ARC2.new",
+                    "Cipher.ARC4.new",
+                    "Cipher.Blowfish.new",
+                    "Cipher.DES.new",
+                    "Cipher.XOR.new",
                 ],
             },
             config=Config(enabled=False),
@@ -175,35 +176,3 @@ class CryptographyWeakCipher(Rule):
                 message=self.message.format(call.name),
                 fixes=fixes,
             )
-        elif call.name_qualified in [
-            "cryptography.hazmat.primitives.ciphers.Cipher",
-        ]:
-            arg0 = call.get_argument(position=0, name="algorithm")
-            algorithm = arg0.value
-            arg1 = call.get_argument(position=1, name="mode")
-
-            if arg1.node is not None:
-                loc_node = arg1.node
-                content = "CBC(os.urandom(16))"
-            else:
-                loc_node = arg0.node
-                content = f"{arg0.node.text.decode()}, CBC(os.urandom(16))"
-
-            if algorithm in WEAK_CIPHERS:
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=loc_node),
-                    description="The AES cipher is a block cipher requiring "
-                    "a mode such as CBC to be specified.",
-                    inserted_content=content,
-                )
-                return Result(
-                    rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=arg0.identifier_node,
-                    ),
-                    level=Level.ERROR,
-                    message=self.message.format(algorithm),
-                    fixes=fixes,
-                )

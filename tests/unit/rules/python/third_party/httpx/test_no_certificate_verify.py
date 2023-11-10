@@ -7,10 +7,13 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
+RULE_ID = "PRE0506"
+
+
 class NoCertificateVerifyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=["PRE0506"])
+        self.parser = python.Python(enabled=[RULE_ID])
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,11 +25,11 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
 
     def test_no_certificate_verify_rule_meta(self):
-        rule = Rule.get_by_id("PRE0506")
-        self.assertEqual("PRE0506", rule.id)
+        rule = Rule.get_by_id(RULE_ID)
+        self.assertEqual(RULE_ID, rule.id)
         self.assertEqual("improper_certificate_validation", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0506", rule.help_url
+            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -41,7 +44,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(36, result.location.start_column)
@@ -55,7 +58,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(34, result.location.start_column)
@@ -71,7 +74,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(25, result.location.start_column)
@@ -85,7 +88,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(29, result.location.start_column)
@@ -99,7 +102,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(41, result.location.start_column)
@@ -113,7 +116,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(38, result.location.start_column)
@@ -139,7 +142,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
@@ -153,7 +156,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(42, result.location.start_column)
@@ -167,7 +170,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(40, result.location.start_column)
@@ -181,7 +184,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
@@ -195,7 +198,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(38, result.location.start_column)
@@ -209,7 +212,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(48, result.location.start_column)
@@ -223,7 +226,7 @@ class NoCertificateVerifyTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0506", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(41, result.location.start_column)
