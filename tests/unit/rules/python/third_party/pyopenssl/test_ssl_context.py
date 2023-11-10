@@ -7,10 +7,13 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
+RULE_ID = "PRE0517"
+
+
 class SslContextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=["PRE0513"])
+        self.parser = python.Python(enabled=[RULE_ID])
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,11 +25,11 @@ class SslContextTests(test_case.TestCase):
         )
 
     def test_ssl_context_rule_meta(self):
-        rule = Rule.get_by_id("PRE0513")
-        self.assertEqual("PRE0513", rule.id)
+        rule = Rule.get_by_id(RULE_ID)
+        self.assertEqual(RULE_ID, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
         self.assertEqual(
-            "https://docs.securesauce.dev/rules/PRE0513", rule.help_url
+            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
@@ -39,7 +42,7 @@ class SslContextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0513", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
@@ -59,7 +62,7 @@ class SslContextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0513", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
@@ -73,7 +76,7 @@ class SslContextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0513", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
@@ -87,7 +90,7 @@ class SslContextTests(test_case.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0513", result.rule_id)
+        self.assertEqual(RULE_ID, result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(39, result.location.start_column)
