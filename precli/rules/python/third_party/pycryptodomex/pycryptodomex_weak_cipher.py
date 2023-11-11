@@ -68,14 +68,14 @@ Example
    :linenos:
    :emphasize-lines: 9
 
-    from Crypto.Cipher import ARC4
-    from Crypto.Hash import SHA
-    from Crypto import Random
+    from Cryptodome.Cipher import ARC4
+    from Cryptodome.Hash import SHA
+    from Cryptodome import Random
 
 
     key = b'Very long and confidential key'
     nonce = Random.new().read(16)
-    tempkey = SHA.new(key+nonce).digest()
+    tempkey = SHA.new(key + nonce).digest()
     cipher = ARC4.new(tempkey)
     msg = nonce + cipher.encrypt(b'Open the pod bay doors, HAL')
 
@@ -90,14 +90,14 @@ AES.
    :linenos:
    :emphasize-lines: 1,9
 
-    from Crypto.Cipher import AES
-    from Crypto.Hash import SHA
-    from Crypto import Random
+    from Cryptodome.Cipher import AES
+    from Cryptodome.Hash import SHA
+    from Cryptodome import Random
 
 
     key = b'Very long and confidential key'
     nonce = Random.new().read(16)
-    tempkey = SHA.new(key+nonce).digest()
+    tempkey = SHA.new(key + nonce).digest()
     cipher = AES.new(tempkey)
     msg = nonce + cipher.encrypt(b'Open the pod bay doors, HAL')
 

@@ -7,7 +7,7 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0518"
+RULE_ID = "PRE0519"
 
 
 class YamlLoadTests(test_case.TestCase):
