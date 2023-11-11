@@ -39,7 +39,7 @@ Example
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from Cryptodome.PublicKey import DSA
 
 
     key = DSA.generate(1024)
@@ -55,7 +55,7 @@ algorithms.
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from Cryptodome.PublicKey import DSA
 
 
     key = DSA.generate(2048)
@@ -124,7 +124,7 @@ class PycryptodomexWeakKey(Rule):
                     message=self.message.format("DSA", 2048),
                     fixes=fixes,
                 )
-        elif call.name_qualified in "Crypto.PublicKey.RSA.generate":
+        elif call.name_qualified == "Cryptodome.PublicKey.RSA.generate":
             argument = call.get_argument(position=0, name="bits")
             bits = argument.value
 

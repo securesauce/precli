@@ -1,8 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
 r"""
-=================================================================
-Inadequate Encryption Strength Using Weak Keys in PyCrypto Module
-=================================================================
+==================================================================
+Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module
+==================================================================
 
 Using weak key sizes for cryptographic algorithms like RSA and DSA can
 compromise the security of your encryption and digital signatures. Here's
@@ -62,8 +62,8 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0512>`_
- - `PyCrypto - The Python Cryptography Toolkit <https://www.pycrypto.org/>`_
+ - `Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module <https://docs.securesauce.dev/rules/PRE0518>`_
+ - `crypto — Generic cryptographic module — pyOpenSSL documentation <https://www.pyopenssl.org/en/latest/api/crypto.html#pkey-objects>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
 .. versionadded:: 1.0.0
@@ -76,7 +76,7 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-class PycryptoWeakKey(Rule):
+class PyopensslWeakKey(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -87,13 +87,13 @@ class PycryptoWeakKey(Rule):
             "vulnerable to attacks.",
             targets=("call"),
             wildcards={
-                "Crypto.PublicKey.*": [
-                    "DSA.generate",
-                    "RSA.generate",
+                "OpenSSL.crypto.*": [
+                    "PKey",
+                    "TYPE_DSA",
                 ],
-                "Crypto.*": [
-                    "PublicKey.DSA.generate",
-                    "PublicKey.RSA.generate",
+                "OpenSSL.*": [
+                    "crypto.PKey",
+                    "crypto.TYPE_DSA",
                 ],
             },
             config=Config(enabled=False),
@@ -102,15 +102,24 @@ class PycryptoWeakKey(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
 
-        if call.name_qualified == "Crypto.PublicKey.DSA.generate":
-            argument = call.get_argument(position=0, name="bits")
-            bits = argument.value
+        if call.name_qualified == "OpenSSL.crypto.PKey.generate_key":
+            arg0 = call.get_argument(position=0, name="type")
+            key_type = arg0.value
 
-            if bits < 2048:
+            if key_type == "OpenSSL.crypto.TYPE_DSA":
+                key = "DSA"
+            elif key_type == "OpenSSL.crypto.TYPE_RSA":
+                key = "RSA"
+
+            arg1 = call.get_argument(position=1, name="bits")
+            bits = arg1.value
+
+            if key in ["DSA", "RSA"] and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node=argument.node),
-                    description="Use a minimum key size of 2048 for DSA keys.",
+                    deleted_location=Location(node=arg1.node),
+                    description=f"Use a minimum key size of 2048 for "
+                    f"{key_type} keys.",
                     inserted_content="2048",
                 )
 
@@ -118,31 +127,9 @@ class PycryptoWeakKey(Rule):
                     rule_id=self.id,
                     location=Location(
                         file_name=context["file_name"],
-                        node=argument.node,
+                        node=arg1.node,
                     ),
                     level=Level.ERROR if bits <= 1024 else Level.WARNING,
-                    message=self.message.format("DSA", 2048),
-                    fixes=fixes,
-                )
-        elif call.name_qualified == "Crypto.PublicKey.RSA.generate":
-            argument = call.get_argument(position=0, name="bits")
-            bits = argument.value
-
-            if bits < 2048:
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=argument.node),
-                    description="Use a minimum key size of 2048 for RSA keys.",
-                    inserted_content="2048",
-                )
-
-                return Result(
-                    rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.node,
-                    ),
-                    level=Level.ERROR if bits <= 1024 else Level.WARNING,
-                    message=self.message.format("RSA", 2048),
+                    message=self.message.format(key_type, 2048),
                     fixes=fixes,
                 )
