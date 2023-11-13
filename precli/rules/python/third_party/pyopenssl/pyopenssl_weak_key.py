@@ -39,10 +39,10 @@ Example
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from OpenSSL import crypto
 
 
-    key = DSA.generate(1024)
+    crypto.PKey().generate_key(type=crypto.TYPE_DSA, bits=1024)
 
 -----------
 Remediation
@@ -55,14 +55,14 @@ algorithms.
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from OpenSSL import crypto
 
 
-    key = DSA.generate(2048)
+    crypto.PKey().generate_key(type=crypto.TYPE_DSA, bits=2048)
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module <https://docs.securesauce.dev/rules/PRE0518>`_
+ - `Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module <https://docs.securesauce.dev/rules/PRE0519>`_
  - `crypto — Generic cryptographic module — pyOpenSSL documentation <https://www.pyopenssl.org/en/latest/api/crypto.html#pkey-objects>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 

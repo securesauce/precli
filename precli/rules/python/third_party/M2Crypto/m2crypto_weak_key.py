@@ -1,7 +1,7 @@
 # Copyright 2023 Secure Saurce LLC
 r"""
 =================================================================
-Inadequate Encryption Strength Using Weak Keys in PyCrypto Module
+Inadequate Encryption Strength Using Weak Keys in M2Crypto Module
 =================================================================
 
 Using weak key sizes for cryptographic algorithms like RSA and DSA can
@@ -31,6 +31,18 @@ Note that DSA is not as commonly used as RSA or ECC for new applications, and
 ECDSA (Elliptic Curve Digital Signature Algorithm) is often preferred due to
 its efficiency and strong security properties.
 
+EC (Elliptic Curve):
+Elliptic Curve cryptography provides strong security with relatively small
+key sizes compared to RSA and DSA. However, even in the case of EC, using
+weak curve parameters or small key sizes can expose you to vulnerabilities.
+The strength of an EC key depends on the curve's properties and the size of
+the prime used.
+
+Recommended EC key sizes depend on the curve you select, but for modern
+applications, curves like NIST P-256 (secp256r1) with a 256-bit key size
+are considered secure. Larger curves, like NIST P-384 or P-521, can provide
+even higher security margins.
+
 -------
 Example
 -------
@@ -39,10 +51,10 @@ Example
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from M2Crypto import RSA
 
 
-    key = DSA.generate(1024)
+    new_key = RSA.gen_key(1024, 65537)
 
 -----------
 Remediation
@@ -55,20 +67,22 @@ algorithms.
    :linenos:
    :emphasize-lines: 4
 
-    from Crypto.PublicKey import DSA
+    from M2Crypto import RSA
 
 
-    key = DSA.generate(2048)
+    new_key = RSA.gen_key(2048, 65537)
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0513>`_
- - `PyCrypto - The Python Cryptography Toolkit <https://www.pycrypto.org/>`_
+ - `Inadequate Encryption Strength Using Weak Keys in M2Crypto Module <https://docs.securesauce.dev/rules/PRE0508>`_
+ - `m2crypto _ m2crypto · GitLab <https://gitlab.com/m2crypto/m2crypto>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
 .. versionadded:: 1.0.0
 
 """  # noqa: E501
+import re
+
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -76,7 +90,7 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-class PycryptoWeakKey(Rule):
+class M2CryptoWeakKey(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -87,13 +101,15 @@ class PycryptoWeakKey(Rule):
             "vulnerable to attacks.",
             targets=("call"),
             wildcards={
-                "Crypto.PublicKey.*": [
-                    "DSA.generate",
-                    "RSA.generate",
+                "M2Crypto.RSA.*": [
+                    "gen_key",
                 ],
-                "Crypto.*": [
-                    "PublicKey.DSA.generate",
-                    "PublicKey.RSA.generate",
+                "M2Crypto.DSA.*": [
+                    "gen_params",
+                ],
+                "M2Crypto.*": [
+                    "RSA.gen_key",
+                    "DSA.gen_params",
                 ],
             },
             config=Config(enabled=False),
@@ -102,36 +118,14 @@ class PycryptoWeakKey(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
 
-        if call.name_qualified == "Crypto.PublicKey.DSA.generate":
-            argument = call.get_argument(position=0, name="bits")
-            bits = argument.value
+        if call.name_qualified == "M2Crypto.RSA.gen_key":
+            arg0 = call.get_argument(position=0, name="bits")
+            bits = arg0.value
 
             if bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
-                    deleted_location=Location(node=argument.node),
-                    description="Use a minimum key size of 2048 for DSA keys.",
-                    inserted_content="2048",
-                )
-
-                return Result(
-                    rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.node,
-                    ),
-                    level=Level.ERROR if bits <= 1024 else Level.WARNING,
-                    message=self.message.format("DSA", 2048),
-                    fixes=fixes,
-                )
-        elif call.name_qualified == "Crypto.PublicKey.RSA.generate":
-            argument = call.get_argument(position=0, name="bits")
-            bits = argument.value
-
-            if bits < 2048:
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=argument.node),
+                    deleted_location=Location(node=arg0.node),
                     description="Use a minimum key size of 2048 for RSA keys.",
                     inserted_content="2048",
                 )
@@ -140,9 +134,61 @@ class PycryptoWeakKey(Rule):
                     rule_id=self.id,
                     location=Location(
                         file_name=context["file_name"],
-                        node=argument.node,
+                        node=arg0.node,
                     ),
                     level=Level.ERROR if bits <= 1024 else Level.WARNING,
                     message=self.message.format("RSA", 2048),
+                    fixes=fixes,
+                )
+        elif call.name_qualified == "M2Crypto.DSA.gen_params":
+            arg0 = call.get_argument(position=0, name="bits")
+            bits = arg0.value
+
+            if bits < 2048:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=arg0.node),
+                    description="Use a minimum key size of 2048 for DSA keys.",
+                    inserted_content="2048",
+                )
+
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=arg0.node,
+                    ),
+                    level=Level.ERROR if bits <= 1024 else Level.WARNING,
+                    message=self.message.format("DSA", 2048),
+                    fixes=fixes,
+                )
+        elif call.name_qualified == "M2Crypto.EC.gen_params":
+            arg0 = call.get_argument(position=0, name="curve")
+            curve = arg0.value
+            result = re.search(r"NID_sec[p|t](\d{3})(?:r1|r2|k1){1}", curve)
+            if not result:
+                result = re.search(r"NID_prime(\d{3})v[1|2|3]", curve)
+            if not result:
+                result = re.search(
+                    r"NID_c2[p|t]nb(\d{3})(?:v1|v2|v3|w1|r1){1}", curve
+                )
+            key_size = int(result.group(1)) if result else 224
+
+            if key_size < 224:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=arg0.identifier_node),
+                    description="Use a curve with a minimum size of 224 bits.",
+                    inserted_content="NID_secp256k1",
+                )
+
+                return Result(
+                    rule_id=self.id,
+                    location=Location(
+                        file_name=context["file_name"],
+                        node=arg0.identifier_node,
+                    ),
+                    level=Level.ERROR if key_size < 160 else Level.WARNING,
+                    message=self.message.format("EC", 224),
                     fixes=fixes,
                 )
