@@ -7,7 +7,7 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0509"
+RULE_ID = "PRE0510"
 
 
 class HostKeyPolicyTests(test_case.TestCase):

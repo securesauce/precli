@@ -7,7 +7,7 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0520"
+RULE_ID = "PRE0521"
 
 
 class NoCertificateVerifyTests(test_case.TestCase):

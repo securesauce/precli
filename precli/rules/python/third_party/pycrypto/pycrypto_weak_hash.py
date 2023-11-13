@@ -63,7 +63,7 @@ secure alternatives, ``SHA256``, ``SHA384``, or ``SHA512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0511>`_
+ - `Reversible One Way Hash in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0512>`_
  - `PyCrypto - The Python Cryptography Toolkit <https://www.pycrypto.org/>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_

@@ -7,7 +7,7 @@ from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0517"
+RULE_ID = "PRE0518"
 
 
 class SslContextTests(test_case.TestCase):

@@ -45,7 +45,7 @@ argument accomplish the same effect of ensuring that certificates are verified.
 
 .. seealso::
 
- - `Improper Certificate Validation Using Requests Module <https://docs.securesauce.dev/rules/PRE0520>`_
+ - `Improper Certificate Validation Using Requests Module <https://docs.securesauce.dev/rules/PRE0521>`_
  - `Requests HTTP for Humans™ <https://requests.readthedocs.io/en/latest/>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 
