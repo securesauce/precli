@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 12
+# end_line: 12
+# start_column: 6
+# end_column: 18
 import getpass
 import imaplib
 

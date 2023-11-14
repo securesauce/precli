@@ -1,17 +1,17 @@
 # Copyright 2023 Secure Saurce LLC
 import os
 
+from parameterized import parameterized
+
 from precli.core.level import Level
 from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0007"
-
-
 class ImapCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
+        self.rule_id = "PRE0007"
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -23,87 +23,27 @@ class ImapCleartextTests(test_case.TestCase):
         )
 
     def test_imap_cleartext_rule_meta(self):
-        rule = Rule.get_by_id(RULE_ID)
-        self.assertEqual(RULE_ID, rule.id)
+        rule = Rule.get_by_id(self.rule_id)
+        self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
         self.assertEqual(
-            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
+            f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("319", rule.cwe.cwe_id)
 
-    def test_imaplib_imap4_authenticate(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_authenticate.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(7, result.location.start_line)
-        self.assertEqual(7, result.location.end_line)
-        self.assertEqual(6, result.location.start_column)
-        self.assertEqual(18, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_imaplib_imap4_context_mgr(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_context_mgr.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(6, result.location.start_line)
-        self.assertEqual(6, result.location.end_line)
-        self.assertEqual(10, result.location.start_column)
-        self.assertEqual(15, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_imaplib_imap4_login(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_login.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(6, result.location.start_line)
-        self.assertEqual(6, result.location.end_line)
-        self.assertEqual(6, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_imaplib_imap4_login_cram_md5(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_login_cram_md5.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(6, result.location.start_line)
-        self.assertEqual(6, result.location.end_line)
-        self.assertEqual(6, result.location.start_column)
-        self.assertEqual(20, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_imaplib_imap4_ssl(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_ssl.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_imaplib_imap4_starttls(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_starttls.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_imaplib_imap4_stream(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "imaplib_imap4_stream.py")
-        )
-        self.assertEqual(0, len(results))
+    @parameterized.expand(
+        [
+            "imaplib_imap4_authenticate",
+            "imaplib_imap4_context_mgr",
+            "imaplib_imap4_login",
+            "imaplib_imap4_login_cram_md5",
+            "imaplib_imap4_ssl",
+            "imaplib_imap4_starttls",
+            "imaplib_imap4_stream",
+        ]
+    )
+    def test(self, filename):
+        self.check(filename)
