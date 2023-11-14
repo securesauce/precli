@@ -1,1 +1,2 @@
+# level: NONE
 yaml.load("{}")
