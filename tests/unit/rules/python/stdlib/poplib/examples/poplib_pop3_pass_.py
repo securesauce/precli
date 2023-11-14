@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 11
+# end_line: 11
+# start_column: 2
+# end_column: 7
 import getpass
 import poplib
 
