@@ -1,3 +1,4 @@
+# level: NONE
 from cryptography.hazmat.primitives.asymmetric import ec
 
 

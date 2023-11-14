@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 11
+# end_line: 11
+# start_column: 42
+# end_column: 49
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 
