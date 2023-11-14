@@ -1,3 +1,4 @@
+# level: NONE
 from OpenSSL import crypto
 
 
