@@ -1,3 +1,8 @@
+# level: WARNING
+# start_line: 15
+# end_line: 15
+# start_column: 18
+# end_column: 30
 import marshal
 
 
