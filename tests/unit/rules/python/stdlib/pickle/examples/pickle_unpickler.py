@@ -1,3 +1,8 @@
+# level: WARNING
+# start_line: 11
+# end_line: 11
+# start_column: 10
+# end_column: 26
 import pickle
 
 
