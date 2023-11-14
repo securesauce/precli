@@ -1,19 +1,19 @@
 # Copyright 2023 Secure Saurce LLC
 import os
 
+from parameterized import parameterized
+
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0510"
-
-
 class HostKeyPolicyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python(enabled=[RULE_ID])
+        self.rule_id = "PRE0510"
+        self.parser = python.Python(enabled=[self.rule_id])
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -24,111 +24,68 @@ class HostKeyPolicyTests(test_case.TestCase):
             "examples",
         )
 
+    def expected(self, filename):
+        with open(os.path.join(self.base_path, f"{filename}.py")) as f:
+            level = f.readline().strip()
+            level = level.removeprefix("# level: ")
+            level = getattr(Level, level)
+            if level != Level.NONE:
+                start_line = f.readline().strip()
+                start_line = int(start_line.removeprefix("# start_line: "))
+                end_line = f.readline().strip()
+                end_line = int(end_line.removeprefix("# end_line: "))
+                start_col = f.readline().strip()
+                start_col = int(start_col.removeprefix("# start_column: "))
+                end_col = f.readline().strip()
+                end_col = int(end_col.removeprefix("# end_column: "))
+            else:
+                start_line = end_line = start_col = end_col = -1
+
+        return (level, start_line, end_line, start_col, end_col)
+
     def test_paramiko_no_host_key_verify_rule_meta(self):
-        rule = Rule.get_by_id(RULE_ID)
-        self.assertEqual(RULE_ID, rule.id)
+        rule = Rule.get_by_id(self.rule_id)
+        self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("improper_certificate_validation", rule.name)
         self.assertEqual(
-            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
+            f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("295", rule.cwe.cwe_id)
 
-    def test_host_key_auto_add_policy_import_paramiko(self):
+    @parameterized.expand(
+        [
+            "host_key_auto_add_policy",
+            "host_key_auto_add_policy_import_paramiko",
+            "host_key_auto_add_policy_in_func",
+            "host_key_auto_add_policy_kwarg",
+            "host_key_auto_add_policy_single_statement",
+            "host_key_auto_add_policy_walrus",
+            "host_key_warning_policy_single_statement",
+        ]
+    )
+    def test(self, filename):
+        (
+            level,
+            start_line,
+            end_line,
+            start_column,
+            end_column,
+        ) = self.expected(filename)
         results = self.parser.parse(
-            os.path.join(
-                self.base_path, "host_key_auto_add_policy_import_paramiko.py"
-            )
+            os.path.join(self.base_path, f"{filename}.py")
         )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(5, result.location.start_line)
-        self.assertEqual(5, result.location.end_line)
-        self.assertEqual(48, result.location.start_column)
-        self.assertEqual(61, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_host_key_auto_add_policy(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "host_key_auto_add_policy.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(5, result.location.start_line)
-        self.assertEqual(5, result.location.end_line)
-        self.assertEqual(46, result.location.start_column)
-        self.assertEqual(59, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_host_key_auto_add_policy_kwarg(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "host_key_auto_add_policy_kwarg.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(5, result.location.start_line)
-        self.assertEqual(5, result.location.end_line)
-        self.assertEqual(53, result.location.start_column)
-        self.assertEqual(66, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_host_key_auto_add_policy_in_func(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "host_key_auto_add_policy_in_func.py")
-        )
-        # TODO(ericwb): false negative
-        self.assertEqual(0, len(results))
-
-    def test_host_key_auto_add_policy_single_statement(self):
-        results = self.parser.parse(
-            os.path.join(
-                self.base_path, "host_key_auto_add_policy_single_statement.py"
-            )
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(54, result.location.start_column)
-        self.assertEqual(67, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_host_key_auto_add_policy_walrus(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "host_key_auto_add_policy_walrus.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(5, result.location.start_line)
-        self.assertEqual(5, result.location.end_line)
-        self.assertEqual(50, result.location.start_column)
-        self.assertEqual(63, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_host_key_warning_policy_single_statement(self):
-        results = self.parser.parse(
-            os.path.join(
-                self.base_path, "host_key_warning_policy_single_statement.py"
-            )
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(54, result.location.start_column)
-        self.assertEqual(67, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
-        self.assertEqual(-1.0, result.rank)
+        if level == Level.NONE:
+            self.assertEqual(0, len(results))
+        else:
+            self.assertEqual(1, len(results))
+            result = results[0]
+            self.assertEqual(self.rule_id, result.rule_id)
+            self.assertEqual(start_line, result.location.start_line)
+            self.assertEqual(end_line, result.location.end_line)
+            self.assertEqual(start_column, result.location.start_column)
+            self.assertEqual(end_column, result.location.end_column)
+            self.assertEqual(level, result.level)
+            self.assertEqual(-1.0, result.rank)
