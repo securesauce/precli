@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 14
+# end_line: 14
+# start_column: 5
+# end_column: 21
 import getpass
 import telnetlib
 
