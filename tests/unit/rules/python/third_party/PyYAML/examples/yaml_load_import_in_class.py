@@ -1,3 +1,4 @@
+# level: NONE
 class TestClass:
     import yaml
 

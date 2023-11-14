@@ -1,3 +1,4 @@
+# level: NONE
 async def test_func():
     import yaml
 
