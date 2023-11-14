@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 12
+# end_line: 12
+# start_column: 33
+# end_column: 45
 import hashlib
 import hmac
 
