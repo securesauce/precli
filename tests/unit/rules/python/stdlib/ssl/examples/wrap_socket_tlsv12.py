@@ -1,3 +1,4 @@
+# level: NONE
 import socket
 import ssl
 
