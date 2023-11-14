@@ -1,17 +1,17 @@
 # Copyright 2023 Secure Saurce LLC
 import os
 
+from parameterized import parameterized
+
 from precli.core.level import Level
 from precli.rules import Rule
 from tests.unit.rules.python import test_case
 
 
-RULE_ID = "PRE0002"
-
-
 class CryptWeakHashTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
+        self.rule_id = "PRE0002"
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -23,117 +23,32 @@ class CryptWeakHashTests(test_case.TestCase):
         )
 
     def test_crypt_weak_hash_rule_meta(self):
-        rule = Rule.get_by_id(RULE_ID)
-        self.assertEqual(RULE_ID, rule.id)
+        rule = Rule.get_by_id(self.rule_id)
+        self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)
         self.assertEqual(
-            f"https://docs.securesauce.dev/rules/{RULE_ID}", rule.help_url
+            f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("328", rule.cwe.cwe_id)
 
-    def test_crypt_crypt(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_crypt_method_blowfish(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt_method_blowfish.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_crypt_method_crypt(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt_method_crypt.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_crypt_crypt_method_md5(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt_method_md5.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_crypt_crypt_method_sha256(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt_method_sha256.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_crypt_method_sha512(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_crypt_method_sha512.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_mksalt(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_mksalt_method_blowfish(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt_method_blowfish.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_mksalt_method_crypt(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt_method_crypt.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(12, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_crypt_mksalt_method_md5(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt_method_md5.py")
-        )
-        self.assertEqual(1, len(results))
-        result = results[0]
-        self.assertEqual(RULE_ID, result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(0, result.location.start_column)
-        self.assertEqual(12, result.location.end_column)
-        self.assertEqual(Level.WARNING, result.level)
-        self.assertEqual(-1.0, result.rank)
-
-    def test_crypt_mksalt_method_sha256(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt_method_sha256.py")
-        )
-        self.assertEqual(0, len(results))
-
-    def test_crypt_mksalt_method_sha512(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "crypt_mksalt_method_sha512.py")
-        )
-        self.assertEqual(0, len(results))
+    @parameterized.expand(
+        [
+            "crypt_crypt",
+            "crypt_crypt_method_blowfish",
+            "crypt_crypt_method_crypt",
+            "crypt_crypt_method_md5",
+            "crypt_crypt_method_sha256",
+            "crypt_crypt_method_sha512",
+            "crypt_mksalt",
+            "crypt_mksalt_method_blowfish",
+            "crypt_mksalt_method_crypt",
+            "crypt_mksalt_method_md5",
+            "crypt_mksalt_method_sha256",
+            "crypt_mksalt_method_sha512",
+        ]
+    )
+    def test(self, filename):
+        self.check(filename)
