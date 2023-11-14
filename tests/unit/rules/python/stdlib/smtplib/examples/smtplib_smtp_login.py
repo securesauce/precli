@@ -1,3 +1,8 @@
+# level: ERROR
+# start_line: 31
+# end_line: 31
+# start_column: 7
+# end_column: 12
 import smtplib
 
 
