@@ -1,3 +1,8 @@
+# level: WARNING
+# start_line: 11
+# end_line: 11
+# start_column: 37
+# end_column: 42
 from cryptography.hazmat.primitives.asymmetric import ec
 
 
