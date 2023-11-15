@@ -75,7 +75,7 @@ class JsonpickleDecode(Rule):
         if call.name_qualified in [
             "jsonpickle.decode",
             "jsonpickle.unpickler.decode",
-            "jsonpickle.Unpickler.Unpickler",
+            "jsonpickle.unpickler.Unpickler",
         ]:
             return Result(
                 rule_id=self.id,
