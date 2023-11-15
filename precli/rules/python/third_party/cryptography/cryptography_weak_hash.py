@@ -97,7 +97,7 @@ class CryptographyWeakHash(Rule):
                 rule_id=self.id,
                 location=Location(
                     file_name=context["file_name"],
-                    node=call.function_node,
+                    node=call.identifier_node,
                 ),
                 level=Level.ERROR,
                 message=self.message.format(call.name_qualified),
