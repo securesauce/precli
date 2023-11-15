@@ -39,6 +39,8 @@ class JsonPickleDecodeTests(test_case.TestCase):
     @parameterized.expand(
         [
             "jsonpickle_decode",
+            "jsonpickle_unpickler_decode",
+            "jsonpickle_unpickler_unpickler",
         ]
     )
     def test(self, filename):
