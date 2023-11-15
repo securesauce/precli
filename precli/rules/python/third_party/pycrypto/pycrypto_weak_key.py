@@ -62,7 +62,7 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0513>`_
+ - `Inadequate Encryption Strength Using Weak Keys in PyCrypto Module <https://docs.securesauce.dev/rules/PRE0514>`_
  - `PyCrypto - The Python Cryptography Toolkit <https://www.pycrypto.org/>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 

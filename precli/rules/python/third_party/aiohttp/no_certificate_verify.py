@@ -1,14 +1,14 @@
 # Copyright 2023 Secure Saurce LLC
 r"""
-==================================================
-Improper Certificate Validation Using Httpx Module
-==================================================
+====================================================
+Improper Certificate Validation Using Aiohttp Module
+====================================================
 
-The ``httpx`` package includes a number of standard methods for accessing
-HTTP servers. The common parameter in these methods is ``verify`` to denote
-whether to verify the server's host certificate. If unset, the default
-value is True to verify. However, by setting the value to False, the code
-is subject to a number of security risks including:
+The ``aiohttp`` package includes a number of asynchronous methods for accessing
+HTTP servers. The common parameter in these methods is ``ssl`` to denote
+whether to verify the server's host certificate. If unset, the default value
+is to verify certificates. However, by setting the value to False, the code is
+subject to a number of security risks including:
 
 - Man-in-the-middle attacks
 - Session hijacking
@@ -22,31 +22,35 @@ Example
    :linenos:
    :emphasize-lines: 4
 
-    import httpx
+    import aiohttp
 
 
-    httpx.get("https://localhost", verify=False)
+    async with aiohttp.ClientSession() as session:
+        async with session.get('http://python.org', ssl=False) as response:
+            print(await response.text())
 
 -----------
 Remediation
 -----------
 
-Setting the value of the verify argument to True or removing the keyword
+Setting the value of the ssl argument to None or removing the keyword
 argument accomplish the same effect of ensuring that certificates are verified.
 
 .. code-block:: python
    :linenos:
    :emphasize-lines: 4
 
-    import httpx
+    import aiohttp
 
 
-    httpx.get("https://localhost", verify=True)
+    async with aiohttp.ClientSession() as session:
+        async with session.get('http://python.org', ssl=None) as response:
+            print(await response.text())
 
 .. seealso::
 
- - `Improper Certificate Validation Using Httpx Module <https://docs.securesauce.dev/rules/PRE0507>`_
- - `HTTPX <https://www.python-httpx.org/>`_
+ - `Improper Certificate Validation Using Requests Module <https://docs.securesauce.dev/rules/PRE0501>`_
+ - `Advanced Client Usage — aiohttp documentation <https://docs.aiohttp.org/en/stable/client_advanced.html#ssl-control-for-tcp-sockets>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 
 .. versionadded:: 1.0.0
@@ -69,9 +73,7 @@ class NoCertificateVerify(Rule):
             message="The '{}' function is set to not verify certificates.",
             targets=("call"),
             wildcards={
-                "httpx.*": [
-                    "AsyncClient",
-                    "Client",
+                "aiohttp.ClientSession.*": [
                     "delete",
                     "get",
                     "head",
@@ -80,7 +82,7 @@ class NoCertificateVerify(Rule):
                     "post",
                     "put",
                     "request",
-                    "stream",
+                    "ws_connect",
                 ]
             },
             config=Config(enabled=False),
@@ -90,28 +92,26 @@ class NoCertificateVerify(Rule):
         call = kwargs.get("call")
 
         if call.name_qualified in [
-            "httpx.AsyncClient",
-            "httpx.Client",
-            "httpx.delete",
-            "httpx.get",
-            "httpx.head",
-            "httpx.options",
-            "httpx.patch",
-            "httpx.post",
-            "httpx.put",
-            "httpx.request",
-            "httpx.stream",
+            "aiohttp.ClientSession.delete",
+            "aiohttp.ClientSession.get",
+            "aiohttp.ClientSession.head",
+            "aiohttp.ClientSession.options",
+            "aiohttp.ClientSession.patch",
+            "aiohttp.ClientSession.post",
+            "aiohttp.ClientSession.put",
+            "aiohttp.ClientSession.request",
+            "aiohttp.ClientSession.ws_connect",
         ]:
-            argument = call.get_argument(name="verify")
-            version = argument.value
+            argument = call.get_argument(name="ssl")
+            ssl = argument.value
 
-            if version is False:
+            if ssl is False:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description="Set the 'verify' argument to 'True' to ensure"
+                    description="Set the 'ssl' argument to 'None' to ensure"
                     " the server's certificate is verified.",
-                    inserted_content="True",
+                    inserted_content="None",
                 )
                 return Result(
                     rule_id=self.id,
