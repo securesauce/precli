@@ -107,7 +107,7 @@ AES.
 
 .. seealso::
 
- - `Use of a Broken or Risky Cryptographic Algorithm in Cryptography Module <https://docs.securesauce.dev/rules/PRE0501>`_
+ - `Use of a Broken or Risky Cryptographic Algorithm in Cryptography Module <https://docs.securesauce.dev/rules/PRE0502>`_
  - `Symmetric encryption — Cryptography documentation <https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#weak-ciphers>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
 

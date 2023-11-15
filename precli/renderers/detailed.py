@@ -25,7 +25,7 @@ class Detailed(Renderer):
         for result in results:
             match result.level:
                 case Level.ERROR:
-                    emoji = ":cross_mark-emoji:"
+                    emoji = ":no_entry-emoji:"
                     style = "red"
 
                 case Level.WARNING:

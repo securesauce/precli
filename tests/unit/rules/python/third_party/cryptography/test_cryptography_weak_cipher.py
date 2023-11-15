@@ -12,7 +12,7 @@ from tests.unit.rules.python import test_case
 class CryptographyWeakCipherTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0501"
+        self.rule_id = "PRE0502"
         self.parser = python.Python(enabled=[self.rule_id])
         self.base_path = os.path.join(
             "tests",
