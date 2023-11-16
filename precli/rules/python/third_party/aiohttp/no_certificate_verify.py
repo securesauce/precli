@@ -104,6 +104,9 @@ class NoCertificateVerify(Rule):
         ]:
             argument = call.get_argument(name="ssl")
             ssl = argument.value
+            if ssl is None:
+                argument = call.get_argument(name="verify_ssl")
+                ssl = argument.value
 
             if ssl is False:
                 fixes = Rule.get_fixes(
