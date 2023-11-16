@@ -1,8 +1,8 @@
 # level: ERROR
-# start_line: 10
-# end_line: 10
-# start_column: 63
-# end_column: 68
+# start_line: 11
+# end_line: 11
+# start_column: 40
+# end_column: 45
 import aiohttp
 
 
