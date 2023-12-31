@@ -1,4 +1,4 @@
 import hashlib
 
 
-hashlib.md5()  # suppress: pre0004
+hashlib.md5()  # suppress: py004

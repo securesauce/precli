@@ -49,7 +49,7 @@ argument accomplish the same effect of ensuring that certificates are verified.
 
 .. seealso::
 
- - `Improper Certificate Validation Using Requests Module <https://docs.securesauce.dev/rules/PRE0501>`_
+ - `Improper Certificate Validation Using Requests Module <https://docs.securesauce.dev/rules/PY501>`_
  - `Advanced Client Usage — aiohttp documentation <https://docs.aiohttp.org/en/stable/client_advanced.html#ssl-control-for-tcp-sockets>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 

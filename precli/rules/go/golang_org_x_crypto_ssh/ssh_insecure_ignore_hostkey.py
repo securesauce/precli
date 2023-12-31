@@ -129,7 +129,7 @@ host key is unknown to the client.
 
 .. seealso::
 
- - `Improper Hostkey Validation Using SSH <https://docs.securesauce.dev/rules/PRE1501>`_
+ - `Improper Hostkey Validation Using SSH <https://docs.securesauce.dev/rules/GO501>`_
  - `ssh package - golang.org_x_crypto_ssh - Go Packages <https://pkg.go.dev/golang.org/x/crypto/ssh#InsecureIgnoreHostKey>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 

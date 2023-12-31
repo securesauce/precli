@@ -77,7 +77,7 @@ It is advisable to use a secure cryptographic algorithms such as CBC.
 
 .. seealso::
 
- - `Use of a Risky Cryptographic Cipher Mode in Cryptography Module <https://docs.securesauce.dev/rules/PRE0503>`_
+ - `Use of a Risky Cryptographic Cipher Mode in Cryptography Module <https://docs.securesauce.dev/rules/PY503>`_
  - `Symmetric encryption — Cryptography documentation <https://cryptography.io/en/latest/hazmat/primitives/symmetric-encryption/#insecure-modes>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
 

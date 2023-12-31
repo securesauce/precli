@@ -1,4 +1,4 @@
 import hashlib
 
 
-hashlib.md5()  # suppress: PRE0001, PRE0002, PRE0003, PRE0004, PRE0005
+hashlib.md5()  # suppress: PY001, PY002, PY003, PY004, PY005

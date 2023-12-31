@@ -11,7 +11,7 @@ from tests.unit.rules.python import test_case
 class NntpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0011"
+        self.rule_id = "PY011"
         self.base_path = os.path.join(
             "tests",
             "unit",

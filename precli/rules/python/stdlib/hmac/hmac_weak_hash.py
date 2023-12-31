@@ -67,7 +67,7 @@ secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Hmac Module <https://docs.securesauce.dev/rules/PRE0006>`_
+ - `Reversible One Way Hash in Hmac Module <https://docs.securesauce.dev/rules/PY006>`_
  - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_

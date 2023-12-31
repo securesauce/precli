@@ -89,7 +89,7 @@ alternatives include ``bcrypt``, ``pbkdf2``, and ``scrypt``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Crypt Module <https://docs.securesauce.dev/rules/PRE0002>`_
+ - `Reversible One Way Hash in Crypt Module <https://docs.securesauce.dev/rules/PY002>`_
  - `crypt — Function to check Unix passwords <https://docs.python.org/3/library/crypt.html>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_

@@ -33,7 +33,7 @@ should first sanitize the data to remove any potential malicious code.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in the Dill Module <https://docs.securesauce.dev/rules/PRE0506>`_
+ - `Deserialization of Untrusted Data in the Dill Module <https://docs.securesauce.dev/rules/PY506>`_
  - `dill package documentation <https://dill.readthedocs.io/en/latest/index.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 

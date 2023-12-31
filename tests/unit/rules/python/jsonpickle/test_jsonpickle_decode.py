@@ -12,7 +12,7 @@ from tests.unit.rules.python import test_case
 class JsonPickleDecodeTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0508"
+        self.rule_id = "PY508"
         self.parser = python.Python(enabled=[self.rule_id])
         self.base_path = os.path.join(
             "tests",
