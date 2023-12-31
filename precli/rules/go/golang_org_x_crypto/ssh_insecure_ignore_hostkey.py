@@ -19,7 +19,7 @@ should reject the key to cancel the connection.
 Example
 -------
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 14
 
@@ -69,7 +69,7 @@ Remediation
 Implement a HostKeyCallback fucntion in order to reject connection if the
 host key is unknown to the client.
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 9-22, 29
 
