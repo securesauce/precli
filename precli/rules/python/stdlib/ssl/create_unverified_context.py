@@ -49,7 +49,7 @@ these security risks.
 
 .. seealso::
 
- - `Improper Certificate Validation Using ssl._create_unverified_context <https://docs.securesauce.dev/rules/PRE0016>`_
+ - `Improper Certificate Validation Using ssl._create_unverified_context <https://docs.securesauce.dev/rules/PY016>`_
  - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 

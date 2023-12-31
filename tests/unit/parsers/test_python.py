@@ -24,7 +24,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -38,7 +38,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -52,7 +52,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -66,7 +66,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -80,7 +80,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -94,7 +94,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(5, result.location.start_line)
         self.assertEqual(5, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -108,7 +108,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)
@@ -122,7 +122,7 @@ class TestCase(testtools.TestCase):
         )
         self.assertEqual(1, len(results))
         result = results[0]
-        self.assertEqual("PRE0004", result.rule_id)
+        self.assertEqual("PY004", result.rule_id)
         self.assertEqual(4, result.location.start_line)
         self.assertEqual(4, result.location.end_line)
         self.assertEqual(0, result.location.start_column)

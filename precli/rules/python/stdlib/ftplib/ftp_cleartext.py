@@ -75,7 +75,7 @@ These alternatives include:
 
 .. seealso::
 
- - `Cleartext Transmission of Sensitive Information in the Ftplib Module <https://docs.securesauce.dev/rules/PRE0003>`_
+ - `Cleartext Transmission of Sensitive Information in the Ftplib Module <https://docs.securesauce.dev/rules/PY003>`_
  - `ftplib — FTP protocol client <https://docs.python.org/3/library/ftplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
  - https://www.paramiko.org/

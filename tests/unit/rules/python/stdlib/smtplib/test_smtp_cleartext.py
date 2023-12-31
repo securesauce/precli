@@ -11,7 +11,7 @@ from tests.unit.rules.python import test_case
 class SmtpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0015"
+        self.rule_id = "PY015"
         self.base_path = os.path.join(
             "tests",
             "unit",
