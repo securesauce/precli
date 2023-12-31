@@ -97,6 +97,8 @@ class Parser(ABC):
         :param list nodes: list of nodes
         """
         for node in nodes:
+            # print(node)
+
             self.context["node"] = node
             visitor_fn = getattr(self, f"visit_{node.type}", self.visit)
             visitor_fn(node.children)
@@ -113,6 +115,11 @@ class Parser(ABC):
                 self.context["node"].end_point[1] + 1,
             ),
         )
+
+    def first_match(self, node: Node, type: str) -> Node:
+        # Return first child with type as specified
+        child = list(filter(lambda x: x.type == type, node.named_children))
+        return child[0] if child else None
 
     def process_rules(self, target: str, **kwargs: dict) -> list[Result]:
         """
