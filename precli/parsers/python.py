@@ -207,11 +207,6 @@ class Python(Parser):
             self.process_rules("comparison_operator", comparison=comparison)
         self.visit(nodes)
 
-    def first_match(self, node: Node, type: str) -> Node:
-        # Return first child with type as specified
-        child = list(filter(lambda x: x.type == type, node.named_children))
-        return child[0] if child else None
-
     def import_statement(self, nodes: list[Node]) -> dict:
         imports = {}
         for child in nodes:
