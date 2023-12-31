@@ -64,7 +64,7 @@ secure alternatives, ``sha256`` or ``sha512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Crypto Package <https://docs.securesauce.dev/rules/GO001>`_
+ - `Reversible One Way Hash in Crypto Package <https://docs.securesauce.dev/rules/GO002>`_
  - `md5 package - crypto_md5 - Go Packages <https://pkg.go.dev/crypto/md5>`_
  - `sha1 package - crypto_sha1 - Go Packages <https://pkg.go.dev/crypto/sha1>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
@@ -97,9 +97,14 @@ class WeakHash(Rule):
 
         if call.name_qualified in [
             "crypto/md5.New",
-            "crypto/md5.Sum",
-            "crypto/sha1.New" "crypto/sha1.Sum",
+            "crypto/sha1.New",
         ]:
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=call.function_node),
+                description="Use a more secure hashing algorithm like sha256.",
+                inserted_content="sha256.New",
+            )
             return Result(
                 rule_id=self.id,
                 location=Location(
@@ -108,4 +113,25 @@ class WeakHash(Rule):
                 ),
                 level=Level.ERROR,
                 message=self.message.format(call.name_qualified),
+                fixes=fixes,
+            )
+        elif call.name_qualified in [
+            "crypto/md5.Sum",
+            "crypto/sha1.Sum",
+        ]:
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=call.function_node),
+                description="Use a more secure hashing algorithm like sha256.",
+                inserted_content="sha256.Sum",
+            )
+            return Result(
+                rule_id=self.id,
+                location=Location(
+                    file_name=context["file_name"],
+                    node=call.function_node,
+                ),
+                level=Level.ERROR,
+                message=self.message.format(call.name_qualified),
+                fixes=fixes,
             )
