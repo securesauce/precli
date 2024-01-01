@@ -21,9 +21,9 @@ class Argument:
         if node is None:
             return None
         # TODO(ericwb): does this function fail with nested calls?
-        if node.type == "attribute":
+        if node.type in ["attribute", "selector_expression"]:
             return Argument._get_func_ident(node.named_children[1])
-        if node.type == "identifier":
+        if node.type in ["identifier", "field_identifier"]:
             return node
 
     @property

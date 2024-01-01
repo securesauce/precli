@@ -157,19 +157,16 @@ class Go(Parser):
                             value = symbol.value
                 case "interpreted_string_literal":
                     value = ast.literal_eval(nodetext)
-                case "string":
-                    # TODO: bytes and f-type strings are messed up
-                    value = ast.literal_eval(nodetext)
-                case "integer":
+                case "int_literal":
                     # TODO: hex, octal, binary
                     value = ast.literal_eval(nodetext)
-                case "float":
+                case "float_literal":
                     value = float(nodetext)
                 case "true":
                     value = True
                 case "false":
                     value = False
-                case "none":
+                case "nil":
                     value = None
         except ValueError:
             value = None
