@@ -1,21 +1,24 @@
 # Copyright 2023 Secure Saurce LLC
 r"""
-=========================================
-Reversible One Way Hash in Crypto Package
-=========================================
+===========================================
+Reversible One Way Hash in X Crypto Package
+===========================================
 
-The Go ``crypto`` package provides a number of functions for hashing data.
-However, some of the hash algorithms supported by hashlib are insecure and
-should not be used. These insecure hash algorithms include ``MD5`` and
-``SHA-1``.
+The Go ``golang.org/x/crypto`` package provides a number of functions for
+hashing data. However, some of the hash algorithms supported by hashlib are
+insecure and should not be used. These insecure hash algorithms include ``MD4``
+and ``RIPEMD160``.
 
-The MD5 hash algorithm is a cryptographic hash function that was designed in
-the early 1990s. MD5 is no longer considered secure, and passwords hashed
-with MD5 can be easily cracked by attackers.
+The MD4 hash algorithm is a cryptographic hash function that was designed in
+the late 1980s. MD4 is no longer considered secure, and passwords hashed with
+MD4 can be easily cracked by attackers.
 
-The SHA-1 hash algorithm is also a cryptographic hash function that was
-designed in the early 1990s. SHA-1 is no longer considered secure, and
-passwords hashed with SHA-1 can be easily cracked by attackers.
+RIPEMD is a cryptographic hash function that was designed in 1996. It is
+considered to be a secure hash function, but it is not as secure as
+SHA-256, SHA-384, or SHA-512. In 2017, a collision attack was found for
+RIPEMD-160. This means that it is possible to find two different messages
+that have the same RIPEMD-160 hash. While this does not mean that RIPEMD-160
+is completely insecure, it does mean that it is not as secure as it once was.
 
 -------
 Example
@@ -28,12 +31,12 @@ Example
     package main
 
     import (
-        "crypto/md5"
+        "golang.org/x/crypto/md4"
         "fmt"
     )
 
     func main() {
-        h := md5.New()
+        h := md4.New()
         h.Write([]byte("hello world\n"))
         fmt.Printf("%x", h.Sum(nil))
     }
@@ -64,9 +67,9 @@ secure alternatives, ``sha256`` or ``sha512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Crypto Package <https://docs.securesauce.dev/rules/GO002>`_
- - `md5 package - crypto_md5 - Go Packages <https://pkg.go.dev/crypto/md5>`_
- - `sha1 package - crypto_sha1 - Go Packages <https://pkg.go.dev/crypto/sha1>`_
+ - `Reversible One Way Hash in X Crypto Package <https://docs.securesauce.dev/rules/GO502>`_
+ - `md4 package - golang.org_x_crypto_md4 - Go Packages <https://pkg.go.dev/golang.org/x/crypto/md4>`_
+ - `ripemd160 package - golang.org_x_crypto_ripemd160 - Go Packages <https://pkg.go.dev/golang.org/x/crypto/ripemd160>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_
 
@@ -96,8 +99,8 @@ class WeakHash(Rule):
         call = kwargs.get("call")
 
         if call.name_qualified in [
-            "crypto/md5.New",
-            "crypto/sha1.New",
+            "golang.org/x/crypto/md4.New",
+            "golang.org/x/crypto/ripemd160.New",
         ]:
             fixes = Rule.get_fixes(
                 context=context,
@@ -116,8 +119,8 @@ class WeakHash(Rule):
                 fixes=fixes,
             )
         elif call.name_qualified in [
-            "crypto/md5.Sum",
-            "crypto/sha1.Sum",
+            "golang.org/x/crypto/md4.Sum",
+            "golang.org/x/crypto/ripemd160.Sum",
         ]:
             fixes = Rule.get_fixes(
                 context=context,
