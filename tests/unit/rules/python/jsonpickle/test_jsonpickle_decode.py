@@ -23,7 +23,7 @@ class JsonPickleDecodeTests(test_case.TestCase):
             "examples",
         )
 
-    def test_jsonpickle_decode_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("deserialization_of_untrusted_data", rule.name)

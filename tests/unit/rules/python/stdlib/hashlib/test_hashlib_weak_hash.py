@@ -24,7 +24,7 @@ class HashlibWeakHashTests(test_case.TestCase):
             "examples",
         )
 
-    def test_hashlib_weak_hash_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)

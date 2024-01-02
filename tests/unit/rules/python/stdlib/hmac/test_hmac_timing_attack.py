@@ -24,7 +24,7 @@ class HmacTimingAttackTests(test_case.TestCase):
             "examples",
         )
 
-    def test_hmac_timing_attack_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("observable_timing_discrepancy", rule.name)

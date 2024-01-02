@@ -24,7 +24,7 @@ class MktempRaceConditionTests(test_case.TestCase):
             "examples",
         )
 
-    def test_smtp_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("insecure_temporary_file", rule.name)
