@@ -1,31 +1,37 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import os
 
 import testtools
 
 from precli.core.level import Level
-from precli.parsers import python
 
 
 class TestCase(testtools.TestCase):
     def setUp(self):
         super().setUp()
-        self.parser = python.Python()
 
     def expected(self, filename):
-        with open(os.path.join(self.base_path, f"{filename}.py")) as f:
+        with open(os.path.join(self.base_path, filename)) as f:
             level = f.readline().strip()
-            level = level.removeprefix("# level: ")
+            level = level.lstrip("/# ").removeprefix("level: ")
             level = getattr(Level, level)
             if level != Level.NONE:
                 start_line = f.readline().strip()
-                start_line = int(start_line.removeprefix("# start_line: "))
+                start_line = int(
+                    start_line.lstrip("/# ").removeprefix("start_line: ")
+                )
                 end_line = f.readline().strip()
-                end_line = int(end_line.removeprefix("# end_line: "))
+                end_line = int(
+                    end_line.lstrip("/# ").removeprefix("end_line: ")
+                )
                 start_col = f.readline().strip()
-                start_col = int(start_col.removeprefix("# start_column: "))
+                start_col = int(
+                    start_col.lstrip("/# ").removeprefix("start_column: ")
+                )
                 end_col = f.readline().strip()
-                end_col = int(end_col.removeprefix("# end_column: "))
+                end_col = int(
+                    end_col.lstrip("/# ").removeprefix("end_column: ")
+                )
             else:
                 start_line = end_line = start_col = end_col = -1
 
@@ -39,9 +45,7 @@ class TestCase(testtools.TestCase):
             start_column,
             end_column,
         ) = self.expected(filename)
-        results = self.parser.parse(
-            os.path.join(self.base_path, f"{filename}.py")
-        )
+        results = self.parser.parse(os.path.join(self.base_path, filename))
         if level == Level.NONE:
             self.assertEqual(0, len(results))
         else:

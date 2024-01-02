@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class M2cryptoWeakKeyTests(test_case.TestCase):
@@ -37,13 +37,13 @@ class M2cryptoWeakKeyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "dsa_gen_params_1024",
-            "dsa_gen_params_2048",
-            "dsa_gen_params_4096",
-            "ec_gen_params_nid_secp112r1",
-            "rsa_gen_key_1024",
-            "rsa_gen_key_2048",
-            "rsa_gen_key_4096",
+            "dsa_gen_params_1024.py",
+            "dsa_gen_params_2048.py",
+            "dsa_gen_params_4096.py",
+            "ec_gen_params_nid_secp112r1.py",
+            "rsa_gen_key_1024.py",
+            "rsa_gen_key_2048.py",
+            "rsa_gen_key_4096.py",
         ]
     )
     def test(self, filename):

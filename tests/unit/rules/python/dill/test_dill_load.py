@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class DillLoadTests(test_case.TestCase):
@@ -37,9 +37,9 @@ class DillLoadTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "dill_load",
-            "dill_loads",
-            "dill_unpickler",
+            "dill_load.py",
+            "dill_loads.py",
+            "dill_unpickler.py",
         ]
     )
     def test(self, filename):

@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PopCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY013"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,13 +38,13 @@ class PopCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "poplib_pop3_apop",
-            "poplib_pop3_context_mgr",
-            "poplib_pop3_pass_",
-            "poplib_pop3_rpop",
-            "poplib_pop3_ssl",
-            "poplib_pop3_stls",
-            "poplib_pop3_user",
+            "poplib_pop3_apop.py",
+            "poplib_pop3_context_mgr.py",
+            "poplib_pop3_pass_.py",
+            "poplib_pop3_rpop.py",
+            "poplib_pop3_ssl.py",
+            "poplib_pop3_stls.py",
+            "poplib_pop3_user.py",
         ]
     )
     def test(self, filename):

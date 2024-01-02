@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class CryptographyWeakHashTests(test_case.TestCase):
@@ -37,8 +37,8 @@ class CryptographyWeakHashTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "hashes_md5",
-            "hashes_sha1",
+            "hashes_md5.py",
+            "hashes_sha1.py",
         ]
     )
     def test(self, filename):

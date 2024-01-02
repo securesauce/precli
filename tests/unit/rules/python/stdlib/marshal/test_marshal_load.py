@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class MarshalLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY010"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,8 +38,8 @@ class MarshalLoadTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "marshal_load",
-            "marshal_loads",
+            "marshal_load.py",
+            "marshal_loads.py",
         ]
     )
     def test(self, filename):

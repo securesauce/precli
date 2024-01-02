@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class CryptographyWeakCipherTests(test_case.TestCase):

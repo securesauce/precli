@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PyghmiCleartextTests(test_case.TestCase):
@@ -37,10 +37,10 @@ class PyghmiCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "command_command",
-            "command_command_no_password",
-            "command_console",
-            "command_console_no_password",
+            "command_command.py",
+            "command_command_no_password.py",
+            "command_console.py",
+            "command_console_no_password.py",
         ]
     )
     def test(self, filename):

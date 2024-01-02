@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PyopensslWeakKeyTests(test_case.TestCase):
@@ -37,12 +37,12 @@ class PyopensslWeakKeyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "generate_key_dsa_1024",
-            "generate_key_dsa_2048",
-            "generate_key_dsa_4096",
-            "generate_key_rsa_1024",
-            "generate_key_rsa_2048",
-            "generate_key_rsa_4096",
+            "generate_key_dsa_1024.py",
+            "generate_key_dsa_2048.py",
+            "generate_key_dsa_4096.py",
+            "generate_key_rsa_1024.py",
+            "generate_key_rsa_2048.py",
+            "generate_key_rsa_4096.py",
         ]
     )
     def test(self, filename):

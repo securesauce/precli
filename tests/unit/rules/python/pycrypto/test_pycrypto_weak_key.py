@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PycryptoWeakKeyTests(test_case.TestCase):
@@ -37,12 +37,12 @@ class PycryptoWeakKeyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "dsa_generate_1024",
-            "dsa_generate_2048",
-            "dsa_generate_4096",
-            "rsa_generate_1024",
-            "rsa_generate_2048",
-            "rsa_generate_4096",
+            "dsa_generate_1024.py",
+            "dsa_generate_2048.py",
+            "dsa_generate_4096.py",
+            "rsa_generate_1024.py",
+            "rsa_generate_2048.py",
+            "rsa_generate_4096.py",
         ]
     )
     def test(self, filename):
