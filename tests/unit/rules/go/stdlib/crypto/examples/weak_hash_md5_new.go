@@ -1,8 +1,8 @@
 // level: ERROR
 // start_line: 14
 // end_line: 14
-// start_column: 38
-// end_column: 41
+// start_column: 9
+// end_column: 16
 package main
 
 import (

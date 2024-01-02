@@ -1,8 +1,4 @@
-// level: ERROR
-// start_line: 21
-// end_line: 21
-// start_column: 63
-// end_column: 72
+// level: NONE
 package main
 
 import (
@@ -18,7 +14,7 @@ func main() {
     var params dsa.Parameters
 
     // Generate DSA parameters; here we choose a 1024-bit key size
-    if err := dsa.GenerateParameters(&params, rand.Reader, dsa.L1024N160); err != nil {
+    if err := dsa.GenerateParameters(&params, rand.Reader, dsa.L2048N256); err != nil {
         log.Fatalf("Failed to generate DSA parameters: %v", err)
     }
 
