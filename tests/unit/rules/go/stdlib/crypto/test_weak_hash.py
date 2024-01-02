@@ -6,14 +6,14 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import go
 from precli.rules import Rule
-from tests.unit.rules.go import test_case
+from tests.unit.rules import test_case
 
 
 class CryptoWeakCipherTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "GO002"
-        self.parser = go.Go(enabled=[self.rule_id])
+        self.parser = go.Go()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -38,12 +38,12 @@ class CryptoWeakCipherTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "weak_hash_md5_new",
-            "weak_hash_md5_sum",
-            "weak_hash_sha1_new",
-            "weak_hash_sha1_sum",
-            "weak_hash_sha256_new",
-            "weak_hash_sha256_sum",
+            "weak_hash_md5_new.go",
+            "weak_hash_md5_sum.go",
+            "weak_hash_sha1_new.go",
+            "weak_hash_sha1_sum.go",
+            "weak_hash_sha256_new.go",
+            "weak_hash_sha256_sum.go",
         ]
     )
     def test(self, filename):

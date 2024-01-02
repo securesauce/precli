@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class NoCertificateVerifyTests(test_case.TestCase):
@@ -37,26 +37,26 @@ class NoCertificateVerifyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "requests_delete_verify_false",
-            "requests_get_verify_as_var",
-            "requests_get_verify_false",
-            "requests_get_verify_true",
-            "requests_get_verify_unset",
-            "requests_head_verify_false",
-            "requests_options_verify_false",
-            "requests_patch_verify_false",
-            "requests_post_verify_false",
-            "requests_put_verify_false",
-            "requests_request_verify_false",
-            "requests_session_as_context_get_verify_false",
-            "requests_session_delete_verify_false",
-            "requests_session_get_verify_false",
-            "requests_session_head_verify_false",
-            "requests_session_options_verify_false",
-            "requests_session_patch_verify_false",
-            "requests_session_post_verify_false",
-            "requests_session_put_verify_false",
-            "requests_session_request_verify_false",
+            "requests_delete_verify_false.py",
+            "requests_get_verify_as_var.py",
+            "requests_get_verify_false.py",
+            "requests_get_verify_true.py",
+            "requests_get_verify_unset.py",
+            "requests_head_verify_false.py",
+            "requests_options_verify_false.py",
+            "requests_patch_verify_false.py",
+            "requests_post_verify_false.py",
+            "requests_put_verify_false.py",
+            "requests_request_verify_false.py",
+            "requests_session_as_context_get_verify_false.py",
+            "requests_session_delete_verify_false.py",
+            "requests_session_get_verify_false.py",
+            "requests_session_head_verify_false.py",
+            "requests_session_options_verify_false.py",
+            "requests_session_patch_verify_false.py",
+            "requests_session_post_verify_false.py",
+            "requests_session_put_verify_false.py",
+            "requests_session_request_verify_false.py",
         ]
     )
     def test(self, filename):

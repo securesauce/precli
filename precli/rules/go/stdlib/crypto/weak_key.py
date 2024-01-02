@@ -90,7 +90,6 @@ algorithms.
 .. versionadded:: 1.0.0
 
 """  # noqa: E501
-from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -108,7 +107,6 @@ class WeakKey(Rule):
             "vulnerable to attacks.",
             targets=("call"),
             wildcards={},
-            config=Config(enabled=False),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:

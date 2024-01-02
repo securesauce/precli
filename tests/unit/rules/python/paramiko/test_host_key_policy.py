@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class HostKeyPolicyTests(test_case.TestCase):
@@ -37,13 +37,13 @@ class HostKeyPolicyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "host_key_auto_add_policy",
-            "host_key_auto_add_policy_import_paramiko",
-            "host_key_auto_add_policy_in_func",
-            "host_key_auto_add_policy_kwarg",
-            "host_key_auto_add_policy_single_statement",
-            "host_key_auto_add_policy_walrus",
-            "host_key_warning_policy_single_statement",
+            "host_key_auto_add_policy.py",
+            "host_key_auto_add_policy_import_paramiko.py",
+            "host_key_auto_add_policy_in_func.py",
+            "host_key_auto_add_policy_kwarg.py",
+            "host_key_auto_add_policy_single_statement.py",
+            "host_key_auto_add_policy_walrus.py",
+            "host_key_warning_policy_single_statement.py",
         ]
     )
     def test(self, filename):

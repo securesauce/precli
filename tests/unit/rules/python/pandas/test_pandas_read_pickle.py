@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PandasReadPickleTests(test_case.TestCase):
@@ -37,7 +37,7 @@ class PandasReadPickleTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "pandas_read_pickle",
+            "pandas_read_pickle.py",
         ]
     )
     def test(self, filename):

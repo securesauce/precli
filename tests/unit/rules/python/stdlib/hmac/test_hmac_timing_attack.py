@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class HmacTimingAttackTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY005"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,10 +38,10 @@ class HmacTimingAttackTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "hmac_timing_attack",
-            "hmac_timing_attack_class",
-            "hmac_timing_attack_class_hexdigest",
-            "hmac_timing_attack_compare_digest",
+            "hmac_timing_attack.py",
+            "hmac_timing_attack_class.py",
+            "hmac_timing_attack_class_hexdigest.py",
+            "hmac_timing_attack_compare_digest.py",
         ]
     )
     def test(self, filename):

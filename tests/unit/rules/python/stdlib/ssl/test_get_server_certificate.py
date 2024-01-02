@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class GetServerCertificateTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY017"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,12 +38,12 @@ class GetServerCertificateTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "get_server_certificate_sslv2",
-            "get_server_certificate_sslv23",
-            "get_server_certificate_sslv3",
-            "get_server_certificate_tlsv1",
-            "get_server_certificate_tlsv11",
-            "get_server_certificate_tlsv12",
+            "get_server_certificate_sslv2.py",
+            "get_server_certificate_sslv23.py",
+            "get_server_certificate_sslv3.py",
+            "get_server_certificate_tlsv1.py",
+            "get_server_certificate_tlsv11.py",
+            "get_server_certificate_tlsv12.py",
         ]
     )
     def test(self, filename):

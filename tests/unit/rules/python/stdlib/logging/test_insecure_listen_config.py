@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class InsecureListenConfigTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY009"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,13 +38,13 @@ class InsecureListenConfigTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "insecure_listen_config_empty_args",
-            "insecure_listen_config_port",
-            "insecure_listen_config_port_verify_as_var",
-            "insecure_listen_config_port_verify_none",
-            "insecure_listen_config_verify_none",
-            "insecure_listen_config_verify_none_port",
-            "insecure_listen_config_verify_set",
+            "insecure_listen_config_empty_args.py",
+            "insecure_listen_config_port.py",
+            "insecure_listen_config_port_verify_as_var.py",
+            "insecure_listen_config_port_verify_none.py",
+            "insecure_listen_config_verify_none.py",
+            "insecure_listen_config_verify_none_port.py",
+            "insecure_listen_config_verify_set.py",
         ]
     )
     def test(self, filename):

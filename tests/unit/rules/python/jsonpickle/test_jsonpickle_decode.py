@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class JsonPickleDecodeTests(test_case.TestCase):
@@ -37,9 +37,9 @@ class JsonPickleDecodeTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "jsonpickle_decode",
-            "jsonpickle_unpickler_decode",
-            "jsonpickle_unpickler_unpickler",
+            "jsonpickle_decode.py",
+            "jsonpickle_unpickler_decode.py",
+            "jsonpickle_unpickler_unpickler.py",
         ]
     )
     def test(self, filename):

@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class YamlLoadTests(test_case.TestCase):
@@ -37,29 +37,29 @@ class YamlLoadTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "yaml_load",
-            "yaml_load_from_import",
-            "yaml_load_from_import_alias",
-            "yaml_load_from_import_wildcard",
-            "yaml_load_import_alias",
-            "yaml_load_import_in_async_func",
-            "yaml_load_import_in_class",
-            "yaml_load_import_in_func",
-            "yaml_load_import_in_loop",
-            "yaml_load_importlib",
-            "yaml_load_incomplete_import",
-            "yaml_load_invalid_import",
-            "yaml_load_kwarg_alias_loader",
-            "yaml_load_kwarg_csafeloader",
-            "yaml_load_kwarg_json_safeloader",
-            "yaml_load_kwarg_loader",
-            "yaml_load_kwarg_safeloader",
-            "yaml_load_loader_as_var",
-            "yaml_load_no_import",
-            "yaml_load_positional_csafeloader",
-            "yaml_load_positional_loader",
-            "yaml_load_positional_safeloader",
-            "yaml_load_yaml_as_identifier",
+            "yaml_load.py",
+            "yaml_load_from_import.py",
+            "yaml_load_from_import_alias.py",
+            "yaml_load_from_import_wildcard.py",
+            "yaml_load_import_alias.py",
+            "yaml_load_import_in_async_func.py",
+            "yaml_load_import_in_class.py",
+            "yaml_load_import_in_func.py",
+            "yaml_load_import_in_loop.py",
+            "yaml_load_importlib.py",
+            "yaml_load_incomplete_import.py",
+            "yaml_load_invalid_import.py",
+            "yaml_load_kwarg_alias_loader.py",
+            "yaml_load_kwarg_csafeloader.py",
+            "yaml_load_kwarg_json_safeloader.py",
+            "yaml_load_kwarg_loader.py",
+            "yaml_load_kwarg_safeloader.py",
+            "yaml_load_loader_as_var.py",
+            "yaml_load_no_import.py",
+            "yaml_load_positional_csafeloader.py",
+            "yaml_load_positional_loader.py",
+            "yaml_load_positional_safeloader.py",
+            "yaml_load_yaml_as_identifier.py",
         ]
     )
     def test(self, filename):

@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PycryptoWeakCipherTests(test_case.TestCase):
@@ -39,11 +39,11 @@ class PycryptoWeakCipherTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "cipher_arc2",
-            "cipher_arc4",
-            "cipher_blowfish",
-            "cipher_des",
-            "cipher_xor",
+            "cipher_arc2.py",
+            "cipher_arc4.py",
+            "cipher_blowfish.py",
+            "cipher_des.py",
+            "cipher_xor.py",
         ]
     )
     def test(self, filename):

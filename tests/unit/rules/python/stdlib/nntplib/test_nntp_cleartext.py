@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class NntpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY011"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,10 +38,10 @@ class NntpCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "nntplib_nntp_context_mgr",
-            "nntplib_nntp_login",
-            "nntplib_nntp_ssl",
-            "nntplib_nntp_starttls",
+            "nntplib_nntp_context_mgr.py",
+            "nntplib_nntp_login.py",
+            "nntplib_nntp_ssl.py",
+            "nntplib_nntp_starttls.py",
         ]
     )
     def test(self, filename):

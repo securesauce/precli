@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class NoCertificateVerifyTests(test_case.TestCase):
@@ -37,21 +37,21 @@ class NoCertificateVerifyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "httpx_async_client_as_context_verify_false",
-            "httpx_async_client_verify_false",
-            "httpx_client_as_context_verify_false",
-            "httpx_client_verify_false",
-            "httpx_delete_verify_false",
-            "httpx_get_verify_false",
-            "httpx_get_verify_true",
-            "httpx_get_verify_unset",
-            "httpx_head_verify_false",
-            "httpx_options_verify_false",
-            "httpx_patch_verify_false",
-            "httpx_post_verify_false",
-            "httpx_put_verify_false",
-            "httpx_request_verify_false",
-            "httpx_stream_verify_false",
+            "httpx_async_client_as_context_verify_false.py",
+            "httpx_async_client_verify_false.py",
+            "httpx_client_as_context_verify_false.py",
+            "httpx_client_verify_false.py",
+            "httpx_delete_verify_false.py",
+            "httpx_get_verify_false.py",
+            "httpx_get_verify_true.py",
+            "httpx_get_verify_unset.py",
+            "httpx_head_verify_false.py",
+            "httpx_options_verify_false.py",
+            "httpx_patch_verify_false.py",
+            "httpx_post_verify_false.py",
+            "httpx_put_verify_false.py",
+            "httpx_request_verify_false.py",
+            "httpx_stream_verify_false.py",
         ]
     )
     def test(self, filename):

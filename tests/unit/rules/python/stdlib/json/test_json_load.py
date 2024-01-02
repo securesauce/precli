@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class JsonLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "PY008"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -36,9 +38,9 @@ class JsonLoadTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "json_jsondecoder_decode",
-            "json_load",
-            "json_loads",
+            "json_jsondecoder_decode.py",
+            "json_load.py",
+            "json_loads.py",
         ]
     )
     def test(self, filename):

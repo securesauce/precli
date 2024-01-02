@@ -6,7 +6,7 @@ from parameterized import parameterized
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class NoCertificateVerifyTests(test_case.TestCase):
@@ -37,27 +37,27 @@ class NoCertificateVerifyTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "session_delete_ssl_false",
-            "session_delete_verify_ssl_false",
-            "session_get_ssl_false",
-            "session_get_ssl_true",
-            "session_get_ssl_unset",
-            "session_get_verify_ssl_false",
-            "session_get_verify_ssl_true",
-            "session_head_ssl_false",
-            "session_head_verify_ssl_false",
-            "session_options_ssl_false",
-            "session_options_verify_ssl_false",
-            "session_patch_ssl_false",
-            "session_patch_verify_ssl_false",
-            "session_post_ssl_false",
-            "session_post_verify_ssl_false",
-            "session_put_ssl_false",
-            "session_put_verify_ssl_false",
-            "session_request_ssl_false",
-            "session_request_verify_ssl_false",
-            "session_ws_connect_ssl_false",
-            "session_ws_connect_verify_ssl_false",
+            "session_delete_ssl_false.py",
+            "session_delete_verify_ssl_false.py",
+            "session_get_ssl_false.py",
+            "session_get_ssl_true.py",
+            "session_get_ssl_unset.py",
+            "session_get_verify_ssl_false.py",
+            "session_get_verify_ssl_true.py",
+            "session_head_ssl_false.py",
+            "session_head_verify_ssl_false.py",
+            "session_options_ssl_false.py",
+            "session_options_verify_ssl_false.py",
+            "session_patch_ssl_false.py",
+            "session_patch_verify_ssl_false.py",
+            "session_post_ssl_false.py",
+            "session_post_verify_ssl_false.py",
+            "session_put_ssl_false.py",
+            "session_put_verify_ssl_false.py",
+            "session_request_ssl_false.py",
+            "session_request_verify_ssl_false.py",
+            "session_ws_connect_ssl_false.py",
+            "session_ws_connect_verify_ssl_false.py",
         ]
     )
     def test(self, filename):
