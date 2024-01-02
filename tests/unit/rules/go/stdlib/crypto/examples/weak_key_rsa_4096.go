@@ -1,8 +1,4 @@
-// level: ERROR
-// start_line: 18
-// end_line: 18
-// start_column: 52
-// end_column: 56
+// level: NONE
 package main
 
 import (
@@ -15,7 +11,7 @@ import (
 
 func main() {
     // Generate the RSA key
-    privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
+    privateKey, err := rsa.GenerateKey(rand.Reader, 4096)
     if err != nil {
         log.Fatalf("Failed to generate key: %v", err)
     }
