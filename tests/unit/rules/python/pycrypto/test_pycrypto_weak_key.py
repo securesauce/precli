@@ -23,7 +23,7 @@ class PycryptoWeakKeyTests(test_case.TestCase):
             "examples",
         )
 
-    def test_pycrypto_weak_key_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)

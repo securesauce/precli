@@ -9,7 +9,7 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class CryptoWeakCipherTests(test_case.TestCase):
+class CryptoWeakKeyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
         self.rule_id = "GO003"
@@ -24,7 +24,7 @@ class CryptoWeakCipherTests(test_case.TestCase):
             "examples",
         )
 
-    def test_crypto_weak_cipher_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)

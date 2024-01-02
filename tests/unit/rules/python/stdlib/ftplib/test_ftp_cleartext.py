@@ -24,7 +24,7 @@ class FtpCleartextTests(test_case.TestCase):
             "examples",
         )
 
-    def test_ftp_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)

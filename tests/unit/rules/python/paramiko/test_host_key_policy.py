@@ -23,7 +23,7 @@ class HostKeyPolicyTests(test_case.TestCase):
             "examples",
         )
 
-    def test_paramiko_no_host_key_verify_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("improper_certificate_validation", rule.name)
