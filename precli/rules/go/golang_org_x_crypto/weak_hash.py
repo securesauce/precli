@@ -67,7 +67,7 @@ secure alternatives, ``sha256`` or ``sha512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in X Crypto Package <https://docs.securesauce.dev/rules/GO502>`_
+ - `Reversible One Way Hash in X Crypto Package <https://docs.securesauce.dev/rules/GO503>`_
  - `md4 package - golang.org_x_crypto_md4 - Go Packages <https://pkg.go.dev/golang.org/x/crypto/md4>`_
  - `ripemd160 package - golang.org_x_crypto_ripemd160 - Go Packages <https://pkg.go.dev/golang.org/x/crypto/ripemd160>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
@@ -76,6 +76,7 @@ secure alternatives, ``sha256`` or ``sha512``.
 .. versionadded:: 1.0.0
 
 """  # noqa: E501
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -93,6 +94,7 @@ class WeakHash(Rule):
             "expectations.",
             targets=("call"),
             wildcards={},
+            config=Config(enabled=False),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
