@@ -44,6 +44,7 @@ class CryptoWeakKeyTests(test_case.TestCase):
             "weak_key_rsa_1024.go",
             "weak_key_rsa_2048.go",
             "weak_key_rsa_4096.go",
+            "weak_key_rsa_bits_as_var.go",
         ]
     )
     def test(self, filename):
