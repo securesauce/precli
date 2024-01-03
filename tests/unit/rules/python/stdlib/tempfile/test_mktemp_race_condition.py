@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class MktempRaceConditionTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0019"
+        self.rule_id = "PY019"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class MktempRaceConditionTests(test_case.TestCase):
             "examples",
         )
 
-    def test_smtp_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("insecure_temporary_file", rule.name)
@@ -36,13 +38,13 @@ class MktempRaceConditionTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "tempfile_mktemp",
-            "tempfile_mktemp_args_open",
-            "tempfile_mktemp_args_with_open_args",
-            "tempfile_mktemp_open",
-            "tempfile_mktemp_walrus_open",
-            "tempfile_mktemp_with_open",
-            "tempfile_mktemp_with_open_multiline",
+            "tempfile_mktemp.py",
+            "tempfile_mktemp_args_open.py",
+            "tempfile_mktemp_args_with_open_args.py",
+            "tempfile_mktemp_open.py",
+            "tempfile_mktemp_walrus_open.py",
+            "tempfile_mktemp_with_open.py",
+            "tempfile_mktemp_with_open_multiline.py",
         ]
     )
     def test(self, filename):

@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class SslSocketTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0017"
+        self.rule_id = "PY017"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class SslSocketTests(test_case.TestCase):
             "examples",
         )
 
-    def test_ssl_context_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
@@ -36,12 +38,12 @@ class SslSocketTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "ssl_context_sslv2",
-            "ssl_context_sslv23",
-            "ssl_context_sslv3",
-            "ssl_context_tlsv1",
-            "ssl_context_tlsv11",
-            "ssl_context_tlsv12",
+            "ssl_context_sslv2.py",
+            "ssl_context_sslv23.py",
+            "ssl_context_sslv3.py",
+            "ssl_context_tlsv1.py",
+            "ssl_context_tlsv11.py",
+            "ssl_context_tlsv12.py",
         ]
     )
     def test(self, filename):

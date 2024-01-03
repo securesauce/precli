@@ -19,7 +19,7 @@ from precli.rules import Rule
 Import = namedtuple("Import", "module alias")
 
 SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
-SUPPRESSED_RULES = re.compile(r"(?:(PRE\d\d\d\d|[a-z_]+),?)+")
+SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
 
 class Python(Parser):
@@ -206,11 +206,6 @@ class Python(Parser):
             )
             self.process_rules("comparison_operator", comparison=comparison)
         self.visit(nodes)
-
-    def first_match(self, node: Node, type: str) -> Node:
-        # Return first child with type as specified
-        child = list(filter(lambda x: x.type == type, node.named_children))
-        return child[0] if child else None
 
     def import_statement(self, nodes: list[Node]) -> dict:
         imports = {}

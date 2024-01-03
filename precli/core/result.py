@@ -39,7 +39,8 @@ class Result:
         """
         The ID of the rule.
 
-        The IDs match PREXXXX where XXXX is a unique number.
+        The IDs match ??XXX where ?? is language identifier and XXX is a
+        unique number.
 
         :return: rule ID
         :rtype: str

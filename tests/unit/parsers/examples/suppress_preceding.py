@@ -1,5 +1,5 @@
 import hashlib
 
 
-# suppress: PRE0004
+# suppress: PY004
 hashlib.md5()

@@ -59,7 +59,7 @@ Alternatively, the ``stls`` function can be used to enter a secure session.
 
 .. seealso::
 
- - `Cleartext Transmission of Sensitive Information in the Poplib Module <https://docs.securesauce.dev/rules/PRE0013>`_
+ - `Cleartext Transmission of Sensitive Information in the Poplib Module <https://docs.securesauce.dev/rules/PY013>`_
  - `poplib — POP3 protocol client <https://docs.python.org/3/library/poplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
 

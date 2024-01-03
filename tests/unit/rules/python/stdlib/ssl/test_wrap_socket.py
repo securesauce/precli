@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class WrapSocketTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0017"
+        self.rule_id = "PY017"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class WrapSocketTests(test_case.TestCase):
             "examples",
         )
 
-    def test_wrap_socket_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("inadequate_encryption_strength", rule.name)
@@ -36,13 +38,13 @@ class WrapSocketTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "wrap_socket_sslv2",
-            "wrap_socket_sslv23",
-            "wrap_socket_sslv2_server_side_true",
-            "wrap_socket_sslv3",
-            "wrap_socket_tlsv1",
-            "wrap_socket_tlsv11",
-            "wrap_socket_tlsv12",
+            "wrap_socket_sslv2.py",
+            "wrap_socket_sslv23.py",
+            "wrap_socket_sslv2_server_side_true.py",
+            "wrap_socket_sslv3.py",
+            "wrap_socket_tlsv1.py",
+            "wrap_socket_tlsv11.py",
+            "wrap_socket_tlsv12.py",
         ]
     )
     def test(self, filename):

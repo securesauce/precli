@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class SmtpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0015"
+        self.rule_id = "PY015"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class SmtpCleartextTests(test_case.TestCase):
             "examples",
         )
 
-    def test_smtp_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
@@ -36,11 +38,11 @@ class SmtpCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "smtplib_smtp_auth",
-            "smtplib_smtp_context_mgr",
-            "smtplib_smtp_login",
-            "smtplib_smtp_ssl",
-            "smtplib_smtp_starttls",
+            "smtplib_smtp_auth.py",
+            "smtplib_smtp_context_mgr.py",
+            "smtplib_smtp_login.py",
+            "smtplib_smtp_ssl.py",
+            "smtplib_smtp_starttls.py",
         ]
     )
     def test(self, filename):

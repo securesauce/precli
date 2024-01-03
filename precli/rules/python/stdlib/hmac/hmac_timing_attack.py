@@ -72,7 +72,7 @@ The recommendation is to replace the == operator with the function
 
 .. seealso::
 
- - `Observable Timing Discrepancy in Hmac Module <https://docs.securesauce.dev/rules/PRE0005>`_
+ - `Observable Timing Discrepancy in Hmac Module <https://docs.securesauce.dev/rules/PY005>`_
  - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_
  - `CWE-208: Observable Timing Discrepancy <https://cwe.mitre.org/data/definitions/208.html>`_
 

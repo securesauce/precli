@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class CryptWeakHashTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0002"
+        self.rule_id = "PY002"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class CryptWeakHashTests(test_case.TestCase):
             "examples",
         )
 
-    def test_crypt_weak_hash_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("reversible_one_way_hash", rule.name)
@@ -36,18 +38,18 @@ class CryptWeakHashTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "crypt_crypt",
-            "crypt_crypt_method_blowfish",
-            "crypt_crypt_method_crypt",
-            "crypt_crypt_method_md5",
-            "crypt_crypt_method_sha256",
-            "crypt_crypt_method_sha512",
-            "crypt_mksalt",
-            "crypt_mksalt_method_blowfish",
-            "crypt_mksalt_method_crypt",
-            "crypt_mksalt_method_md5",
-            "crypt_mksalt_method_sha256",
-            "crypt_mksalt_method_sha512",
+            "crypt_crypt.py",
+            "crypt_crypt_method_blowfish.py",
+            "crypt_crypt_method_crypt.py",
+            "crypt_crypt_method_md5.py",
+            "crypt_crypt_method_sha256.py",
+            "crypt_crypt_method_sha512.py",
+            "crypt_mksalt.py",
+            "crypt_mksalt_method_blowfish.py",
+            "crypt_mksalt_method_crypt.py",
+            "crypt_mksalt_method_md5.py",
+            "crypt_mksalt_method_sha256.py",
+            "crypt_mksalt_method_sha512.py",
         ]
     )
     def test(self, filename):

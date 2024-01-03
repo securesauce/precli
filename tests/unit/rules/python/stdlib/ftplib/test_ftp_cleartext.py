@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class FtpCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0003"
+        self.rule_id = "PY003"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class FtpCleartextTests(test_case.TestCase):
             "examples",
         )
 
-    def test_ftp_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
@@ -36,13 +38,13 @@ class FtpCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "ftp",
-            "ftp_tls",
-            "ftplib_ftp",
-            "ftplib_ftp_context_mgr",
-            "ftplib_ftp_tls",
-            "ftplib_ftp_user_password",
-            "ftplib_ftp_tls_user_password",
+            "ftp.py",
+            "ftp_tls.py",
+            "ftplib_ftp.py",
+            "ftplib_ftp_context_mgr.py",
+            "ftplib_ftp_tls.py",
+            "ftplib_ftp_user_password.py",
+            "ftplib_ftp_tls_user_password.py",
         ]
     )
     def test(self, filename):

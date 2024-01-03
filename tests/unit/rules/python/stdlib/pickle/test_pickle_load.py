@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class PickleLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0012"
+        self.rule_id = "PY012"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class PickleLoadTests(test_case.TestCase):
             "examples",
         )
 
-    def test_pickle_load_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("deserialization_of_untrusted_data", rule.name)
@@ -36,9 +38,9 @@ class PickleLoadTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "pickle_load",
-            "pickle_loads",
-            "pickle_unpickler",
+            "pickle_load.py",
+            "pickle_loads.py",
+            "pickle_unpickler.py",
         ]
     )
     def test(self, filename):

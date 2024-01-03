@@ -4,14 +4,16 @@ import os
 from parameterized import parameterized
 
 from precli.core.level import Level
+from precli.parsers import python
 from precli.rules import Rule
-from tests.unit.rules.python import test_case
+from tests.unit.rules import test_case
 
 
 class ImapCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PRE0007"
+        self.rule_id = "PY007"
+        self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
             "unit",
@@ -22,7 +24,7 @@ class ImapCleartextTests(test_case.TestCase):
             "examples",
         )
 
-    def test_imap_cleartext_rule_meta(self):
+    def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
         self.assertEqual("cleartext_transmission", rule.name)
@@ -36,13 +38,13 @@ class ImapCleartextTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "imaplib_imap4_authenticate",
-            "imaplib_imap4_context_mgr",
-            "imaplib_imap4_login",
-            "imaplib_imap4_login_cram_md5",
-            "imaplib_imap4_ssl",
-            "imaplib_imap4_starttls",
-            "imaplib_imap4_stream",
+            "imaplib_imap4_authenticate.py",
+            "imaplib_imap4_context_mgr.py",
+            "imaplib_imap4_login.py",
+            "imaplib_imap4_login_cram_md5.py",
+            "imaplib_imap4_ssl.py",
+            "imaplib_imap4_starttls.py",
+            "imaplib_imap4_stream.py",
         ]
     )
     def test(self, filename):
