@@ -106,7 +106,7 @@ class PycryptoWeakKey(Rule):
             argument = call.get_argument(position=0, name="bits")
             bits = argument.value
 
-            if bits < 2048:
+            if isinstance(bits, int) and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
@@ -128,7 +128,7 @@ class PycryptoWeakKey(Rule):
             argument = call.get_argument(position=0, name="bits")
             bits = argument.value
 
-            if bits < 2048:
+            if isinstance(bits, int) and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),

@@ -122,7 +122,7 @@ class M2CryptoWeakKey(Rule):
             arg0 = call.get_argument(position=0, name="bits")
             bits = arg0.value
 
-            if bits < 2048:
+            if isinstance(bits, int) and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=arg0.node),
@@ -144,7 +144,7 @@ class M2CryptoWeakKey(Rule):
             arg0 = call.get_argument(position=0, name="bits")
             bits = arg0.value
 
-            if bits < 2048:
+            if isinstance(bits, int) and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=arg0.node),

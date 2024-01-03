@@ -148,7 +148,7 @@ class CryptographyWeakKey(Rule):
             argument = call.get_argument(position=0, name="key_size")
             key_size = argument.value
 
-            if key_size < 2048:
+            if isinstance(key_size, int) and key_size < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
@@ -173,7 +173,7 @@ class CryptographyWeakKey(Rule):
             argument = call.get_argument(position=1, name="key_size")
             key_size = argument.value
 
-            if key_size < 2048:
+            if isinstance(key_size, int) and key_size < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),

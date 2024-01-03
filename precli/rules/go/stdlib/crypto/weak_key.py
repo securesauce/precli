@@ -138,7 +138,7 @@ class WeakKey(Rule):
             argument = call.get_argument(position=1)
             bits = argument.value
 
-            if bits < 2048:
+            if isinstance(bits, int) and bits < 2048:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
