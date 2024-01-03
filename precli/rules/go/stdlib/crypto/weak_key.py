@@ -35,7 +35,7 @@ its efficiency and strong security properties.
 Example
 -------
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 10
 
@@ -61,7 +61,7 @@ Remediation
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 10
 

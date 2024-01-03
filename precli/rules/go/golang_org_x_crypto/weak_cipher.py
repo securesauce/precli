@@ -41,7 +41,7 @@ and regulatory requirements for encryption and security.
 Example
 -------
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 11
 
@@ -68,7 +68,7 @@ Remediation
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
-.. code-block:: python
+.. code-block:: go
    :linenos:
    :emphasize-lines: 5,11
 
