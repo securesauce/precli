@@ -159,9 +159,15 @@ class Go(Parser):
                     value = ast.literal_eval(nodetext)
                 case "int_literal":
                     # TODO: hex, octal, binary
-                    value = ast.literal_eval(nodetext)
+                    try:
+                        value = int(nodetext)
+                    except ValueError:
+                        value = nodetext
                 case "float_literal":
-                    value = float(nodetext)
+                    try:
+                        value = float(nodetext)
+                    except ValueError:
+                        value = nodetext
                 case "true":
                     value = True
                 case "false":
