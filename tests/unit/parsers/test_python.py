@@ -47,6 +47,7 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_multiline(self):
+        # TODO: not testing multiline
         results = self.parser.parse(
             os.path.join(self.base_path, "suppress_multiline.py")
         )
