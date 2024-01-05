@@ -8,23 +8,19 @@ from tree_sitter import Node
 
 from precli.core.call import Call
 from precli.core.comparison import Comparison
-from precli.core.location import Location
-from precli.core.suppression import Suppression
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
 from precli.parsers import Parser
-from precli.rules import Rule
 
 
 Import = namedtuple("Import", "module alias")
-
-SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
-SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
 
 class Python(Parser):
     def __init__(self, enabled: list = None, disabled: list = None):
         super().__init__("python", enabled, disabled)
+        self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
+        self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
     def file_extension(self) -> str:
         return ".py"
@@ -44,43 +40,6 @@ class Python(Parser):
         imps = self.import_from_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, "import", value)
-
-    def visit_comment(self, nodes: list[Node]):
-        comment = self.context["node"].text.decode()
-
-        suppressed = SUPPRESS_COMMENT.search(comment)
-        if suppressed is None:
-            return
-
-        matches = suppressed.groupdict()
-        suppressed_rules = matches.get("rules")
-
-        if suppressed_rules is None:
-            return
-
-        rules = set()
-        for rule in SUPPRESSED_RULES.finditer(suppressed_rules):
-            rule_name_or_id = rule.group(1)
-            if Rule.get_by_id(rule_name_or_id) is not None:
-                rules.add(rule_name_or_id)
-
-        if not rules:
-            return
-
-        suppression = Suppression(
-            location=Location(node=self.context["node"]),
-            rules=rules,
-        )
-
-        prev_node = self.context["node"].prev_sibling
-        node = self.context["node"]
-
-        if prev_node.end_point[0] == node.start_point[0]:
-            self.suppressions[node.start_point[0] + 1] = suppression
-        else:
-            self.suppressions[node.start_point[0] + 2] = suppression
-
-        # TODO: add the justification to the suppression
 
     def visit_class_definition(self, nodes: list[Node]):
         class_id = self.first_match(self.context["node"], "identifier")
