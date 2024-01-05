@@ -6,7 +6,10 @@ from importlib.metadata import entry_points
 import tree_sitter_languages
 from tree_sitter import Node
 
+from precli.core.location import Location
 from precli.core.result import Result
+from precli.core.suppression import Suppression
+from precli.rules import Rule
 
 
 class Parser(ABC):
@@ -102,6 +105,43 @@ class Parser(ABC):
             self.context["node"] = node
             visitor_fn = getattr(self, f"visit_{node.type}", self.visit)
             visitor_fn(node.children)
+
+    def visit_comment(self, nodes: list[Node]):
+        comment = self.context["node"].text.decode()
+
+        suppressed = self.SUPPRESS_COMMENT.search(comment)
+        if suppressed is None:
+            return
+
+        matches = suppressed.groupdict()
+        suppressed_rules = matches.get("rules")
+
+        if suppressed_rules is None:
+            return
+
+        rules = set()
+        for rule in self.SUPPRESSED_RULES.finditer(suppressed_rules):
+            rule_name_or_id = rule.group(1)
+            if Rule.get_by_id(rule_name_or_id) is not None:
+                rules.add(rule_name_or_id)
+
+        if not rules:
+            return
+
+        suppression = Suppression(
+            location=Location(node=self.context["node"]),
+            rules=rules,
+        )
+
+        prev_node = self.context["node"].prev_sibling
+        node = self.context["node"]
+
+        if prev_node.end_point[0] == node.start_point[0]:
+            self.suppressions[node.start_point[0] + 1] = suppression
+        else:
+            self.suppressions[node.start_point[0] + 2] = suppression
+
+        # TODO: add the justification to the suppression
 
     def visit_ERROR(self, nodes: list[Node]):
         raise SyntaxError(
