@@ -218,7 +218,11 @@ def parse_file(
     except KeyboardInterrupt:
         sys.exit(2)
     except SyntaxError as e:
-        print(e)
+        print(
+            f"Syntax error while parsing file. ({e.filename}, "
+            f"line {e.lineno})",
+            file=sys.stderr,
+        )
         files_skipped.append((fname, e))
         new_file_list.remove(fname)
     except Exception as e:
