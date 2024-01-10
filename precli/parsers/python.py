@@ -1,5 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
-import ast
+# Copyright 2024 Secure Saurce LLC
 import builtins
 import re
 from collections import namedtuple
@@ -341,19 +340,37 @@ class Python(Parser):
                         keyword: self.literal_value(kwvalue, default=kwvalue)
                     }
                 case "dictionary":
-                    value = ast.literal_eval(nodetext)
+                    # TODO: don't use ast.literal_eval
+                    # value = ast.literal_eval(nodetext)
+                    pass
                 case "list":
-                    value = ast.literal_eval(nodetext)
+                    # TODO: don't use ast.literal_eval
+                    # value = ast.literal_eval(nodetext)
+                    pass
                 case "tuple":
-                    value = ast.literal_eval(nodetext)
+                    # TODO: don't use ast.literal_eval
+                    # value = ast.literal_eval(nodetext)
+                    pass
                 case "string":
-                    # TODO: bytes and f-type strings are messed up
-                    value = ast.literal_eval(nodetext)
+                    # TODO: handle byte strings (b"abc")
+                    # TODO: handle f-strings? (f"{a}")
+                    if nodetext.startswith('"""') or nodetext.startswith(
+                        "'''"
+                    ):
+                        value = nodetext[3:-3]
+                    elif nodetext.startswith('"') or nodetext.startswith("'"):
+                        value = nodetext[1:-1]
                 case "integer":
                     # TODO: hex, octal, binary
-                    value = ast.literal_eval(nodetext)
+                    try:
+                        value = int(nodetext)
+                    except ValueError:
+                        value = nodetext
                 case "float":
-                    value = float(nodetext)
+                    try:
+                        value = float(nodetext)
+                    except ValueError:
+                        value = nodetext
                 case "true":
                     value = True
                 case "false":
