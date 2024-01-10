@@ -7,6 +7,7 @@ import pathlib
 import sys
 import traceback
 
+from ignorelib import IgnoreFilterManager
 from rich import progress
 
 import precli
@@ -113,18 +114,34 @@ def setup_arg_parser():
     return args
 
 
+def build_gitignore_mgr(path: str) -> IgnoreFilterManager:
+    return IgnoreFilterManager.build(
+        path,
+        global_ignore_file_paths=[
+            os.path.join(".git", "info", "exclude"),
+            os.path.expanduser(os.path.join("~", ".config", "git", "ignore")),
+        ],
+        global_patterns=[".git"],
+        ignore_file_name=".gitignore",
+    )
+
+
 def discover_files(targets: list[str], recursive: bool):
     file_list = []
+
     for fname in targets:
         if os.path.isdir(fname):
+            ignore_mgr = build_gitignore_mgr(fname)
+
             if recursive is True:
-                for root, _, files in os.walk(fname):
+                for root, _, files in ignore_mgr.walk():
                     for file in files:
                         file_list.append(os.path.join(root, file))
             else:
                 files = os.listdir(path=fname)
                 for file in files:
-                    file_list.append(os.path.join(fname, file))
+                    if not ignore_mgr.is_ignored(file):
+                        file_list.append(os.path.join(fname, file))
         else:
             file_list.append(fname)
     return file_list

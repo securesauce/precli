@@ -2,3 +2,4 @@ cwe
 rich # MIT
 tree_sitter>=0.20.4
 tree-sitter-languages>=1.9.1
+ignorelib
