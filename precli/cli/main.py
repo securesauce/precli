@@ -167,8 +167,6 @@ def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
     results = []
     lines = 0
     for fname in files:
-        LOG.debug("working on file : %s", fname)
-
         try:
             if fname == "-":
                 open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
@@ -213,6 +211,7 @@ def parse_file(
         data = fdata.read()
         file_extension = pathlib.Path(fname).suffix
         if file_extension in parsers.keys():
+            LOG.debug("working on file : %s", fname)
             parser = parsers[file_extension]
             return parser.parse(fname, data)
     except KeyboardInterrupt:
