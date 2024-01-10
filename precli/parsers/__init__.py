@@ -144,15 +144,19 @@ class Parser(ABC):
         # TODO: add the justification to the suppression
 
     def visit_ERROR(self, nodes: list[Node]):
+        err_node = self.first_match(self.context["node"], "ERROR")
+        if err_node is None:
+            err_node = self.context["node"]
+
         raise SyntaxError(
             "Syntax error while parsing file.",
             (
                 self.context["file_name"],
-                self.context["node"].start_point[0] + 1,
-                self.context["node"].start_point[1] + 1,
-                self.context["node"].text.decode(),
-                self.context["node"].end_point[0] + 1,
-                self.context["node"].end_point[1] + 1,
+                err_node.start_point[0] + 1,
+                err_node.start_point[1] + 1,
+                err_node.text.decode(errors="ignore"),
+                err_node.end_point[0] + 1,
+                err_node.end_point[1] + 1,
             ),
         )
 
