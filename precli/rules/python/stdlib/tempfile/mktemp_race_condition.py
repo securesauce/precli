@@ -88,7 +88,8 @@ class MktempRaceCondition(Rule):
             file_arg = call.get_argument(position=0, name="file")
 
             if (
-                file_arg.node.type == "identifier"
+                file_arg.node is not None
+                and file_arg.node.type == "identifier"
                 and file_arg.value == "tempfile.mktemp"
             ):
                 """
