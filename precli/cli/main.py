@@ -126,22 +126,38 @@ def build_gitignore_mgr(path: str) -> IgnoreFilterManager:
     )
 
 
+def build_preignore_mgr(path: str) -> IgnoreFilterManager:
+    return IgnoreFilterManager.build(
+        path,
+        global_ignore_file_paths=[],
+        global_patterns=[],
+        ignore_file_name=".preignore",
+    )
+
+
 def discover_files(targets: list[str], recursive: bool):
     file_list = []
 
     for fname in targets:
         if os.path.isdir(fname):
-            ignore_mgr = build_gitignore_mgr(fname)
+            gitignore_mgr = build_gitignore_mgr(fname)
+            preignore_mgr = build_preignore_mgr(fname)
 
             if recursive is True:
-                for root, _, files in ignore_mgr.walk():
+                for root, _, files in gitignore_mgr.walk():
                     for file in files:
-                        file_list.append(os.path.join(root, file))
+                        path = os.path.join(root, file)
+                        if not preignore_mgr.is_ignored(path):
+                            file_list.append(path)
             else:
                 files = os.listdir(path=fname)
                 for file in files:
-                    if not ignore_mgr.is_ignored(file):
-                        file_list.append(os.path.join(fname, file))
+                    path = os.path.join(fname, file)
+                    if not (
+                        gitignore_mgr.is_ignored(path)
+                        or preignore_mgr.is_ignored(path)
+                    ):
+                        file_list.append(path)
         else:
             file_list.append(fname)
     return file_list
