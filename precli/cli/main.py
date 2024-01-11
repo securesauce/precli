@@ -225,13 +225,12 @@ def parse_file(
         files_skipped.append((fname, e))
         new_file_list.remove(fname)
     except Exception as e:
-        print(traceback.format_exc())
         LOG.error(
             f"Exception occurred when executing rules against "
             f'{fname}. Run "precli --debug {fname}" to see the full '
             f"traceback."
         )
-        # self.skipped.append((fname, "exception while scanning file"))
+        files_skipped.append((fname, "Exception while parsing file"))
         new_file_list.remove(fname)
         LOG.debug(f"  Exception string: {e}")
         LOG.debug(f"  Exception traceback: {traceback.format_exc()}")
