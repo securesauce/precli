@@ -62,7 +62,7 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module <https://docs.securesauce.dev/rules/PY520>`_
+ - `Inadequate Encryption Strength Using Weak Keys in PyOpenSSL Module <https://docs.securesauce.dev/rules/PY521>`_
  - `crypto — Generic cryptographic module — pyOpenSSL documentation <https://www.pyopenssl.org/en/latest/api/crypto.html#pkey-objects>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 

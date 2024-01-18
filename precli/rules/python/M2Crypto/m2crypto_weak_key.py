@@ -74,7 +74,7 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in M2Crypto Module <https://docs.securesauce.dev/rules/PY509>`_
+ - `Inadequate Encryption Strength Using Weak Keys in M2Crypto Module <https://docs.securesauce.dev/rules/PY510>`_
  - `m2crypto _ m2crypto · GitLab <https://gitlab.com/m2crypto/m2crypto>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
