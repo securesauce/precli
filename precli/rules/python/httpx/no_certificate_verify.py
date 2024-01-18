@@ -45,7 +45,7 @@ argument accomplish the same effect of ensuring that certificates are verified.
 
 .. seealso::
 
- - `Improper Certificate Validation Using Httpx Module <https://docs.securesauce.dev/rules/PY507>`_
+ - `Improper Certificate Validation Using Httpx Module <https://docs.securesauce.dev/rules/PY508>`_
  - `HTTPX <https://www.python-httpx.org/>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 

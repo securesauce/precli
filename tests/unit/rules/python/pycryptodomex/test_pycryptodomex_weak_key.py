@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class PycryptodomexWeakKeyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY517"
+        self.rule_id = "PY518"
         self.parser = python.Python(enabled=[self.rule_id])
         self.base_path = os.path.join(
             "tests",

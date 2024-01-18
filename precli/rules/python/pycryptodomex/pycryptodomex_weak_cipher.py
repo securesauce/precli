@@ -103,7 +103,7 @@ AES.
 
 .. seealso::
 
- - `Use of a Broken or Risky Cryptographic Algorithm in PyCrypto Module <https://docs.securesauce.dev/rules/PY515>`_
+ - `Use of a Broken or Risky Cryptographic Algorithm in PyCrypto Module <https://docs.securesauce.dev/rules/PY516>`_
  - `PyCryptodome <https://www.pycryptodome.org/>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
 

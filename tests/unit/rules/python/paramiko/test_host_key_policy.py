@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class HostKeyPolicyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY511"
+        self.rule_id = "PY512"
         self.parser = python.Python(enabled=[self.rule_id])
         self.base_path = os.path.join(
             "tests",
