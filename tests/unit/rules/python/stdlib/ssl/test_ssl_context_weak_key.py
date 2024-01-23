@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import os
 
 from parameterized import parameterized
@@ -9,10 +9,10 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class SslSocketTests(test_case.TestCase):
+class SslSocketWeakKeyTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY017"
+        self.rule_id = "PY018"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
@@ -38,12 +38,19 @@ class SslSocketTests(test_case.TestCase):
 
     @parameterized.expand(
         [
-            "ssl_context_sslv2.py",
-            "ssl_context_sslv23.py",
-            "ssl_context_sslv3.py",
-            "ssl_context_tlsv1.py",
-            "ssl_context_tlsv11.py",
-            "ssl_context_tlsv12.py",
+            "ssl_context_set_ecdh_curve_brainpoolP256r1.py",
+            "ssl_context_set_ecdh_curve_brainpoolP384r1.py",
+            "ssl_context_set_ecdh_curve_brainpoolP384r1tls13.py",
+            "ssl_context_set_ecdh_curve_brainpoolP512r1.py",
+            "ssl_context_set_ecdh_curve_default_context.py",
+            "ssl_context_set_ecdh_curve_ffdhe2048.py",
+            "ssl_context_set_ecdh_curve_prime192v1.py",
+            "ssl_context_set_ecdh_curve_prime256v1.py",
+            "ssl_context_set_ecdh_curve_secp160r2.py",
+            "ssl_context_set_ecdh_curve_secp256r1.py",
+            "ssl_context_set_ecdh_curve_sect163k1.py",
+            "ssl_context_set_ecdh_curve_sect571k1.py",
+            "ssl_context_set_ecdh_curve_unverified_context.py",
         ]
     )
     def test(self, filename):

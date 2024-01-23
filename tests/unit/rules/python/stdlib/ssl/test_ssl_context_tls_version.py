@@ -9,10 +9,10 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class TelnetlibCleartextTests(test_case.TestCase):
+class SslSocketTlsVersionTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY019"
+        self.rule_id = "PY017"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
@@ -20,27 +20,30 @@ class TelnetlibCleartextTests(test_case.TestCase):
             "rules",
             "python",
             "stdlib",
-            "telnetlib",
+            "ssl",
             "examples",
         )
 
     def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
-        self.assertEqual("cleartext_transmission", rule.name)
+        self.assertEqual("inadequate_encryption_strength", rule.name)
         self.assertEqual(
             f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
-        self.assertEqual("319", rule.cwe.cwe_id)
+        self.assertEqual("326", rule.cwe.cwe_id)
 
     @parameterized.expand(
         [
-            "telnet.py",
-            "telnetlib_telnet.py",
-            "telnetlib_telnet_context_mgr.py",
+            "ssl_context_sslv2.py",
+            "ssl_context_sslv23.py",
+            "ssl_context_sslv3.py",
+            "ssl_context_tlsv1.py",
+            "ssl_context_tlsv11.py",
+            "ssl_context_tlsv12.py",
         ]
     )
     def test(self, filename):
