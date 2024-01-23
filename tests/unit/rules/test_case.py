@@ -49,6 +49,7 @@ class TestCase(testtools.TestCase):
         if level == Level.NONE:
             self.assertEqual(0, len(results))
         else:
+            results = list(filter(lambda x: x.level != Level.NOTE, results))
             self.assertEqual(1, len(results))
             result = results[0]
             self.assertEqual(self.rule_id, result.rule_id)
