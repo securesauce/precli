@@ -13,10 +13,10 @@ class Level(str, enum.Enum):
     :vartype WARNING: str
 
     :var NOTE: A minor problem was found.
-    :vartype NOTICE: str
+    :vartype NOTE: str
 
-    :var NONE: Annotation level of "none."
-    :vartype NOTICE: str
+    :var NONE: No problem found
+    :vartype NONE: str
     """
 
     ERROR = "error"
