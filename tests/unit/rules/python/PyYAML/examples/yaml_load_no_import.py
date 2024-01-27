@@ -1,2 +1,0 @@
-# level: NONE
-yaml.load("{}")
