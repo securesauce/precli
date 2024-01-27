@@ -1,4 +1,3 @@
-# SPDX-License-Identifier: Apache-2.0
 import os
 import sys
 
@@ -26,8 +25,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Precaution"
-copyright = "Copyright 2023 Secure Saurce LLC"
+project = "Precli"
+copyright = "Copyright 2024 Secure Saurce LLC"
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -49,7 +48,7 @@ modindex_common_prefix = ["precli."]
 man_pages = [
     (
         "man/precli",
-        "Precaution",
+        "Precli",
         "Source code security analyzer",
         ["Secure Saurce"],
         1,
