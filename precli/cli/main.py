@@ -43,6 +43,7 @@ def setup_arg_parser():
         description="precli - a static analysis security tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+
     parser.add_argument(
         "-d",
         "--debug",
@@ -244,7 +245,9 @@ def parse_file(
 def main():
     debug = (
         logging.DEBUG
-        if "-d" in sys.argv or "--debug" in sys.argv
+        if "-d" in sys.argv
+        or "--debug" in sys.argv
+        or os.getenv("DEBUG") is not None
         else logging.INFO
     )
     _init_logger(debug)
