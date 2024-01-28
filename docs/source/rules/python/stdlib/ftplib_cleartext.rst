@@ -1,5 +1,5 @@
-=======
-PRE0003
-=======
+==================
+ftplib — cleartext
+==================
 
 .. automodule:: precli.rules.python.stdlib.ftplib_cleartext
