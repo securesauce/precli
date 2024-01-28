@@ -1,5 +1,5 @@
-=======
-PRE0005
-=======
+===================
+imaplib — cleartext
+===================
 
 .. automodule:: precli.rules.python.stdlib.imaplib_cleartext
