@@ -50,6 +50,11 @@ run Precli with standard input::
 
     cat examples/imports.py | precli -
 
+REPORTING BUGS
+==============
+
+Report issues at the following link: https://github.com/securesauce/precli/issues
+
 SEE ALSO
 ========
 
