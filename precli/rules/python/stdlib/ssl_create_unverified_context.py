@@ -52,7 +52,7 @@ these security risks.
  - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
  - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.location import Location

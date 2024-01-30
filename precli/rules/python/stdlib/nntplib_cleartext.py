@@ -51,7 +51,7 @@ Alternatively, the ``starttls`` function can be used to enter a secure session.
  - `nntplib — NNTP protocol client <https://docs.python.org/3/library/nntplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.9
 
 """  # noqa: E501
 from precli.core.level import Level

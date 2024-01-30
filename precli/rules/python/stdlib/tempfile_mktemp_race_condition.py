@@ -50,7 +50,7 @@ and cleanup when the file is no longer needed.
  - `tempfile — Generate temporary files and directories <https://docs.python.org/3/library/tempfile.html#tempfile.mktemp>`_
  - `CWE-377: Insecure Temporary File <https://cwe.mitre.org/data/definitions/377.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.9
 
 """  # noqa: E501
 from precli.core.fix import Fix

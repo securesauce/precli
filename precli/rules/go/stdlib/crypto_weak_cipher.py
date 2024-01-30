@@ -119,7 +119,7 @@ AES.
  - `rc4 package - crypto_rc4 - Go Packages <https://pkg.go.dev/crypto/rc4>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.2.1
 
 """  # noqa: E501
 from precli.core.level import Level

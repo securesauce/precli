@@ -40,7 +40,7 @@ any potential malicious code.
  - `shelve — Python object persistence <https://docs.python.org/3/library/shelve.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.location import Location

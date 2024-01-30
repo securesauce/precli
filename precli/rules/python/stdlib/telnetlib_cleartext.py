@@ -106,7 +106,7 @@ These alternatives include:
  - https://www.paramiko.org/
  - https://twisted.org/
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.level import Level
