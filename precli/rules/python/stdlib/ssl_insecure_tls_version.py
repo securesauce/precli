@@ -66,7 +66,6 @@ protect your application from these security risks.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak SSL Protocols <https://docs.securesauce.dev/rules/PY017>`_
  - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 

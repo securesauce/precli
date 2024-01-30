@@ -37,7 +37,6 @@ any potential malicious code.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in the Shelve Module <https://docs.securesauce.dev/rules/PY014>`_
  - `shelve — Python object persistence <https://docs.python.org/3/library/shelve.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 

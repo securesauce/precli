@@ -38,7 +38,6 @@ you should first sanitize the data to remove any potential malicious code.
 
 .. seealso::
 
- - `Deserialization of Untrusted Data in the Marshal Module <https://docs.securesauce.dev/rules/PY010>`_
  - `marshal — Internal Python object serialization <https://docs.python.org/3/library/marshal.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 

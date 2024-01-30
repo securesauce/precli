@@ -64,7 +64,6 @@ secure alternatives, ``sha256`` or ``sha512``.
 
 .. seealso::
 
- - `Reversible One Way Hash in Crypto Package <https://docs.securesauce.dev/rules/GO002>`_
  - `md5 package - crypto_md5 - Go Packages <https://pkg.go.dev/crypto/md5>`_
  - `sha1 package - crypto_sha1 - Go Packages <https://pkg.go.dev/crypto/sha1>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_

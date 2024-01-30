@@ -115,7 +115,6 @@ AES.
 
 .. seealso::
 
- - `Use of a Broken or Risky Cryptographic Algorithm in Crypto Package <https://docs.securesauce.dev/rules/GO001>`_
  - `des package - crypto_des - Go Packages <https://pkg.go.dev/crypto/des>`_
  - `rc4 package - crypto_rc4 - Go Packages <https://pkg.go.dev/crypto/rc4>`_
  - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
