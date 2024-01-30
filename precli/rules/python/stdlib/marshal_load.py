@@ -41,7 +41,7 @@ you should first sanitize the data to remove any potential malicious code.
  - `marshal — Internal Python object serialization <https://docs.python.org/3/library/marshal.html>`_
  - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.location import Location

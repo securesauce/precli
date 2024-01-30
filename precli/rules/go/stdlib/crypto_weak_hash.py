@@ -69,7 +69,7 @@ secure alternatives, ``sha256`` or ``sha512``.
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.2.1
 
 """  # noqa: E501
 from precli.core.level import Level

@@ -56,7 +56,7 @@ Its recommended to increase the key size to at least 224 EC algorithms.
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
  - `Transport Layer Security (TLS) Parameters <https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.2.3
 
 """  # noqa: E501
 import re

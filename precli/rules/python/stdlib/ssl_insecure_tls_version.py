@@ -69,7 +69,7 @@ protect your application from these security risks.
  - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.argument import Argument

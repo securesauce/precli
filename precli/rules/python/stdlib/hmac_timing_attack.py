@@ -75,7 +75,7 @@ The recommendation is to replace the == operator with the function
  - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_
  - `CWE-208: Observable Timing Discrepancy <https://cwe.mitre.org/data/definitions/208.html>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.4
 
 """  # noqa: E501
 from precli.core.level import Level

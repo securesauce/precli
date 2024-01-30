@@ -93,7 +93,7 @@ alternatives include ``bcrypt``, ``pbkdf2``, and ``scrypt``.
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_
 
-.. versionadded:: 1.0.0
+.. versionadded:: 0.1.0
 
 """  # noqa: E501
 from precli.core.location import Location
