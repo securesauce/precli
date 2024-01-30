@@ -92,7 +92,6 @@ Alternatively, the ``starttls`` function can be used to enter a secure session.
 
 .. seealso::
 
- - `Cleartext Transmission of Sensitive Information in the Smtplib Module <https://docs.securesauce.dev/rules/PY015>`_
  - `smtplib — SMTP protocol client <https://docs.python.org/3/library/smtplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
 

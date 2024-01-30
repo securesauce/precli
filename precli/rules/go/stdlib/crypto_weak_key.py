@@ -82,7 +82,6 @@ algorithms.
 
 .. seealso::
 
- - `Inadequate Encryption Strength Using Weak Keys in Crypto Package <https://docs.securesauce.dev/rules/GO003>`_
  - `dsa package - crypto_dsa - Go Packages <https://pkg.go.dev/crypto/dsa#ParameterSizes>`_
  - `rsa package - crypto_rsa - Go Packages <https://pkg.go.dev/crypto/rsa#GenerateKey>`_
  - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_

@@ -75,7 +75,6 @@ constructor.
 
 .. seealso::
 
- - `Reversible One Way Hash in Hashlib Module <https://docs.securesauce.dev/rules/PY004>`_
  - `hashlib — Secure hashes and message digests <https://docs.python.org/3/library/hashlib.html>`_
  - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_
  - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_

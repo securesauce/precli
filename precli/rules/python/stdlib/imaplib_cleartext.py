@@ -63,7 +63,6 @@ Alternatively, the ``starttls`` function can be used to enter a secure session.
 
 .. seealso::
 
- - `Cleartext Transmission of Sensitive Information in the Imaplib Module <https://docs.securesauce.dev/rules/PY007>`_
  - `imaplib — IMAP4 protocol client <https://docs.python.org/3/library/imaplib.html>`_
  - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
 
