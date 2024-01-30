@@ -70,7 +70,7 @@ jobs:
         python-version: [
           ["3.12", "312"]
         ]
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} (${{ matrix.python-version[0] }})
     steps:
