@@ -135,18 +135,16 @@ def discover_files(targets: list[str], recursive: bool):
             if recursive is True:
                 for root, _, files in gitignore_mgr.walk():
                     for file in files:
-                        path = os.path.join(root, file)
-                        if not preignore_mgr.is_ignored(path):
-                            file_list.append(path)
+                        if not preignore_mgr.is_ignored(file):
+                            file_list.append(os.path.join(root, file))
             else:
                 files = os.listdir(path=fname)
                 for file in files:
-                    path = os.path.join(fname, file)
                     if not (
-                        gitignore_mgr.is_ignored(path)
-                        or preignore_mgr.is_ignored(path)
+                        gitignore_mgr.is_ignored(file)
+                        or preignore_mgr.is_ignored(file)
                     ):
-                        file_list.append(path)
+                        file_list.append(os.path.join(fname, file))
         else:
             file_list.append(fname)
     return file_list
