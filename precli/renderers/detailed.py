@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import linecache
 
 from rich import box
@@ -36,9 +36,14 @@ class Detailed(Renderer):
                     emoji = ":information-emoji: "
                     style = "blue"
 
+            if result.location.url is not None:
+                file_name = result.location.url
+            else:
+                result.location.file_name
+
             self.console.print(
                 f"{emoji} {result.level.name.title()} on line "
-                f"{result.location.start_line} in {result.location.file_name}",
+                f"{result.location.start_line} in {file_name}",
                 style=style,
                 markup=False,
             )

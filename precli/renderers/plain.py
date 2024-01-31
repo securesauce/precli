@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import linecache
 
 from rich import console
@@ -36,9 +36,15 @@ class Plain(Renderer):
             self.console.print(
                 f"{rule.id}: {rule.cwe.name}",
             )
+
+            if result.location.url is not None:
+                file_name = result.location.url
+            else:
+                result.location.file_name
+
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
-                f'  File "{result.location.file_name}", line '
+                f'  File "{file_name}", line '
                 f"{result.location.start_line}, in <module>",
             )
             code_line = linecache.getline(

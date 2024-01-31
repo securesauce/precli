@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from tree_sitter import Node
 
 
@@ -6,6 +6,7 @@ class Location:
     def __init__(
         self,
         file_name: str = None,
+        url: str = None,
         node: Node = None,
         start_line: int = 0,
         end_line: int = -1,
@@ -13,6 +14,7 @@ class Location:
         end_column: int = -1,
     ):
         self._file_name = file_name
+        self._url = url
         if node is not None:
             self._start_line = node.start_point[0] + 1
             self._start_column = node.start_point[1]
@@ -34,6 +36,26 @@ class Location:
         :rtype: str
         """
         return self._file_name
+
+    @property
+    def url(self) -> str:
+        """
+        If the original target was given as a URL, this
+        property will return that address.
+
+        :return: URL
+        :rtype: str
+        """
+        return self._url
+
+    @url.setter
+    def url(self, url: str):
+        """
+        Set the file location as a URL
+
+        :param str url: file network location
+        """
+        self._url = url
 
     @property
     def start_line(self) -> int:

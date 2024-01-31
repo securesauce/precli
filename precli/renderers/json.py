@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import json
 
 from rich import console
@@ -19,13 +19,18 @@ class Json(Renderer):
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
 
+            if result.location.url is not None:
+                file_name = result.location.url
+            else:
+                result.location.file_name
+
             results_json["results"].append(
                 {
                     "rule_id": rule.id,
                     "rule_name": rule.name,
                     "cwe_id": rule.cwe.cwe_id,
                     "severity": result.level.name,
-                    "file_name": result.location.file_name,
+                    "file_name": file_name,
                     "start_line": result.location.start_line,
                     "end_line": result.location.end_line,
                     "start_column": result.location.start_column,
