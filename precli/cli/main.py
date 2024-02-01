@@ -1,12 +1,17 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import argparse
 import io
 import logging
 import os
 import pathlib
 import sys
+import tempfile
 import traceback
+import zipfile
+from urllib.parse import urljoin
+from urllib.parse import urlparse
 
+import requests
 from ignorelib import IgnoreFilterManager
 from rich import progress
 
@@ -33,6 +38,7 @@ def _init_logger(log_level=logging.INFO):
     LOG.handlers = []
     logging.captureWarnings(True)
     LOG.setLevel(log_level)
+    logging.getLogger("urllib3").setLevel(log_level)
     handler = logging.StreamHandler(sys.stderr)
     LOG.addHandler(handler)
     LOG.debug("logging initialized")
@@ -124,30 +130,95 @@ def build_ignore_mgr(path: str, ignore_file: str) -> IgnoreFilterManager:
     )
 
 
+def get_owner_repo(repo_url: str):
+    # Extract owner and repository name from the URL
+    path = urlparse(repo_url).path.lstrip("/").split("/")
+    return path[0], path[1]
+
+
+def get_default_branch(owner: str, repo: str):
+    api_url = f"https://api.github.com/repos/{owner}/{repo}"
+    response = requests.get(api_url)
+    response.raise_for_status()
+    return response.json().get("default_branch")
+
+
+def extract_github_repo(owner: str, repo: str, branch: str):
+    base_url = "https://api.github.com/repos"
+    api_url = f"{base_url}/{owner}/{repo}/zipball/{branch}"
+    temp_dir = tempfile.mkdtemp()
+    zip_path = os.path.join(temp_dir, f"{repo}.zip")
+
+    with requests.get(api_url, stream=True) as r:
+        r.raise_for_status()
+        with open(zip_path, "wb") as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+
+    with zipfile.ZipFile(zip_path, "r") as zip_ref:
+        zip_ref.extractall(temp_dir)
+
+    os.remove(zip_path)
+
+    for path in os.listdir(temp_dir):
+        if path.startswith(f"{owner}-{repo}-"):
+            temp_dir = os.path.join(temp_dir, path)
+
+    return temp_dir
+
+
+def file_to_url(owner, repo, branch, target, root, file):
+    target_len = len(target)
+    prefix = root[target_len:].lstrip("/")
+    urlpath = f"{owner}/{repo}/blob/{branch}"
+    rel_path = "/".join([urlpath, prefix, file])
+    return urljoin("https://github.com", rel_path)
+
+
 def discover_files(targets: list[str], recursive: bool):
     file_list = []
+    file_map = {}
 
-    for fname in targets:
-        if os.path.isdir(fname):
-            gitignore_mgr = build_ignore_mgr(fname, ".gitignore")
-            preignore_mgr = build_ignore_mgr(fname, ".preignore")
+    for target in targets:
+        if target.startswith("https://github.com"):
+            owner, repo = get_owner_repo(target)
+            if repo:
+                try:
+                    branch = get_default_branch(owner, repo)
+                    target = extract_github_repo(owner, repo, branch)
+                except requests.exceptions.ConnectionError:
+                    owner = None
+                    repo = None
+        else:
+            owner = None
+            repo = None
+
+        if os.path.isdir(target):
+            gitignore_mgr = build_ignore_mgr(target, ".gitignore")
+            preignore_mgr = build_ignore_mgr(target, ".preignore")
 
             if recursive is True:
                 for root, _, files in gitignore_mgr.walk():
                     for file in files:
                         if not preignore_mgr.is_ignored(file):
-                            file_list.append(os.path.join(root, file))
+                            path = os.path.join(root, file)
+                            file_list.append(path)
+                            if repo:
+                                file_map[path] = file_to_url(
+                                    owner, repo, branch, target, root, file
+                                )
             else:
-                files = os.listdir(path=fname)
+                files = os.listdir(path=target)
                 for file in files:
                     if not (
                         gitignore_mgr.is_ignored(file)
                         or preignore_mgr.is_ignored(file)
                     ):
-                        file_list.append(os.path.join(fname, file))
+                        file_list.append(os.path.join(target, file))
         else:
-            file_list.append(fname)
-    return file_list
+            file_list.append(target)
+
+    return file_list, file_map
 
 
 def run_checks(parsers: dict, file_list: list[str]) -> list[Result]:
@@ -258,9 +329,22 @@ def main():
     parsers = loader.load_parsers(enabled, disabled)
 
     # Compile a list of the targets
-    file_list = discover_files(args.targets, args.recursive)
+    file_list, file_map = discover_files(args.targets, args.recursive)
 
     results, metrics = run_checks(parsers, file_list)
+
+    # Set the location url in the result if original target was URL based
+    for result in results:
+        net_loc = file_map.get(result.location.file_name)
+        if net_loc is not None:
+            if result.location.start_line != result.location.end_line:
+                lines = (
+                    f"L{result.location.start_line}-"
+                    f"L{result.location.end_line}"
+                )
+            else:
+                lines = f"L{result.location.start_line}"
+            result.location.url = f"{net_loc}#{lines}"
 
     if args.json is True:
         json = Json(args.no_color)
