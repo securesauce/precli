@@ -1,6 +1,4 @@
 # Copyright 2024 Secure Saurce LLC
-import linecache
-
 from rich import console
 from rich.padding import Padding
 
@@ -40,17 +38,15 @@ class Plain(Renderer):
             if result.location.url is not None:
                 file_name = result.location.url
             else:
-                result.location.file_name
+                file_name = result.location.file_name
 
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
                 f'  File "{file_name}", line '
                 f"{result.location.start_line}, in <module>",
             )
-            code_line = linecache.getline(
-                filename=result.location.file_name,
-                lineno=result.location.start_line,
-            )
+            code_lines = result.location.snippet.splitlines(keepends=True)
+            code_line = code_lines[1] if len(code_lines) > 1 else code_lines[0]
             underline_width = (
                 result.location.end_column - result.location.start_column
             )

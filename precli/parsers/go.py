@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import ast
 import re
 
@@ -17,9 +17,6 @@ class Go(Parser):
             r"// suppress:? (?P<rules>[^#]+)?#?"
         )
         self.SUPPRESSED_RULES = re.compile(r"(?:(GO\d\d\d|[a-z_]+),?)+")
-
-    def file_extension(self) -> str:
-        return ".go"
 
     def visit_source_file(self, nodes: list[Node]):
         self.suppressions = {}

@@ -22,7 +22,7 @@ class Json(Renderer):
             if result.location.url is not None:
                 file_name = result.location.url
             else:
-                result.location.file_name
+                file_name = result.location.file_name
 
             results_json["results"].append(
                 {

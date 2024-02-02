@@ -12,6 +12,7 @@ class Location:
         end_line: int = -1,
         start_column: int = 1,
         end_column: int = -1,
+        snippet: str = None,
     ):
         self._file_name = file_name
         self._url = url
@@ -26,6 +27,7 @@ class Location:
             self._start_column = start_column
             # TODO: default to end of line
             self._end_column = end_column
+        self._snippet = snippet
 
     @property
     def file_name(self) -> str:
@@ -96,3 +98,22 @@ class Location:
         :rtype: int
         """
         return self._end_column
+
+    @property
+    def snippet(self) -> str:
+        """
+        Snippet of context of the code.
+
+        :return: snippet of context
+        :rtype: str
+        """
+        return self._snippet
+
+    @snippet.setter
+    def snippet(self, snippet):
+        """
+        Set the code context snippet.
+
+        :param str snippet: context snippet
+        """
+        self._snippet = snippet
