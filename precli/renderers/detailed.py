@@ -39,7 +39,7 @@ class Detailed(Renderer):
             if result.location.url is not None:
                 file_name = result.location.url
             else:
-                result.location.file_name
+                file_name = result.location.file_name
 
             self.console.print(
                 f"{emoji} {result.level.name.title()} on line "
@@ -56,12 +56,16 @@ class Detailed(Renderer):
                 f"{result.message}",
                 style=style,
             )
-            code = syntax.Syntax.from_path(
-                result.location.file_name,
+
+            line_offset = result.location.start_line - 2
+            code = syntax.Syntax(
+                result.location.snippet,
+                result.source_language,
                 line_numbers=True,
+                start_line=line_offset + 1,
                 line_range=(
-                    result.location.start_line - 1,
-                    result.location.end_line + 1,
+                    result.location.start_line - line_offset - 1,
+                    result.location.end_line - line_offset + 1,
                 ),
                 highlight_lines=(
                     result.location.start_line,
@@ -123,7 +127,7 @@ class Detailed(Renderer):
 
                 code = syntax.Syntax(
                     code,
-                    "python",
+                    result.source_language,
                     line_numbers=True,
                     line_range=(start_line - before, end_line + after),
                     highlight_lines=highlight_lines,

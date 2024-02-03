@@ -48,6 +48,26 @@ class Result:
         return self._rule_id
 
     @property
+    def source_language(self) -> str:
+        """
+        The source language.
+
+        :return: language of the source code
+        :rtype: str
+        """
+        match (self._rule_id[:2]):
+            case "GO":
+                return "go"
+            case "JV":
+                return "java"
+            case "PY":
+                return "python"
+            case "RB":
+                return "ruby"
+            case "RS":
+                return "rust"
+
+    @property
     def location(self) -> Location:
         """
         The location of the issue.

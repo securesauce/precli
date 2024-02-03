@@ -3,7 +3,6 @@ import argparse
 import io
 import logging
 import os
-import pathlib
 import sys
 import tempfile
 import traceback
@@ -13,7 +12,9 @@ from urllib.parse import urlparse
 
 import requests
 from ignorelib import IgnoreFilterManager
+from pygments import lexers
 from rich import progress
+from rich import syntax
 
 import precli
 from precli.core import loader
@@ -283,10 +284,15 @@ def parse_file(
 ) -> list[Result]:
     try:
         data = fdata.read()
-        file_extension = pathlib.Path(fname).suffix
-        if file_extension in parsers.keys():
+
+        lexer_name = syntax.Syntax.guess_lexer(fname, data)
+        if lexer_name == "default":
+            lexer = lexers.guess_lexer(data)
+            lexer_name = lexer.aliases[0] if lexer.aliases else lexer.name
+
+        if lexer_name in parsers.keys():
             LOG.debug("working on file : %s", fname)
-            parser = parsers[file_extension]
+            parser = parsers[lexer_name]
             return parser.parse(fname, data)
     except KeyboardInterrupt:
         sys.exit(2)

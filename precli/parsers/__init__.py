@@ -1,11 +1,11 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from abc import ABC
-from abc import abstractmethod
 from importlib.metadata import entry_points
 
 import tree_sitter_languages
 from tree_sitter import Node
 
+from precli.core.linecache import LineCache
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.suppression import Suppression
@@ -30,6 +30,7 @@ class Parser(ABC):
         :param list enabled: list of rules to enable
         :param list disabled: list of rules to disable
         """
+        self._lexer = lang
         self.tree_sitter_language = tree_sitter_languages.get_language(lang)
         self.tree_sitter_parser = tree_sitter_languages.get_parser(lang)
         self.rules = {}
@@ -56,14 +57,15 @@ class Parser(ABC):
             if self.rules[rule.name].wildcards:
                 self.wildcards |= self.rules[rule.name].wildcards
 
-    @abstractmethod
-    def file_extension(self) -> str:
+    @property
+    def lexer(self) -> str:
         """
-        File extension of files this parser can handle.
+        The name of the lexer
 
-        :return: file extension glob such as "*.py"
+        :return: lexer name
         :rtype: str
         """
+        return self._lexer
 
     def parse(self, file_name: str, data: bytes = None) -> list[Result]:
         """
@@ -83,7 +85,15 @@ class Parser(ABC):
         tree = self.tree_sitter_parser.parse(data)
         self.visit([tree.root_node])
 
+        linecache = LineCache(file_name, data.decode())
+
         for result in self.results:
+            start = result.location.start_line - 1
+            stop = result.location.end_line + 2
+            result.location.snippet = ""
+            for i in range(start, stop):
+                result.location.snippet += linecache.getline(i)
+
             suppression = self.suppressions.get(result.location.start_line)
             if suppression and result.rule_id in suppression.rules:
                 result.suppression = suppression
