@@ -7,7 +7,7 @@ jobs:
     name: Build and publish to Test PyPI
     runs-on: ubuntu-latest
     environment:
-      name: Test PyPI
+      name: test-pypi
       url: https://test.pypi.org/project/bandit
     permissions:
       id-token: write
