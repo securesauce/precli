@@ -35,17 +35,17 @@ class Plain(Renderer):
                 f"{rule.id}: {rule.cwe.name}",
             )
 
-            if result.location.url is not None:
-                file_name = result.location.url
+            if result.artifact.uri is not None:
+                file_name = result.artifact.uri
             else:
-                file_name = result.location.file_name
+                file_name = result.artifact.file_name
 
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
                 f'  File "{file_name}", line '
                 f"{result.location.start_line}, in <module>",
             )
-            code_lines = result.location.snippet.splitlines(keepends=True)
+            code_lines = result.snippet.splitlines(keepends=True)
             code_line = code_lines[1] if len(code_lines) > 1 else code_lines[0]
             underline_width = (
                 result.location.end_column - result.location.start_column

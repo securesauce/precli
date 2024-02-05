@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -19,7 +19,6 @@ class Assert(Rule):
         if context["node"].type == "assert":
             return Result(
                 rule_id=self.id,
-                location=Location(
-                    context["file_name"], kwargs.get("func_node")
-                ),
+                artifact=context["artifact"],
+                location=Location(kwargs.get("func_node")),
             )

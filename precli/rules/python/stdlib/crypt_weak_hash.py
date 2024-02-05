@@ -134,10 +134,8 @@ class CryptWeakHash(Rule):
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     message=self.message.format(name),
                 )
         elif call.name_qualified in ["crypt.mksalt"]:
@@ -146,9 +144,7 @@ class CryptWeakHash(Rule):
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     message=self.message.format(name),
                 )

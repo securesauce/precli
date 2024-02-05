@@ -124,10 +124,8 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(version),
                     fixes=fixes,
@@ -167,10 +165,8 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(version),
                     fixes=fixes,
@@ -197,10 +193,8 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(protocol),
                     fixes=fixes,

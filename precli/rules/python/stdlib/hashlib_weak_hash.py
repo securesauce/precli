@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 =========================================
 Reversible One Way Hash in Hashlib Module
@@ -137,10 +137,8 @@ class HashlibWeakHash(Rule):
             if used_for_security is True:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=self.message.format(call.name_qualified),
                 )
@@ -159,10 +157,8 @@ class HashlibWeakHash(Rule):
             if isinstance(hash_name, str) and hash_name.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=self.message.format(hash_name),
                 )
@@ -180,10 +176,8 @@ class HashlibWeakHash(Rule):
                 if used_for_security is True:
                     return Result(
                         rule_id=self.id,
-                        location=Location(
-                            file_name=context["file_name"],
-                            node=call.function_node,
-                        ),
+                        artifact=context["artifact"],
+                        location=Location(node=call.function_node),
                         level=Level.ERROR,
                         message=self.message.format(name),
                     )

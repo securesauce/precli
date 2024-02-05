@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ======================================
 Reversible One Way Hash in Hmac Module
@@ -123,10 +123,8 @@ class HmacWeakHash(Rule):
             ) or digestmod in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.node),
                     level=Level.ERROR,
                     message=self.message.format(digestmod),
                 )
@@ -142,10 +140,8 @@ class HmacWeakHash(Rule):
             ) or digest in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.node),
                     level=Level.ERROR,
                     message=self.message.format(digest),
                 )
