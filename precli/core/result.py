@@ -50,6 +50,14 @@ class Result:
             for i in range(location.start_line - 1, location.end_line + 2):
                 self._snippet += linecache.getline(i)
 
+        # Append location info to the URI
+        if artifact.uri is not None:
+            if location.start_line != location.end_line:
+                lines = f"L{location.start_line}-L{location.end_line}"
+            else:
+                lines = f"L{location.start_line}"
+            artifact.uri = f"{artifact.uri}#{lines}"
+
     @property
     def rule_id(self) -> str:
         """

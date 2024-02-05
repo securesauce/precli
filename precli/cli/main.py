@@ -226,30 +226,15 @@ def main():
     # Invoke the run
     run.invoke()
 
-    # Set the location url in the result if original target was URL based
-    """
-    for result in run.results:
-        net_loc = file_map.get(result.location.file_name)
-        if net_loc is not None:
-            if result.location.start_line != result.location.end_line:
-                lines = (
-                    f"L{result.location.start_line}-"
-                    f"L{result.location.end_line}"
-                )
-            else:
-                lines = f"L{result.location.start_line}"
-            result.location.url = f"{net_loc}#{lines}"
-    """
-
     if args.json is True:
         json = Json(args.no_color)
-        json.render(run.results, run.metrics)
+        json.render(run)
     elif args.plain is True:
         plain = Plain(args.no_color)
-        plain.render(run.results, run.metrics)
+        plain.render(run)
     else:
         detailed = Detailed(args.no_color)
-        detailed.render(run.results, run.metrics)
+        detailed.render(run)
 
 
 if __name__ == "__main__":
