@@ -1,12 +1,11 @@
 # Copyright 2024 Secure Saurce LLC
-import linecache
-
 from rich import box
 from rich import console
 from rich import syntax
 from rich.table import Table
 
 from precli.core.level import Level
+from precli.core.linecache import LineCache
 from precli.core.metrics import Metrics
 from precli.core.result import Result
 from precli.renderers import Renderer
@@ -36,10 +35,10 @@ class Detailed(Renderer):
                     emoji = ":information-emoji: "
                     style = "blue"
 
-            if result.location.url is not None:
-                file_name = result.location.url
+            if result.artifact.uri is not None:
+                file_name = result.artifact.uri
             else:
-                file_name = result.location.file_name
+                file_name = result.artifact.file_name
 
             self.console.print(
                 f"{emoji} {result.level.name.title()} on line "
@@ -59,8 +58,8 @@ class Detailed(Renderer):
 
             line_offset = result.location.start_line - 2
             code = syntax.Syntax(
-                result.location.snippet,
-                result.source_language,
+                result.snippet,
+                result.artifact.language,
                 line_numbers=True,
                 start_line=line_offset + 1,
                 line_range=(
@@ -91,29 +90,25 @@ class Detailed(Renderer):
                 start_column = fix.deleted_location.start_column
                 end_column = fix.deleted_location.end_column
 
+                linecache = LineCache(
+                    result.artifact.file_name,
+                    result.artifact.contents.decode(),
+                )
+
                 if (start_line - 1) in highlight_lines:
                     line_before = ""
                     before = 0
                 else:
-                    line_before = linecache.getline(
-                        filename=result.location.file_name,
-                        lineno=start_line - 1,
-                    )
+                    line_before = linecache.getline(lineno=start_line - 1)
                     before = 1
 
-                code = linecache.getline(
-                    filename=result.location.file_name,
-                    lineno=start_line,
-                )
+                code = linecache.getline(lineno=start_line)
 
                 if (start_line + 1) in highlight_lines:
                     line_after = ""
                     after = 0
                 else:
-                    line_after = linecache.getline(
-                        filename=result.location.file_name,
-                        lineno=start_line + 1,
-                    )
+                    line_after = linecache.getline(lineno=start_line + 1)
                     after = 1
 
                 code = (
@@ -127,7 +122,7 @@ class Detailed(Renderer):
 
                 code = syntax.Syntax(
                     code,
-                    result.source_language,
+                    result.artifact.language,
                     line_numbers=True,
                     line_range=(start_line - before, end_line + after),
                     highlight_lines=highlight_lines,

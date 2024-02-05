@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ================================================================
 Inadequate Encryption Strength Using Weak Keys in Crypto Package
@@ -125,10 +125,8 @@ class WeakKey(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format("DSA", 2048),
                     fixes=fixes,
@@ -147,10 +145,8 @@ class WeakKey(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=argument.node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=argument.node),
                     level=Level.ERROR if bits <= 1024 else Level.WARNING,
                     message=self.message.format("RSA", 2048),
                     fixes=fixes,

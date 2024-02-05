@@ -6,7 +6,6 @@ import tree_sitter_languages
 from tree_sitter import Node
 
 from precli.core.artifact import Artifact
-from precli.core.linecache import LineCache
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.suppression import Suppression
@@ -78,22 +77,14 @@ class Parser(ABC):
         :rtype: list
         """
         self.results = []
-        self.context = {"file_name": artifact.file_name}
+        self.context = {"artifact": artifact}
         if artifact.contents is None:
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
         tree = self.tree_sitter_parser.parse(artifact.contents)
         self.visit([tree.root_node])
 
-        linecache = LineCache(artifact.file_name, artifact.contents.decode())
-
         for result in self.results:
-            start = result.location.start_line - 1
-            stop = result.location.end_line + 2
-            result.location.snippet = ""
-            for i in range(start, stop):
-                result.location.snippet += linecache.getline(i)
-
             suppression = self.suppressions.get(result.location.start_line)
             if suppression and result.rule_id in suppression.rules:
                 result.suppression = suppression
@@ -161,7 +152,7 @@ class Parser(ABC):
         raise SyntaxError(
             "Syntax error while parsing file.",
             (
-                self.context["file_name"],
+                self.context["artifact"].file_name,
                 err_node.start_point[0] + 1,
                 err_node.start_point[1] + 1,
                 err_node.text.decode(errors="ignore"),

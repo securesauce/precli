@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ============================================
 Observable Timing Discrepancy in Hmac Module
@@ -125,7 +125,7 @@ class HmacTimingAttack(Rule):
                 context=context,
                 deleted_location=Location(node=comparison.node),
                 description="Use the 'hmac.compare_digest' function instead "
-                "of the '=='' operator to reduce the vulnerability to timing "
+                "of the '==' operator to reduce the vulnerability to timing "
                 "attacks.",
                 inserted_content=f"hmac.compare_digest("
                 f"{comparison.left_node.text.decode()}, "
@@ -134,10 +134,8 @@ class HmacTimingAttack(Rule):
 
             return Result(
                 rule_id=self.id,
-                location=Location(
-                    file_name=context["file_name"],
-                    node=comparison.operator_node,
-                ),
+                artifact=context["artifact"],
+                location=Location(node=comparison.operator_node),
                 level=Level.ERROR,
                 fixes=fixes,
             )

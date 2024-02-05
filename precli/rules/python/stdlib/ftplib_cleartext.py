@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ====================================================================
 Cleartext Transmission of Sensitive Information in the Ftplib Module
@@ -154,10 +154,8 @@ class FtpCleartext(Rule):
             if call.get_argument(position=2, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' module will "
                     f"transmit the password argument in cleartext.",
@@ -166,10 +164,8 @@ class FtpCleartext(Rule):
             else:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     message=self.message.format(call.name_qualified),
                     fixes=fixes,
                 )
@@ -180,10 +176,8 @@ class FtpCleartext(Rule):
             if call.get_argument(position=1, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.identifier_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' function will "
                     f"transmit the password argument in cleartext.",

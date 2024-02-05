@@ -116,10 +116,8 @@ class ImapCleartext(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.identifier_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.identifier_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' function will "
                     f"transmit authentication information such as a user, "

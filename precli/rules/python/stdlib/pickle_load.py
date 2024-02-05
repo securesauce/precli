@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ==================================================
 Deserialization of Untrusted Data in Pickle Module
@@ -90,9 +90,7 @@ class PickleLoad(Rule):
         ]:
             return Result(
                 rule_id=self.id,
-                location=Location(
-                    file_name=context["file_name"],
-                    node=call.function_node,
-                ),
+                artifact=context["artifact"],
+                location=Location(node=call.function_node),
                 message=self.message.format(call.name_qualified),
             )

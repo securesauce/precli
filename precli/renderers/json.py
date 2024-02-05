@@ -19,10 +19,10 @@ class Json(Renderer):
         for result in results:
             rule = Rule.get_by_id(result.rule_id)
 
-            if result.location.url is not None:
-                file_name = result.location.url
+            if result.artifact.uri is not None:
+                file_name = result.artifact.uri
             else:
-                file_name = result.location.file_name
+                file_name = result.artifact.file_name
 
             results_json["results"].append(
                 {

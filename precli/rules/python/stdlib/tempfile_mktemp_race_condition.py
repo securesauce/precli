@@ -178,10 +178,8 @@ class MktempRaceCondition(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    location=Location(
-                        file_name=context["file_name"],
-                        node=call.function_node,
-                    ),
+                    artifact=context["artifact"],
+                    location=Location(node=call.function_node),
                     message=self.message.format(file_arg.value),
                     fixes=fixes,
                 )

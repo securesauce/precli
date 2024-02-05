@@ -1,7 +1,9 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
+from precli.core.artifact import Artifact
 from precli.core.fix import Fix
 from precli.core.kind import Kind
 from precli.core.level import Level
+from precli.core.linecache import LineCache
 from precli.core.location import Location
 from precli.core.suppression import Suppression
 from precli.rules import Rule
@@ -11,14 +13,17 @@ class Result:
     def __init__(
         self,
         rule_id: str,
+        artifact: Artifact = None,
         kind: Kind = Kind.FAIL,
         level: Level = None,
         location: Location = None,
         message: str = None,
         fixes: list[Fix] = None,
         suppression: Suppression = None,
+        snippet: str = None,
     ):
         self._rule_id = rule_id
+        self._artifact = artifact
         self._kind = kind
         default_config = Rule.get_by_id(self._rule_id).default_config
         self._rank = default_config.rank
@@ -34,6 +39,17 @@ class Result:
         self._fixes = fixes if fixes is not None else []
         self._suppression = suppression
 
+        if snippet is not None:
+            self._snippet = snippet
+        else:
+            linecache = LineCache(
+                artifact.file_name,
+                artifact.contents.decode(),
+            )
+            self._snippet = ""
+            for i in range(location.start_line - 1, location.end_line + 2):
+                self._snippet += linecache.getline(i)
+
     @property
     def rule_id(self) -> str:
         """
@@ -48,24 +64,14 @@ class Result:
         return self._rule_id
 
     @property
-    def source_language(self) -> str:
+    def artifact(self) -> Artifact:
         """
-        The source language.
+        Artifact, typically the file.
 
-        :return: language of the source code
-        :rtype: str
+        :return: the artifact
+        :rtype: Artifact
         """
-        match (self._rule_id[:2]):
-            case "GO":
-                return "go"
-            case "JV":
-                return "java"
-            case "PY":
-                return "python"
-            case "RB":
-                return "ruby"
-            case "RS":
-                return "rust"
+        return self._artifact
 
     @property
     def location(self) -> Location:
@@ -159,3 +165,13 @@ class Result:
         :param Suppression suppression: suppression
         """
         self._suppression = suppression
+
+    @property
+    def snippet(self) -> str:
+        """
+        Snippet of context of the code.
+
+        :return: snippet of context
+        :rtype: str
+        """
+        return self._snippet
