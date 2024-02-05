@@ -6,8 +6,10 @@ jobs:
   build-n-publish:
     name: Build and publish to Test PyPI
     runs-on: ubuntu-latest
+    environment:
+      name: Test PyPI
+      url: https://test.pypi.org/project/bandit
     permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
     - uses: actions/checkout@v4
