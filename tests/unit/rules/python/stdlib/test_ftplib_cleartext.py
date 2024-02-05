@@ -1,8 +1,9 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import os
 
 from parameterized import parameterized
 
+from precli.core.artifact import Artifact
 from precli.core.level import Level
 from precli.parsers import python
 from precli.rules import Rule
@@ -50,9 +51,8 @@ class FtpCleartextTests(test_case.TestCase):
         self.check(filename)
 
     def test_ftp_login(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "ftp_login.py")
-        )
+        artifact = Artifact(os.path.join(self.base_path, "ftp_login.py"))
+        results = self.parser.parse(artifact)
         self.assertEqual(2, len(results))
         result = results[0]
         self.assertEqual(self.rule_id, result.rule_id)
@@ -72,9 +72,10 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_ftplib_ftp_login(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "ftplib_ftp_login.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(2, len(results))
         result = results[0]
         self.assertEqual(self.rule_id, result.rule_id)
@@ -94,11 +95,12 @@ class FtpCleartextTests(test_case.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_ftplib_ftp_login_single_statement(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(
                 self.base_path, "ftplib_ftp_login_single_statement.py"
             )
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(2, len(results))
         result = results[0]
         self.assertEqual(self.rule_id, result.rule_id)

@@ -3,6 +3,7 @@ import os
 
 import testtools
 
+from precli.core.artifact import Artifact
 from precli.core.level import Level
 
 
@@ -45,7 +46,8 @@ class TestCase(testtools.TestCase):
             start_column,
             end_column,
         ) = self.expected(filename)
-        results = self.parser.parse(os.path.join(self.base_path, filename))
+        artifact = Artifact(os.path.join(self.base_path, filename))
+        results = self.parser.parse(artifact)
         if level == Level.NONE:
             self.assertEqual(0, len(results))
         else:

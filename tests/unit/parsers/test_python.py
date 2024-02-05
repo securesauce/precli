@@ -1,8 +1,9 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import os
 
 import testtools
 
+from precli.core.artifact import Artifact
 from precli.core.level import Level
 from precli.parsers import python
 
@@ -19,9 +20,8 @@ class TestCase(testtools.TestCase):
         )
 
     def test_suppress(self):
-        results = self.parser.parse(
-            os.path.join(self.base_path, "suppress.py")
-        )
+        artifact = Artifact(os.path.join(self.base_path, "suppress.py"))
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -33,9 +33,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_lowercase_rule(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_lowercase_rule.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -48,9 +49,10 @@ class TestCase(testtools.TestCase):
 
     def test_suppress_multiline(self):
         # TODO: not testing multiline
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_multiline.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -62,9 +64,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_multiple_comments(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_multiple_comments.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -76,9 +79,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_multiple_rules(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_multiple_rules.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -90,9 +94,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_preceding(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_preceding.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -104,9 +109,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_spaced_rules(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_spaced_rules.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)
@@ -118,9 +124,10 @@ class TestCase(testtools.TestCase):
         self.assertEqual(-1.0, result.rank)
 
     def test_suppress_wrong_rule(self):
-        results = self.parser.parse(
+        artifact = Artifact(
             os.path.join(self.base_path, "suppress_wrong_rule.py")
         )
+        results = self.parser.parse(artifact)
         self.assertEqual(1, len(results))
         result = results[0]
         self.assertEqual("PY004", result.rule_id)

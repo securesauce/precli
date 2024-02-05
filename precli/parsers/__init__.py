@@ -5,6 +5,7 @@ from importlib.metadata import entry_points
 import tree_sitter_languages
 from tree_sitter import Node
 
+from precli.core.artifact import Artifact
 from precli.core.linecache import LineCache
 from precli.core.location import Location
 from precli.core.result import Result
@@ -67,25 +68,24 @@ class Parser(ABC):
         """
         return self._lexer
 
-    def parse(self, file_name: str, data: bytes = None) -> list[Result]:
+    def parse(self, artifact: Artifact) -> list[Result]:
         """
         File extension of files this parser can handle.
 
-        :param str file_name: name of file name to parse
-        :param bytes data: file data
+        :param Artifact artifact: artifact representing the file
 
         :return: list of results
         :rtype: list
         """
         self.results = []
-        self.context = {"file_name": file_name}
-        if data is None:
-            with open(file_name, "rb") as fdata:
-                data = fdata.read()
-        tree = self.tree_sitter_parser.parse(data)
+        self.context = {"file_name": artifact.file_name}
+        if artifact.contents is None:
+            with open(artifact.file_name, "rb") as fdata:
+                artifact.contents = fdata.read()
+        tree = self.tree_sitter_parser.parse(artifact.contents)
         self.visit([tree.root_node])
 
-        linecache = LineCache(file_name, data.decode())
+        linecache = LineCache(artifact.file_name, artifact.contents.decode())
 
         for result in self.results:
             start = result.location.start_line - 1
