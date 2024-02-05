@@ -3,8 +3,7 @@ from rich import console
 from rich.padding import Padding
 
 from precli.core.level import Level
-from precli.core.metrics import Metrics
-from precli.core.result import Result
+from precli.core.run import Run
 from precli.renderers import Renderer
 from precli.rules import Rule
 
@@ -14,8 +13,8 @@ class Plain(Renderer):
         super().__init__(no_color=no_color)
         self.console = console.Console(highlight=False)
 
-    def render(self, results: list[Result], metrics: Metrics):
-        for result in results:
+    def render(self, run: Run):
+        for result in run.results:
             rule = Rule.get_by_id(result.rule_id)
 
             if self._no_color is True:
@@ -66,7 +65,7 @@ class Plain(Renderer):
             )
             self.console.print()
         self.console.print(
-            f"Found {metrics.errors} errors, {metrics.warnings} warnings, "
-            f"and {metrics.notes} notes in {metrics.files} files and "
-            f"{metrics.lines} lines of code."
+            f"Found {run.metrics.errors} errors, {run.metrics.warnings} "
+            f"warnings, and {run.metrics.notes} notes in {run.metrics.files} "
+            f"files and {run.metrics.lines} lines of code."
         )

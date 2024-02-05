@@ -2,8 +2,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from precli.core.metrics import Metrics
-from precli.core.result import Result
+from precli.core.run import Run
 
 
 class Renderer(ABC):
@@ -11,5 +10,5 @@ class Renderer(ABC):
         self._no_color = no_color
 
     @abstractmethod
-    def render(self, results: list[Result], metrics: Metrics):
+    def render(self, run: Run):
         pass

@@ -3,8 +3,7 @@ import json
 
 from rich import console
 
-from precli.core.metrics import Metrics
-from precli.core.result import Result
+from precli.core.run import Run
 from precli.renderers import Renderer
 from precli.rules import Rule
 
@@ -14,9 +13,9 @@ class Json(Renderer):
         super().__init__(no_color=no_color)
         self.console = console.Console(highlight=False)
 
-    def render(self, results: list[Result], metrics: Metrics):
+    def render(self, run: Run):
         results_json = {"results": []}
-        for result in results:
+        for result in run.results:
             rule = Rule.get_by_id(result.rule_id)
 
             if result.artifact.uri is not None:
@@ -41,11 +40,11 @@ class Json(Renderer):
                 }
             )
         results_json["metrics"] = {
-            "files": metrics.files,
-            "files_skipped": metrics.files_skipped,
-            "lines": metrics.lines,
-            "errors": metrics.errors,
-            "warnings": metrics.warnings,
-            "notes": metrics.notes,
+            "files": run.metrics.files,
+            "files_skipped": run.metrics.files_skipped,
+            "lines": run.metrics.lines,
+            "errors": run.metrics.errors,
+            "warnings": run.metrics.warnings,
+            "notes": run.metrics.notes,
         }
         self.console.print_json(json.dumps(results_json))
