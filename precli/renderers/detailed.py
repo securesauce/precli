@@ -6,8 +6,7 @@ from rich.table import Table
 
 from precli.core.level import Level
 from precli.core.linecache import LineCache
-from precli.core.metrics import Metrics
-from precli.core.result import Result
+from precli.core.run import Run
 from precli.renderers import Renderer
 from precli.rules import Rule
 
@@ -20,8 +19,8 @@ class Detailed(Renderer):
         else:
             self.console = console.Console(highlight=False)
 
-    def render(self, results: list[Result], metrics: Metrics):
-        for result in results:
+    def render(self, run: Run):
+        for result in run.results:
             match result.level:
                 case Level.ERROR:
                     emoji = ":no_entry-emoji:"
@@ -142,28 +141,28 @@ class Detailed(Renderer):
         table.add_column(justify="right")
         table.add_row(
             "Files analyzed",
-            f"{metrics.files:,}",
+            f"{run.metrics.files:,}",
             "Lines analyzed",
-            f"{metrics.lines:,}",
+            f"{run.metrics.lines:,}",
         )
         table.add_row(
             "Files skipped",
-            f"{metrics.files_skipped:,}",
+            f"{run.metrics.files_skipped:,}",
             end_section=True,
         )
         table.add_row(
             "Errors",
-            f"{metrics.errors:,}",
-            style="red" if metrics.errors else "",
+            f"{run.metrics.errors:,}",
+            style="red" if run.metrics.errors else "",
         )
         table.add_row(
             "Warnings",
-            f"{metrics.warnings:,}",
-            style="yellow" if metrics.warnings else "",
+            f"{run.metrics.warnings:,}",
+            style="yellow" if run.metrics.warnings else "",
         )
         table.add_row(
             "Notes",
-            f"{metrics.notes:,}",
-            style="blue" if metrics.notes else "",
+            f"{run.metrics.notes:,}",
+            style="blue" if run.metrics.notes else "",
         )
         self.console.print(table)
