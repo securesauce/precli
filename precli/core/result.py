@@ -13,10 +13,10 @@ class Result:
     def __init__(
         self,
         rule_id: str,
+        location: Location,
         artifact: Artifact = None,
         kind: Kind = Kind.FAIL,
         level: Level = None,
-        location: Location = None,
         message: str = None,
         fixes: list[Fix] = None,
         suppression: Suppression = None,
@@ -38,25 +38,34 @@ class Result:
             self._message = Rule.get_by_id(self._rule_id).message
         self._fixes = fixes if fixes is not None else []
         self._suppression = suppression
-
         if snippet is not None:
             self._snippet = snippet
         else:
+            self._init_snippet()
+        self._init_uri()
+
+    def _init_snippet(self):
+        if self._artifact is not None and self._location is not None:
             linecache = LineCache(
-                artifact.file_name,
-                artifact.contents.decode(),
+                self._artifact.file_name,
+                self._artifact.contents.decode(),
             )
             self._snippet = ""
-            for i in range(location.start_line - 1, location.end_line + 2):
+            for i in range(
+                self._location.start_line - 1, self._location.end_line + 2
+            ):
                 self._snippet += linecache.getline(i)
 
+    def _init_uri(self):
         # Append location info to the URI
-        if artifact.uri is not None:
-            if location.start_line != location.end_line:
-                lines = f"L{location.start_line}-L{location.end_line}"
+        if self._artifact is not None and self._artifact.uri is not None:
+            if self._location.start_line != self._location.end_line:
+                lines = (
+                    f"L{self._location.start_line}-L{self._location.end_line}"
+                )
             else:
-                lines = f"L{location.start_line}"
-            artifact.uri = f"{artifact.uri}#{lines}"
+                lines = f"L{self._location.start_line}"
+            self._artifact.uri = f"{self._artifact.uri}#{lines}"
 
     @property
     def rule_id(self) -> str:
@@ -80,6 +89,17 @@ class Result:
         :rtype: Artifact
         """
         return self._artifact
+
+    @artifact.setter
+    def artifact(self, artifact):
+        """
+        Set the file artifact.
+
+        :param Artifact artifact: file artifact
+        """
+        self._artifact = artifact
+        self._init_snippet()
+        self._init_uri()
 
     @property
     def location(self) -> Location:

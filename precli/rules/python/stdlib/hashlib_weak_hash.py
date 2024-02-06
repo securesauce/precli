@@ -137,7 +137,6 @@ class HashlibWeakHash(Rule):
             if used_for_security is True:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=self.message.format(call.name_qualified),
@@ -157,7 +156,6 @@ class HashlibWeakHash(Rule):
             if isinstance(hash_name, str) and hash_name.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=self.message.format(hash_name),
@@ -176,7 +174,6 @@ class HashlibWeakHash(Rule):
                 if used_for_security is True:
                     return Result(
                         rule_id=self.id,
-                        artifact=context["artifact"],
                         location=Location(node=call.function_node),
                         level=Level.ERROR,
                         message=self.message.format(name),

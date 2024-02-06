@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 =======================================
 Reversible One Way Hash in Crypt Module
@@ -134,7 +134,6 @@ class CryptWeakHash(Rule):
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     message=self.message.format(name),
                 )
@@ -144,7 +143,6 @@ class CryptWeakHash(Rule):
             if isinstance(name, str) and name in WEAK_CRYPT_HASHES:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     message=self.message.format(name),
                 )

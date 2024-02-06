@@ -77,7 +77,7 @@ class Parser(ABC):
         :rtype: list
         """
         self.results = []
-        self.context = {"artifact": artifact}
+        self.context = {}
         if artifact.contents is None:
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
@@ -85,6 +85,8 @@ class Parser(ABC):
         self.visit([tree.root_node])
 
         for result in self.results:
+            result.artifact = artifact
+
             suppression = self.suppressions.get(result.location.start_line)
             if suppression and result.rule_id in suppression.rules:
                 result.suppression = suppression

@@ -110,7 +110,6 @@ class SslContextWeakKey(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=arg.node),
                     level=Level.ERROR if key_size < 160 else Level.WARNING,
                     message=self.message.format("EC", 224),

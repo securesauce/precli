@@ -134,7 +134,6 @@ class HmacTimingAttack(Rule):
 
             return Result(
                 rule_id=self.id,
-                artifact=context["artifact"],
                 location=Location(node=comparison.operator_node),
                 level=Level.ERROR,
                 fixes=fixes,
