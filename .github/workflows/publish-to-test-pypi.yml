@@ -1,6 +1,9 @@
 name: Publish to Test PyPI
 
-on: workflow_dispatch
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build-n-publish:
