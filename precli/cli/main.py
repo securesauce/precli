@@ -208,6 +208,7 @@ def main():
         or os.getenv("DEBUG") is not None
         else logging.INFO
     )
+    logging.getLogger("urllib3").setLevel(debug)
 
     # Setup the command line arguments
     args = setup_arg_parser()
