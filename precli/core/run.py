@@ -38,7 +38,6 @@ class Run:
         LOG.handlers = []
         logging.captureWarnings(True)
         LOG.setLevel(log_level)
-        logging.getLogger("urllib3").setLevel(log_level)
         handler = logging.StreamHandler(sys.stderr)
         LOG.addHandler(handler)
         LOG.debug("logging initialized")
