@@ -123,7 +123,6 @@ class HmacWeakHash(Rule):
             ) or digestmod in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.node),
                     level=Level.ERROR,
                     message=self.message.format(digestmod),
@@ -140,7 +139,6 @@ class HmacWeakHash(Rule):
             ) or digest in HASHLIB_WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.node),
                     level=Level.ERROR,
                     message=self.message.format(digest),

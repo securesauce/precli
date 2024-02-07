@@ -83,7 +83,6 @@ class InsecureListenConfig(Rule):
             if call.get_argument(position=1, name="verify").value is None:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     message=self.message.format(call.name_qualified),
                 )

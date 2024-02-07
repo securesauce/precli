@@ -154,7 +154,6 @@ class FtpCleartext(Rule):
             if call.get_argument(position=2, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' module will "
@@ -164,7 +163,6 @@ class FtpCleartext(Rule):
             else:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     message=self.message.format(call.name_qualified),
                     fixes=fixes,
@@ -176,7 +174,6 @@ class FtpCleartext(Rule):
             if call.get_argument(position=1, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.identifier_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' function will "

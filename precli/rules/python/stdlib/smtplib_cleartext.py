@@ -144,7 +144,6 @@ class SmtpCleartext(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.identifier_node),
                     level=Level.ERROR,
                     message=f"The '{call.name_qualified}' function will "

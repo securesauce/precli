@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 =======================================================
 Inadequate Encryption Strength Using Weak SSL Protocols
@@ -124,7 +124,6 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(version),
@@ -165,7 +164,6 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(version),
@@ -193,7 +191,6 @@ class InsecureTlsVersion(Rule):
                 )
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format(protocol),

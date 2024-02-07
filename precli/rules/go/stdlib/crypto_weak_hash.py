@@ -106,7 +106,6 @@ class WeakHash(Rule):
             )
             return Result(
                 rule_id=self.id,
-                artifact=context["artifact"],
                 location=Location(node=call.function_node),
                 level=Level.ERROR,
                 message=self.message.format(call.name_qualified),
@@ -124,7 +123,6 @@ class WeakHash(Rule):
             )
             return Result(
                 rule_id=self.id,
-                artifact=context["artifact"],
                 location=Location(node=call.function_node),
                 level=Level.ERROR,
                 message=self.message.format(call.name_qualified),

@@ -125,7 +125,6 @@ class WeakKey(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
                     message=self.message.format("DSA", 2048),
@@ -145,7 +144,6 @@ class WeakKey(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=argument.node),
                     level=Level.ERROR if bits <= 1024 else Level.WARNING,
                     message=self.message.format("RSA", 2048),

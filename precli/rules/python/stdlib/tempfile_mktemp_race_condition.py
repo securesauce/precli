@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 r"""
 ==============================================
 Insecure Temporary File in the Tempfile Module
@@ -178,7 +178,6 @@ class MktempRaceCondition(Rule):
 
                 return Result(
                     rule_id=self.id,
-                    artifact=context["artifact"],
                     location=Location(node=call.function_node),
                     message=self.message.format(file_arg.value),
                     fixes=fixes,
