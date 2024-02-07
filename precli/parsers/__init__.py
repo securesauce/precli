@@ -77,7 +77,7 @@ class Parser(ABC):
         :rtype: list
         """
         self.results = []
-        self.context = {}
+        self.context = {"artifact": artifact}
         if artifact.contents is None:
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
