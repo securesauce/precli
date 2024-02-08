@@ -35,7 +35,14 @@ class Detailed(Renderer):
                     style = "blue"
 
             if result.artifact.uri is not None:
-                file_name = result.artifact.uri
+                if result.location.start_line != result.location.end_line:
+                    lines = (
+                        f"L{result.location.start_line}-"
+                        f"L{result.location.end_line}"
+                    )
+                else:
+                    lines = f"L{result.location.start_line}"
+                file_name = f"{result.artifact.uri}#{lines}"
             else:
                 file_name = result.artifact.file_name
 
