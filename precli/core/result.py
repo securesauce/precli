@@ -41,31 +41,19 @@ class Result:
         if snippet is not None:
             self._snippet = snippet
         else:
-            self._init_snippet()
-        self._init_uri()
+            self._init_snippet(artifact)
 
-    def _init_snippet(self):
-        if self._artifact is not None and self._location is not None:
+    def _init_snippet(self, artifact: Artifact):
+        if artifact is not None:
             linecache = LineCache(
-                self._artifact.file_name,
-                self._artifact.contents.decode(),
+                artifact.file_name,
+                artifact.contents.decode(),
             )
             self._snippet = ""
             for i in range(
                 self._location.start_line - 1, self._location.end_line + 2
             ):
                 self._snippet += linecache.getline(i)
-
-    def _init_uri(self):
-        # Append location info to the URI
-        if self._artifact is not None and self._artifact.uri is not None:
-            if self._location.start_line != self._location.end_line:
-                lines = (
-                    f"L{self._location.start_line}-L{self._location.end_line}"
-                )
-            else:
-                lines = f"L{self._location.start_line}"
-            self._artifact.uri = f"{self._artifact.uri}#{lines}"
 
     @property
     def rule_id(self) -> str:
@@ -98,8 +86,7 @@ class Result:
         :param Artifact artifact: file artifact
         """
         self._artifact = artifact
-        self._init_snippet()
-        self._init_uri()
+        self._init_snippet(artifact)
 
     @property
     def location(self) -> Location:
