@@ -2,12 +2,12 @@
 import io
 import logging
 import os
+import pathlib
 import sys
 import traceback
 
 from pygments import lexers
 from rich import progress
-from rich import syntax
 
 from precli.core.artifact import Artifact
 from precli.core.level import Level
@@ -104,16 +104,23 @@ class Run:
         files_skipped: list,
     ) -> list[Result]:
         try:
-            artifact.language = syntax.Syntax.guess_lexer(
-                artifact.file_name, artifact.contents
-            )
-            if artifact.language == "default":
+            if artifact.file_name == "<stdin>":
                 lxr = lexers.guess_lexer(artifact.contents)
                 artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
+                parser = self._parsers.get(artifact.language)
+            else:
+                file_extension = pathlib.Path(artifact.file_name).suffix
+                parser = next(
+                    (
+                        p
+                        for p in self._parsers.values()
+                        if file_extension in p.file_extensions()
+                    ),
+                    None,
+                )
 
-            if artifact.language in self._parsers.keys():
-                LOG.debug("working on file : %s", artifact.file_name)
-                parser = self._parsers[artifact.language]
+            if parser is not None:
+                LOG.debug("Working on file: %s", artifact.file_name)
                 return parser.parse(artifact)
         except KeyboardInterrupt:
             sys.exit(2)
