@@ -21,6 +21,9 @@ class Python(Parser):
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
+    def file_extensions(self) -> list[str]:
+        return [".py", ".pyw"]
+
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<module>")

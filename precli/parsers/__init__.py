@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 from abc import ABC
+from abc import abstractmethod
 from importlib.metadata import entry_points
 
 import tree_sitter_languages
@@ -66,6 +67,14 @@ class Parser(ABC):
         :rtype: str
         """
         return self._lexer
+
+    @abstractmethod
+    def file_extensions(self) -> list[str]:
+        """
+        File extension of files this parser can handle.
+        :return: file extensions such as ".py"
+        :rtype: list
+        """
 
     def parse(self, artifact: Artifact) -> list[Result]:
         """

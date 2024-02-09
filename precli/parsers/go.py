@@ -18,6 +18,9 @@ class Go(Parser):
         )
         self.SUPPRESSED_RULES = re.compile(r"(?:(GO\d\d\d|[a-z_]+),?)+")
 
+    def file_extensions(self) -> list[str]:
+        return [".go"]
+
     def visit_source_file(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<source_file>")
