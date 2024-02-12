@@ -38,6 +38,12 @@ FILES
 .preignore
   file that specifies which files and directories can be ignored
 
+ENVIRONMENT VARIABLES
+=====================
+
+DEBUG
+  Set to any value to enabling debug logging.
+
 EXAMPLES
 ========
 
