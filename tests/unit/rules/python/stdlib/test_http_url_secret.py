@@ -9,10 +9,10 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class ShelveOpenTests(test_case.TestCase):
+class HttpUrlSecretTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY015"
+        self.rule_id = "PY007"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
@@ -26,20 +26,18 @@ class ShelveOpenTests(test_case.TestCase):
     def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
-        self.assertEqual("deserialization_of_untrusted_data", rule.name)
+        self.assertEqual("sensitive_query_strings", rule.name)
         self.assertEqual(
             f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.WARNING, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
-        self.assertEqual("502", rule.cwe.cwe_id)
+        self.assertEqual("598", rule.cwe.cwe_id)
 
     @parameterized.expand(
         [
-            "shelve_dbfilenameshelf.py",
-            "shelve_open.py",
-            "shelve_open_context_mgr.py",
+            "http_url_secret_apikey.py",
         ]
     )
     def test(self, filename):

@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class GetServerCertificateTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY017"
+        self.rule_id = "PY018"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",

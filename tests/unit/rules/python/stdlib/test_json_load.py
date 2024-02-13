@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 import os
 
 from parameterized import parameterized
@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class JsonLoadTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY008"
+        self.rule_id = "PY009"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
