@@ -118,6 +118,7 @@ class Run:
                     ),
                     None,
                 )
+                artifact.language = parser.lexer
 
             if parser is not None:
                 LOG.debug("Working on file: %s", artifact.file_name)
