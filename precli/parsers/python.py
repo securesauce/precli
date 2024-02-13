@@ -65,6 +65,7 @@ class Python(Parser):
             "call",
             "attribute",
             "identifier",
+            "string",
             "integer",
             "float",
             "true",

@@ -39,6 +39,8 @@ class HttpUrlSecretTests(test_case.TestCase):
         [
             "http_url_secret_apikey.py",
             "http_url_secret_apikey_in_header.py",
+            "http_url_secret_basic_auth.py",
+            "http_url_secret_basic_auth_as_var.py",
             "http_url_secret_password.py",
             "http_url_secret_username.py",
         ]
