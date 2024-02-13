@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class InsecureListenConfigTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY009"
+        self.rule_id = "PY010"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",

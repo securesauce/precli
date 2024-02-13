@@ -12,7 +12,7 @@ from tests.unit.rules import test_case
 class PopCleartextTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "PY013"
+        self.rule_id = "PY014"
         self.parser = python.Python()
         self.base_path = os.path.join(
             "tests",
