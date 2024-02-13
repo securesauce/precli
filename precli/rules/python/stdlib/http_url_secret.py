@@ -66,7 +66,7 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-SENSITIVE_PARAMS = ("apiKey", "password", "username")
+SENSITIVE_PARAMS = ("apiKey", "pass", "password", "user", "username")
 
 
 class HttpUrlSecret(Rule):
@@ -95,14 +95,15 @@ class HttpUrlSecret(Rule):
         ]:
             argument = call.get_argument(position=1, name="url")
             url = argument.value
-
-            query = urlsplit(url).query
+            split_url = urlsplit(url)
+            query = split_url.query
             params = parse_qs(query)
 
-            if any(key in params for key in SENSITIVE_PARAMS):
+            if split_url.username or any(
+                key in params for key in SENSITIVE_PARAMS
+            ):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
                     level=Level.ERROR,
-                    message=self.message.format(call.name_qualified),
                 )
