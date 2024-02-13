@@ -38,6 +38,9 @@ class HttpUrlSecretTests(test_case.TestCase):
     @parameterized.expand(
         [
             "http_url_secret_apikey.py",
+            "http_url_secret_apikey_in_header.py",
+            "http_url_secret_password.py",
+            "http_url_secret_username.py",
         ]
     )
     def test(self, filename):
