@@ -118,4 +118,6 @@ class Json(Renderer):
 
             sarif_run.results.append(sarif_result)
 
-        self.console.print_json(to_json(log))
+        with self.console.capture() as capture:
+            self.console.print_json(to_json(log))
+        print(capture.get())
