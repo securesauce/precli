@@ -18,6 +18,7 @@ from precli.core.run import Run
 from precli.core.tool import Tool
 from precli.renderers.detailed import Detailed
 from precli.renderers.json import Json
+from precli.renderers.markdown import Markdown
 from precli.renderers.plain import Plain
 
 
@@ -75,6 +76,12 @@ def setup_arg_parser():
         dest="plain",
         action="store_true",
         help="display output in plain, tabular text",
+    )
+    parser.add_argument(
+        "--markdown",
+        dest="markdown",
+        action="store_true",
+        help="display output in markdown format",
     )
     parser.add_argument(
         "--no-color",
@@ -233,6 +240,9 @@ def main():
     elif args.plain is True:
         plain = Plain(args.no_color)
         plain.render(run)
+    elif args.markdown is True:
+        markdown = Markdown(args.no_color)
+        markdown.render(run)
     else:
         detailed = Detailed(args.no_color)
         detailed.render(run)
