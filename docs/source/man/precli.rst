@@ -5,10 +5,9 @@ precli
 SYNOPSIS
 ========
 
-precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain] 
-              [--no-color]
-              [--version]
-              [targets ...]
+precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain]
+       [--markdown] [--no-color] [--version]
+       [targets ...]
 
 
 DESCRIPTION
@@ -29,6 +28,7 @@ OPTIONS
   --disable DISABLE  comma-separated list of rule IDs or names to disable
   --json             display output as formatted JSON
   --plain            display output in plain, tabular text
+  --markdown         display output in markdown format
   --no-color         do not display color in output
   --version          show program's version number and exit
 
