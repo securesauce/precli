@@ -52,7 +52,8 @@ Run precli against an entire GitHub repository:
 
     precli -r https://github.com/securesauce/precli
 
-Run precli against an entire GitHub repository and output the results in markdown format to Gist:
+Run precli against an entire GitHub repository and output the results in markdown format to Gist.
+Note: this requires a GITHUB_TOKEN environment variable set to a valid GitHub token value:
 
 .. code-block:: console
 
