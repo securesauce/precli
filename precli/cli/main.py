@@ -84,6 +84,15 @@ def setup_arg_parser():
         help="display output in markdown format",
     )
     parser.add_argument(
+        "-o",
+        "--output",
+        dest="output",
+        action="store",
+        type=argparse.FileType("w", encoding="utf-8"),
+        default=sys.stdout,
+        help="output results to a file",
+    )
+    parser.add_argument(
         "--no-color",
         dest="no_color",
         action="store_true",
@@ -234,18 +243,26 @@ def main():
     # Invoke the run
     run.invoke()
 
+    no_color = True if args.output.name != sys.stdout.name else args.no_color
+
     if args.json is True:
-        json = Json(args.no_color)
-        json.render(run)
+        json = Json(no_color)
+        capture = json.render(run)
     elif args.plain is True:
-        plain = Plain(args.no_color)
-        plain.render(run)
+        plain = Plain(no_color)
+        capture = plain.render(run)
     elif args.markdown is True:
-        markdown = Markdown(args.no_color)
-        markdown.render(run)
+        markdown = Markdown(no_color)
+        capture = markdown.render(run)
     else:
-        detailed = Detailed(args.no_color)
-        detailed.render(run)
+        detailed = Detailed(no_color)
+        capture = detailed.render(run)
+
+    with args.output:
+        args.output.write(capture)
+
+    if args.output.name != sys.stdout.name:
+        print(f"Output written to file: {args.output.name}")
 
 
 if __name__ == "__main__":

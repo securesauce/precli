@@ -1,7 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 import logging
 
-from rich import console
 from rich import markdown
 
 from precli.core.level import Level
@@ -17,9 +16,8 @@ logging.getLogger("markdown_it").setLevel(logging.INFO)
 class Markdown(Renderer):
     def __init__(self, no_color: bool = False):
         super().__init__(no_color=no_color)
-        self.console = console.Console(highlight=False)
 
-    def render(self, run: Run):
+    def render(self, run: Run) -> str:
         with self.console.capture() as capture:
             for result in run.results:
                 rule = Rule.get_by_id(result.rule_id)
@@ -105,4 +103,4 @@ class Markdown(Renderer):
 
             md = markdown.Markdown(table)
             self.console.print(md)
-        print(capture.get())
+        return capture.get()

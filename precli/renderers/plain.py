@@ -1,5 +1,4 @@
 # Copyright 2024 Secure Saurce LLC
-from rich import console
 from rich.padding import Padding
 
 from precli.core.level import Level
@@ -11,9 +10,8 @@ from precli.rules import Rule
 class Plain(Renderer):
     def __init__(self, no_color: bool = False):
         super().__init__(no_color=no_color)
-        self.console = console.Console(highlight=False)
 
-    def render(self, run: Run):
+    def render(self, run: Run) -> str:
         with self.console.capture() as capture:
             for result in run.results:
                 rule = Rule.get_by_id(result.rule_id)
@@ -73,4 +71,4 @@ class Plain(Renderer):
                 f"{run.metrics.files} files and {run.metrics.lines} lines of "
                 f"code."
             )
-        print(capture.get())
+        return capture.get()

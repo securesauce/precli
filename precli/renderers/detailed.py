@@ -1,6 +1,5 @@
 # Copyright 2024 Secure Saurce LLC
 from rich import box
-from rich import console
 from rich import syntax
 from rich.table import Table
 
@@ -14,12 +13,8 @@ from precli.rules import Rule
 class Detailed(Renderer):
     def __init__(self, no_color: bool = False):
         super().__init__(no_color=no_color)
-        if no_color is True:
-            self.console = console.Console(color_system=None, highlight=False)
-        else:
-            self.console = console.Console(highlight=False)
 
-    def render(self, run: Run):
+    def render(self, run: Run) -> str:
         with self.console.capture() as capture:
             for result in run.results:
                 match result.level:
@@ -174,4 +169,4 @@ class Detailed(Renderer):
                 style="blue" if run.metrics.notes else "",
             )
             self.console.print(table)
-        print(capture.get())
+        return capture.get()
