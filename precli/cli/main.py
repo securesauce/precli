@@ -243,23 +243,18 @@ def main():
     # Invoke the run
     run.invoke()
 
-    no_color = True if args.output.name != sys.stdout.name else args.no_color
-
     if args.json is True:
-        json = Json(no_color)
-        capture = json.render(run)
+        json = Json(file=args.output, no_color=args.no_color)
+        json.render(run)
     elif args.plain is True:
-        plain = Plain(no_color)
-        capture = plain.render(run)
+        plain = Plain(file=args.output, no_color=args.no_color)
+        plain.render(run)
     elif args.markdown is True:
-        markdown = Markdown(no_color)
-        capture = markdown.render(run)
+        markdown = Markdown(file=args.output, no_color=args.no_color)
+        markdown.render(run)
     else:
-        detailed = Detailed(no_color)
-        capture = detailed.render(run)
-
-    with args.output:
-        args.output.write(capture)
+        detailed = Detailed(file=args.output, no_color=args.no_color)
+        detailed.render(run)
 
     if args.output.name != sys.stdout.name:
         print(f"Output written to file: {args.output.name}")
