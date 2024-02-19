@@ -118,10 +118,10 @@ class Run:
                     ),
                     None,
                 )
-                artifact.language = parser.lexer
 
             if parser is not None:
                 LOG.debug("Working on file: %s", artifact.file_name)
+                artifact.language = parser.lexer
                 return parser.parse(artifact)
         except KeyboardInterrupt:
             sys.exit(2)
