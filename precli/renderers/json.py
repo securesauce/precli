@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 import pathlib
+import sys
 import urllib.parse as urlparse
 from datetime import datetime
 
@@ -18,8 +19,8 @@ TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 class Json(Renderer):
-    def __init__(self, no_color: bool = False):
-        super().__init__(no_color=no_color)
+    def __init__(self, file: sys.stdout, no_color: bool = False):
+        super().__init__(file=file, no_color=no_color)
 
     def to_uri(self, file):
         path = pathlib.PurePath(file)
@@ -50,7 +51,7 @@ class Json(Renderer):
             description=fix.description,
         )
 
-    def render(self, run: Run) -> str:
+    def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
             version="2.1.0",
@@ -115,7 +116,4 @@ class Json(Renderer):
             )
 
             sarif_run.results.append(sarif_result)
-
-        with self.console.capture() as capture:
-            self.console.print_json(to_json(log))
-        return capture.get()
+        self.console.print_json(to_json(log))
