@@ -6,7 +6,7 @@ SYNOPSIS
 ========
 
 precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain]
-       [--markdown] [--no-color] [--version]
+       [--markdown] [-o OUTPUT] [--no-color] [--version]
        [targets ...]
 
 
@@ -29,6 +29,8 @@ OPTIONS
   --json             display output as formatted JSON
   --plain            display output in plain, tabular text
   --markdown         display output in markdown format
+  -o OUTPUT, --output OUTPUT
+                     output results to a file
   --no-color         do not display color in output
   --version          show program's version number and exit
 

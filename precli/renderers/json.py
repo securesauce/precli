@@ -5,7 +5,6 @@ from datetime import datetime
 
 import sarif_om
 from jschema_to_python.to_json import to_json
-from rich import console
 
 from precli.core.fix import Fix
 from precli.core.run import Run
@@ -21,7 +20,6 @@ TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 class Json(Renderer):
     def __init__(self, no_color: bool = False):
         super().__init__(no_color=no_color)
-        self.console = console.Console(highlight=False)
 
     def to_uri(self, file):
         path = pathlib.PurePath(file)
@@ -52,7 +50,7 @@ class Json(Renderer):
             description=fix.description,
         )
 
-    def render(self, run: Run):
+    def render(self, run: Run) -> str:
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
             version="2.1.0",
@@ -120,4 +118,4 @@ class Json(Renderer):
 
         with self.console.capture() as capture:
             self.console.print_json(to_json(log))
-        print(capture.get())
+        return capture.get()
