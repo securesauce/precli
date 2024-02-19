@@ -69,19 +69,25 @@ def setup_arg_parser():
         "--json",
         dest="json",
         action="store_true",
-        help="display output as formatted JSON",
+        help="render the output as formatted JSON",
     )
     parser.add_argument(
         "--plain",
         dest="plain",
         action="store_true",
-        help="display output in plain, tabular text",
+        help="render the output in plain, tabular text",
     )
     parser.add_argument(
         "--markdown",
         dest="markdown",
         action="store_true",
-        help="display output in markdown format",
+        help="render the output in markdown format",
+    )
+    parser.add_argument(
+        "--gist",
+        dest="gist",
+        action="store_true",
+        help="output the results to Gist",
     )
     parser.add_argument(
         "-o",
@@ -90,7 +96,7 @@ def setup_arg_parser():
         action="store",
         type=argparse.FileType("w", encoding="utf-8"),
         default=sys.stdout,
-        help="output results to a file",
+        help="output the results to a file",
     )
     parser.add_argument(
         "--no-color",
@@ -216,6 +222,40 @@ def discover_files(targets: list[str], recursive: bool):
     return artifacts
 
 
+def create_gist(file, renderer: str):
+    match renderer:
+        case "json":
+            filename = "results.json"
+        case "plain":
+            filename = "results.txt"
+        case "markdown":
+            filename = "results.md"
+        case "detailed":
+            filename = "results.txt"
+
+    with open(file.name) as f:
+        file_content = f.read()
+
+    url = "https://api.github.com/gists"
+    headers = {
+        "Authorization": f"token {os.getenv('GITHUB_TOKEN')}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+    data = {
+        "description": "Results of security analysis by Precaution",
+        "public": False,
+        "files": {filename: {"content": file_content}},
+    }
+    response = requests.post(url, json=data, headers=headers)
+
+    if response.status_code == 201:
+        print(f"Gist created successfully: {response.json()['html_url']}")
+    else:
+        print(f"Failed to create gist: {response.status_code}")
+
+    file.close()
+
+
 def main():
     debug = (
         logging.DEBUG
@@ -243,21 +283,32 @@ def main():
     # Invoke the run
     run.invoke()
 
+    file = args.output
+    if args.gist is True:
+        file = tempfile.NamedTemporaryFile(mode="w+t")
+
     if args.json is True:
-        json = Json(file=args.output, no_color=args.no_color)
+        renderer = "json"
+        json = Json(file=file, no_color=args.no_color)
         json.render(run)
     elif args.plain is True:
-        plain = Plain(file=args.output, no_color=args.no_color)
+        renderer = "plain"
+        plain = Plain(file=file, no_color=args.no_color)
         plain.render(run)
     elif args.markdown is True:
-        markdown = Markdown(file=args.output, no_color=args.no_color)
+        renderer = "markdown"
+        markdown = Markdown(file=file, no_color=args.no_color)
         markdown.render(run)
     else:
-        detailed = Detailed(file=args.output, no_color=args.no_color)
+        renderer = "detailed"
+        detailed = Detailed(file=file, no_color=args.no_color)
         detailed.render(run)
 
-    if args.output.name != sys.stdout.name:
-        print(f"Output written to file: {args.output.name}")
+    if file.name != sys.stdout.name:
+        print(f"Output written to file: {file.name}")
+
+        if args.gist is True:
+            create_gist(file, renderer)
 
 
 if __name__ == "__main__":
