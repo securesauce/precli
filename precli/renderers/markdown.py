@@ -44,10 +44,7 @@ class Markdown(Renderer):
                     )
                 else:
                     lines = f"L{result.location.start_line}"
-                file_name = (
-                    f"[{result.artifact.uri}#{lines}]"
-                    f"({result.artifact.uri}#{lines})"
-                )
+                file_name = f"{result.artifact.uri}#{lines}"
             else:
                 file_name = result.artifact.file_name
 
@@ -99,7 +96,7 @@ class Markdown(Renderer):
         )
 
         if self._file.name != sys.stdout.name:
-            self.console.print(output)
+            self.console.print(output, soft_wrap=True)
         else:
             md = markdown.Markdown(output)
-            self.console.print(md)
+            self.console.print(md, soft_wrap=True)

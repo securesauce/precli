@@ -6,7 +6,7 @@ SYNOPSIS
 ========
 
 precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain]
-       [--markdown] [-o OUTPUT] [--no-color] [--version]
+       [--markdown] [--gist] [-o OUTPUT] [--no-color] [--version]
        [targets ...]
 
 
@@ -21,18 +21,19 @@ certificate validation, and more.
 OPTIONS
 =======
 
-  -h, --help         show this help message and exit
-  -d, --debug        turn on debug mode
-  -r, --recursive    find and process files in subdirectories
-  --enable ENABLE    comma-separated list of rule IDs or names to enable
-  --disable DISABLE  comma-separated list of rule IDs or names to disable
-  --json             display output as formatted JSON
-  --plain            display output in plain, tabular text
-  --markdown         display output in markdown format
+  -h, --help            show this help message and exit
+  -d, --debug           turn on debug mode
+  -r, --recursive       find and process files in subdirectories
+  --enable ENABLE       comma-separated list of rule IDs or names to enable
+  --disable DISABLE     comma-separated list of rule IDs or names to disable
+  --json                render the output as formatted JSON
+  --plain               render the output in plain, tabular text
+  --markdown            render the output in markdown format
+  --gist                output the results to Gist
   -o OUTPUT, --output OUTPUT
-                     output results to a file
-  --no-color         do not display color in output
-  --version          show program's version number and exit
+                        output the results to a file
+  --no-color            do not display color in output
+  --version             show program's version number and exit
 
 FILES
 =====
@@ -45,6 +46,9 @@ ENVIRONMENT VARIABLES
 
 DEBUG
   Set to any value to enabling debug logging.
+
+GITHUB_TOKEN
+  Set to your GitHub token. This is required to use the ``--gist`` argument.
 
 EXAMPLES
 ========
