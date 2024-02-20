@@ -128,12 +128,14 @@ class Python(Parser):
     def visit_with_item(self, nodes: list[Node]):
         as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
 
-        if as_pattern is not None:
+        if as_pattern is not None and as_pattern.children:
             statement = as_pattern.children[0]
             as_pattern_target = as_pattern.children[2]
 
-            if as_pattern_target.children[0].type == "identifier" and (
-                statement.type in ("call", "attribute", "identifier")
+            if (
+                as_pattern_target.children
+                and as_pattern_target.children[0].type == "identifier"
+                and statement.type in ("call", "attribute", "identifier")
             ):
                 identifier = as_pattern_target.children[0]
                 identifier = self.literal_value(identifier, default=identifier)

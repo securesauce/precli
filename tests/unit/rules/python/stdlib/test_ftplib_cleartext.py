@@ -39,6 +39,7 @@ class FtpCleartextTests(test_case.TestCase):
     @parameterized.expand(
         [
             "ftp.py",
+            "ftp_context_mgr.py",
             "ftp_tls.py",
             "ftplib_ftp.py",
             "ftplib_ftp_context_mgr.py",
