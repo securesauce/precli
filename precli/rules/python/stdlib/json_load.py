@@ -39,6 +39,7 @@ should first sanitize the data to remove any potential malicious code.
 .. versionadded:: 0.1.0
 
 """  # noqa: E501
+from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -60,6 +61,7 @@ class JsonLoad(Rule):
                     "loads",
                 ]
             },
+            config=Config(enabled=False),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
