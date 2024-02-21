@@ -307,8 +307,8 @@ def main():
     if file.name != sys.stdout.name:
         print(f"Output written to file: {file.name}")
 
-        if args.gist is True:
-            create_gist(file, renderer)
+    if args.gist is True:
+        create_gist(file, renderer)
 
 
 if __name__ == "__main__":
