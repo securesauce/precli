@@ -6,7 +6,7 @@ SYNOPSIS
 ========
 
 precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain]
-       [--markdown] [--gist] [-o OUTPUT] [--no-color] [--version]
+       [--markdown] [--gist] [-o OUTPUT] [--no-color] [-q] [--version]
        [targets ...]
 
 
@@ -33,6 +33,7 @@ OPTIONS
   -o OUTPUT, --output OUTPUT
                         output the results to a file
   --no-color            do not display color in output
+  -q, --quiet           quiet mode, display less output
   --version             show program's version number and exit
 
 FILES

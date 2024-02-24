@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 
 import requests
 from ignorelib import IgnoreFilterManager
+from outdated import check_outdated
 
 import precli
 from precli.core import loader
@@ -104,6 +105,13 @@ def setup_arg_parser():
         action="store_true",
         help="do not display color in output",
     )
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        dest="quiet",
+        action="store_true",
+        help="quiet mode, display less output",
+    )
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
@@ -118,6 +126,19 @@ def setup_arg_parser():
         sys.exit(2)
 
     return args
+
+
+def check_for_update():
+    local_version = precli.__version__
+    try:
+        is_outdated, pypi_version = check_outdated("precli", local_version)
+    except (ValueError, requests.exceptions.ConnectionError):
+        # Local version is greater than the latest version on PyPI
+        is_outdated = False
+
+    if is_outdated is True:
+        print(f"A new release is available: {local_version} -> {pypi_version}")
+        print("To update, run: pip install --upgrade precli")
 
 
 def build_ignore_mgr(path: str, ignore_file: str) -> IgnoreFilterManager:
@@ -268,6 +289,10 @@ def main():
 
     # Setup the command line arguments
     args = setup_arg_parser()
+
+    # Check if a newer version is available
+    if args.quiet is False:
+        check_for_update()
 
     enabled = args.enable.split(",") if args.enable else []
     disabled = args.disable.split(",") if args.disable else []
