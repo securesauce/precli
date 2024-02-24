@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=====================================================================
-Cleartext Transmission of Sensitive Information in the Nntplib Module
-=====================================================================
+=========================================================================
+Cleartext Transmission of Sensitive Information in the ``nntplib`` Module
+=========================================================================
 
 The Python module ``nntplib`` provides a number of functions for accessing
 NNTP servers. However, the default behavior of the module does not provide
@@ -17,34 +17,37 @@ data when accessing NNTP servers.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. error::
 
-    from nntplib import NNTP
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        from nntplib import NNTP
 
 
-    with NNTP('news.gmane.io') as n:
-        n.group('gmane.comp.python.committers')
+        with NNTP('news.gmane.io') as n:
+            n.group('gmane.comp.python.committers')
 
 -----------
 Remediation
 -----------
 
-If the NNTP protocol must be used and sensitive data will be transferred, it
-is recommended to secure the connection using ``NNTP_SSL`` class.
-Alternatively, the ``starttls`` function can be used to enter a secure session.
+.. admonition:: Fix
+
+    If the NNTP protocol must be used and sensitive data will be transferred, it
+    is recommended to secure the connection using ``NNTP_SSL`` class.
+    Alternatively, the ``starttls`` function can be used to enter a secure session.
+
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        from nntplib import NNTP
 
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
-
-    from nntplib import NNTP
-
-
-    with NNTP_SSL('news.gmane.io') as n:
-        n.group('gmane.comp.python.committers')
+        with NNTP_SSL('news.gmane.io') as n:
+            n.group('gmane.comp.python.committers')
 
 .. seealso::
 

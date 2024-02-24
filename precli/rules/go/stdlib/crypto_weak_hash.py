@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=========================================
-Reversible One Way Hash in Crypto Package
-=========================================
+=============================================
+Reversible One Way Hash in ``crypto`` Package
+=============================================
 
 The Go ``crypto`` package provides a number of functions for hashing data.
 However, some of the hash algorithms supported by hashlib are insecure and
@@ -21,46 +21,50 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 Example
 -------
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 4,9
+.. error::
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 4,9
 
-    import (
-        "crypto/md5"
-        "fmt"
-    )
+        package main
 
-    func main() {
-        h := md5.New()
-        h.Write([]byte("hello world\n"))
-        fmt.Printf("%x", h.Sum(nil))
-    }
+        import (
+            "crypto/md5"
+            "fmt"
+        )
+
+        func main() {
+            h := md5.New()
+            h.Write([]byte("hello world\n"))
+            fmt.Printf("%x", h.Sum(nil))
+        }
 
 -----------
 Remediation
 -----------
 
-The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``sha256`` or ``sha512``.
+.. admonition:: Fix
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 4,9
+    The recommendation is to swap the insecure hashing method to one of the more
+    secure alternatives, ``sha256`` or ``sha512``.
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 4,9
 
-    import (
-        "crypto/sha256"
-        "fmt"
-    )
+        package main
 
-    func main() {
-        h := sha256.New()
-        h.Write([]byte("hello world\n"))
-        fmt.Printf("%x", h.Sum(nil))
-    }
+        import (
+            "crypto/sha256"
+            "fmt"
+        )
+
+        func main() {
+            h := sha256.New()
+            h.Write([]byte("hello world\n"))
+            fmt.Printf("%x", h.Sum(nil))
+        }
 
 .. seealso::
 

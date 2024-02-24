@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=======================================
-Reversible One Way Hash in Crypt Module
-=======================================
+===========================================
+Reversible One Way Hash in ``crypt`` Module
+===========================================
 
 The Python module ``crypt`` provides a number of functions for password
 hashing. However, some of the hashing functions supported by ``crypt`` are weak
@@ -25,48 +25,52 @@ as ``SHA256`` and ``SHA512``.
 Examples
 --------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import crypt
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
 
-
-    crypt.crypt("password", salt=crypt.METHOD_MD5)
-
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
-
-    import crypt
+        import crypt
 
 
-    crypt.mksalt(crypt.METHOD_CRYPT)
+        crypt.crypt("password", salt=crypt.METHOD_MD5)
+
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import crypt
+
+
+        crypt.mksalt(crypt.METHOD_CRYPT)
 
 -----------
 Remediation
 -----------
 
-The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256`` or ``SHA512``.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+    The recommendation is to swap the insecure hashing method to one of the more
+    secure alternatives, ``SHA256`` or ``SHA512``.
 
-    import crypt
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
 
-
-    crypt.crypt("password", salt=crypt.METHOD_SHA256)
-
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
-
-    import crypt
+        import crypt
 
 
-    crypt.mksalt(crypt.METHOD_SHA512)
+        crypt.crypt("password", salt=crypt.METHOD_SHA256)
+
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import crypt
+
+
+        crypt.mksalt(crypt.METHOD_SHA512)
 
 ---------------------
 Alternatives to Crypt

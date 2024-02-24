@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=======================================================================
-Cleartext Transmission of Sensitive Information in the Telnetlib Module
-=======================================================================
+===========================================================================
+Cleartext Transmission of Sensitive Information in the ``telnetlib`` Module
+===========================================================================
 
 The Python module ``telnetlib`` is a low-level module that provides access to
 the telnet protocol. The telnet protocol is a cleartext protocol, which means
@@ -32,57 +32,61 @@ Here are some additional reasons why you should not use telnetlib:
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 9
+.. error::
 
-    import getpass
-    import telnetlib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 9
+
+        import getpass
+        import telnetlib
 
 
-    HOST = "localhost"
-    user = input("Username: ")
-    password = getpass.getpass()
+        HOST = "localhost"
+        user = input("Username: ")
+        password = getpass.getpass()
 
-    tn = telnetlib.Telnet(HOST)
-    tn.read_until(b"login: ")
-    tn.write(user.encode('ascii') + b"\n")
-    if password:
-        tn.read_until(b"Password: ")
-        tn.write(password.encode('ascii') + b"\n")
+        tn = telnetlib.Telnet(HOST)
+        tn.read_until(b"login: ")
+        tn.write(user.encode('ascii') + b"\n")
+        if password:
+            tn.read_until(b"Password: ")
+            tn.write(password.encode('ascii') + b"\n")
 
-    tn.write(b"ls\n")
-    tn.write(b"exit\n")
+        tn.write(b"ls\n")
+        tn.write(b"exit\n")
 
 -----------
 Remediation
 -----------
 
-If you need to access a remote system over a network, you should use a more
-secure protocol, such as SSH. SSH is a secure shell protocol that encrypts
-all data transmitted over the connection. This makes it much more difficult
-for attackers to eavesdrop on your communications.
+.. admonition:: Fix
 
-There are better alternatives. There are a number of other Python modules
-that provide access to the telnet protocol, such as Paramiko. These modules
-are more secure than telnetlib and should be used instead.
+    If you need to access a remote system over a network, you should use a more
+    secure protocol, such as SSH. SSH is a secure shell protocol that encrypts
+    all data transmitted over the connection. This makes it much more difficult
+    for attackers to eavesdrop on your communications.
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 9
+    There are better alternatives. There are a number of other Python modules
+    that provide access to the telnet protocol, such as Paramiko. These modules
+    are more secure than telnetlib and should be used instead.
 
-    import getpass
-    import paramiko
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 9
+
+        import getpass
+        import paramiko
 
 
-    HOST = "localhost"
-    user = input("Username: ")
-    password = getpass.getpass()
+        HOST = "localhost"
+        user = input("Username: ")
+        password = getpass.getpass()
 
-    client = paramiko.SSHClient()
-    client.connect(HOST, username=user, password=password)
-    channel = client.invoke_shell()
-    client.close()
+        client = paramiko.SSHClient()
+        client.connect(HOST, username=user, password=password)
+        channel = client.invoke_shell()
+        client.close()
 
 -------------------------
 Alternatives to telnetlib

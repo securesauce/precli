@@ -33,36 +33,40 @@ protocols:
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+.. warning::
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import ssl
 
 
-    ssl.get_server_certificate(
-        ("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2
-    )
+        ssl.get_server_certificate(
+            ("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2
+        )
 
 -----------
 Remediation
 -----------
 
-If you need to connect to a server over HTTPS, you should use the
-``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol instead.
-These protocols are more secure than the weak protocols and will help to
-protect your application from these security risks.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+    If you need to connect to a server over HTTPS, you should use the
+    ``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol instead.
+    These protocols are more secure than the weak protocols and will help to
+    protect your application from these security risks.
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import ssl
 
 
-    ssl.get_server_certificate(
-        ("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2
-    )
+        ssl.get_server_certificate(
+            ("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2
+        )
 
 .. seealso::
 

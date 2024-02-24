@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-============================================
-Observable Timing Discrepancy in Hmac Module
-============================================
+================================================
+Observable Timing Discrepancy in ``hmac`` Module
+================================================
 
 Do not use Python's == operator to compare HMAC digests. The == operator is
 not designed to be used for cryptographic comparisons, and it can be
@@ -27,48 +27,52 @@ digests. This makes it more resistant to timing attacks.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 13
+.. error::
 
-    import hmac
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 13
+
+        import hmac
 
 
-    received_digest = (
-        b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
-        "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
-    )
+        received_digest = (
+            b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
+            "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
+        )
 
-    key = b"my-secret-key"
-    password = b"pass"
-    digest = hmac.digest(key, password, digest="sha224")
+        key = b"my-secret-key"
+        password = b"pass"
+        digest = hmac.digest(key, password, digest="sha224")
 
-    return digest == received_digest
+        return digest == received_digest
 
 -----------
 Remediation
 -----------
 
-The recommendation is to replace the == operator with the function
-``compare_digest``.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 13
+    The recommendation is to replace the == operator with the function
+    ``compare_digest``.
 
-    import hmac
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 13
+
+        import hmac
 
 
-    received_digest = (
-        b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
-        "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
-    )
+        received_digest = (
+            b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
+            "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
+        )
 
-    key = b"my-secret-key"
-    password = b"pass"
-    digest = hmac.digest(key, password, digest="sha224")
+        key = b"my-secret-key"
+        password = b"pass"
+        digest = hmac.digest(key, password, digest="sha224")
 
-    return hmac.compare_digest(digest, received_digest)
+        return hmac.compare_digest(digest, received_digest)
 
 .. seealso::
 

@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-==================================================================
-Use of a Broken or Risky Cryptographic Algorithm in Crypto Package
-==================================================================
+======================================================================
+Use of a Broken or Risky Cryptographic Algorithm in ``crypto`` Package
+======================================================================
 
 Using weak ciphers for cryptographic algorithms can pose significant security
 risks, and it's generally advised to avoid them in favor of stronger, more
@@ -64,54 +64,58 @@ encryption and security.
 Example
 -------
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 14
+.. error::
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 14
 
-    import (
-        "crypto/des"
-    )
+        package main
 
-    func main() {
-        ede2Key := []byte("example key 1234")
+        import (
+            "crypto/des"
+        )
 
-        var tripleDESKey []byte
-        tripleDESKey = append(tripleDESKey, ede2Key[:16]...)
-        tripleDESKey = append(tripleDESKey, ede2Key[:8]...)
+        func main() {
+            ede2Key := []byte("example key 1234")
 
-        _, err := des.NewTripleDESCipher(tripleDESKey)
-        if err != nil {
-            panic(err)
+            var tripleDESKey []byte
+            tripleDESKey = append(tripleDESKey, ede2Key[:16]...)
+            tripleDESKey = append(tripleDESKey, ede2Key[:8]...)
+
+            _, err := des.NewTripleDESCipher(tripleDESKey)
+            if err != nil {
+                panic(err)
+            }
         }
-    }
 
 -----------
 Remediation
 -----------
 
-It is advisable to use stronger, more secure cryptographic algorithms such as
-AES.
+.. admonition:: Fix
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 4,10
+    It is advisable to use stronger, more secure cryptographic algorithms such as
+    AES.
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 4,10
 
-    import (
-        "crypto/aes"
-    )
+        package main
 
-    func main() {
-        aesKey := []byte("example key 1234")
+        import (
+            "crypto/aes"
+        )
 
-        _, err := aes.NewCipher(aesKey)
-        if err != nil {
-            panic(err)
+        func main() {
+            aesKey := []byte("example key 1234")
+
+            _, err := aes.NewCipher(aesKey)
+            if err != nil {
+                panic(err)
+            }
         }
-    }
 
 .. seealso::
 

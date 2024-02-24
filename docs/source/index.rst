@@ -1,9 +1,8 @@
-Rule Listing
-============
-
+Precli
+======
 
 .. toctree::
    :maxdepth: 1
 
-   rules/go/index
-   rules/python/index
+   getting-started
+   rules

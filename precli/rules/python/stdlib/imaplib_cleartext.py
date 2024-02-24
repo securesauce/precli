@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=====================================================================
-Cleartext Transmission of Sensitive Information in the Imaplib Module
-=====================================================================
+=========================================================================
+Cleartext Transmission of Sensitive Information in the ``imaplib`` Module
+=========================================================================
 
 The Python module ``imaplib`` provides a number of functions for accessing
 IMAP servers. However, the default behavior of the module does not provide
@@ -17,49 +17,53 @@ data when accessing IMAP servers.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+.. error::
 
-    import getpass
-    import imaplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import getpass
+        import imaplib
 
 
-    M = imaplib.IMAP4()
-    M.login(getpass.getuser(), getpass.getpass())
-    M.select()
-    typ, data = M.search(None, 'ALL')
-    for num in data[0].split():
-        typ, data = M.fetch(num, '(RFC822)')
-        print('Message %s\n%s\n' % (num, data[0][1]))
-    M.close()
-    M.logout()
+        M = imaplib.IMAP4()
+        M.login(getpass.getuser(), getpass.getpass())
+        M.select()
+        typ, data = M.search(None, 'ALL')
+        for num in data[0].split():
+            typ, data = M.fetch(num, '(RFC822)')
+            print('Message %s\n%s\n' % (num, data[0][1]))
+        M.close()
+        M.logout()
 
 -----------
 Remediation
 -----------
 
-If the IMAP protocol must be used and sensitive data will be transferred, it
-is recommended to secure the connection using ``IMAP4_SSL`` class.
-Alternatively, the ``starttls`` function can be used to enter a secure session.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+    If the IMAP protocol must be used and sensitive data will be transferred, it
+    is recommended to secure the connection using ``IMAP4_SSL`` class.
+    Alternatively, the ``starttls`` function can be used to enter a secure session.
 
-    import getpass
-    import imaplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import getpass
+        import imaplib
 
 
-    M = imaplib.IMAP4_SSL()
-    M.login(getpass.getuser(), getpass.getpass())
-    M.select()
-    typ, data = M.search(None, 'ALL')
-    for num in data[0].split():
-        typ, data = M.fetch(num, '(RFC822)')
-        print('Message %s\n%s\n' % (num, data[0][1]))
-    M.close()
-    M.logout()
+        M = imaplib.IMAP4_SSL()
+        M.login(getpass.getuser(), getpass.getpass())
+        M.select()
+        typ, data = M.search(None, 'ALL')
+        for num in data[0].split():
+            typ, data = M.fetch(num, '(RFC822)')
+            print('Message %s\n%s\n' % (num, data[0][1]))
+        M.close()
+        M.logout()
 
 .. seealso::
 
