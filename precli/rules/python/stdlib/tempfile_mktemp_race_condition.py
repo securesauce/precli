@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-==============================================
-Insecure Temporary File in the Tempfile Module
-==============================================
+==================================================
+Insecure Temporary File in the ``tempfile`` Module
+==================================================
 
 The tempfile.mktemp function in Python is a legacy method for creating
 temporary files with a unique name. It is important to note that this function
@@ -15,35 +15,39 @@ in your code.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import tempfile
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import tempfile
 
 
-    filename = tempfile.mktemp(suffix='', prefix='tmp', dir=None)
-    with open(filename) as f:
-        f.write(b"Hello World!\n")
+        filename = tempfile.mktemp(suffix='', prefix='tmp', dir=None)
+        with open(filename) as f:
+            f.write(b"Hello World!\n")
 
 -----------
 Remediation
 -----------
 
-To ensure the reliability and security of your temporary file management,
-consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class
-automatically handles the generation of unique filenames, proper file closure,
-and cleanup when the file is no longer needed.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+    To ensure the reliability and security of your temporary file management,
+    consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class
+    automatically handles the generation of unique filenames, proper file closure,
+    and cleanup when the file is no longer needed.
 
-    import tempfile
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import tempfile
 
 
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(b"Hello World!\n")
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            f.write(b"Hello World!\n")
 
 .. seealso::
 

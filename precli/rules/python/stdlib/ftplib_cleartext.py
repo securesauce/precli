@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-====================================================================
-Cleartext Transmission of Sensitive Information in the Ftplib Module
-====================================================================
+========================================================================
+Cleartext Transmission of Sensitive Information in the ``ftplib`` Module
+========================================================================
 
 The Python module ``ftplib`` provides a number of functions for accessing FTP
 servers. However, the module does not provide any security features. This
@@ -19,44 +19,48 @@ ftplib for accessing sensitive data.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import ftplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import ftplib
 
 
-    ftp = ftplib.FTP("ftp.us.debian.org")
-    ftp.login("user", "password")
+        ftp = ftplib.FTP("ftp.us.debian.org")
+        ftp.login("user", "password")
 
-    ftp.cwd("debian")
-    ftp.retrlines("LIST")
+        ftp.cwd("debian")
+        ftp.retrlines("LIST")
 
-    ftp.quit()
+        ftp.quit()
 
 -----------
 Remediation
 -----------
 
-If the FTP protocol must be used and sensitive data will be transferred, it
-is recommended to secure the connection using ``FTP_TLS`` class. It's also
-important to call ``prot_p()`` to secure the data connection.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4,6
+    If the FTP protocol must be used and sensitive data will be transferred, it
+    is recommended to secure the connection using ``FTP_TLS`` class. It's also
+    important to call ``prot_p()`` to secure the data connection.
 
-    import ftplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4,6
+
+        import ftplib
 
 
-    ftp = ftplib.FTP_TLS("ftp.us.debian.org")
-    ftp.login("user", "password")
-    ftp.prot_p()
+        ftp = ftplib.FTP_TLS("ftp.us.debian.org")
+        ftp.login("user", "password")
+        ftp.prot_p()
 
-    ftp.cwd("debian")
-    ftp.retrlines("LIST")
+        ftp.cwd("debian")
+        ftp.retrlines("LIST")
 
-    ftp.quit()
+        ftp.quit()
 
 ----------------------
 Alternatives to ftplib

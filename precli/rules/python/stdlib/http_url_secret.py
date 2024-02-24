@@ -14,39 +14,43 @@ access.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 6
+.. error::
 
-    import http.client
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 6
+
+        import http.client
 
 
-    host = "example.com"
-    conn = http.client.HTTPSConnection(host)
-    conn.request("GET", "/path?apiKey=value&otherParam=123", headers={})
-    response = conn.getresponse()
+        host = "example.com"
+        conn = http.client.HTTPSConnection(host)
+        conn.request("GET", "/path?apiKey=value&otherParam=123", headers={})
+        response = conn.getresponse()
 
 -----------
 Remediation
 -----------
 
-To avoid this vulnerability, put sensitive information in the request as
-headers, rather than a parameter of the URL.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5-7, 9
+    To avoid this vulnerability, put sensitive information in the request as
+    headers, rather than a parameter of the URL.
 
-    import http.client
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5-7, 9
+
+        import http.client
 
 
-    host = "example.com"
-    headers = {
-        "X-FullContact-APIKey": "value"
-    }
-    conn = http.client.HTTPSConnection(host)
-    conn.request("GET", "/path?otherParam=123", headers=headers)
-    response = conn.getresponse()
+        host = "example.com"
+        headers = {
+            "X-FullContact-APIKey": "value"
+        }
+        conn = http.client.HTTPSConnection(host)
+        conn.request("GET", "/path?otherParam=123", headers=headers)
+        response = conn.getresponse()
 
 .. seealso::
 

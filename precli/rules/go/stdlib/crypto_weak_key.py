@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-================================================================
-Inadequate Encryption Strength Using Weak Keys in Crypto Package
-================================================================
+====================================================================
+Inadequate Encryption Strength Using Weak Keys in ``crypto`` Package
+====================================================================
 
 Using weak key sizes for cryptographic algorithms like RSA and DSA can
 compromise the security of your encryption and digital signatures. Here's a
@@ -35,50 +35,54 @@ its efficiency and strong security properties.
 Example
 -------
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 10
+.. error::
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 10
 
-    import (
-        "crypto/rand"
-        "crypto/rsa"
-        "log"
-    )
+        package main
 
-    func main() {
-        privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
-        if err != nil {
-            log.Fatalf("Failed to generate key: %v", err)
+        import (
+            "crypto/rand"
+            "crypto/rsa"
+            "log"
+        )
+
+        func main() {
+            privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
+            if err != nil {
+                log.Fatalf("Failed to generate key: %v", err)
+            }
         }
-    }
 
 -----------
 Remediation
 -----------
 
-Its recommended to increase the key size to at least 2048 for DSA and RSA
-algorithms.
+.. admonition:: Fix
 
-.. code-block:: go
-   :linenos:
-   :emphasize-lines: 10
+    Its recommended to increase the key size to at least 2048 for DSA and RSA
+    algorithms.
 
-    package main
+    .. code-block:: go
+       :linenos:
+       :emphasize-lines: 10
 
-    import (
-        "crypto/rand"
-        "crypto/rsa"
-        "log"
-    )
+        package main
 
-    func main() {
-        privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
-        if err != nil {
-            log.Fatalf("Failed to generate key: %v", err)
+        import (
+            "crypto/rand"
+            "crypto/rsa"
+            "log"
+        )
+
+        func main() {
+            privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+            if err != nil {
+                log.Fatalf("Failed to generate key: %v", err)
+            }
         }
-    }
 
 .. seealso::
 

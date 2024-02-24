@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-====================================================================
-Cleartext Transmission of Sensitive Information in the Poplib Module
-====================================================================
+========================================================================
+Cleartext Transmission of Sensitive Information in the ``poplib`` Module
+========================================================================
 
 The Python module ``poplib`` provides a number of functions for accessing
 POP servers. However, the default behavior of the module does not provide
@@ -17,45 +17,49 @@ data when accessing POP servers.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+.. error::
 
-    import getpass
-    import poplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import getpass
+        import poplib
 
 
-    M = poplib.POP3('localhost')
-    M.user(getpass.getuser())
-    M.pass_(getpass.getpass())
-    numMessages = len(M.list()[1])
-    for i in range(numMessages):
-        for j in M.retr(i+1)[1]:
-            print(j)
+        M = poplib.POP3('localhost')
+        M.user(getpass.getuser())
+        M.pass_(getpass.getpass())
+        numMessages = len(M.list()[1])
+        for i in range(numMessages):
+            for j in M.retr(i+1)[1]:
+                print(j)
 
 -----------
 Remediation
 -----------
 
-If the POP protocol must be used and sensitive data will be transferred, it
-is recommended to secure the connection using ``POP3_SSL`` class.
-Alternatively, the ``stls`` function can be used to enter a secure session.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+    If the POP protocol must be used and sensitive data will be transferred, it
+    is recommended to secure the connection using ``POP3_SSL`` class.
+    Alternatively, the ``stls`` function can be used to enter a secure session.
 
-    import getpass
-    import poplib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import getpass
+        import poplib
 
 
-    M = poplib.POP3_SSL('localhost')
-    M.user(getpass.getuser())
-    M.pass_(getpass.getpass())
-    numMessages = len(M.list()[1])
-    for i in range(numMessages):
-        for j in M.retr(i+1)[1]:
-            print(j)
+        M = poplib.POP3_SSL('localhost')
+        M.user(getpass.getuser())
+        M.pass_(getpass.getpass())
+        numMessages = len(M.list()[1])
+        for i in range(numMessages):
+            for j in M.retr(i+1)[1]:
+                print(j)
 
 .. seealso::
 

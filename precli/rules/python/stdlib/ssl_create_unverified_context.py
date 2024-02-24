@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-====================================================================
-Improper Certificate Validation Using ssl._create_unverified_context
-====================================================================
+========================================================================
+Improper Certificate Validation Using ``ssl._create_unverified_context``
+========================================================================
 
 The Python function ``ssl._create_unverified_context()`` creates a SSL context
 that does not verify the server's certificate. This means that an attacker can
@@ -20,32 +20,36 @@ up to a number of security risks, including:
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. error::
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import ssl
 
 
-    context = ssl._create_unverified_context()
+        context = ssl._create_unverified_context()
 
 -----------
 Remediation
 -----------
 
-If you need to connect to a server over HTTPS, you should use the
-``ssl.create_default_context()`` function instead. This function will verify
-the server's certificate, which will help to protect your application from
-these security risks.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+    If you need to connect to a server over HTTPS, you should use the
+    ``ssl.create_default_context()`` function instead. This function will verify
+    the server's certificate, which will help to protect your application from
+    these security risks.
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import ssl
 
 
-    context = ssl.create_default_context()
+        context = ssl.create_default_context()
 
 .. seealso::
 

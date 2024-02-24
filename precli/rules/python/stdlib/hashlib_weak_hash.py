@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=========================================
-Reversible One Way Hash in Hashlib Module
-=========================================
+=============================================
+Reversible One Way Hash in ``hashlib`` Module
+=============================================
 
 The Python module ``hashlib`` provides a number of functions for hashing data.
 However, some of the hash algorithms supported by hashlib are insecure and
@@ -32,46 +32,52 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. error::
 
-    import hashlib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import hashlib
 
 
-    hash = hashlib.md5(b"Nobody inspects the spammish repetition")
-    hash.hexdigest()
+        hash = hashlib.md5(b"Nobody inspects the spammish repetition")
+        hash.hexdigest()
 
 -----------
 Remediation
 -----------
 
-The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256`` or ``SHA512``.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+    The recommendation is to swap the insecure hashing method to one of the more
+    secure alternatives, ``SHA256`` or ``SHA512``.
 
-    import hashlib
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
 
-
-    hash = hashlib.sha256(b"Nobody inspects the spammish repetition")
-    hash.hexdigest()
-
-If an insecure hash such as MD5 must be used and not in within a security
-context, then set the keyword-only argument ``usedforsecurity`` in the hashes
-constructor.
-
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
-
-    import hashlib
+        import hashlib
 
 
-    hash = hashlib.md5(b"Non-security related text", usedforsecurity=False)
-    hash.hexdigest()
+        hash = hashlib.sha256(b"Nobody inspects the spammish repetition")
+        hash.hexdigest()
+
+.. admonition:: Fix
+
+    If an insecure hash such as MD5 must be used and not in within a security
+    context, then set the keyword-only argument ``usedforsecurity`` in the hashes
+    constructor.
+
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import hashlib
+
+
+        hash = hashlib.md5(b"Non-security related text", usedforsecurity=False)
+        hash.hexdigest()
 
 .. seealso::
 

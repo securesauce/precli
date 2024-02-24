@@ -15,36 +15,39 @@ allow them to execute arbitrary code.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import logging.config
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import logging.config
 
 
-    thread = logging.config.listen(port=1111, verify=None)
+        thread = logging.config.listen(port=1111, verify=None)
 
 -----------
 Remediation
 -----------
 
-The verify argument should be set to a callable function that should verify
-whether bytes received on the socket are valid to be processed. One way to
-verify the data is to use encryption and/or signing.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 8
+    The verify argument should be set to a callable function that should verify
+    whether bytes received on the socket are valid to be processed. One way to
+    verify the data is to use encryption and/or signing.
 
-    import logging.config
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 8
 
-
-    def validate(recv: bytes):
-        return recv
+        import logging.config
 
 
-    thread = logging.config.listen(verify=validate)
+        def validate(recv: bytes):
+            return recv
 
+
+        thread = logging.config.listen(verify=validate)
 
 .. seealso::
 

@@ -24,31 +24,35 @@ even higher security margins.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import ssl
 
 
-    context = ssl.SSLContext()
-    context.set_ecdh_curve("prime192v1")
+        context = ssl.SSLContext()
+        context.set_ecdh_curve("prime192v1")
 
 -----------
 Remediation
 -----------
 
-Its recommended to increase the key size to at least 224 EC algorithms.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+    Its recommended to increase the key size to at least 224 EC algorithms.
 
-    import ssl
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import ssl
 
 
-    context = ssl.SSLContext()
-    context.set_ecdh_curve("prime256v1")
+        context = ssl.SSLContext()
+        context.set_ecdh_curve("prime256v1")
 
 .. seealso::
 

@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-====================================================
-Deserialization of Untrusted Data in the Json Module
-====================================================
+========================================================
+Deserialization of Untrusted Data in the ``json`` Module
+========================================================
 
 The Python ``json`` module provides a way to parse and generate JSON data.
 However, it is important to be aware that malicious JSON strings can be used
@@ -14,22 +14,26 @@ and memory resources, which could lead to a denial-of-service attack.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 4
+.. warning::
 
-    import json
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 4
+
+        import json
 
 
-    json.loads('["foo", {"bar":["baz", null, 1.0, 2]}]')
+        json.loads('["foo", {"bar":["baz", null, 1.0, 2]}]')
 
 -----------
 Remediation
 -----------
 
-To avoid this vulnerability, it is important to only parse JSON data from
-trusted sources. If you are parsing JSON data from an untrusted source, you
-should first sanitize the data to remove any potential malicious code.
+.. admonition:: Fix
+
+    To avoid this vulnerability, it is important to only parse JSON data from
+    trusted sources. If you are parsing JSON data from an untrusted source, you
+    should first sanitize the data to remove any potential malicious code.
 
 .. seealso::
 

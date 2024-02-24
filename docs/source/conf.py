@@ -1,6 +1,8 @@
 import os
 import sys
 
+from datetime import datetime
+
 sys.path.insert(0, os.path.abspath("../.."))
 # -- General configuration ----------------------------------------------------
 
@@ -25,8 +27,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Precli"
-copyright = "Copyright 2024 Secure Saurce LLC"
+project = "precli"
+copyright = f"{datetime.now():%Y} Secure Saurce LLC"
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -36,7 +38,7 @@ add_function_parentheses = True
 add_module_names = True
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = "sphinx"
+# pygments_style = "nord"
 
 modindex_common_prefix = ["precli."]
 

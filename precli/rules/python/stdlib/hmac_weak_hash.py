@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-======================================
-Reversible One Way Hash in Hmac Module
-======================================
+==========================================
+Reversible One Way Hash in ``hmac`` Module
+==========================================
 
 The Python module ``hmac`` provides a number of functions for creating and
 verifying message authentication codes (MACs). However, some of the hash
@@ -32,38 +32,42 @@ created with SHA-1 can be easily cracked by attackers.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+.. error::
 
-    import hmac
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import hmac
 
 
-    secret_key = "This is my secret key."
-    hmac_obj = hmac.new(key, digestmod="md5")
-    message = "This is my message.".encode()
-    hmac_obj.update(message)
-    mac = hmac_obj.digest()
+        secret_key = "This is my secret key."
+        hmac_obj = hmac.new(key, digestmod="md5")
+        message = "This is my message.".encode()
+        hmac_obj.update(message)
+        mac = hmac_obj.digest()
 
 -----------
 Remediation
 -----------
 
-The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
+.. admonition:: Fix
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 5
+    The recommendation is to swap the insecure hashing method to one of the more
+    secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
 
-    import hmac
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 5
+
+        import hmac
 
 
-    secret_key = "This is my secret key."
-    hmac_obj = hmac.new(key, digestmod="sha256")
-    message = "This is my message.".encode()
-    hmac_obj.update(message)
-    mac = hmac_obj.digest()
+        secret_key = "This is my secret key."
+        hmac_obj = hmac.new(key, digestmod="sha256")
+        message = "This is my message.".encode()
+        hmac_obj.update(message)
+        mac = hmac_obj.digest()
 
 .. seealso::
 

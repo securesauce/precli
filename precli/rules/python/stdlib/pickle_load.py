@@ -1,8 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-==================================================
-Deserialization of Untrusted Data in Pickle Module
-==================================================
+======================================================
+Deserialization of Untrusted Data in ``pickle`` Module
+======================================================
 
 The Python ``pickle`` module is a serialization module that can be used to
 serialize and deserialize Python objects. However, pickle is not a secure
@@ -17,35 +17,39 @@ the malicious code would be executed.
 Example
 -------
 
-.. code-block:: python
-   :linenos:
-   :emphasize-lines: 9
+.. warning::
 
-    import pickle
+    .. code-block:: python
+       :linenos:
+       :emphasize-lines: 9
+
+        import pickle
 
 
-    def load_pickle_file(file_path):
-        with open(file_path, 'rb') as file:
-            data = file.read()
+        def load_pickle_file(file_path):
+            with open(file_path, 'rb') as file:
+                data = file.read()
 
-        # WARNING: Unpickle data without proper validation
-        obj = pickle.loads(data)
-        return obj
+            # WARNING: Unpickle data without proper validation
+            obj = pickle.loads(data)
+            return obj
 
-    # Example usage (assuming 'malicious.pickle' contains malicious code)
-    pickle_file = 'malicious.pickle'
-    loaded_object = load_pickle_file(pickle_file)
+        # Example usage (assuming 'malicious.pickle' contains malicious code)
+        pickle_file = 'malicious.pickle'
+        loaded_object = load_pickle_file(pickle_file)
 
 -----------
 Remediation
 -----------
 
-Consider signing data with hmac if you need to ensure that pickle data has
-not been tampered with.
+.. admonition:: Fix
 
-Alternatively if you need to serialize sensitive data, you could use a
-secure serialization format, such as JSON or XML. These formats are designed
-to be secure and cannot be used to execute malicious code.
+    Consider signing data with hmac if you need to ensure that pickle data has
+    not been tampered with.
+
+    Alternatively if you need to serialize sensitive data, you could use a
+    secure serialization format, such as JSON or XML. These formats are designed
+    to be secure and cannot be used to execute malicious code.
 
 .. seealso::
 
