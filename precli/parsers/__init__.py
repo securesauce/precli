@@ -156,7 +156,7 @@ class Parser(ABC):
         # TODO: add the justification to the suppression
 
     def visit_ERROR(self, nodes: list[Node]):
-        err_node = self.first_match(self.context["node"], "ERROR")
+        err_node = self.child_by_type(self.context["node"], "ERROR")
         if err_node is None:
             err_node = self.context["node"]
 
@@ -172,7 +172,7 @@ class Parser(ABC):
             ),
         )
 
-    def first_match(self, node: Node, type: str) -> Node:
+    def child_by_type(self, node: Node, type: str) -> Node:
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None

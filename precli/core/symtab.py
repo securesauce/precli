@@ -16,7 +16,7 @@ class SymbolTable:
     def parent(self) -> Self:
         return self._parent
 
-    def put(self, name: str, type: str, value: str):
+    def put(self, name: str, type: str, value: str) -> None:
         self._symbols[name] = Symbol(name, type, value)
 
     def get(self, name: str):
@@ -27,9 +27,17 @@ class SymbolTable:
         else:
             return None
 
-    def remove(self, name: str):
+    def remove(self, name: str) -> None:
         if name in self._symbols:
             del self._symbols[name]
+
+    def __contains__(self, name: str) -> bool:
+        if name in self._symbols:
+            return True
+        elif self._parent is not None:
+            return name in self._parent
+        else:
+            return False
 
     def __str__(self) -> str:
         return str(self._symbols)
@@ -54,7 +62,7 @@ class Symbol:
     def value(self) -> str:
         return self._value
 
-    def push_call(self, call: Call):
+    def push_call(self, call: Call) -> None:
         self._call_history.append(call)
 
     @property
