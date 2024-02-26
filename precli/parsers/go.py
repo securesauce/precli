@@ -75,7 +75,7 @@ class Go(Parser):
         return imports
 
     def visit_function_declaration(self, nodes: list[Node]):
-        func_id = self.first_match(self.context["node"], "identifier")
+        func_id = self.child_by_type(self.context["node"], "identifier")
         func = func_id.text.decode()
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)

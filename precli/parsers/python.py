@@ -41,26 +41,28 @@ class Python(Parser):
             self.current_symtab.put(key, "import", value)
 
     def visit_class_definition(self, nodes: list[Node]):
-        class_id = self.first_match(self.context["node"], "identifier")
+        class_id = self.child_by_type(self.context["node"], "identifier")
         cls_name = class_id.text.decode()
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_function_definition(self, nodes: list[Node]):
-        func_id = self.first_match(self.context["node"], "identifier")
+        func_id = self.child_by_type(self.context["node"], "identifier")
         func = func_id.text.decode()
 
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
 
-        func_parameters = self.first_match(self.context["node"], "parameters")
+        func_parameters = self.child_by_type(
+            self.context["node"], "parameters"
+        )
         func_args = func_parameters.named_children
 
         for func_arg in func_args:
             # typed_parameter or identifier
             if func_arg.type == "typed_parameter":
-                param_id = self.first_match(func_arg, "identifier")
-                param_type = self.first_match(func_arg, "type")
+                param_id = self.child_by_type(func_arg, "identifier")
+                param_type = self.child_by_type(func_arg, "type")
 
                 if param_type.named_children[0].type in (
                     "attribute",
@@ -204,8 +206,8 @@ class Python(Parser):
             if child.type == "dotted_name":
                 imports[child.text.decode()] = child.text.decode()
             elif child.type == "aliased_import":
-                module = self.first_match(child, "dotted_name")
-                alias = self.first_match(child, "identifier")
+                module = self.child_by_type(child, "dotted_name")
+                alias = self.child_by_type(child, "identifier")
                 imports[alias.text.decode()] = module.text.decode()
         return imports
 
@@ -216,8 +218,8 @@ class Python(Parser):
                 plain_import = Import(child.text.decode(), None)
                 imports.append(plain_import)
             elif child.type == "aliased_import":
-                module = self.first_match(child, "dotted_name").text
-                alias = self.first_match(child, "identifier").text
+                module = self.child_by_type(child, "dotted_name").text
+                alias = self.child_by_type(child, "identifier").text
                 alias_import = Import(module.decode(), alias.decode())
                 imports.append(alias_import)
         return imports
