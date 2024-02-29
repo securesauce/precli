@@ -50,41 +50,35 @@ class Python(Parser):
     def visit_function_definition(self, nodes: list[Node]):
         func_id = self.child_by_type(self.context["node"], "identifier")
         func = func_id.text.decode()
-
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
-
-        func_parameters = self.child_by_type(
-            self.context["node"], "parameters"
-        )
-        func_args = func_parameters.named_children
-
-        for func_arg in func_args:
-            # typed_parameter or identifier
-            if func_arg.type == "typed_parameter":
-                param_id = self.child_by_type(func_arg, "identifier")
-                param_type = self.child_by_type(func_arg, "type")
-
-                if param_type.named_children[0].type in (
-                    "attribute",
-                    "identifier",
-                    "string",
-                    "integer",
-                    "float",
-                    "true",
-                    "false",
-                    "none",
-                ):
-                    param_name = param_id.text.decode()
-                    param_type = self.literal_value(
-                        param_type.named_children[0],
-                        default=param_type.named_children[0],
-                    )
-                    self.current_symtab.put(
-                        param_name, "identifier", param_type
-                    )
-
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
+
+    def visit_typed_default_parameter(self, nodes: list[Node]):
+        self.visit_typed_parameter(nodes)
+
+    def visit_typed_parameter(self, nodes: list[Node]):
+        param_id = self.child_by_type(self.context["node"], "identifier")
+        param_type = self.child_by_type(self.context["node"], "type")
+
+        if param_id is not None and param_type.named_children[0].type in (
+            "attribute",
+            "identifier",
+            "string",
+            "integer",
+            "float",
+            "true",
+            "false",
+            "none",
+        ):
+            param_name = param_id.text.decode()
+            param_type = self.literal_value(
+                param_type.named_children[0],
+                default=param_type.named_children[0],
+            )
+            self.current_symtab.put(param_name, "identifier", param_type)
+
+        self.visit(nodes)
 
     def visit_named_expression(self, nodes: list[Node]):
         if len(nodes) > 1 and nodes[1].text.decode() == ":=":

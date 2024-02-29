@@ -49,6 +49,8 @@ class SslSocketWeakKeyTests(test_case.TestCase):
             "ssl_context_set_ecdh_curve_secp256r1.py",
             "ssl_context_set_ecdh_curve_sect163k1.py",
             "ssl_context_set_ecdh_curve_sect571k1.py",
+            "ssl_context_set_ecdh_curve_typed_default_param.py",
+            "ssl_context_set_ecdh_curve_typed_param.py",
             "ssl_context_set_ecdh_curve_unverified_context.py",
         ]
     )
