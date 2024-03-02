@@ -151,6 +151,10 @@ class Python(Parser):
 
         self.visit(nodes)
 
+    def visit_assert(self, nodes: list[Node]):
+        self.process_rules("assert")
+        self.visit(nodes)
+
     def visit_with_item(self, nodes: list[Node]):
         as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
 
