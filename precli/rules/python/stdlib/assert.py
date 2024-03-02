@@ -48,7 +48,7 @@ Remediation
 
     .. code-block:: python
        :linenos:
-       :emphasize-lines: 4
+       :emphasize-lines: 2,3
 
         def foobar(a: str = None):
             if a is not None:
