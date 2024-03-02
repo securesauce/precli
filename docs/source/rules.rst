@@ -27,7 +27,7 @@ Rules
      - Description
    * - PY001
      - :doc:`rules/python/stdlib/assert`
-     -
+     - Improper Check Using ``assert`` Function
    * - PY002
      - :doc:`rules/python/stdlib/crypt_weak_hash`
      - Reversible One Way Hash in ``crypt`` Module
