@@ -63,9 +63,6 @@ class Json(Renderer):
         for rule in run.tool.rules:
             reporting_descriptor = sarif_om.ReportingDescriptor(
                 id=rule.id,
-                full_description=sarif_om.MultiformatMessageString(
-                    text=rule.full_descr
-                ),
                 help_uri=rule.help_url,
                 message_strings={
                     "errorMessage": sarif_om.MultiformatMessageString(
