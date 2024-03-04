@@ -139,7 +139,7 @@ class WeakCipher(Rule):
             name="use_of_a_broken_or_risky_cryptographic_algorithm",
             full_descr=__doc__,
             cwe_id=327,
-            message="Weak ciphers like {} should be avoided due to their "
+            message="Weak ciphers like '{0}' should be avoided due to their "
             "known vulnerabilities and weaknesses.",
             targets=("call"),
             wildcards={},

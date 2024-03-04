@@ -1,0 +1,405 @@
+{
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "precli",
+          "organization": "Secure Sauce",
+          "rules": [
+            {
+              "id": "GO001",
+              "name": "WeakCipher",
+              "fullDescription": {
+                "text": "\n======================================================================\nUse of a Broken or Risky Cryptographic Algorithm in ``crypto`` Package\n======================================================================\n\nUsing weak ciphers for cryptographic algorithms can pose significant security\nrisks, and it's generally advised to avoid them in favor of stronger, more\nsecure algorithms. Here's some guidance that advises against using weak\nciphers like DES and RC4:\n\n1. **NIST Recommendations**: The National Institute of Standards and\nTechnology (NIST) is a widely recognized authority on cryptographic standards.\nNIST advises against using weak ciphers in their Special Publication\n800-175B: \"Guide to Secure Web Services.\" They recommend the use of stronger\nciphers like AES (Advanced Encryption Standard) and SHA-256 for cryptographic\npurposes.\n\n2. **IETF Standards**: The Internet Engineering Task Force (IETF) publishes\nstandards and guidelines for secure network communication. IETF has deprecated\nor discouraged the use of weak ciphers in various RFCs (Request for\nComments). For example, RFC 7465 advises against using SSLv3 and RC4 due to\ntheir vulnerabilities.\n\n3. **OWASP Guidelines**: The Open Web Application Security Project (OWASP)\nprovides guidelines for secure web applications. Their guidance explicitly\nrecommends avoiding weak ciphers, including DES and RC4 due to known security\nweaknesses.\n\n4. **PCI DSS Compliance**: The Payment Card Industry Data Security Standard\n(PCI DSS) mandates the use of strong cryptographic algorithms. Using weak\nciphers is discouraged and can lead to non-compliance with PCI DSS\nrequirements.\n\n5. **Industry Best Practices**: Various cybersecurity experts and\norganizations, such as SANS Institute, CERT/CC (Computer Emergency Response\nTeam Coordination Center), and security vendors, provide guidance on best\npractices for cryptographic algorithms. These resources typically recommend\navoiding the use of weak ciphers.\n\n6. **Security Research**: Academic papers and security research often\nhighlight the vulnerabilities of weak ciphers like DES and RC4. These\nfindings reinforce the importance of avoiding these ciphers in\nsecurity-critical applications.\n\n7. **Compliance Standards**: Depending on your industry and location,\nthere may be specific regulatory requirements that prohibit the use of\nweak ciphers. Ensure compliance with applicable regulations by using strong,\napproved cryptographic algorithms.\n\n8. **TLS/SSL Configuration**: If you are configuring web servers or other\nnetwork services that use TLS/SSL for encryption, it's essential to configure\nyour server to support only strong ciphersuites and protocols. Weak ciphers,\nsuch as RC4, have known vulnerabilities and should be disabled.\n\nIn summary, there is a consensus among reputable standards organizations,\nindustry experts, and security professionals that weak ciphers like DES and\nRC4 should be avoided due to their known vulnerabilities and weaknesses.\nInstead, it is advisable to use stronger, more secure cryptographic algorithms\nand adhere to industry best practices and regulatory requirements for\nencryption and security.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 14\n\n        package main\n\n        import (\n            \"crypto/des\"\n        )\n\n        func main() {\n            ede2Key := []byte(\"example key 1234\")\n\n            var tripleDESKey []byte\n            tripleDESKey = append(tripleDESKey, ede2Key[:16]...)\n            tripleDESKey = append(tripleDESKey, ede2Key[:8]...)\n\n            _, err := des.NewTripleDESCipher(tripleDESKey)\n            if err != nil {\n                panic(err)\n            }\n        }\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    It is advisable to use stronger, more secure cryptographic algorithms such as\n    AES.\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 4,10\n\n        package main\n\n        import (\n            \"crypto/aes\"\n        )\n\n        func main() {\n            aesKey := []byte(\"example key 1234\")\n\n            _, err := aes.NewCipher(aesKey)\n            if err != nil {\n                panic(err)\n            }\n        }\n\n.. seealso::\n\n - `des package - crypto_des - Go Packages <https://pkg.go.dev/crypto/des>`_\n - `rc4 package - crypto_rc4 - Go Packages <https://pkg.go.dev/crypto/rc4>`_\n - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_\n\n.. versionadded:: 0.2.1\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/GO001",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+                }
+              }
+            },
+            {
+              "id": "GO002",
+              "name": "WeakHash",
+              "fullDescription": {
+                "text": "\n=============================================\nReversible One Way Hash in ``crypto`` Package\n=============================================\n\nThe Go ``crypto`` package provides a number of functions for hashing data.\nHowever, some of the hash algorithms supported by hashlib are insecure and\nshould not be used. These insecure hash algorithms include ``MD5`` and\n``SHA-1``.\n\nThe MD5 hash algorithm is a cryptographic hash function that was designed in\nthe early 1990s. MD5 is no longer considered secure, and passwords hashed\nwith MD5 can be easily cracked by attackers.\n\nThe SHA-1 hash algorithm is also a cryptographic hash function that was\ndesigned in the early 1990s. SHA-1 is no longer considered secure, and\npasswords hashed with SHA-1 can be easily cracked by attackers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 4,9\n\n        package main\n\n        import (\n            \"crypto/md5\"\n            \"fmt\"\n        )\n\n        func main() {\n            h := md5.New()\n            h.Write([]byte(\"hello world\\n\"))\n            fmt.Printf(\"%x\", h.Sum(nil))\n        }\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The recommendation is to swap the insecure hashing method to one of the more\n    secure alternatives, ``sha256`` or ``sha512``.\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 4,9\n\n        package main\n\n        import (\n            \"crypto/sha256\"\n            \"fmt\"\n        )\n\n        func main() {\n            h := sha256.New()\n            h.Write([]byte(\"hello world\\n\"))\n            fmt.Printf(\"%x\", h.Sum(nil))\n        }\n\n.. seealso::\n\n - `md5 package - crypto_md5 - Go Packages <https://pkg.go.dev/crypto/md5>`_\n - `sha1 package - crypto_sha1 - Go Packages <https://pkg.go.dev/crypto/sha1>`_\n - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_\n - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_\n\n.. versionadded:: 0.2.1\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/GO002",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Use of weak hash function '{0}' does not meet security expectations."
+                }
+              }
+            },
+            {
+              "id": "GO003",
+              "name": "WeakKey",
+              "fullDescription": {
+                "text": "\n====================================================================\nInadequate Encryption Strength Using Weak Keys in ``crypto`` Package\n====================================================================\n\nUsing weak key sizes for cryptographic algorithms like RSA and DSA can\ncompromise the security of your encryption and digital signatures. Here's a\nbrief overview of the risks associated with weak key sizes for these\nalgorithms:\n\nRSA (Rivest-Shamir-Adleman):\nRSA is widely used for both encryption and digital signatures. Weak key sizes\nin RSA can be vulnerable to factorization attacks, such as the famous RSA-129\nchallenge, which was factored in 1994 after 17 years of effort. Using small\nkey sizes makes it easier for attackers to factor the modulus and recover\nthe private key.\n\nIt's generally recommended to use RSA key sizes of 2048 bits or more for\nsecurity in the present day, with 3072 bits or higher being increasingly\npreferred for long-term security.\n\nDSA (Digital Signature Algorithm):\nDSA is used for digital signatures and relies on the discrete logarithm\nproblem. Using weak key sizes in DSA can make it susceptible to attacks that\ninvolve solving the discrete logarithm problem, like the GNFS (General\nNumber Field Sieve) algorithm.\n\nFor DSA, key sizes of 2048 bits or more are recommended for modern security.\nNote that DSA is not as commonly used as RSA or ECC for new applications, and\nECDSA (Elliptic Curve Digital Signature Algorithm) is often preferred due to\nits efficiency and strong security properties.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 10\n\n        package main\n\n        import (\n            \"crypto/rand\"\n            \"crypto/rsa\"\n            \"log\"\n        )\n\n        func main() {\n            privateKey, err := rsa.GenerateKey(rand.Reader, 1024)\n            if err != nil {\n                log.Fatalf(\"Failed to generate key: %v\", err)\n            }\n        }\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    Its recommended to increase the key size to at least 2048 for DSA and RSA\n    algorithms.\n\n    .. code-block:: go\n       :linenos:\n       :emphasize-lines: 10\n\n        package main\n\n        import (\n            \"crypto/rand\"\n            \"crypto/rsa\"\n            \"log\"\n        )\n\n        func main() {\n            privateKey, err := rsa.GenerateKey(rand.Reader, 2048)\n            if err != nil {\n                log.Fatalf(\"Failed to generate key: %v\", err)\n            }\n        }\n\n.. seealso::\n\n - `dsa package - crypto_dsa - Go Packages <https://pkg.go.dev/crypto/dsa#ParameterSizes>`_\n - `rsa package - crypto_rsa - Go Packages <https://pkg.go.dev/crypto/rsa#GenerateKey>`_\n - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_\n\n.. versionadded:: 0.2.1\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/GO003",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+                }
+              }
+            },
+            {
+              "id": "PY001",
+              "name": "Assert",
+              "fullDescription": {
+                "text": "\n========================================\nImproper Check Using ``assert`` Function\n========================================\n\nAssertions are typically used during the development phase to catch logic\nerrors and conditions that should never occur. However, relying on assertions\nfor security checks or other critical runtime validations is not recommended\nbecause:\n\n- Assertions can be disabled in Python with the -O (optimize) and -OO flags,\n  which remove assert statements and sometimes docstrings. If critical checks\n  are implemented using assertions, this could lead to security vulnerabilities\n  being exposed in production environments where optimizations are enabled.\n\n- Assertions throw exceptions if the condition fails, which, if not properly\n  handled, can lead to crashes or other unintended behavior in the application.\n\nUsing assertions for non-critical checks during development is common, but for\nproduction code, especially for input validation, error handling, or other\nsecurity-sensitive operations, it's important to use proper error handling\nmechanisms and validations that do not get removed during optimization.\n\n--------\nExamples\n--------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 2\n\n        def foobar(a: str = None):\n            assert a is not None\n            return f\"Hello {a}\"\n\n        foobar(\"World\")\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    Use proper error handling mechanism appropriate for production code.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 2,3\n\n        def foobar(a: str = None):\n            if a is not None:\n                return f\"Hello {a}\"\n\n        foobar(\"World\")\n\n.. seealso::\n\n - `Simple statements — Python documentation <https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement>`_\n - `CWE-617: Reachable Assertion <https://cwe.mitre.org/data/definitions/617.html>`_\n - `CWE-703: Improper Check or Handling of Exceptional Conditions <https://cwe.mitre.org/data/definitions/703.html>`_\n\n.. versionadded:: 0.3.8\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY001",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Assert statements are disabled when optimizations are enabled."
+                }
+              }
+            },
+            {
+              "id": "PY002",
+              "name": "CryptWeakHash",
+              "fullDescription": {
+                "text": "\n===========================================\nReversible One Way Hash in ``crypt`` Module\n===========================================\n\nThe Python module ``crypt`` provides a number of functions for password\nhashing. However, some of the hashing functions supported by ``crypt`` are weak\nand should not be used. These weak hashing functions include ``CRYPT`` and\n``MD5``.\n\nThe ``CRYPT`` hashing function is a weak hashing function because it is based\non a simple DES algorithm. This algorithm is relatively easy to crack, and\npasswords hashed with crypt can be easily recovered by attackers.\n\nThe ``MD5`` hashing function is also a weak hashing function. MD5 is a\ncryptographic hash function that was designed in the early 1990s. MD5 is\nno longer considered secure, and passwords hashed with MD5 can be easily\ncracked by attackers.\n\nIf using the crypt module, it is recommended to use more secure methods such\nas ``SHA256`` and ``SHA512``.\n\n--------\nExamples\n--------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import crypt\n\n\n        crypt.crypt(\"password\", salt=crypt.METHOD_MD5)\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import crypt\n\n\n        crypt.mksalt(crypt.METHOD_CRYPT)\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The recommendation is to swap the insecure hashing method to one of the more\n    secure alternatives, ``SHA256`` or ``SHA512``.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import crypt\n\n\n        crypt.crypt(\"password\", salt=crypt.METHOD_SHA256)\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import crypt\n\n\n        crypt.mksalt(crypt.METHOD_SHA512)\n\n---------------------\nAlternatives to Crypt\n---------------------\n\nThere are a number of alternatives to weak hashing functions. These\nalternatives include ``bcrypt``, ``pbkdf2``, and ``scrypt``.\n\n - ``bcrypt`` is a secure password hashing function that is based on the\n   Blowfish block cipher. Bcrypt is considered to be one of the most secure\n   password hashing functions available.\n\n - ``PBKDF2`` is a secure password hashing function that is based on the HMAC\n   cryptographic function. PBKDF2 is considered to be one of the most secure\n   password hashing functions available.\n\n - ``scrypt`` is a secure password hashing function that is based on the bcrypt\n   algorithm. Scrypt is designed to be more secure than bcrypt, and it is also\n   more resistant to GPU-based attacks.\n\n.. seealso::\n\n - `crypt — Function to check Unix passwords <https://docs.python.org/3/library/crypt.html>`_\n - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_\n - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY002",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Use of weak hash function '{0}' does not meet security expectations."
+                }
+              }
+            },
+            {
+              "id": "PY003",
+              "name": "FtpCleartext",
+              "fullDescription": {
+                "text": "\n========================================================================\nCleartext Transmission of Sensitive Information in the ``ftplib`` Module\n========================================================================\n\nThe Python module ``ftplib`` provides a number of functions for accessing FTP\nservers. However, the module does not provide any security features. This\nmeans that data transmitted over the network, including passwords, is sent\nin cleartext. This makes it possible for attackers to intercept and read\nthis data.\n\nThe Python module ftplib should not be used for accessing FTP servers that\ncontain sensitive data. There are a number of alternatives to ftplib that\nprovide security features. These alternatives should be used instead of\nftplib for accessing sensitive data.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import ftplib\n\n\n        ftp = ftplib.FTP(\"ftp.us.debian.org\")\n        ftp.login(\"user\", \"password\")\n\n        ftp.cwd(\"debian\")\n        ftp.retrlines(\"LIST\")\n\n        ftp.quit()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If the FTP protocol must be used and sensitive data will be transferred, it\n    is recommended to secure the connection using ``FTP_TLS`` class. It's also\n    important to call ``prot_p()`` to secure the data connection.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4,6\n\n        import ftplib\n\n\n        ftp = ftplib.FTP_TLS(\"ftp.us.debian.org\")\n        ftp.login(\"user\", \"password\")\n        ftp.prot_p()\n\n        ftp.cwd(\"debian\")\n        ftp.retrlines(\"LIST\")\n\n        ftp.quit()\n\n----------------------\nAlternatives to ftplib\n----------------------\n\nThere are a number of alternatives to ftplib that provide security features.\nThese alternatives include:\n\n - ``Paramiko``: Paramiko is a Python module that provides secure access to\n   SSH and SFTP servers. Paramiko uses encryption to protect data\n   transmitted over the network.\n\n - ``Twisted``: Twisted is a Python framework that provides a number of\n   network protocols, including SSH. Twisted can be used to create secure\n   SFTP clients and servers.\n\n.. seealso::\n\n - `ftplib — FTP protocol client <https://docs.python.org/3/library/ftplib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n - https://www.paramiko.org/\n - https://twisted.org/\n\n.. versionadded::  0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY003",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The FTP protocol can transmit data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY004",
+              "name": "HashlibWeakHash",
+              "fullDescription": {
+                "text": "\n=============================================\nReversible One Way Hash in ``hashlib`` Module\n=============================================\n\nThe Python module ``hashlib`` provides a number of functions for hashing data.\nHowever, some of the hash algorithms supported by hashlib are insecure and\nshould not be used. These insecure hash algorithms include ``MD4``, ``MD5``,\n``RIPEMD-160`` and ``SHA-1``.\n\nThe MD4 hash algorithm is a cryptographic hash function that was designed\nin the late 1980s. MD4 is no longer considered secure, and passwords hashed\nwith MD4 can be easily cracked by attackers.\n\nThe MD5 hash algorithm is a cryptographic hash function that was designed in\nthe early 1990s. MD5 is no longer considered secure, and passwords hashed\nwith MD5 can be easily cracked by attackers.\n\nRIPEMD-160 is a cryptographic hash function that was designed in 1996. It is\nconsidered to be a secure hash function, but it is not as secure as SHA-256,\nSHA-384, or SHA-512. In 2017, a collision attack was found for RIPEMD-160.\nThis means that it is possible to find two different messages that have the\nsame RIPEMD-160 hash. While this does not mean that RIPEMD-160 is completely\ninsecure, it does mean that it is not as secure as it once was.\n\nThe SHA-1 hash algorithm is also a cryptographic hash function that was\ndesigned in the early 1990s. SHA-1 is no longer considered secure, and\npasswords hashed with SHA-1 can be easily cracked by attackers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import hashlib\n\n\n        hash = hashlib.md5(b\"Nobody inspects the spammish repetition\")\n        hash.hexdigest()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The recommendation is to swap the insecure hashing method to one of the more\n    secure alternatives, ``SHA256`` or ``SHA512``.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import hashlib\n\n\n        hash = hashlib.sha256(b\"Nobody inspects the spammish repetition\")\n        hash.hexdigest()\n\n.. admonition:: Fix\n\n    If an insecure hash such as MD5 must be used and not in within a security\n    context, then set the keyword-only argument ``usedforsecurity`` in the hashes\n    constructor.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import hashlib\n\n\n        hash = hashlib.md5(b\"Non-security related text\", usedforsecurity=False)\n        hash.hexdigest()\n\n.. seealso::\n\n - `hashlib — Secure hashes and message digests <https://docs.python.org/3/library/hashlib.html>`_\n - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_\n - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY004",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Use of weak hash function '{0}' does not meet security expectations."
+                }
+              }
+            },
+            {
+              "id": "PY005",
+              "name": "HmacTimingAttack",
+              "fullDescription": {
+                "text": "\n================================================\nObservable Timing Discrepancy in ``hmac`` Module\n================================================\n\nDo not use Python's == operator to compare HMAC digests. The == operator is\nnot designed to be used for cryptographic comparisons, and it can be\nvulnerable to timing attacks. Instead, use the hmac.compare_digest() function\nto compare HMAC digests.\n\nThe == operator works by comparing the length and contents of two objects.\nHowever, this can be a problem for HMAC digests, because the length of an\nHMAC digest is not necessarily unique. For example, two different messages\nwith the same key will have the same HMAC digest.\n\nA timing attack is a type of attack that exploits the time it takes to\nexecute a piece of code. In the case of HMAC digests, a timing attack could\nbe used to determine whether two messages have the same HMAC digest. This\ncould be used to break the security of an HMAC-protected system.\n\nThe hmac.compare_digest() function is designed to be used for cryptographic\ncomparisons. It works by comparing the binary representations of two HMAC\ndigests. This makes it more resistant to timing attacks.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 13\n\n        import hmac\n\n\n        received_digest = (\n            b\"\\xe2\\x93\\x08\\x19T8\\xdc\\x80\\xef\\x87\\x90m\\x1f\\x9d\\xf7\\xf2\"\n            \"\\xf5\\x10>\\xdbf\\xa2\\xaf\\xf7x\\xcdX\\xdf\"\n        )\n\n        key = b\"my-secret-key\"\n        password = b\"pass\"\n        digest = hmac.digest(key, password, digest=\"sha224\")\n\n        return digest == received_digest\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The recommendation is to replace the == operator with the function\n    ``compare_digest``.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 13\n\n        import hmac\n\n\n        received_digest = (\n            b\"\\xe2\\x93\\x08\\x19T8\\xdc\\x80\\xef\\x87\\x90m\\x1f\\x9d\\xf7\\xf2\"\n            \"\\xf5\\x10>\\xdbf\\xa2\\xaf\\xf7x\\xcdX\\xdf\"\n        )\n\n        key = b\"my-secret-key\"\n        password = b\"pass\"\n        digest = hmac.digest(key, password, digest=\"sha224\")\n\n        return hmac.compare_digest(digest, received_digest)\n\n.. seealso::\n\n - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_\n - `CWE-208: Observable Timing Discrepancy <https://cwe.mitre.org/data/definitions/208.html>`_\n\n.. versionadded:: 0.1.4\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY005",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+                }
+              }
+            },
+            {
+              "id": "PY006",
+              "name": "HmacWeakHash",
+              "fullDescription": {
+                "text": "\n==========================================\nReversible One Way Hash in ``hmac`` Module\n==========================================\n\nThe Python module ``hmac`` provides a number of functions for creating and\nverifying message authentication codes (MACs). However, some of the hash\nalgorithms supported by hmac are insecure and should not be used. These\ninsecure hash algorithms include `MD4``, ``MD5``, ``RIPEMD-160`` and ``SHA-1``.\n\nThe MD4 hash algorithm is a cryptographic hash function that was designed\nin the late 1980s. MD4 is no longer considered secure, and MACs created with\nMD4 can be easily cracked by attackers.\n\nThe MD5 hash algorithm is a cryptographic hash function that was designed in\nthe early 1990s. MD5 is no longer considered secure, and MACs created with MD5\ncan be easily cracked by attackers.\n\nRIPEMD-160 is a cryptographic hash function that was designed in 1996. It is\nconsidered to be a secure hash function, but it is not as secure as SHA-256,\nSHA-384, or SHA-512. In 2017, a collision attack was found for RIPEMD-160.\nThis means that it is possible to find two different messages that have the\nsame RIPEMD-160 hash. While this does not mean that RIPEMD-160 is completely\ninsecure, it does mean that it is not as secure as it once was.\n\nThe SHA-1 hash algorithm is also a cryptographic hash function that was\ndesigned in the early 1990s. SHA-1 is no longer considered secure, and MACs\ncreated with SHA-1 can be easily cracked by attackers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import hmac\n\n\n        secret_key = \"This is my secret key.\"\n        hmac_obj = hmac.new(key, digestmod=\"md5\")\n        message = \"This is my message.\".encode()\n        hmac_obj.update(message)\n        mac = hmac_obj.digest()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The recommendation is to swap the insecure hashing method to one of the more\n    secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import hmac\n\n\n        secret_key = \"This is my secret key.\"\n        hmac_obj = hmac.new(key, digestmod=\"sha256\")\n        message = \"This is my message.\".encode()\n        hmac_obj.update(message)\n        mac = hmac_obj.digest()\n\n.. seealso::\n\n - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_\n - `CWE-328: Use of Weak Hash <https://cwe.mitre.org/data/definitions/328.html>`_\n - `NIST Policy on Hash Functions <https://csrc.nist.gov/projects/hash-functions>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY006",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Use of weak hash function '{0}' does not meet security expectations."
+                }
+              }
+            },
+            {
+              "id": "PY007",
+              "name": "HttpUrlSecret",
+              "fullDescription": {
+                "text": "\n=======================================================\nUse of HTTP Request Method With Sensitive Query Strings\n=======================================================\n\nThe inclusion of sensitive information, such as a username, password, or API\nkey, directly within a URL is considered a security risk because URLs can be\nlogged in various places, such as web server logs, browser history, and network\nmonitoring tools, making the sensitive information vulnerable to unauthorized\naccess.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 6\n\n        import http.client\n\n\n        host = \"example.com\"\n        conn = http.client.HTTPSConnection(host)\n        conn.request(\"GET\", \"/path?apiKey=value&otherParam=123\", headers={})\n        response = conn.getresponse()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    To avoid this vulnerability, put sensitive information in the request as\n    headers, rather than a parameter of the URL.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5-7, 9\n\n        import http.client\n\n\n        host = \"example.com\"\n        headers = {\n            \"X-FullContact-APIKey\": \"value\"\n        }\n        conn = http.client.HTTPSConnection(host)\n        conn.request(\"GET\", \"/path?otherParam=123\", headers=headers)\n        response = conn.getresponse()\n\n.. seealso::\n\n - `http.client — HTTP protocol client <https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection.request>`_\n - `CWE-598: Use of GET Request Method With Sensitive Query Strings <https://cwe.mitre.org/data/definitions/598.html>`_\n - `Never Put Secrets in URLs and Query Parameters <https://www.fullcontact.com/blog/2016/04/29/never-put-secrets-urls-query-parameters/>`_\n\n.. versionadded:: 0.3.4\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY007",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Secrets in URLs are vulnerable to unauthorized access."
+                }
+              }
+            },
+            {
+              "id": "PY008",
+              "name": "ImapCleartext",
+              "fullDescription": {
+                "text": "\n=========================================================================\nCleartext Transmission of Sensitive Information in the ``imaplib`` Module\n=========================================================================\n\nThe Python module ``imaplib`` provides a number of functions for accessing\nIMAP servers. However, the default behavior of the module does not provide\nutilize secure connections. This means that data transmitted over the network,\nincluding passwords, is sent in cleartext. This makes it possible for attackers\nto intercept and read this data.\n\nThe Python module imaplib should only in a secure mannner to protect sensitive\ndata when accessing IMAP servers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import getpass\n        import imaplib\n\n\n        M = imaplib.IMAP4()\n        M.login(getpass.getuser(), getpass.getpass())\n        M.select()\n        typ, data = M.search(None, 'ALL')\n        for num in data[0].split():\n            typ, data = M.fetch(num, '(RFC822)')\n            print('Message %s\\n%s\\n' % (num, data[0][1]))\n        M.close()\n        M.logout()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If the IMAP protocol must be used and sensitive data will be transferred, it\n    is recommended to secure the connection using ``IMAP4_SSL`` class.\n    Alternatively, the ``starttls`` function can be used to enter a secure session.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import getpass\n        import imaplib\n\n\n        M = imaplib.IMAP4_SSL()\n        M.login(getpass.getuser(), getpass.getpass())\n        M.select()\n        typ, data = M.search(None, 'ALL')\n        for num in data[0].split():\n            typ, data = M.fetch(num, '(RFC822)')\n            print('Message %s\\n%s\\n' % (num, data[0][1]))\n        M.close()\n        M.logout()\n\n.. seealso::\n\n - `imaplib — IMAP4 protocol client <https://docs.python.org/3/library/imaplib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n\n.. versionadded:: 0.1.9\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY008",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The IMAP protocol can transmit data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY009",
+              "name": "JsonLoad",
+              "fullDescription": {
+                "text": "\n========================================================\nDeserialization of Untrusted Data in the ``json`` Module\n========================================================\n\nThe Python ``json`` module provides a way to parse and generate JSON data.\nHowever, it is important to be aware that malicious JSON strings can be used\nto attack applications that use the json module. For example, a malicious\nJSON string could be used to cause the decoder to consume considerable CPU\nand memory resources, which could lead to a denial-of-service attack.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import json\n\n\n        json.loads('[\"foo\", {\"bar\":[\"baz\", null, 1.0, 2]}]')\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    To avoid this vulnerability, it is important to only parse JSON data from\n    trusted sources. If you are parsing JSON data from an untrusted source, you\n    should first sanitize the data to remove any potential malicious code.\n\n.. seealso::\n\n - `json — JSON encoder and decoder <https://docs.python.org/3/library/json.html>`_\n - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY009",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+                }
+              }
+            },
+            {
+              "id": "PY010",
+              "name": "InsecureListenConfig",
+              "fullDescription": {
+                "text": "\n================================\nCode Injection in Logging Config\n================================\n\nThe ``logging.config.listen()`` function allows you to dynamically change the\nlogging configuration of your application. However, if you set the verify\nargument to False, you are opening yourself up to a security vulnerability.\nThis is because anyone who can connect to the listening socket can send\narbitrary configuration data to your application, which could potentially\nallow them to execute arbitrary code.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import logging.config\n\n\n        thread = logging.config.listen(port=1111, verify=None)\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    The verify argument should be set to a callable function that should verify\n    whether bytes received on the socket are valid to be processed. One way to\n    verify the data is to use encryption and/or signing.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 8\n\n        import logging.config\n\n\n        def validate(recv: bytes):\n            return recv\n\n\n        thread = logging.config.listen(verify=validate)\n\n.. seealso::\n\n - `logging.config — Logging configuration <https://docs.python.org/3/library/logging.config.html#module-logging.config>`_\n - `CWE-94: Improper Control of Generation of Code ('Code Injection') <https://cwe.mitre.org/data/definitions/94.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY010",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Using '{0}' with unset 'verify' vulnerable to code injection."
+                }
+              }
+            },
+            {
+              "id": "PY011",
+              "name": "MarshalLoad",
+              "fullDescription": {
+                "text": "\n===========================================================\nDeserialization of Untrusted Data in the ``marshal`` Module\n===========================================================\n\nThe Python ``marshal`` module provides a way to serialize and deserialize\nPython objects. However, it is important to be aware that malicious data\ncan be used to attack applications that use the marshal module. For example,\na malicious data could be used to cause the decoder to execute arbitrary code.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 10\n\n        import marshal\n\n\n        data = {'name': 'John Doe', 'age': 30}\n\n        with open('data.dat', 'wb') as f:\n            marshal.dump(data, f)\n\n        with open('data.dat', 'rb') as f:\n            loaded_data = marshal.load(f)\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    To avoid this vulnerability, it is important to only deserialize data from\n    trusted sources. If you are deserializing data from an untrusted source,\n    you should first sanitize the data to remove any potential malicious code.\n\n.. seealso::\n\n - `marshal — Internal Python object serialization <https://docs.python.org/3/library/marshal.html>`_\n - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY011",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+                }
+              }
+            },
+            {
+              "id": "PY012",
+              "name": "NntpCleartext",
+              "fullDescription": {
+                "text": "\n=========================================================================\nCleartext Transmission of Sensitive Information in the ``nntplib`` Module\n=========================================================================\n\nThe Python module ``nntplib`` provides a number of functions for accessing\nNNTP servers. However, the default behavior of the module does not provide\nutilize secure connections. This means that data transmitted over the network,\nincluding passwords, is sent in cleartext. This makes it possible for attackers\nto intercept and read this data.\n\nThe Python module nntplib should only in a secure mannner to protect sensitive\ndata when accessing NNTP servers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        from nntplib import NNTP\n\n\n        with NNTP('news.gmane.io') as n:\n            n.group('gmane.comp.python.committers')\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If the NNTP protocol must be used and sensitive data will be transferred, it\n    is recommended to secure the connection using ``NNTP_SSL`` class.\n    Alternatively, the ``starttls`` function can be used to enter a secure session.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        from nntplib import NNTP\n\n\n        with NNTP_SSL('news.gmane.io') as n:\n            n.group('gmane.comp.python.committers')\n\n.. seealso::\n\n - `nntplib — NNTP protocol client <https://docs.python.org/3/library/nntplib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n\n.. versionadded:: 0.1.9\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY012",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The NNTP protocol can transmit data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY013",
+              "name": "PickleLoad",
+              "fullDescription": {
+                "text": "\n======================================================\nDeserialization of Untrusted Data in ``pickle`` Module\n======================================================\n\nThe Python ``pickle`` module is a serialization module that can be used to\nserialize and deserialize Python objects. However, pickle is not a secure\nserialization format and should not be used to serialize sensitive data.\n\nPickle is not secure because it can be used to deserialize malicious code. For\nexample, an attacker could create a pickle file that contains malicious code\nand then trick a user into opening the file. When the user opens the file,\nthe malicious code would be executed.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 9\n\n        import pickle\n\n\n        def load_pickle_file(file_path):\n            with open(file_path, 'rb') as file:\n                data = file.read()\n\n            # WARNING: Unpickle data without proper validation\n            obj = pickle.loads(data)\n            return obj\n\n        # Example usage (assuming 'malicious.pickle' contains malicious code)\n        pickle_file = 'malicious.pickle'\n        loaded_object = load_pickle_file(pickle_file)\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    Consider signing data with hmac if you need to ensure that pickle data has\n    not been tampered with.\n\n    Alternatively if you need to serialize sensitive data, you could use a\n    secure serialization format, such as JSON or XML. These formats are designed\n    to be secure and cannot be used to execute malicious code.\n\n.. seealso::\n\n - `pickle — Python object serialization <https://docs.python.org/3/library/pickle.html>`_\n - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_\n - `json — JSON encoder and decoder <https://docs.python.org/3/library/json.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY013",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+                }
+              }
+            },
+            {
+              "id": "PY014",
+              "name": "PopCleartext",
+              "fullDescription": {
+                "text": "\n========================================================================\nCleartext Transmission of Sensitive Information in the ``poplib`` Module\n========================================================================\n\nThe Python module ``poplib`` provides a number of functions for accessing\nPOP servers. However, the default behavior of the module does not provide\nutilize secure connections. This means that data transmitted over the network,\nincluding passwords, is sent in cleartext. This makes it possible for attackers\nto intercept and read this data.\n\nThe Python module poplib should only in a secure mannner to protect sensitive\ndata when accessing POP servers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import getpass\n        import poplib\n\n\n        M = poplib.POP3('localhost')\n        M.user(getpass.getuser())\n        M.pass_(getpass.getpass())\n        numMessages = len(M.list()[1])\n        for i in range(numMessages):\n            for j in M.retr(i+1)[1]:\n                print(j)\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If the POP protocol must be used and sensitive data will be transferred, it\n    is recommended to secure the connection using ``POP3_SSL`` class.\n    Alternatively, the ``stls`` function can be used to enter a secure session.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import getpass\n        import poplib\n\n\n        M = poplib.POP3_SSL('localhost')\n        M.user(getpass.getuser())\n        M.pass_(getpass.getpass())\n        numMessages = len(M.list()[1])\n        for i in range(numMessages):\n            for j in M.retr(i+1)[1]:\n                print(j)\n\n.. seealso::\n\n - `poplib — POP3 protocol client <https://docs.python.org/3/library/poplib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n\n.. versionadded:: 0.1.9\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY014",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The POP protocol can transmit data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY015",
+              "name": "ShelveOpen",
+              "fullDescription": {
+                "text": "\n==========================================================\nDeserialization of Untrusted Data in the ``shelve`` Module\n==========================================================\n\nThe Python ``shelve`` module provides a way to store Python objects in a file.\nIt is backed by the pickle module, which is a serialization format that can\nbe used to store arbitrary Python objects.\n\nHowever, it is important to be aware that the shelve module is not secure\nagainst malicious data. For example, a malicious shelf could be used to\ncause the decoder to execute arbitrary code.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import shelve\n\n\n        with shelve.open('spam') as db:\n            db['eggs'] = 'eggs'\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    To avoid this vulnerability, it is important to only use the shelve module\n    with data from trusted sources. If you are using the shelve module with\n    data from an untrusted source, you should first sanitize the data to remove\n    any potential malicious code.\n\n.. seealso::\n\n - `shelve — Python object persistence <https://docs.python.org/3/library/shelve.html>`_\n - `CWE-502: Deserialization of Untrusted Data <https://cwe.mitre.org/data/definitions/502.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY015",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+                }
+              }
+            },
+            {
+              "id": "PY016",
+              "name": "SmtpCleartext",
+              "fullDescription": {
+                "text": "\n=========================================================================\nCleartext Transmission of Sensitive Information in the ``smtplib`` Module\n=========================================================================\n\nThe Python module ``smtplib`` provides a number of functions for accessing\nSMTP servers. However, the default behavior of the module does not provide\nutilize secure connections. This means that data transmitted over the network,\nincluding passwords, is sent in cleartext. This makes it possible for attackers\nto intercept and read this data.\n\nThe Python module smtplib should only in a secure mannner to protect sensitive\ndata when accessing SMTP servers.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 24\n\n        import smtplib\n\n\n        def prompt(prompt):\n            return input(prompt).strip()\n\n        fromaddr = prompt(\"From: \")\n        toaddrs  = prompt(\"To: \").split()\n        print(\"Enter message, end with ^D (Unix) or ^Z (Windows):\")\n\n        # Add the From: and To: headers at the start!\n        msg = (\"From: %s\\r\\nTo: %s\\r\\n\\r\\n\" % (fromaddr, \", \".join(toaddrs)))\n        while True:\n            try:\n                line = input()\n            except EOFError:\n                break\n            if not line:\n                break\n            msg = msg + line\n\n        print(\"Message length is\", len(msg))\n\n        server = smtplib.SMTP('localhost')\n        server.set_debuglevel(1)\n        server.sendmail(fromaddr, toaddrs, msg)\n        server.quit()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If the SMTP protocol must be used and sensitive data will be transferred, it\n    is recommended to secure the connection using ``SMTP_SSL`` class.\n    Alternatively, the ``starttls`` function can be used to enter a secure session.\n\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 24\n\n        import smtplib\n\n\n        def prompt(prompt):\n            return input(prompt).strip()\n\n        fromaddr = prompt(\"From: \")\n        toaddrs  = prompt(\"To: \").split()\n        print(\"Enter message, end with ^D (Unix) or ^Z (Windows):\")\n\n        # Add the From: and To: headers at the start!\n        msg = (\"From: %s\\r\\nTo: %s\\r\\n\\r\\n\" % (fromaddr, \", \".join(toaddrs)))\n        while True:\n            try:\n                line = input()\n            except EOFError:\n                break\n            if not line:\n                break\n            msg = msg + line\n\n        print(\"Message length is\", len(msg))\n\n        server = smtplib.SMTP_SSL('localhost')\n        server.set_debuglevel(1)\n        server.sendmail(fromaddr, toaddrs, msg)\n        server.quit()\n\n.. seealso::\n\n - `smtplib — SMTP protocol client <https://docs.python.org/3/library/smtplib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n\n.. versionadded:: 0.1.9\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY016",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The POP protocol can transmit data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY017",
+              "name": "CreateUnverifiedContext",
+              "fullDescription": {
+                "text": "\n========================================================================\nImproper Certificate Validation Using ``ssl._create_unverified_context``\n========================================================================\n\nThe Python function ``ssl._create_unverified_context()`` creates a SSL context\nthat does not verify the server's certificate. This means that an attacker can\neasily impersonate a legitimate server and fool your application into\nconnecting to it.\n\nIf you use ``ssl._create_unverified_context``, you are opening your application\nup to a number of security risks, including:\n\n- Man-in-the-middle attacks\n- Session hijacking\n- Data theft\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import ssl\n\n\n        context = ssl._create_unverified_context()\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If you need to connect to a server over HTTPS, you should use the\n    ``ssl.create_default_context()`` function instead. This function will verify\n    the server's certificate, which will help to protect your application from\n    these security risks.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import ssl\n\n\n        context = ssl.create_default_context()\n\n.. seealso::\n\n - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_\n - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY017",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The '{0}' function does not properly validate certificates."
+                }
+              }
+            },
+            {
+              "id": "PY018",
+              "name": "InsecureTlsVersion",
+              "fullDescription": {
+                "text": "\n=======================================================\nInadequate Encryption Strength Using Weak SSL Protocols\n=======================================================\n\nThe Python ``ssl`` modules provide a number of different protocols that can be\nused to encrypt data. However, some of these protocols are no longer\nconsidered secure and should not be used.\n\nThe following protocols are considered weak and should not be used:\n\n- ``ssl.PROTOCOL_SSLv2``\n- ``ssl.PROTOCOL_SSLv3``\n- ``ssl.PROTOCOL_TLSv1``\n- ``ssl.PROTOCOL_TLSv1_1``\n\nThese protocols have a number of known security vulnerabilities that can be\nexploited by attackers. For example, the BEAST attack can be used to steal\nsensitive data, such as passwords and credit card numbers, from applications\nthat use SSL version 2.\n\nHere are some additional reasons why you should not use the weak Python ssl\nprotocols:\n\n- They are not secure. As mentioned above, the weak protocols have a number of\n  known security vulnerabilities that can be exploited by attackers.\n- They are not recommended by security experts. Security experts recommend\n  using the ``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol\n  instead.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import ssl\n\n\n        ssl.get_server_certificate(\n            (\"localhost\", 443), ssl_version=ssl.PROTOCOL_SSLv2\n        )\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If you need to connect to a server over HTTPS, you should use the\n    ``ssl.PROTOCOL_TLS_SERVER`` or ``ssl.PROTOCOL_TLS_CLIENT`` protocol instead.\n    These protocols are more secure than the weak protocols and will help to\n    protect your application from these security risks.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 5\n\n        import ssl\n\n\n        ssl.get_server_certificate(\n            (\"localhost\", 443), ssl_version=ssl.PROTOCOL_TLSv1_2\n        )\n\n.. seealso::\n\n - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_\n - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY018",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The '{0}' protocol has insufficient encryption strength."
+                }
+              }
+            },
+            {
+              "id": "PY019",
+              "name": "SslContextWeakKey",
+              "fullDescription": {
+                "text": "\n============================================================\nInadequate Encryption Strength Using Weak Keys in SSLContext\n============================================================\n\nUsing weak key sizes for cryptographic algorithms like Elliptic Curve can\ncompromise the security of your encryption and digital signatures. Here's\na brief overview of the risks associated with weak key sizes for this\nalgorithm:\n\nElliptic Curve cryptography provides strong security with relatively small\nkey sizes compared to RSA and DSA. However, even in the case of EC, using\nweak curve parameters or small key sizes can expose you to vulnerabilities.\nThe strength of an EC key depends on the curve's properties and the size of\nthe prime used.\n\nRecommended EC key sizes depend on the curve you select, but for modern\napplications, curves like NIST P-256 (secp256r1) with a 256-bit key size\nare considered secure. Larger curves, like NIST P-384 or P-521, can provide\neven higher security margins.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import ssl\n\n\n        context = ssl.SSLContext()\n        context.set_ecdh_curve(\"prime192v1\")\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    Its recommended to increase the key size to at least 224 EC algorithms.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import ssl\n\n\n        context = ssl.SSLContext()\n        context.set_ecdh_curve(\"prime256v1\")\n\n.. seealso::\n\n - `ssl — TLS_SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html#ssl.SSLContext.set_ecdh_curve>`_\n - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_\n - `Transport Layer Security (TLS) Parameters <https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8>`_\n\n.. versionadded:: 0.2.3\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY019",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+                }
+              }
+            },
+            {
+              "id": "PY020",
+              "name": "TelnetlibCleartext",
+              "fullDescription": {
+                "text": "\n===========================================================================\nCleartext Transmission of Sensitive Information in the ``telnetlib`` Module\n===========================================================================\n\nThe Python module ``telnetlib`` is a low-level module that provides access to\nthe telnet protocol. The telnet protocol is a cleartext protocol, which means\nthat all data transmitted over the connection is visible to anyone who can\nsniff the network traffic. This includes passwords, usernames, and other\nsensitive data.\n\nIf you need to access a remote system over a network, you should use a more\nsecure protocol, such as SSH. SSH is a secure shell protocol that encrypts\nall data transmitted over the connection. This makes it much more difficult\nfor attackers to eavesdrop on your communications.\n\nIf you must use telnetlib, you should take steps to mitigate the risks\nassociated with using a cleartext protocol. For example, you should only use\ntelnetlib to connect to systems that you trust. You should also use a strong\npassword and enable encryption if possible.\n\nHere are some additional reasons why you should not use telnetlib:\n\n- It is not secure. As mentioned above, telnetlib transmits data in\n  cleartext, which makes it vulnerable to eavesdropping.\n\n- It is not recommended by security experts. Security experts recommend\n  using more secure protocols, such as SSH.\n\n-------\nExample\n-------\n\n.. error::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 9\n\n        import getpass\n        import telnetlib\n\n\n        HOST = \"localhost\"\n        user = input(\"Username: \")\n        password = getpass.getpass()\n\n        tn = telnetlib.Telnet(HOST)\n        tn.read_until(b\"login: \")\n        tn.write(user.encode('ascii') + b\"\\n\")\n        if password:\n            tn.read_until(b\"Password: \")\n            tn.write(password.encode('ascii') + b\"\\n\")\n\n        tn.write(b\"ls\\n\")\n        tn.write(b\"exit\\n\")\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    If you need to access a remote system over a network, you should use a more\n    secure protocol, such as SSH. SSH is a secure shell protocol that encrypts\n    all data transmitted over the connection. This makes it much more difficult\n    for attackers to eavesdrop on your communications.\n\n    There are better alternatives. There are a number of other Python modules\n    that provide access to the telnet protocol, such as Paramiko. These modules\n    are more secure than telnetlib and should be used instead.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 9\n\n        import getpass\n        import paramiko\n\n\n        HOST = \"localhost\"\n        user = input(\"Username: \")\n        password = getpass.getpass()\n\n        client = paramiko.SSHClient()\n        client.connect(HOST, username=user, password=password)\n        channel = client.invoke_shell()\n        client.close()\n\n-------------------------\nAlternatives to telnetlib\n-------------------------\n\nThere are a number of alternatives to ftplib that provide security features.\nThese alternatives include:\n\n - ``Paramiko``: Paramiko is a Python module that provides secure access to\n   SSH servers. Paramiko uses encryption to protect data transmitted over the\n   network.\n\n - ``Twisted``: Twisted is a Python framework that provides a number of\n   network protocols, including SSH. Twisted can be used to create secure\n   SSH clients and servers.\n\n.. seealso::\n\n - `telnetlib — Telnet client <https://docs.python.org/3/library/telnetlib.html>`_\n - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_\n - https://www.paramiko.org/\n - https://twisted.org/\n\n.. versionadded:: 0.1.0\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY020",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The '{0}' module transmits data in cleartext without encryption."
+                }
+              }
+            },
+            {
+              "id": "PY021",
+              "name": "MktempRaceCondition",
+              "fullDescription": {
+                "text": "\n==================================================\nInsecure Temporary File in the ``tempfile`` Module\n==================================================\n\nThe tempfile.mktemp function in Python is a legacy method for creating\ntemporary files with a unique name. It is important to note that this function\nis susceptible to race conditions, which can occur when multiple processes or\nthreads attempt to create temporary files concurrently. These race conditions\nmay lead to unintended behavior, data corruption, or security vulnerabilities\nin your code.\n\n-------\nExample\n-------\n\n.. warning::\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import tempfile\n\n\n        filename = tempfile.mktemp(suffix='', prefix='tmp', dir=None)\n        with open(filename) as f:\n            f.write(b\"Hello World!\\n\")\n\n-----------\nRemediation\n-----------\n\n.. admonition:: Fix\n\n    To ensure the reliability and security of your temporary file management,\n    consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class\n    automatically handles the generation of unique filenames, proper file closure,\n    and cleanup when the file is no longer needed.\n\n    .. code-block:: python\n       :linenos:\n       :emphasize-lines: 4\n\n        import tempfile\n\n\n        with tempfile.NamedTemporaryFile(delete=False) as f:\n            f.write(b\"Hello World!\\n\")\n\n.. seealso::\n\n - `tempfile — Generate temporary files and directories <https://docs.python.org/3/library/tempfile.html#tempfile.mktemp>`_\n - `CWE-377: Insecure Temporary File <https://cwe.mitre.org/data/definitions/377.html>`_\n\n.. versionadded:: 0.1.9\n\n"
+              },
+              "helpUri": "https://docs.securesauce.dev/rules/PY021",
+              "messageStrings": {
+                "errorMessage": {
+                  "text": "The function '{0}' can allow insecure ways of creating temporary files and directories that can lead to race conditions."
+                }
+              }
+            }
+          ],
+          "version": "0.3.9.dev1",
+          "downloadUri": "https://pypi.org/project/precli/#files",
+          "fullDescription": {
+            "text": "Static analysis security tool command line"
+          },
+          "informationUri": "https://github.com/securesauce/precli",
+          "semanticVersion": "0.3.9.dev1",
+          "shortDescription": {
+            "text": "Static analysis security tool command line"
+          }
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "endTimeUtc": "2024-03-04T21:31:24Z"
+        }
+      ],
+      "results": [
+        {
+          "message": {
+            "text": "Comparing digests with the '==' operator is vulnerable to timing attacks."
+          },
+          "fixes": [
+            {
+              "description": {
+                "text": "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+              },
+              "artifactChanges": [
+                {
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "endColumn": 33,
+                        "endLine": 18,
+                        "startColumn": 8,
+                        "startLine": 18
+                      },
+                      "insertedContent": {
+                        "binary": "hmac.compare_digest(digest, received_digest)"
+                      }
+                    }
+                  ],
+                  "artifactLocation": {
+                    "uri": "tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py"
+                  }
+                }
+              ]
+            }
+          ],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "region": {
+                  "snippet": {
+                    "binary": "return digest == received_digest\n"
+                  },
+                  "endColumn": 17,
+                  "endLine": 18,
+                  "startColumn": 15,
+                  "startLine": 18
+                },
+                "artifactLocation": {
+                  "uri": "tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py"
+                },
+                "contextRegion": {
+                  "snippet": {
+                    "binary": "\nreturn digest == received_digest\n"
+                  },
+                  "endLine": 19,
+                  "startLine": 17
+                }
+              }
+            }
+          ],
+          "ruleId": "PY005"
+        }
+      ]
+    }
+  ],
+  "version": "2.1.0",
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json"
+}

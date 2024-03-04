@@ -301,8 +301,20 @@ def main():
     # Compile a list of the targets
     artifacts = discover_files(args.targets, args.recursive)
 
+    # Flatten into a list all rules for all parsers
+    rules = [r for parser in parsers.values() for r in parser.rules.values()]
+
     # Initialize the run
-    tool = Tool("precli", precli.__author__, precli.__version__)
+    tool = Tool(
+        name="precli",
+        download_uri=precli.__download_url__,
+        full_description=precli.__summary__,
+        information_uri=precli.__url__,
+        organization=precli.__author__,
+        short_description=precli.__summary__,
+        version=precli.__version__,
+        rules=rules,
+    )
     run = Run(tool, parsers, artifacts, debug)
 
     # Invoke the run

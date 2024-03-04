@@ -106,7 +106,7 @@ class WeakKey(Rule):
             name="inadequate_encryption_strength",
             full_descr=__doc__,
             cwe_id=326,
-            message="Using {} key sizes less than {} bits is considered "
+            message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",
             targets=("call"),
             wildcards={},

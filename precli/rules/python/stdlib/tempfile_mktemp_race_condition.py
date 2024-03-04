@@ -70,7 +70,7 @@ class MktempRaceCondition(Rule):
             name="insecure_temporary_file",
             full_descr=__doc__,
             cwe_id=377,
-            message="The function '{}' can allow insecure ways of creating "
+            message="The function '{0}' can allow insecure ways of creating "
             "temporary files and directories that can lead to race "
             "conditions.",
             targets=("call"),

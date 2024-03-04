@@ -13,7 +13,8 @@ from precli.renderers import Renderer
 
 
 SCHEMA_URI = (
-    "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.4.json"
+    "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/"
+    "sarif-schema-2.1.0.json"
 )
 TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
@@ -42,8 +43,9 @@ class Json(Renderer):
                             deleted_region=sarif_om.Region(
                                 start_line=fix.deleted_location.start_line,
                                 end_line=fix.deleted_location.end_line,
-                                start_column=fix.deleted_location.start_column,
-                                end_column=fix.deleted_location.end_column,
+                                start_column=fix.deleted_location.start_column
+                                + 1,
+                                end_column=fix.deleted_location.end_column + 1,
                             ),
                             inserted_content=sarif_om.ArtifactContent(
                                 fix.inserted_content
@@ -55,19 +57,51 @@ class Json(Renderer):
             description=sarif_om.Message(text=fix.description),
         )
 
+    def create_rule_array(self, run: Run):
+        rules = []
+
+        for rule in run.tool.rules:
+            reporting_descriptor = sarif_om.ReportingDescriptor(
+                id=rule.id,
+                full_description=sarif_om.MultiformatMessageString(
+                    text=rule.full_descr
+                ),
+                help_uri=rule.help_url,
+                message_strings={
+                    "errorMessage": sarif_om.MultiformatMessageString(
+                        text=rule.message
+                    )
+                },
+                name=rule.__class__.__name__,
+            )
+            rules.append(reporting_descriptor)
+
+        return rules
+
+    def create_tool_component(self, run: Run):
+        return sarif_om.ToolComponent(
+            name=run.tool.name,
+            download_uri=run.tool.download_uri,
+            full_description=sarif_om.MultiformatMessageString(
+                text=run.tool.full_description
+            ),
+            information_uri=run.tool.information_uri,
+            organization=run.tool.organization,
+            semantic_version=run.tool.version,
+            short_description=sarif_om.MultiformatMessageString(
+                text=run.tool.short_description
+            ),
+            version=run.tool.version,
+            rules=self.create_rule_array(run),
+        )
+
     def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
             version="2.1.0",
             runs=[
                 sarif_om.Run(
-                    tool=sarif_om.Tool(
-                        driver=sarif_om.ToolComponent(
-                            name=run.tool.name,
-                            organization=run.tool.organization,
-                            version=run.tool.version,
-                        )
-                    ),
+                    tool=sarif_om.Tool(driver=self.create_tool_component(run)),
                     invocations=[
                         sarif_om.Invocation(
                             end_time_utc=datetime.utcnow().strftime(TS_FORMAT),
@@ -79,8 +113,8 @@ class Json(Renderer):
         )
 
         sarif_run = log.runs[0]
-
         sarif_run.results = []
+
         for result in run.results:
             fixes = []
             for fix in result.fixes:
@@ -97,8 +131,8 @@ class Json(Renderer):
             physical_location.region = sarif_om.Region(
                 start_line=result.location.start_line,
                 end_line=result.location.end_line,
-                start_column=result.location.start_column,
-                end_column=result.location.end_column,
+                start_column=result.location.start_column + 1,
+                end_column=result.location.end_column + 1,
                 snippet=sarif_om.ArtifactContent(code_line),
             )
 
@@ -110,9 +144,6 @@ class Json(Renderer):
 
             sarif_result = sarif_om.Result(
                 message=sarif_om.Message(text=result.message),
-                analysis_target=sarif_om.ArtifactLocation(
-                    uri=self.to_uri(result.artifact.file_name)
-                ),
                 fixes=fixes,
                 level=result.level.name.lower(),
                 locations=[

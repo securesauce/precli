@@ -98,7 +98,7 @@ class InsecureTlsVersion(Rule):
             name="inadequate_encryption_strength",
             full_descr=__doc__,
             cwe_id=326,
-            message="The '{}' protocol has insufficient encryption strength.",
+            message="The '{0}' protocol has insufficient encryption strength.",
             targets=("call"),
         )
 

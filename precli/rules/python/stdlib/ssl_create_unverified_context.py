@@ -71,7 +71,7 @@ class CreateUnverifiedContext(Rule):
             name="improper_certificate_validation",
             full_descr=__doc__,
             cwe_id=295,
-            message="The '{}' function does not properly validate "
+            message="The '{0}' function does not properly validate "
             "certificates.",
             targets=("call"),
         )
