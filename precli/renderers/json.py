@@ -45,7 +45,9 @@ class Json(Renderer):
                                 start_column=fix.deleted_location.start_column,
                                 end_column=fix.deleted_location.end_column,
                             ),
-                            inserted_content=fix.inserted_content,
+                            inserted_content=sarif_om.ArtifactContent(
+                                fix.inserted_content
+                            ),
                         ),
                     ],
                 )
