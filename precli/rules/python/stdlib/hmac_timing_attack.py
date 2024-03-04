@@ -104,7 +104,7 @@ class HmacTimingAttack(Rule):
             name="observable_timing_discrepancy",
             full_descr=__doc__,
             cwe_id=208,
-            message="Comparing digests with the '==' operator is vulnerable "
+            message="Comparing digests with the '{0}' operator is vulnerable "
             "to timing attacks.",
             targets=("comparison_operator"),
             wildcards={
@@ -140,5 +140,6 @@ class HmacTimingAttack(Rule):
                 rule_id=self.id,
                 location=Location(node=comparison.operator_node),
                 level=Level.ERROR,
+                message=self.message.format(comparison.operator),
                 fixes=fixes,
             )
