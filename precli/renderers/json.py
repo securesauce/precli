@@ -46,7 +46,7 @@ class Json(Renderer):
                                 end_column=fix.deleted_location.end_column,
                             ),
                             inserted_content=sarif_om.ArtifactContent(
-                                fix.inserted_content
+                                text=fix.inserted_content,
                             ),
                         ),
                     ],
@@ -99,13 +99,13 @@ class Json(Renderer):
                 end_line=result.location.end_line,
                 start_column=result.location.start_column,
                 end_column=result.location.end_column,
-                snippet=sarif_om.ArtifactContent(code_line),
+                snippet=sarif_om.ArtifactContent(text=code_line),
             )
 
             physical_location.context_region = sarif_om.Region(
                 start_line=result.location.start_line - 1,
                 end_line=result.location.end_line + 1,
-                snippet=sarif_om.ArtifactContent(result.snippet),
+                snippet=sarif_om.ArtifactContent(text=result.snippet),
             )
 
             sarif_result = sarif_om.Result(
