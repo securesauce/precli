@@ -37,18 +37,20 @@ class Json(Renderer):
                     artifact_location=sarif_om.ArtifactLocation(
                         uri=self.to_uri(file_name)
                     ),
-                    replacements=sarif_om.Replacement(
-                        deleted_region=sarif_om.Region(
-                            start_line=fix.deleted_location.start_line,
-                            end_line=fix.deleted_location.end_line,
-                            start_column=fix.deleted_location.start_column,
-                            end_column=fix.deleted_location.end_column,
+                    replacements=[
+                        sarif_om.Replacement(
+                            deleted_region=sarif_om.Region(
+                                start_line=fix.deleted_location.start_line,
+                                end_line=fix.deleted_location.end_line,
+                                start_column=fix.deleted_location.start_column,
+                                end_column=fix.deleted_location.end_column,
+                            ),
+                            inserted_content=fix.inserted_content,
                         ),
-                        inserted_content=fix.inserted_content,
-                    ),
+                    ],
                 )
             ],
-            description=fix.description,
+            description=sarif_om.Message(text=fix.description),
         )
 
     def render(self, run: Run):
@@ -105,8 +107,10 @@ class Json(Renderer):
             )
 
             sarif_result = sarif_om.Result(
-                message=result.message,
-                analysis_target=result.artifact.file_name,
+                message=sarif_om.Message(text=result.message),
+                analysis_target=sarif_om.ArtifactLocation(
+                    uri=self.to_uri(result.artifact.file_name)
+                ),
                 fixes=fixes,
                 level=result.level.name.lower(),
                 locations=[
