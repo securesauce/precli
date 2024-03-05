@@ -68,7 +68,10 @@ class Json(Renderer):
                     )
                 },
                 properties={
-                    "tags": ["security"],
+                    "tags": [
+                        "security",
+                        f"external/cwe/cwe-{rule.cwe.cwe_id}",
+                    ],
                 },
             )
             rules.append(reporting_descriptor)
