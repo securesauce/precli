@@ -24,7 +24,7 @@ class Level(str, enum.Enum):
     NOTE = "note"
     NONE = "none"
 
-    def to_severity(self) -> float:
+    def to_severity(self) -> str:
         """
         Returns a security severity value.
 
@@ -36,10 +36,10 @@ class Level(str, enum.Enum):
         :rtype: float
         """
         if self.value == self.ERROR:
-            return 8.0
+            return "8.0"
         elif self.value == self.WARNING:
-            return 5.0
+            return "5.0"
         elif self.value == self.NOTE:
-            return 3.0
+            return "3.0"
         else:
-            return 0.0
+            return "0.0"
