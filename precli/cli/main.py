@@ -306,7 +306,7 @@ def main():
 
     # Initialize the run
     tool = Tool(
-        name="precli",
+        name="Precaution",
         download_uri=precli.__download_url__,
         full_description=precli.__summary__,
         information_uri=precli.__url__,
