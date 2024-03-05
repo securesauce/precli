@@ -12,10 +12,7 @@ from precli.core.run import Run
 from precli.renderers import Renderer
 
 
-SCHEMA_URI = (
-    "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/"
-    "sarif-schema-2.1.0.json"
-)
+SCHEMA_URI = "https://json.schemastore.org/sarif-2.1.0.json"
 TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
@@ -63,13 +60,16 @@ class Json(Renderer):
         for rule in run.tool.rules:
             reporting_descriptor = sarif_om.ReportingDescriptor(
                 id=rule.id,
+                name=rule.__class__.__name__,
                 help_uri=rule.help_url,
                 message_strings={
-                    "errorMessage": sarif_om.MultiformatMessageString(
+                    "default": sarif_om.MultiformatMessageString(
                         text=rule.message
                     )
                 },
-                name=rule.__class__.__name__,
+                properties={
+                    "tags": ["security"],
+                },
             )
             rules.append(reporting_descriptor)
 
