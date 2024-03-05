@@ -101,7 +101,7 @@ class Json(Renderer):
     def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
-            version=SCHEMA_URI,
+            version=SCHEMA_VER,
             runs=[
                 sarif_om.Run(
                     tool=sarif_om.Tool(driver=self.create_tool_component(run)),
