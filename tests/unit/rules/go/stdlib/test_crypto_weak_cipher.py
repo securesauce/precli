@@ -33,7 +33,7 @@ class CryptoWeakCipherTests(test_case.TestCase):
             f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
-        self.assertEqual(Level.WARNING, rule.default_config.level)
+        self.assertEqual(Level.ERROR, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
         self.assertEqual("327", rule.cwe.cwe_id)
 

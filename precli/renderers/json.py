@@ -13,6 +13,7 @@ from precli.renderers import Renderer
 
 
 SCHEMA_URI = "https://json.schemastore.org/sarif-2.1.0.json"
+SCHEMA_VER = "2.1.0"
 TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
@@ -72,6 +73,9 @@ class Json(Renderer):
                         "security",
                         f"external/cwe/cwe-{rule.cwe.cwe_id}",
                     ],
+                    "security-severity": (
+                        rule.default_config.level.to_severity()
+                    ),
                 },
             )
             rules.append(reporting_descriptor)
@@ -91,14 +95,13 @@ class Json(Renderer):
             short_description=sarif_om.MultiformatMessageString(
                 text=run.tool.short_description
             ),
-            version=run.tool.version,
             rules=self.create_rule_array(run),
         )
 
     def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
-            version="2.1.0",
+            version=SCHEMA_URI,
             runs=[
                 sarif_om.Run(
                     tool=sarif_om.Tool(driver=self.create_tool_component(run)),

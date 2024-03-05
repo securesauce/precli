@@ -64,6 +64,7 @@ Remediation
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -88,6 +89,7 @@ class HttpUrlSecret(Rule):
                     "HTTPSConnection",
                 ]
             },
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -109,5 +111,4 @@ class HttpUrlSecret(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    level=Level.ERROR,
                 )

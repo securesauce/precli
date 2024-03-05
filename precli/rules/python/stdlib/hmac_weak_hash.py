@@ -78,6 +78,7 @@ Remediation
 .. versionadded:: 0.1.0
 
 """  # noqa: E501
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -110,6 +111,7 @@ class HmacWeakHash(Rule):
                     "digest",
                 ]
             },
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -128,7 +130,6 @@ class HmacWeakHash(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    level=Level.ERROR,
                     message=self.message.format(digestmod),
                 )
         elif call.name_qualified in ["hmac.digest"]:
@@ -144,6 +145,5 @@ class HmacWeakHash(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    level=Level.ERROR,
                     message=self.message.format(digest),
                 )

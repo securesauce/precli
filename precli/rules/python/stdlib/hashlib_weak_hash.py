@@ -89,6 +89,7 @@ Remediation
 
 """  # noqa: E501
 from precli.core.argument import Argument
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -117,6 +118,7 @@ class HashlibWeakHash(Rule):
                     "sha1",
                 ]
             },
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -144,7 +146,6 @@ class HashlibWeakHash(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=call.function_node),
-                    level=Level.ERROR,
                     message=self.message.format(call.name_qualified),
                 )
         elif call.name_qualified in ["hashlib.pbkdf2_hmac"]:
@@ -163,7 +164,6 @@ class HashlibWeakHash(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=call.function_node),
-                    level=Level.ERROR,
                     message=self.message.format(hash_name),
                 )
         elif call.name_qualified in ["hashlib.new"]:
@@ -181,6 +181,5 @@ class HashlibWeakHash(Rule):
                     return Result(
                         rule_id=self.id,
                         location=Location(node=call.function_node),
-                        level=Level.ERROR,
                         message=self.message.format(name),
                     )

@@ -23,3 +23,23 @@ class Level(str, enum.Enum):
     WARNING = "warning"
     NOTE = "note"
     NONE = "none"
+
+    def to_severity(self) -> float:
+        """
+        Returns a security severity value.
+
+        Code scanning translates numerical scores as follows:
+        over 9.0 is critical, 7.0 to 8.9 is high, 4.0 to 6.9 is medium and
+        3.9 or less is low.
+
+        :return: severity as float
+        :rtype: float
+        """
+        if self.value == self.ERROR:
+            return 8.0
+        elif self.value == self.WARNING:
+            return 5.0
+        elif self.value == self.NOTE:
+            return 3.0
+        else:
+            return 0.0
