@@ -102,6 +102,7 @@ Remediation
 .. versionadded:: 0.1.9
 
 """  # noqa: E501
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -123,6 +124,7 @@ class SmtpCleartext(Rule):
                     "SMTP",
                 ]
             },
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -149,7 +151,6 @@ class SmtpCleartext(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=call.identifier_node),
-                    level=Level.ERROR,
                     message=f"The '{call.name_qualified}' function will "
                     f"transmit authentication information such as a user, "
                     "password in cleartext.",

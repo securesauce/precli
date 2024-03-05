@@ -77,6 +77,7 @@ Remediation
 
 """  # noqa: E501
 from precli.core.argument import Argument
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -100,6 +101,7 @@ class InsecureTlsVersion(Rule):
             cwe_id=326,
             message="The '{0}' protocol has insufficient encryption strength.",
             targets=("call"),
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -129,7 +131,6 @@ class InsecureTlsVersion(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.identifier_node),
-                    level=Level.ERROR,
                     message=self.message.format(version),
                     fixes=fixes,
                 )
@@ -169,7 +170,6 @@ class InsecureTlsVersion(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.identifier_node),
-                    level=Level.ERROR,
                     message=self.message.format(version),
                     fixes=fixes,
                 )
@@ -196,7 +196,6 @@ class InsecureTlsVersion(Rule):
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.identifier_node),
-                    level=Level.ERROR,
                     message=self.message.format(protocol),
                     fixes=fixes,
                 )

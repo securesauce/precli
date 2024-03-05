@@ -82,6 +82,7 @@ Remediation
 .. versionadded:: 0.1.4
 
 """  # noqa: E501
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -116,6 +117,7 @@ class HmacTimingAttack(Rule):
                     "HMAC.hexdigest",
                 ]
             },
+            config=Config(level=Level.ERROR),
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
@@ -139,7 +141,6 @@ class HmacTimingAttack(Rule):
             return Result(
                 rule_id=self.id,
                 location=Location(node=comparison.operator_node),
-                level=Level.ERROR,
                 message=self.message.format(comparison.operator),
                 fixes=fixes,
             )
