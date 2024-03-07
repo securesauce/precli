@@ -86,7 +86,7 @@ class HashlibWeakHash(Rule):
         super().__init__(
             id=id,
             name="reversible_one_way_hash",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=328,
             message="Use of weak hash function '{0}' does not meet security "
             "expectations.",

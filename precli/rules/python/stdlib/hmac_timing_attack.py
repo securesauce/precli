@@ -89,7 +89,7 @@ class HmacTimingAttack(Rule):
         super().__init__(
             id=id,
             name="observable_timing_discrepancy",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=208,
             message="Comparing digests with the '{0}' operator is vulnerable "
             "to timing attacks.",

@@ -124,7 +124,7 @@ class WeakCipher(Rule):
         super().__init__(
             id=id,
             name="use_of_a_broken_or_risky_cryptographic_algorithm",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=327,
             message="Weak ciphers like '{0}' should be avoided due to their "
             "known vulnerabilities and weaknesses.",

@@ -65,7 +65,7 @@ class HttpUrlSecret(Rule):
         super().__init__(
             id=id,
             name="sensitive_query_strings",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=598,
             message="Secrets in URLs are vulnerable to unauthorized access.",
             targets=("call"),

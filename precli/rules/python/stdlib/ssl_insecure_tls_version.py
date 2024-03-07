@@ -83,7 +83,7 @@ class InsecureTlsVersion(Rule):
         super().__init__(
             id=id,
             name="inadequate_encryption_strength",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=326,
             message="The '{0}' protocol has insufficient encryption strength.",
             targets=("call"),

@@ -55,7 +55,7 @@ class CreateUnverifiedContext(Rule):
         super().__init__(
             id=id,
             name="improper_certificate_validation",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=295,
             message="The '{0}' function does not properly validate "
             "certificates.",

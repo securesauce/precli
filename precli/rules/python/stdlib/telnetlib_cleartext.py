@@ -109,7 +109,7 @@ class TelnetlibCleartext(Rule):
         super().__init__(
             id=id,
             name="cleartext_transmission",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=319,
             message="The '{0}' module transmits data in cleartext without "
             "encryption.",

@@ -61,7 +61,7 @@ class Assert(Rule):
         super().__init__(
             id=id,
             name="improper_check",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=703,
             message="Assert statements are disabled when optimizations are "
             "enabled.",
