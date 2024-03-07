@@ -66,7 +66,7 @@ class Json(Renderer):
                 short_description=sarif_om.MultiformatMessageString(
                     text=rule.short_description
                 ),
-                full_description=sarif_om.MultiformatMessageString(
+                help=sarif_om.MultiformatMessageString(
                     text=rule.full_description, markdown=rule.full_description
                 ),
                 message_strings={
