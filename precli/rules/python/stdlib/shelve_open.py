@@ -45,7 +45,7 @@ class ShelveOpen(Rule):
         super().__init__(
             id=id,
             name="deserialization_of_untrusted_data",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",

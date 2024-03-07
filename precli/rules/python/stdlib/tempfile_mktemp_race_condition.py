@@ -54,7 +54,7 @@ class MktempRaceCondition(Rule):
         super().__init__(
             id=id,
             name="insecure_temporary_file",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=377,
             message="The function '{0}' can allow insecure ways of creating "
             "temporary files and directories that can lead to race "

@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from abc import ABC
 from abc import abstractmethod
 from typing import Self
@@ -19,7 +19,7 @@ class Rule(ABC):
         self,
         id: str,
         name: str,
-        full_descr: str,
+        description: str,
         cwe_id: int,
         message: str,
         targets: set[str],
@@ -29,7 +29,20 @@ class Rule(ABC):
     ):
         self._id = id
         self._name = name
-        self._full_descr = full_descr
+        try:
+            start = description.index("\n# ") + 3
+        except ValueError:
+            start = 0
+        try:
+            end = description.index("\n\n")
+        except ValueError:
+            end = len(description)
+        self._short_descr = description[start:end].replace("`", "")
+        try:
+            start = description.index("\n\n") + 2
+        except ValueError:
+            start = 0
+        self._full_descr = description[start:]
         self._cwe = Rule._cwedb.get(cwe_id)
         self._message = message
         self._targets = targets
@@ -83,20 +96,12 @@ class Rule(ABC):
         :return: rule short description
         :rtype: str
         """
-        try:
-            start = self._full_descr.index("\n# ") + 3
-        except ValueError:
-            start = 0
-        try:
-            end = self._full_descr.index("\n\n")
-        except ValueError:
-            end = len(self._full_descr)
-        return self._full_descr[start:end]
+        return self._short_descr
 
     @property
     def full_description(self) -> str:
         """
-        Full description of the rule.
+        Full description of the rule in markdown format.
 
         :return: rule full description
         :rtype: str

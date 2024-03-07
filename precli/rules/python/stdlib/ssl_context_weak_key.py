@@ -62,7 +62,7 @@ class SslContextWeakKey(Rule):
         super().__init__(
             id=id,
             name="inadequate_encryption_strength",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=326,
             message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",

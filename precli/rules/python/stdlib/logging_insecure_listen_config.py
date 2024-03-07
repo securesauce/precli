@@ -53,7 +53,7 @@ class InsecureListenConfig(Rule):
         super().__init__(
             id=id,
             name="code_injection",
-            full_descr=__doc__,
+            description=__doc__,
             cwe_id=94,
             message="Using '{0}' with unset 'verify' vulnerable to code "
             "injection.",
