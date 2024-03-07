@@ -1,10 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=========================================================================
-Cleartext Transmission of Sensitive Information in the ``smtplib`` Module
-=========================================================================
+# Cleartext Transmission of Sensitive Information in the `smtplib` Module
 
-The Python module ``smtplib`` provides a number of functions for accessing
+The Python module `smtplib` provides a number of functions for accessing
 SMTP servers. However, the default behavior of the module does not provide
 utilize secure connections. This means that data transmitted over the network,
 including passwords, is sent in cleartext. This makes it possible for attackers
@@ -13,93 +11,81 @@ to intercept and read this data.
 The Python module smtplib should only in a secure mannner to protect sensitive
 data when accessing SMTP servers.
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 24
-
-        import smtplib
+```python
+import smtplib
 
 
-        def prompt(prompt):
-            return input(prompt).strip()
+def prompt(prompt):
+    return input(prompt).strip()
 
-        fromaddr = prompt("From: ")
-        toaddrs  = prompt("To: ").split()
-        print("Enter message, end with ^D (Unix) or ^Z (Windows):")
+fromaddr = prompt("From: ")
+toaddrs  = prompt("To: ").split()
+print("Enter message, end with ^D (Unix) or ^Z (Windows):")
 
-        # Add the From: and To: headers at the start!
-        msg = ("From: %s\r\nTo: %s\r\n\r\n" % (fromaddr, ", ".join(toaddrs)))
-        while True:
-            try:
-                line = input()
-            except EOFError:
-                break
-            if not line:
-                break
-            msg = msg + line
+# Add the From: and To: headers at the start!
+msg = ("From: %s\r\nTo: %s\r\n\r\n" % (fromaddr, ", ".join(toaddrs)))
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    if not line:
+        break
+    msg = msg + line
 
-        print("Message length is", len(msg))
+print("Message length is", len(msg))
 
-        server = smtplib.SMTP('localhost')
-        server.set_debuglevel(1)
-        server.sendmail(fromaddr, toaddrs, msg)
-        server.quit()
+server = smtplib.SMTP('localhost')
+server.set_debuglevel(1)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
-
-    If the SMTP protocol must be used and sensitive data will be transferred, it
-    is recommended to secure the connection using ``SMTP_SSL`` class.
-    Alternatively, the ``starttls`` function can be used to enter a secure session.
+If the SMTP protocol must be used and sensitive data will be transferred, it
+is recommended to secure the connection using `SMTP_SSL` class.
+Alternatively, the `starttls` function can be used to enter a secure session.
 
 
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 24
-
-        import smtplib
+```python
+import smtplib
 
 
-        def prompt(prompt):
-            return input(prompt).strip()
+def prompt(prompt):
+    return input(prompt).strip()
 
-        fromaddr = prompt("From: ")
-        toaddrs  = prompt("To: ").split()
-        print("Enter message, end with ^D (Unix) or ^Z (Windows):")
+fromaddr = prompt("From: ")
+toaddrs  = prompt("To: ").split()
+print("Enter message, end with ^D (Unix) or ^Z (Windows):")
 
-        # Add the From: and To: headers at the start!
-        msg = ("From: %s\r\nTo: %s\r\n\r\n" % (fromaddr, ", ".join(toaddrs)))
-        while True:
-            try:
-                line = input()
-            except EOFError:
-                break
-            if not line:
-                break
-            msg = msg + line
+# Add the From: and To: headers at the start!
+msg = ("From: %s\r\nTo: %s\r\n\r\n" % (fromaddr, ", ".join(toaddrs)))
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    if not line:
+        break
+    msg = msg + line
 
-        print("Message length is", len(msg))
+print("Message length is", len(msg))
 
-        server = smtplib.SMTP_SSL('localhost')
-        server.set_debuglevel(1)
-        server.sendmail(fromaddr, toaddrs, msg)
-        server.quit()
+server = smtplib.SMTP_SSL('localhost')
+server.set_debuglevel(1)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
+```
 
-.. seealso::
+## See also
 
- - `smtplib — SMTP protocol client <https://docs.python.org/3/library/smtplib.html>`_
- - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
+- [smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html)
+- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
-.. versionadded:: 0.1.9
+_New in version 0.1.9_
 
 """  # noqa: E501
 from precli.core.config import Config

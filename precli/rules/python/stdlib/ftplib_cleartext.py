@@ -1,8 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-========================================================================
-Cleartext Transmission of Sensitive Information in the ``ftplib`` Module
-========================================================================
+# Cleartext Transmission of Sensitive Information in the `ftplib` Module
 
 The Python module ``ftplib`` provides a number of functions for accessing FTP
 servers. However, the module does not provide any security features. This
@@ -15,76 +13,62 @@ contain sensitive data. There are a number of alternatives to ftplib that
 provide security features. These alternatives should be used instead of
 ftplib for accessing sensitive data.
 
--------
-Example
--------
+## Example
 
-.. warning::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4
-
-        import ftplib
+```python
+import ftplib
 
 
-        ftp = ftplib.FTP("ftp.us.debian.org")
-        ftp.login("user", "password")
+ftp = ftplib.FTP("ftp.us.debian.org")
+ftp.login("user", "password")
 
-        ftp.cwd("debian")
-        ftp.retrlines("LIST")
+ftp.cwd("debian")
+ftp.retrlines("LIST")
 
-        ftp.quit()
+ftp.quit()
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+If the FTP protocol must be used and sensitive data will be transferred, it
+is recommended to secure the connection using ``FTP_TLS`` class. It's also
+important to call ``prot_p()`` to secure the data connection.
 
-    If the FTP protocol must be used and sensitive data will be transferred, it
-    is recommended to secure the connection using ``FTP_TLS`` class. It's also
-    important to call ``prot_p()`` to secure the data connection.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4,6
-
-        import ftplib
+```python
+import ftplib
 
 
-        ftp = ftplib.FTP_TLS("ftp.us.debian.org")
-        ftp.login("user", "password")
-        ftp.prot_p()
+ftp = ftplib.FTP_TLS("ftp.us.debian.org")
+ftp.login("user", "password")
+ftp.prot_p()
 
-        ftp.cwd("debian")
-        ftp.retrlines("LIST")
+ftp.cwd("debian")
+ftp.retrlines("LIST")
 
-        ftp.quit()
+ftp.quit()
+```
 
-----------------------
-Alternatives to ftplib
-----------------------
+## Alternatives to ftplib
 
 There are a number of alternatives to ftplib that provide security features.
 These alternatives include:
 
- - ``Paramiko``: Paramiko is a Python module that provides secure access to
+ - `Paramiko`: Paramiko is a Python module that provides secure access to
    SSH and SFTP servers. Paramiko uses encryption to protect data
    transmitted over the network.
 
- - ``Twisted``: Twisted is a Python framework that provides a number of
+ - `Twisted`: Twisted is a Python framework that provides a number of
    network protocols, including SSH. Twisted can be used to create secure
    SFTP clients and servers.
 
-.. seealso::
+## See also
 
- - `ftplib — FTP protocol client <https://docs.python.org/3/library/ftplib.html>`_
- - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
- - https://www.paramiko.org/
- - https://twisted.org/
+- [ftplib — FTP protocol client](https://docs.python.org/3/library/ftplib.html)
+- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+- [Paramiko](https://www.paramiko.org/)
+- [Twisted](https://twisted.org/)
 
-.. versionadded::  0.1.0
+_New in version 0.1.0_
 
 """  # noqa: E501
 from precli.core.level import Level

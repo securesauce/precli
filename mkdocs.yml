@@ -1,0 +1,7 @@
+site_name: Precli Documentation
+
+theme:
+  name: "readthedocs"
+
+plugins:
+  - mkdocstrings

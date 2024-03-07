@@ -1,15 +1,13 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-================================================
-Observable Timing Discrepancy in ``hmac`` Module
-================================================
+Observable Timing Discrepancy in `hmac` Module
 
 Do not use Python's == operator to compare HMAC digests. The == operator is
 not designed to be used for cryptographic comparisons, and it can be
-vulnerable to timing attacks. Instead, use the hmac.compare_digest() function
+vulnerable to timing attacks. Instead, use the `hmac.compare_digest()` function
 to compare HMAC digests.
 
-The == operator works by comparing the length and contents of two objects.
+The `==` operator works by comparing the length and contents of two objects.
 However, this can be a problem for HMAC digests, because the length of an
 HMAC digest is not necessarily unique. For example, two different messages
 with the same key will have the same HMAC digest.
@@ -19,67 +17,55 @@ execute a piece of code. In the case of HMAC digests, a timing attack could
 be used to determine whether two messages have the same HMAC digest. This
 could be used to break the security of an HMAC-protected system.
 
-The hmac.compare_digest() function is designed to be used for cryptographic
+The `hmac.compare_digest()` function is designed to be used for cryptographic
 comparisons. It works by comparing the binary representations of two HMAC
 digests. This makes it more resistant to timing attacks.
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 13
-
-        import hmac
+```python
+import hmac
 
 
-        received_digest = (
-            b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
-            "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
-        )
+received_digest = (
+    b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
+    "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
+)
 
-        key = b"my-secret-key"
-        password = b"pass"
-        digest = hmac.digest(key, password, digest="sha224")
+key = b"my-secret-key"
+password = b"pass"
+digest = hmac.digest(key, password, digest="sha224")
 
-        return digest == received_digest
+return digest == received_digest
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+The recommendation is to replace the == operator with the function
+`compare_digest`.
 
-    The recommendation is to replace the == operator with the function
-    ``compare_digest``.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 13
-
-        import hmac
+```python
+import hmac
 
 
-        received_digest = (
-            b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
-            "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
-        )
+received_digest = (
+    b"\xe2\x93\x08\x19T8\xdc\x80\xef\x87\x90m\x1f\x9d\xf7\xf2"
+    "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
+)
 
-        key = b"my-secret-key"
-        password = b"pass"
-        digest = hmac.digest(key, password, digest="sha224")
+key = b"my-secret-key"
+password = b"pass"
+digest = hmac.digest(key, password, digest="sha224")
 
-        return hmac.compare_digest(digest, received_digest)
+return hmac.compare_digest(digest, received_digest)
+```
 
-.. seealso::
+## See also
 
- - `hmac — Keyed-Hashing for Message Authentication <https://docs.python.org/3/library/hmac.html>`_
- - `CWE-208: Observable Timing Discrepancy <https://cwe.mitre.org/data/definitions/208.html>`_
+- [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
+- [CWE-208: Observable Timing Discrepancy](https://cwe.mitre.org/data/definitions/208.html)
 
-.. versionadded:: 0.1.4
+_New in version 0.1.4_
 
 """  # noqa: E501
 from precli.core.config import Config

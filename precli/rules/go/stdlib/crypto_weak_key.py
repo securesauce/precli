@@ -1,8 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-====================================================================
-Inadequate Encryption Strength Using Weak Keys in ``crypto`` Package
-====================================================================
+# Inadequate Encryption Strength Using Weak Keys in `crypto` Package
 
 Using weak key sizes for cryptographic algorithms like RSA and DSA can
 compromise the security of your encryption and digital signatures. Here's a
@@ -31,66 +29,54 @@ Note that DSA is not as commonly used as RSA or ECC for new applications, and
 ECDSA (Elliptic Curve Digital Signature Algorithm) is often preferred due to
 its efficiency and strong security properties.
 
--------
-Example
--------
+## Example
 
-.. error::
+```go
+package main
 
-    .. code-block:: go
-       :linenos:
-       :emphasize-lines: 10
+import (
+    "crypto/rand"
+    "crypto/rsa"
+    "log"
+)
 
-        package main
+func main() {
+    privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
+    if err != nil {
+        log.Fatalf("Failed to generate key: %v", err)
+    }
+}
+```
 
-        import (
-            "crypto/rand"
-            "crypto/rsa"
-            "log"
-        )
+## Remediation
 
-        func main() {
-            privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
-            if err != nil {
-                log.Fatalf("Failed to generate key: %v", err)
-            }
-        }
+Its recommended to increase the key size to at least 2048 for DSA and RSA
+algorithms.
 
------------
-Remediation
------------
+```go
+package main
 
-.. admonition:: Fix
+import (
+    "crypto/rand"
+    "crypto/rsa"
+    "log"
+)
 
-    Its recommended to increase the key size to at least 2048 for DSA and RSA
-    algorithms.
+func main() {
+    privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+    if err != nil {
+        log.Fatalf("Failed to generate key: %v", err)
+    }
+}
+```
 
-    .. code-block:: go
-       :linenos:
-       :emphasize-lines: 10
+## See also
 
-        package main
+- [dsa package - crypto_dsa - Go Packages](https://pkg.go.dev/crypto/dsa#ParameterSizes)
+- [rsa package - crypto_rsa - Go Packages](https://pkg.go.dev/crypto/rsa#GenerateKey)
+- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
-        import (
-            "crypto/rand"
-            "crypto/rsa"
-            "log"
-        )
-
-        func main() {
-            privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
-            if err != nil {
-                log.Fatalf("Failed to generate key: %v", err)
-            }
-        }
-
-.. seealso::
-
- - `dsa package - crypto_dsa - Go Packages <https://pkg.go.dev/crypto/dsa#ParameterSizes>`_
- - `rsa package - crypto_rsa - Go Packages <https://pkg.go.dev/crypto/rsa#GenerateKey>`_
- - `CWE-326: Inadequate Encryption Strength <https://cwe.mitre.org/data/definitions/326.html>`_
-
-.. versionadded:: 0.2.1
+_New in version 0.2.1_
 
 """  # noqa: E501
 from precli.core.level import Level
