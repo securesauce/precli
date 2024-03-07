@@ -2,7 +2,7 @@
 r"""
 # Cleartext Transmission of Sensitive Information in the `ftplib` Module
 
-The Python module ``ftplib`` provides a number of functions for accessing FTP
+The Python module `ftplib` provides a number of functions for accessing FTP
 servers. However, the module does not provide any security features. This
 means that data transmitted over the network, including passwords, is sent
 in cleartext. This makes it possible for attackers to intercept and read
@@ -31,8 +31,8 @@ ftp.quit()
 ## Remediation
 
 If the FTP protocol must be used and sensitive data will be transferred, it
-is recommended to secure the connection using ``FTP_TLS`` class. It's also
-important to call ``prot_p()`` to secure the data connection.
+is recommended to secure the connection using `FTP_TLS` class. It's also
+important to call `prot_p()` to secure the data connection.
 
 ```python
 import ftplib
