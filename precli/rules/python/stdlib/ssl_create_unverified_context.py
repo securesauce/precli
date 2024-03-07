@@ -1,62 +1,48 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-========================================================================
-Improper Certificate Validation Using ``ssl._create_unverified_context``
-========================================================================
+# Improper Certificate Validation Using `ssl._create_unverified_context`
 
-The Python function ``ssl._create_unverified_context()`` creates a SSL context
+The Python function `ssl._create_unverified_context()` creates a SSL context
 that does not verify the server's certificate. This means that an attacker can
 easily impersonate a legitimate server and fool your application into
 connecting to it.
 
-If you use ``ssl._create_unverified_context``, you are opening your application
+If you use `ssl._create_unverified_context`, you are opening your application
 up to a number of security risks, including:
 
 - Man-in-the-middle attacks
 - Session hijacking
 - Data theft
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4
-
-        import ssl
+```python
+import ssl
 
 
-        context = ssl._create_unverified_context()
+context = ssl._create_unverified_context()
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+If you need to connect to a server over HTTPS, you should use the
+`ssl.create_default_context()` function instead. This function will verify
+the server's certificate, which will help to protect your application from
+these security risks.
 
-    If you need to connect to a server over HTTPS, you should use the
-    ``ssl.create_default_context()`` function instead. This function will verify
-    the server's certificate, which will help to protect your application from
-    these security risks.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4
-
-        import ssl
+```python
+import ssl
 
 
-        context = ssl.create_default_context()
+context = ssl.create_default_context()
+```
 
-.. seealso::
+## See also
 
- - `ssl — TLS/SSL wrapper for socket objects <https://docs.python.org/3/library/ssl.html>`_
- - `CWE-295: Improper Certificate Validation <https://cwe.mitre.org/data/definitions/295.html>`_
+- [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html)
+- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
-.. versionadded:: 0.1.0
+_New in version 0.1.0_
 
 """  # noqa: E501
 from precli.core.location import Location

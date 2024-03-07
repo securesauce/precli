@@ -1,10 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-========================================================================
-Cleartext Transmission of Sensitive Information in the ``poplib`` Module
-========================================================================
+# Cleartext Transmission of Sensitive Information in the `poplib` Module
 
-The Python module ``poplib`` provides a number of functions for accessing
+The Python module `poplib` provides a number of functions for accessing
 POP servers. However, the default behavior of the module does not provide
 utilize secure connections. This means that data transmitted over the network,
 including passwords, is sent in cleartext. This makes it possible for attackers
@@ -13,60 +11,48 @@ to intercept and read this data.
 The Python module poplib should only in a secure mannner to protect sensitive
 data when accessing POP servers.
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 5
-
-        import getpass
-        import poplib
+```python
+import getpass
+import poplib
 
 
-        M = poplib.POP3('localhost')
-        M.user(getpass.getuser())
-        M.pass_(getpass.getpass())
-        numMessages = len(M.list()[1])
-        for i in range(numMessages):
-            for j in M.retr(i+1)[1]:
-                print(j)
+M = poplib.POP3('localhost')
+M.user(getpass.getuser())
+M.pass_(getpass.getpass())
+numMessages = len(M.list()[1])
+for i in range(numMessages):
+    for j in M.retr(i+1)[1]:
+        print(j)
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+If the POP protocol must be used and sensitive data will be transferred, it
+is recommended to secure the connection using `POP3_SSL` class.
+Alternatively, the `stls` function can be used to enter a secure session.
 
-    If the POP protocol must be used and sensitive data will be transferred, it
-    is recommended to secure the connection using ``POP3_SSL`` class.
-    Alternatively, the ``stls`` function can be used to enter a secure session.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 5
-
-        import getpass
-        import poplib
+```python
+import getpass
+import poplib
 
 
-        M = poplib.POP3_SSL('localhost')
-        M.user(getpass.getuser())
-        M.pass_(getpass.getpass())
-        numMessages = len(M.list()[1])
-        for i in range(numMessages):
-            for j in M.retr(i+1)[1]:
-                print(j)
+M = poplib.POP3_SSL('localhost')
+M.user(getpass.getuser())
+M.pass_(getpass.getpass())
+numMessages = len(M.list()[1])
+for i in range(numMessages):
+    for j in M.retr(i+1)[1]:
+        print(j)
+```
 
-.. seealso::
+## See also
 
- - `poplib — POP3 protocol client <https://docs.python.org/3/library/poplib.html>`_
- - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
+- [poplib — POP3 protocol client](https://docs.python.org/3/library/poplib.html)
+- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
-.. versionadded:: 0.1.9
+_New in version 0.1.9_
 
 """  # noqa: E501
 from precli.core.config import Config

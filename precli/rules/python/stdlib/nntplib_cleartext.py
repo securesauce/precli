@@ -1,10 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=========================================================================
-Cleartext Transmission of Sensitive Information in the ``nntplib`` Module
-=========================================================================
+# Cleartext Transmission of Sensitive Information in the `nntplib` Module
 
-The Python module ``nntplib`` provides a number of functions for accessing
+The Python module `nntplib` provides a number of functions for accessing
 NNTP servers. However, the default behavior of the module does not provide
 utilize secure connections. This means that data transmitted over the network,
 including passwords, is sent in cleartext. This makes it possible for attackers
@@ -13,48 +11,36 @@ to intercept and read this data.
 The Python module nntplib should only in a secure mannner to protect sensitive
 data when accessing NNTP servers.
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4
-
-        from nntplib import NNTP
+```python
+from nntplib import NNTP
 
 
-        with NNTP('news.gmane.io') as n:
-            n.group('gmane.comp.python.committers')
+with NNTP('news.gmane.io') as n:
+    n.group('gmane.comp.python.committers')
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+If the NNTP protocol must be used and sensitive data will be transferred, it
+is recommended to secure the connection using `NNTP_SSL` class.
+Alternatively, the `starttls` function can be used to enter a secure session.
 
-    If the NNTP protocol must be used and sensitive data will be transferred, it
-    is recommended to secure the connection using ``NNTP_SSL`` class.
-    Alternatively, the ``starttls`` function can be used to enter a secure session.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 4
-
-        from nntplib import NNTP
+```python
+from nntplib import NNTP
 
 
-        with NNTP_SSL('news.gmane.io') as n:
-            n.group('gmane.comp.python.committers')
+with NNTP_SSL('news.gmane.io') as n:
+    n.group('gmane.comp.python.committers')
+```
 
-.. seealso::
+## See also
 
- - `nntplib — NNTP protocol client <https://docs.python.org/3/library/nntplib.html>`_
- - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
+- [nntplib — NNTP protocol client](https://docs.python.org/3/library/nntplib.html)
+- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
-.. versionadded:: 0.1.9
+_New in version 0.1.9_
 
 """  # noqa: E501
 from precli.core.config import Config

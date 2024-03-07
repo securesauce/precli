@@ -1,8 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-======================================================================
-Use of a Broken or Risky Cryptographic Algorithm in ``crypto`` Package
-======================================================================
+# Use of a Broken or Risky Cryptographic Algorithm in `crypto` Package
 
 Using weak ciphers for cryptographic algorithms can pose significant security
 risks, and it's generally advised to avoid them in favor of stronger, more
@@ -60,70 +58,58 @@ Instead, it is advisable to use stronger, more secure cryptographic algorithms
 and adhere to industry best practices and regulatory requirements for
 encryption and security.
 
--------
-Example
--------
+## Example
 
-.. error::
+```go
+package main
 
-    .. code-block:: go
-       :linenos:
-       :emphasize-lines: 14
+import (
+    "crypto/des"
+)
 
-        package main
+func main() {
+    ede2Key := []byte("example key 1234")
 
-        import (
-            "crypto/des"
-        )
+    var tripleDESKey []byte
+    tripleDESKey = append(tripleDESKey, ede2Key[:16]...)
+    tripleDESKey = append(tripleDESKey, ede2Key[:8]...)
 
-        func main() {
-            ede2Key := []byte("example key 1234")
+    _, err := des.NewTripleDESCipher(tripleDESKey)
+    if err != nil {
+        panic(err)
+    }
+}
+```
 
-            var tripleDESKey []byte
-            tripleDESKey = append(tripleDESKey, ede2Key[:16]...)
-            tripleDESKey = append(tripleDESKey, ede2Key[:8]...)
+## Remediation
 
-            _, err := des.NewTripleDESCipher(tripleDESKey)
-            if err != nil {
-                panic(err)
-            }
-        }
+It is advisable to use stronger, more secure cryptographic algorithms such as
+AES.
 
------------
-Remediation
------------
+```go
+package main
 
-.. admonition:: Fix
+import (
+    "crypto/aes"
+)
 
-    It is advisable to use stronger, more secure cryptographic algorithms such as
-    AES.
+func main() {
+    aesKey := []byte("example key 1234")
 
-    .. code-block:: go
-       :linenos:
-       :emphasize-lines: 4,10
+    _, err := aes.NewCipher(aesKey)
+    if err != nil {
+        panic(err)
+    }
+}
+```
 
-        package main
+## See also
 
-        import (
-            "crypto/aes"
-        )
+- [des package - crypto_des - Go Packages](https://pkg.go.dev/crypto/des)
+- [rc4 package - crypto_rc4 - Go Packages](https://pkg.go.dev/crypto/rc4)
+- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
 
-        func main() {
-            aesKey := []byte("example key 1234")
-
-            _, err := aes.NewCipher(aesKey)
-            if err != nil {
-                panic(err)
-            }
-        }
-
-.. seealso::
-
- - `des package - crypto_des - Go Packages <https://pkg.go.dev/crypto/des>`_
- - `rc4 package - crypto_rc4 - Go Packages <https://pkg.go.dev/crypto/rc4>`_
- - `CWE-327: Use of a Broken or Risky Cryptographic Algorithm <https://cwe.mitre.org/data/definitions/327.html>`_
-
-.. versionadded:: 0.2.1
+_New in version 0.2.1_
 
 """  # noqa: E501
 from precli.core.config import Config

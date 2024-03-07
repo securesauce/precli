@@ -1,10 +1,8 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-=========================================================================
-Cleartext Transmission of Sensitive Information in the ``imaplib`` Module
-=========================================================================
+# Cleartext Transmission of Sensitive Information in the `imaplib` Module
 
-The Python module ``imaplib`` provides a number of functions for accessing
+The Python module `imaplib` provides a number of functions for accessing
 IMAP servers. However, the default behavior of the module does not provide
 utilize secure connections. This means that data transmitted over the network,
 including passwords, is sent in cleartext. This makes it possible for attackers
@@ -13,64 +11,52 @@ to intercept and read this data.
 The Python module imaplib should only in a secure mannner to protect sensitive
 data when accessing IMAP servers.
 
--------
-Example
--------
+## Example
 
-.. error::
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 5
-
-        import getpass
-        import imaplib
+```python
+import getpass
+import imaplib
 
 
-        M = imaplib.IMAP4()
-        M.login(getpass.getuser(), getpass.getpass())
-        M.select()
-        typ, data = M.search(None, 'ALL')
-        for num in data[0].split():
-            typ, data = M.fetch(num, '(RFC822)')
-            print('Message %s\n%s\n' % (num, data[0][1]))
-        M.close()
-        M.logout()
+M = imaplib.IMAP4()
+M.login(getpass.getuser(), getpass.getpass())
+M.select()
+typ, data = M.search(None, 'ALL')
+for num in data[0].split():
+    typ, data = M.fetch(num, '(RFC822)')
+    print('Message %s\n%s\n' % (num, data[0][1]))
+M.close()
+M.logout()
+```
 
------------
-Remediation
------------
+## Remediation
 
-.. admonition:: Fix
+If the IMAP protocol must be used and sensitive data will be transferred, it
+is recommended to secure the connection using `IMAP4_SSL` class.
+Alternatively, the `starttls` function can be used to enter a secure session.
 
-    If the IMAP protocol must be used and sensitive data will be transferred, it
-    is recommended to secure the connection using ``IMAP4_SSL`` class.
-    Alternatively, the ``starttls`` function can be used to enter a secure session.
-
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 5
-
-        import getpass
-        import imaplib
+```python
+import getpass
+import imaplib
 
 
-        M = imaplib.IMAP4_SSL()
-        M.login(getpass.getuser(), getpass.getpass())
-        M.select()
-        typ, data = M.search(None, 'ALL')
-        for num in data[0].split():
-            typ, data = M.fetch(num, '(RFC822)')
-            print('Message %s\n%s\n' % (num, data[0][1]))
-        M.close()
-        M.logout()
+M = imaplib.IMAP4_SSL()
+M.login(getpass.getuser(), getpass.getpass())
+M.select()
+typ, data = M.search(None, 'ALL')
+for num in data[0].split():
+    typ, data = M.fetch(num, '(RFC822)')
+    print('Message %s\n%s\n' % (num, data[0][1]))
+M.close()
+M.logout()
+```
 
-.. seealso::
+## See also
 
- - `imaplib — IMAP4 protocol client <https://docs.python.org/3/library/imaplib.html>`_
- - `CWE-319: Cleartext Transmission of Sensitive Information <https://cwe.mitre.org/data/definitions/319.html>`_
+- [imaplib — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html)
+- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
-.. versionadded:: 0.1.9
+_New in version 0.1.9_
 
 """  # noqa: E501
 from precli.core.config import Config

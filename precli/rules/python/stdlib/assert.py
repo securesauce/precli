@@ -1,8 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-========================================
-Improper Check Using ``assert`` Function
-========================================
+# Improper Check Using `assert` Function
 
 Assertions are typically used during the development phase to catch logic
 errors and conditions that should never occur. However, relying on assertions
@@ -22,47 +20,35 @@ production code, especially for input validation, error handling, or other
 security-sensitive operations, it's important to use proper error handling
 mechanisms and validations that do not get removed during optimization.
 
---------
-Examples
---------
+## Examples
 
-.. warning::
+```python
+def foobar(a: str = None):
+    assert a is not None
+    return f"Hello {a}"
 
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 2
+foobar("World")
+```
 
-        def foobar(a: str = None):
-            assert a is not None
-            return f"Hello {a}"
+## Remediation
 
-        foobar("World")
+Use proper error handling mechanism appropriate for production code.
 
------------
-Remediation
------------
+```python
+def foobar(a: str = None):
+    if a is not None:
+        return f"Hello {a}"
 
-.. admonition:: Fix
+foobar("World")
+```
 
-    Use proper error handling mechanism appropriate for production code.
+## See also
 
-    .. code-block:: python
-       :linenos:
-       :emphasize-lines: 2,3
+- [Simple statements — Python documentation](https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement)
+- [CWE-617: Reachable Assertion](https://cwe.mitre.org/data/definitions/617.html)
+- [CWE-703: Improper Check or Handling of Exceptional Conditions](https://cwe.mitre.org/data/definitions/703.html)
 
-        def foobar(a: str = None):
-            if a is not None:
-                return f"Hello {a}"
-
-        foobar("World")
-
-.. seealso::
-
- - `Simple statements — Python documentation <https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement>`_
- - `CWE-617: Reachable Assertion <https://cwe.mitre.org/data/definitions/617.html>`_
- - `CWE-703: Improper Check or Handling of Exceptional Conditions <https://cwe.mitre.org/data/definitions/703.html>`_
-
-.. versionadded:: 0.3.8
+_New in version 0.3.8_
 
 """  # noqa: E501
 from precli.core.location import Location
