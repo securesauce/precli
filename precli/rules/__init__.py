@@ -84,11 +84,11 @@ class Rule(ABC):
         :rtype: str
         """
         try:
-            start = self._full_descr.index("\n\n") + 2
+            start = self._full_descr.index("\n# ") + 3
         except ValueError:
             start = 0
         try:
-            end = self._full_descr.index("\n##")
+            end = self._full_descr.index("\n\n")
         except ValueError:
             end = len(self._full_descr)
         return self._full_descr[start:end]
