@@ -1,6 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-# Reversible One Way Hash in ``hashlib`` Module
+# Reversible One Way Hash in `hashlib` Module
 
 The Python module `hashlib` provides a number of functions for hashing data.
 However, some of the hash algorithms supported by hashlib are insecure and

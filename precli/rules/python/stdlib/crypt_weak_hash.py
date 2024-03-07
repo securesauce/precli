@@ -1,6 +1,6 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-# Reversible One Way Hash in ``crypt`` Module
+# Reversible One Way Hash in `crypt` Module
 
 The Python module `crypt` provides a number of functions for password
 hashing. However, some of the hashing functions supported by `crypt` are weak
@@ -38,7 +38,7 @@ crypt.mksalt(crypt.METHOD_CRYPT)
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256`` or ``SHA512``.
+secure alternatives, `SHA256` or `SHA512`.
 
 ```python
 import crypt

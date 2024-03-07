@@ -42,7 +42,7 @@ mac = hmac_obj.digest()
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
-secure alternatives, ``SHA256``, ``SHA-384``, or ``SHA512``.
+secure alternatives, `SHA256`, `SHA-384`, or `SHA512`.
 
 ```python
 import hmac
