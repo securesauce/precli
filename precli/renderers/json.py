@@ -63,6 +63,12 @@ class Json(Renderer):
                 id=rule.id,
                 name=rule.__class__.__name__,
                 help_uri=rule.help_url,
+                short_description=sarif_om.MultiformatMessageString(
+                    text=rule.short_description
+                ),
+                full_description=sarif_om.MultiformatMessageString(
+                    text=rule.full_description
+                ),
                 message_strings={
                     "default": sarif_om.MultiformatMessageString(
                         text=rule.message

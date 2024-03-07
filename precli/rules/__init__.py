@@ -76,7 +76,7 @@ class Rule(ABC):
         return self._name
 
     @property
-    def short_descr(self) -> str:
+    def short_description(self) -> str:
         """
         Short description of the rule.
 
@@ -84,17 +84,17 @@ class Rule(ABC):
         :rtype: str
         """
         try:
-            start = self._full_descr.rindex("===\n") + 4
+            start = self._full_descr.index("\n\n") + 2
         except ValueError:
             start = 0
         try:
-            end = self._full_descr.index("\n---")
+            end = self._full_descr.index("\n##")
         except ValueError:
             end = len(self._full_descr)
         return self._full_descr[start:end]
 
     @property
-    def full_descr(self) -> str:
+    def full_description(self) -> str:
         """
         Full description of the rule.
 
