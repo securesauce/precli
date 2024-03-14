@@ -1,14 +1,14 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-# Improper Certificate Validation Using `ftplib`
+# Improper Certificate Validation Using `imaplib`
 
-The Python class `ftplib.FTP_TLS` by default creates an SSL context that does
-not verify the server's certificate if the context parameter is unset or has
-a value of None. This means that an attacker can easily impersonate a
+The Python class `imaplib.IMAP4_SSL` by default creates an SSL context that
+does not verify the server's certificate if the context parameter is unset or
+has a value of None. This means that an attacker can easily impersonate a
 legitimate server and fool your application into connecting to it.
 
-If you use `ftplib.FTP_TLS` without a context set, you are opening your
-application up to a number of security risks, including:
+If you use `imaplib.IMAP4_SSL` or `starttls` without a context set, you are
+opening your application up to a number of security risks, including:
 
 - Man-in-the-middle attacks
 - Session hijacking
@@ -17,35 +17,36 @@ application up to a number of security risks, including:
 ## Example
 
 ```python
-import ftplib
+import imaplib
 
 
-with ftplib.FTP_TLS("ftp.us.debian.org") as ftp:
-    ftp.cwd("debian")
-    ftp.retrlines("LIST")
+with imaplib.IMAP4_SSL("domain.org") as imap4:
+    imap4.noop()
+    imap4.login("user", "password")
 ```
 
 ## Remediation
 
-Set the value of the `context` keyword argument to
+Set the value of the `ssl_context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
 ```python
-import ftplib
+import imaplib
 import ssl
 
 
-with ftplib.FTP_TLS(
-    "ftp.us.debian.org",
-    context=ssl.create_default_context(),
-) as ftp:
-    ftp.cwd("debian")
-    ftp.retrlines("LIST")
+with imaplib.IMAP4_SSL(
+    "domain.org",
+    ssl_context=ssl.create_default_context(),
+) as imap4:
+    imap4.noop()
+    imap4.login("user", "password")
 ```
 
 ## See also
 
-- [ftplib — FTP protocol client](https://docs.python.org/3/library/ftplib.html#ftplib.FTP_TLS)
+- [imaplib.IMAP4_SSL — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4_SSL)
+- [imaplib.IMAP4.starttls — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.starttls)
 - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
 - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
@@ -60,7 +61,7 @@ from precli.rules import Rule
 CONTEXT_FIX = "ssl.create_default_context()"
 
 
-class FtplibUnverifiedContext(Rule):
+class ImaplibUnverifiedContext(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -71,24 +72,30 @@ class FtplibUnverifiedContext(Rule):
             "certificates when context is unset or None.",
             targets=("call"),
             wildcards={
-                "ftplib.*": [
-                    "FTP_TLS",
+                "imaplib.*": [
+                    "IMAP4_SSL",
                 ]
             },
         )
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
-        if call.name_qualified not in ["ftplib.FTP_TLS"]:
+        if call.name_qualified not in [
+            "imaplib.IMAP4_SSL",
+            "imaplib.IMAP4.starttls",
+        ]:
             return
 
-        context_arg = call.get_argument(name="context")
-        if context_arg.value is not None:
+        if call.name_qualified == "imaplib.IMAP4_SSL":
+            ssl_context = call.get_argument(name="ssl_context")
+        else:
+            ssl_context = call.get_argument(position=0, name="ssl_context")
+        if ssl_context.value is not None:
             return
 
-        if context_arg.node is not None:
-            result_node = context_arg.node
-            fix_node = context_arg.node
+        if ssl_context.node is not None:
+            result_node = ssl_context.node
+            fix_node = ssl_context.node
             content = CONTEXT_FIX
         else:
             result_node = call.function_node
