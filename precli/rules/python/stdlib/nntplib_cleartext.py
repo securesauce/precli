@@ -70,27 +70,29 @@ class NntpCleartext(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
+        if call.name_qualified not in ["nntplib.NNTP.login"]:
+            return
 
-        if call.name_qualified in ["nntplib.NNTP.login"]:
-            symbol = context["symtab"].get(call.var_node.text.decode())
+        symbol = context["symtab"].get(call.var_node.text.decode())
+        if "starttls" in [
+            x.identifier_node.text.decode() for x in symbol.call_history
+        ]:
+            return
 
-            if "starttls" not in [
-                x.identifier_node.text.decode() for x in symbol.call_history
-            ]:
-                init_call = symbol.call_history[0]
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=init_call.identifier_node),
-                    description="Use the 'NNTP_SSL' module to secure the "
-                    "connection.",
-                    inserted_content="NNTP_SSL",
-                )
+        init_call = symbol.call_history[0]
+        fixes = Rule.get_fixes(
+            context=context,
+            deleted_location=Location(node=init_call.identifier_node),
+            description="Use the 'NNTP_SSL' module to secure the "
+            "connection.",
+            inserted_content="NNTP_SSL",
+        )
 
-                return Result(
-                    rule_id=self.id,
-                    location=Location(node=call.identifier_node),
-                    message=f"The '{call.name_qualified}' function will "
-                    f"transmit authentication information such as a user, "
-                    "password in cleartext.",
-                    fixes=fixes,
-                )
+        return Result(
+            rule_id=self.id,
+            location=Location(node=call.identifier_node),
+            message=f"The '{call.name_qualified}' function will "
+            f"transmit authentication information such as a user, "
+            "password in cleartext.",
+            fixes=fixes,
+        )

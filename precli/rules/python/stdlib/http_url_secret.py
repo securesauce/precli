@@ -80,21 +80,22 @@ class HttpUrlSecret(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
-
-        if call.name_qualified in [
+        if call.name_qualified not in [
             "http.client.HTTPConnection.request",
             "http.client.HTTPSConnection.request",
         ]:
-            argument = call.get_argument(position=1, name="url")
-            url = argument.value
-            split_url = urlsplit(url)
-            query = split_url.query
-            params = parse_qs(query)
+            return
 
-            if split_url.username or any(
-                key in params for key in SENSITIVE_PARAMS
-            ):
-                return Result(
-                    rule_id=self.id,
-                    location=Location(node=argument.node),
-                )
+        argument = call.get_argument(position=1, name="url")
+        url = argument.value
+        split_url = urlsplit(url)
+        query = split_url.query
+        params = parse_qs(query)
+
+        if split_url.username or any(
+            key in params for key in SENSITIVE_PARAMS
+        ):
+            return Result(
+                rule_id=self.id,
+                location=Location(node=argument.node),
+            )
