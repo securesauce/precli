@@ -118,6 +118,10 @@ class Call:
         """
         return self._name_qual
 
+    @property
+    def arg_list_node(self) -> Node:
+        return self._arg_list_node
+
     def get_argument(
         self, position: int = -1, name: str = None, default: Argument = None
     ) -> Argument:

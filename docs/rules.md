@@ -33,3 +33,4 @@
 | PY019 | [ssl — weak key](rules/python/stdlib/ssl_context_weak_key.md) | Inadequate Encryption Strength Using Weak SSL Protocols |
 | PY020 | [telnetlib — cleartext](rules/python/stdlib/telnetlib_cleartext.md) | Cleartext Transmission of Sensitive Information in the `telnetlib` Module |
 | PY021 | [tempfile — mktemp race condition](rules/python/stdlib/tempfile_mktemp_race_condition.md) | Insecure Temporary File in the ``tempfile`` Module |
+| PY022 | [ftplib — unverified context](rules/python/stdlib/ftplib_unverified_context.md) | Improper Certificate Validation Using `ftplib` |

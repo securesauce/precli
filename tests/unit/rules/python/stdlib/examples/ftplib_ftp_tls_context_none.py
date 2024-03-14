@@ -1,11 +1,15 @@
-# level: NONE
+# level: WARNING
+# start_line: 11
+# end_line: 11
+# start_column: 12
+# end_column: 16
 import ftplib
-import ssl
 
 
 ftp = ftplib.FTP_TLS(
     "ftp.us.debian.org",
-    context=ssl.create_default_context(),
+    context=None,
+    encoding="utf-8",
 )
 ftp.login()
 
