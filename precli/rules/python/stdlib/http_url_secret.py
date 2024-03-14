@@ -70,7 +70,7 @@ class HttpUrlSecret(Rule):
             message="Secrets in URLs are vulnerable to unauthorized access.",
             targets=("call"),
             wildcards={
-                "http.client": [
+                "http.client.*": [
                     "HTTPConnection",
                     "HTTPSConnection",
                 ]
