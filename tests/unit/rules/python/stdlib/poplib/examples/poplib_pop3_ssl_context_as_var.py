@@ -1,11 +1,14 @@
-# level: NONE
+# level: WARNING
+# start_line: 11
+# end_line: 11
+# start_column: 41
+# end_column: 48
 import getpass
 import poplib
-import ssl
 
 
-M = poplib.POP3("localhost")
-M.stls(context=ssl.create_default_context())
+context = None
+M = poplib.POP3_SSL("localhost", context=context)
 M.user(getpass.getuser())
 M.pass_(getpass.getpass())
 numMessages = len(M.list()[1])
