@@ -73,35 +73,37 @@ class SslContextWeakKey(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
 
-        if call.name_qualified in [
+        if call.name_qualified not in [
             "ssl.SSLContext.set_ecdh_curve",
             "ssl.create_default_context.set_ecdh_curve",
             "ssl._create_unverified_context.set_ecdh_curve",
         ]:
-            arg = call.get_argument(position=0, name="curve_name")
-            curve_name = arg.value
+            return
 
-            result = re.search(r"sec[p|t](\d{3})(?:r1|r2|k1){1}", curve_name)
-            if not result:
-                result = re.search(r"prime(\d{3})v[1|2|3]", curve_name)
-            if not result:
-                result = re.search(r"brainpoolP(\d{3})r[1|2|3]", curve_name)
-            if not result:
-                result = re.search(r"brainpoolP(\d{3})r1tls13", curve_name)
-            key_size = int(result.group(1)) if result else 224
+        arg = call.get_argument(position=0, name="curve_name")
+        curve_name = arg.value
 
-            if key_size < 224:
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=arg.node),
-                    description="Use a curve with a minimum size of 224 bits.",
-                    inserted_content='"secp256k1"',
-                )
+        result = re.search(r"sec[p|t](\d{3})(?:r1|r2|k1){1}", curve_name)
+        if not result:
+            result = re.search(r"prime(\d{3})v[1|2|3]", curve_name)
+        if not result:
+            result = re.search(r"brainpoolP(\d{3})r[1|2|3]", curve_name)
+        if not result:
+            result = re.search(r"brainpoolP(\d{3})r1tls13", curve_name)
+        key_size = int(result.group(1)) if result else 224
 
-                return Result(
-                    rule_id=self.id,
-                    location=Location(node=arg.node),
-                    level=Level.ERROR if key_size < 160 else Level.WARNING,
-                    message=self.message.format("EC", 224),
-                    fixes=fixes,
-                )
+        if key_size < 224:
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=arg.node),
+                description="Use a curve with a minimum size of 224 bits.",
+                inserted_content='"secp256k1"',
+            )
+
+            return Result(
+                rule_id=self.id,
+                location=Location(node=arg.node),
+                level=Level.ERROR if key_size < 160 else Level.WARNING,
+                message=self.message.format("EC", 224),
+                fixes=fixes,
+            )

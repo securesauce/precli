@@ -115,30 +115,32 @@ class SmtpCleartext(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
-
-        if call.name_qualified in [
+        if call.name_qualified not in [
             "smtplib.SMTP.login",
             "smtplib.SMTP.auth",
         ]:
-            symbol = context["symtab"].get(call.var_node.text.decode())
+            return
 
-            if "starttls" not in [
-                x.identifier_node.text.decode() for x in symbol.call_history
-            ]:
-                init_call = symbol.call_history[0]
-                fixes = Rule.get_fixes(
-                    context=context,
-                    deleted_location=Location(node=init_call.identifier_node),
-                    description="Use the 'SMTP_SSL' module to secure the "
-                    "connection.",
-                    inserted_content="SMTP_SSL",
-                )
+        symbol = context["symtab"].get(call.var_node.text.decode())
+        if "starttls" in [
+            x.identifier_node.text.decode() for x in symbol.call_history
+        ]:
+            return
 
-                return Result(
-                    rule_id=self.id,
-                    location=Location(node=call.identifier_node),
-                    message=f"The '{call.name_qualified}' function will "
-                    f"transmit authentication information such as a user, "
-                    "password in cleartext.",
-                    fixes=fixes,
-                )
+        init_call = symbol.call_history[0]
+        fixes = Rule.get_fixes(
+            context=context,
+            deleted_location=Location(node=init_call.identifier_node),
+            description="Use the 'SMTP_SSL' module to secure the "
+            "connection.",
+            inserted_content="SMTP_SSL",
+        )
+
+        return Result(
+            rule_id=self.id,
+            location=Location(node=call.identifier_node),
+            message=f"The '{call.name_qualified}' function will "
+            f"transmit authentication information such as a user, "
+            "password in cleartext.",
+            fixes=fixes,
+        )

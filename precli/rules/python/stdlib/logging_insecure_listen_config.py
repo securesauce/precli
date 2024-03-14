@@ -67,11 +67,12 @@ class InsecureListenConfig(Rule):
 
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
+        if call.name_qualified not in ["logging.config.listen"]:
+            return
 
-        if call.name_qualified in ["logging.config.listen"]:
-            if call.get_argument(position=1, name="verify").value is None:
-                return Result(
-                    rule_id=self.id,
-                    location=Location(node=call.function_node),
-                    message=self.message.format(call.name_qualified),
-                )
+        if call.get_argument(position=1, name="verify").value is None:
+            return Result(
+                rule_id=self.id,
+                location=Location(node=call.function_node),
+                message=self.message.format(call.name_qualified),
+            )
