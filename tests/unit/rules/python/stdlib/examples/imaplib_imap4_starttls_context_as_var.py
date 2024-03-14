@@ -1,11 +1,15 @@
-# level: NONE
+# level: WARNING
+# start_line: 12
+# end_line: 12
+# start_column: 27
+# end_column: 38
 import getpass
 import imaplib
-import ssl
 
 
+ssl_context = None
 imap4 = imaplib.IMAP4()
-imap4.starttls(ssl_context=ssl.create_default_context())
+imap4.starttls(ssl_context=ssl_context)
 imap4.login(getpass.getuser(), getpass.getpass())
 imap4.select()
 typ, data = imap4.search(None, "ALL")

@@ -1,9 +1,10 @@
 # level: NONE
 import getpass
 import imaplib
+import ssl
 
 
-imap4 = imaplib.IMAP4_SSL()
+imap4 = imaplib.IMAP4_SSL(ssl_context=ssl.create_default_context())
 imap4.login(getpass.getuser(), getpass.getpass())
 imap4.select()
 typ, data = imap4.search(None, "ALL")
