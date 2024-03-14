@@ -1,10 +1,13 @@
-# level: NONE
+# level: WARNING
+# start_line: 10
+# end_line: 10
+# start_column: 19
+# end_column: 23
 import nntplib
-import ssl
 
 
 s = nntplib.NNTP("news.gmane.io")
-s.starttls(context=ssl.create_default_context())
+s.starttls(context=None)
 s.login("user", "password")
 f = open("article.txt", "rb")
 s.post(f)
