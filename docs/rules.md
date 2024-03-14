@@ -35,3 +35,4 @@
 | PY021 | [tempfile — mktemp race condition](rules/python/stdlib/tempfile_mktemp_race_condition.md) | Insecure Temporary File in the ``tempfile`` Module |
 | PY022 | [ftplib — unverified context](rules/python/stdlib/ftplib_unverified_context.md) | Improper Certificate Validation Using `ftplib` |
 | PY023 | [imaplib — unverified context](rules/python/stdlib/imaplib_unverified_context.md) | Improper Certificate Validation Using `imaplib` |
+| PY024 | [nntplib — unverified context](rules/python/stdlib/nntplib_unverified_context.md) | Improper Certificate Validation Using `nntplib` |

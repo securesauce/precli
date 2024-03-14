@@ -1,13 +1,13 @@
 # Copyright 2024 Secure Saurce LLC
 r"""
-# Improper Certificate Validation Using `imaplib`
+# Improper Certificate Validation Using `nntplib`
 
-The Python class `imaplib.IMAP4_SSL` by default creates an SSL context that
+The Python class `nntplib.NNTP_SSL` by default creates an SSL context that
 does not verify the server's certificate if the context parameter is unset or
 has a value of None. This means that an attacker can easily impersonate a
 legitimate server and fool your application into connecting to it.
 
-If you use `imaplib.IMAP4_SSL` or `starttls` without a context set, you are
+If you use `nntplib.NNTP_SSL` or `starttls` without a context set, you are
 opening your application up to a number of security risks, including:
 
 - Man-in-the-middle attacks
@@ -17,36 +17,36 @@ opening your application up to a number of security risks, including:
 ## Example
 
 ```python
-import imaplib
+import nntplib
 
 
-with imaplib.IMAP4_SSL("domain.org") as imap4:
-    imap4.noop()
-    imap4.login("user", "password")
+with nntplib.NNTP("news.gmane.io") as n:
+    n.login("user", "password")
+    n.group("gmane.comp.python.committers")
 ```
 
 ## Remediation
 
-Set the value of the `ssl_context` keyword argument to
+Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
 ```python
-import imaplib
+import nntplib
 import ssl
 
 
-with imaplib.IMAP4_SSL(
-    "domain.org",
-    ssl_context=ssl.create_default_context(),
-) as imap4:
-    imap4.noop()
-    imap4.login("user", "password")
+with nntplib.NNTP(
+    "news.gmane.io",
+    context=ssl.create_default_context(),
+) as n:
+    n.login("user", "password")
+    n.group("gmane.comp.python.committers")
 ```
 
 ## See also
 
-- [imaplib.IMAP4_SSL — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4_SSL)
-- [imaplib.IMAP4.starttls — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.starttls)
+- [nntplib.NNTP_SSL — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP_SSL)
+- [nntplib.NNTP.starttls — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP.starttls)
 - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
 - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
@@ -61,7 +61,7 @@ from precli.rules import Rule
 CONTEXT_FIX = "ssl.create_default_context()"
 
 
-class ImaplibUnverifiedContext(Rule):
+class NntplibUnverifiedContext(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -72,8 +72,8 @@ class ImaplibUnverifiedContext(Rule):
             "certificates when context is unset or None.",
             targets=("call"),
             wildcards={
-                "imaplib.*": [
-                    "IMAP4_SSL",
+                "nntplib.*": [
+                    "NNTP_SSL",
                 ]
             },
         )
@@ -81,15 +81,15 @@ class ImaplibUnverifiedContext(Rule):
     def analyze(self, context: dict, **kwargs: dict) -> Result:
         call = kwargs.get("call")
         if call.name_qualified not in [
-            "imaplib.IMAP4_SSL",
-            "imaplib.IMAP4.starttls",
+            "nntplib.NNTP_SSL",
+            "nntplib.NNTP.starttls",
         ]:
             return
 
-        if call.name_qualified == "imaplib.IMAP4_SSL":
-            ssl_context = call.get_argument(name="ssl_context")
+        if call.name_qualified == "nntplib.NNTP_SSL":
+            ssl_context = call.get_argument(name="context")
         else:
-            ssl_context = call.get_argument(position=0, name="ssl_context")
+            ssl_context = call.get_argument(position=0, name="context")
         if ssl_context.value is not None:
             return
 
@@ -104,7 +104,7 @@ class ImaplibUnverifiedContext(Rule):
             args = [
                 child.text.decode() for child in arg_list_node.named_children
             ]
-            args.append(f"ssl_context={CONTEXT_FIX}")
+            args.append(f"context={CONTEXT_FIX}")
             content = f"({', '.join(args)})"
 
         fixes = Rule.get_fixes(
