@@ -1,6 +1,9 @@
-# level: NONE
+# level: WARNING
+# start_line: 32
+# end_line: 32
+# start_column: 16
+# end_column: 23
 import smtplib
-import ssl
 
 
 def prompt(prompt):
@@ -24,7 +27,9 @@ while True:
 
 print("Message length is", len(msg))
 
-server = smtplib.SMTP_SSL("localhost", context=ssl.create_default_context())
+server = smtplib.SMTP("localhost")
+context = None
+server.starttls(context)
 server.login("user", "password")
 server.set_debuglevel(1)
 server.sendmail(fromaddr, toaddrs, msg)
