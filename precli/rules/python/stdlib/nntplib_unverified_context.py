@@ -20,7 +20,7 @@ opening your application up to a number of security risks, including:
 import nntplib
 
 
-with nntplib.NNTP("news.gmane.io") as n:
+with nntplib.NNTP_SSL("news.gmane.io") as n:
     n.login("user", "password")
     n.group("gmane.comp.python.committers")
 ```
@@ -35,7 +35,7 @@ import nntplib
 import ssl
 
 
-with nntplib.NNTP(
+with nntplib.NNTP_SSL(
     "news.gmane.io",
     context=ssl.create_default_context(),
 ) as n:
@@ -73,6 +73,7 @@ class NntplibUnverifiedContext(Rule):
             targets=("call"),
             wildcards={
                 "nntplib.*": [
+                    "NNTP",
                     "NNTP_SSL",
                 ]
             },

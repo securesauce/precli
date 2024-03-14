@@ -20,7 +20,7 @@ opening your application up to a number of security risks, including:
 import poplib
 
 
-with poplib.POP3("domain.org") as pop3:
+with poplib.POP3_SSL("domain.org") as pop3:
     pop3.user("user")
 ```
 
@@ -34,7 +34,7 @@ import poplib
 import ssl
 
 
-with poplib.POP3(
+with poplib.POP3_SSL(
     "domain.org",
     context=ssl.create_default_context(),
 ) as pop3:
@@ -43,7 +43,7 @@ with poplib.POP3(
 
 ## See also
 
-- [poplib.POP3_SSL — POP3 protocol client](https://docs.python.org/3/library/poplib.html#nntplib.POP3_SSL)
+- [poplib.POP3_SSL — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3_SSL)
 - [poplib.POP3.stls — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3.stls)
 - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
 - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
@@ -72,6 +72,7 @@ class PoplibUnverifiedContext(Rule):
             wildcards={
                 "poplib.*": [
                     "POP3",
+                    "POP3_SSL",
                 ]
             },
         )

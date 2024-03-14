@@ -37,3 +37,4 @@
 | PY023 | [imaplib — unverified context](rules/python/stdlib/imaplib_unverified_context.md) | Improper Certificate Validation Using `imaplib` |
 | PY024 | [nntplib — unverified context](rules/python/stdlib/nntplib_unverified_context.md) | Improper Certificate Validation Using `nntplib` |
 | PY025 | [poplib — unverified context](rules/python/stdlib/poplib_unverified_context.md) | Improper Certificate Validation Using `poplib` |
+| PY026 | [smtplib — unverified context](rules/python/stdlib/smtplib_unverified_context.md) | Improper Certificate Validation Using `smtplib` |
