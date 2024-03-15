@@ -57,7 +57,7 @@ class Json(Renderer):
             description=sarif_om.Message(text=fix.description),
         )
 
-    def create_rule_if_not_exists(
+    def create_rule_if_needed(
         self, result: Result, rules: dict, rule_indices: dict
     ):
         rule = Rule.get_by_id(result.rule_id)
@@ -131,7 +131,7 @@ class Json(Renderer):
         rule_indices = {}
 
         for result in run.results:
-            rule, rule_index = self.create_rule_if_not_exists(
+            rule, rule_index = self.create_rule_if_needed(
                 result, rules, rule_indices
             )
 
