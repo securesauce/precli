@@ -47,8 +47,9 @@ Run precli against an entire GitHub repository:
 precli -r https://github.com/securesauce/precli
 ```
 
-Run precli against an entire GitHub repository and output the results in markdown format to Gist.
-Note: this requires a GITHUB_TOKEN environment variable set to a valid GitHub token value:
+Run precli against an entire GitHub repository and output the results in
+markdown format to Gist. Note: this requires a GITHUB_TOKEN environment
+variable set to a valid GitHub token value:
 
 ```
 precli -r https://github.com/securesauce/precli --markdown --gist
@@ -76,5 +77,3 @@ repos:
 ```
 
 Then run `pre-commit install` and you're ready to go.
-
-
