@@ -54,7 +54,7 @@ class SecretsWeakToken(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
-            name="inadequate_encryption_strength",
+            name="insufficient_token_length",
             description=__doc__,
             cwe_id=326,
             message="Using token lengths less than '{0}' bytes is considered "
