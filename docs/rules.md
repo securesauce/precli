@@ -39,3 +39,4 @@
 | PY025 | [poplib — unverified context](rules/python/stdlib/poplib_unverified_context.md) | Improper Certificate Validation Using `poplib` |
 | PY026 | [smtplib — unverified context](rules/python/stdlib/smtplib_unverified_context.md) | Improper Certificate Validation Using `smtplib` |
 | PY027 | [argparse — sensitive info](rules/python/stdlib/argparse_sensitive_info.md) | Invocation of Process Using Visible Sensitive Information in `argparse` |
+| PY028 | [secrets — weak token](rules/python/stdlib/secrets_weak_token.md) | Insufficient Token Length |
