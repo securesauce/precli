@@ -1,5 +1,7 @@
-Precli - precaution command line interface
-==========================================
+.. image:: https://raw.githubusercontent.com/securesauce/precli/main/logo/logo.png
+    :alt: Precaution CLI
+
+======
 
 .. image:: https://github.com/securesauce/precli/actions/workflows/unit-test.yml/badge.svg?branch=main
     :target: https://github.com/securesauce/precli/actions/workflows/unit-test.yml
