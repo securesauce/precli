@@ -6,4 +6,5 @@ vulnerabilities.
 
 ## License
 
-`precli` is provided under the terms and conditions of the [Business Source License 1.1](https://github.com/securesauce/precli/blob/main/LICENSE)
+`precli` is provided under the terms and conditions of the
+[Business Source License 1.1](https://github.com/securesauce/precli/blob/main/LICENSE)

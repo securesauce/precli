@@ -1,7 +1,21 @@
 site_name: Precli Documentation
+repo_url: https://github.com/securesauce/precli/
+edit_uri: blob/main/docs/
+copyright: Copyright 2024 Secure Saurce LLC
 
 theme:
   name: "readthedocs"
+  locale: en
+  highlightjs: true
 
 plugins:
   - mkdocstrings
+  - search
+
+nav:
+  - Home:
+    - index.md
+  - 'User Guide':
+    - getting-started.md
+  - Rules:
+    - Rules: rules.md
