@@ -1,6 +1,6 @@
 ---
 id: PY017
-title: ssl — create unverified context
+title: ssl — unverified context
 hide_title: true
 pagination_prev: null
 pagination_next: null

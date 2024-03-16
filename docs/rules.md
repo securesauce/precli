@@ -28,7 +28,7 @@
 | PY014 | [poplib — cleartext](rules/python/stdlib/poplib-cleartext.md) | Cleartext Transmission of Sensitive Information in the `poplib` Module |
 | PY015 | [shelve — open](rules/python/stdlib/shelve-open.md) | Deserialization of Untrusted Data in the `shelve` Module |
 | PY016 | [smtplib — cleartext](rules/python/stdlib/smtplib-cleartext.md) | Cleartext Transmission of Sensitive Information in the `smtplib` Module |
-| PY017 | [ssl — create unverified context](rules/python/stdlib/ssl-create-unverified-context.md) | Inadequate Encryption Strength Using Weak Keys in `SSLContext` |
+| PY017 | [ssl — unverified context](rules/python/stdlib/ssl-create-unverified-context.md) | Inadequate Encryption Strength Using Weak Keys in `SSLContext` |
 | PY018 | [ssl — insecure tls version](rules/python/stdlib/ssl-insecure-tls-version.md) | Improper Certificate Validation Using `ssl._create_unverified_context` |
 | PY019 | [ssl — weak key](rules/python/stdlib/ssl-context-weak-key.md) | Inadequate Encryption Strength Using Weak SSL Protocols |
 | PY020 | [telnetlib — cleartext](rules/python/stdlib/telnetlib-cleartext.md) | Cleartext Transmission of Sensitive Information in the `telnetlib` Module |
