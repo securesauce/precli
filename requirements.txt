@@ -1,4 +1,4 @@
-cwe
+cwe2
 Pygments
 rich # MIT
 tree_sitter>=0.20.4

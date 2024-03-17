@@ -40,3 +40,4 @@
 | PY026 | [smtplib — unverified context](rules/python/stdlib/smtplib-unverified-context.md) | Improper Certificate Validation Using `smtplib` |
 | PY027 | [argparse — sensitive info](rules/python/stdlib/argparse-sensitive-info.md) | Invocation of Process Using Visible Sensitive Information in `argparse` |
 | PY028 | [secrets — weak token](rules/python/stdlib/secrets-weak-token.md) | Insufficient Token Length |
+| PY029 | [secrets — weak token](rules/python/stdlib/socket-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `socket` Module |

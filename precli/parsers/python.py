@@ -91,6 +91,7 @@ class Python(Parser):
             "call",
             "attribute",
             "identifier",
+            "tuple",
             "string",
             "integer",
             "float",
@@ -381,9 +382,9 @@ class Python(Parser):
                     # value = ast.literal_eval(nodetext)
                     pass
                 case "tuple":
-                    # TODO: don't use ast.literal_eval
-                    # value = ast.literal_eval(nodetext)
-                    pass
+                    value = ()
+                    for child in node.named_children:
+                        value += (self.literal_value(child),)
                 case "string":
                     # TODO: handle byte strings (b"abc")
                     # TODO: handle f-strings? (f"{a}")
