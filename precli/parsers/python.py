@@ -87,7 +87,20 @@ class Python(Parser):
             self.visit(nodes)
 
     def visit_assignment(self, nodes: list[Node]):
-        if nodes[0].type == "identifier" and nodes[2].type in (
+        # pattern_list = expression_list (i.e. HOST, PORT = "", 9999)
+        if (
+            nodes[0].type == "pattern_list"
+            and nodes[2].type == "expression_list"
+        ):
+            for i in range(len(nodes[0].named_children)):
+                self.visit_assignment(
+                    [
+                        nodes[0].named_children[i],
+                        nodes[1],
+                        nodes[2].named_children[i],
+                    ]
+                )
+        elif nodes[0].type == "identifier" and nodes[2].type in (
             "call",
             "attribute",
             "identifier",
