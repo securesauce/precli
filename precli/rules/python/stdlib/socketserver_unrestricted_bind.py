@@ -20,12 +20,19 @@ surface.
 ## Example
 
 ```python
-import socket
+import socketserver
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("0.0.0.0", 8080))
-s.listen()
+class MyUDPHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        data = self.request[0].strip()
+        socket = self.request[1]
+        socket.sendto(data.upper(), self.client_address)
+
+
+HOST, PORT = "0.0.0.0", 9999
+with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
+    server.serve_forever()
 ```
 
 ## Remediation
@@ -36,18 +43,29 @@ explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
 ```python
-import socket
+import socketserver
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("127.0.0.1", 8080))
-s.listen()
+class MyUDPHandler(socketserver.BaseRequestHandler):
+    def handle(self):
+        data = self.request[0].strip()
+        socket = self.request[1]
+        socket.sendto(data.upper(), self.client_address)
+
+
+HOST, PORT = "127.0.0.1", 9999
+with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
+    server.serve_forever()
 ```
 
 ## See also
 
-- [socket.create_server — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.create_server)
-- [socket.socket.bind — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.socket.bind)
+- [socketserver.TCPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.TCPServer)
+- [socketserver.UDPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.UDPServer)
+- [socketserver.ForkingTCPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.ForkingTCPServer)
+- [socketserver.ForkingUDPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.ForkingUDPServer)
+- [socketserver.ThreadingTCPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.ThreadingTCPServer)
+- [socketserver.ThreadingUDPServer — A framework for network servers](https://docs.python.org/3/library/socketserver.html#socketserver.ThreadingUDPServer)
 - [CWE-1327: Binding to an Unrestricted IP Address](https://cwe.mitre.org/data/definitions/1327.html)
 
 _New in version 0.3.14_
