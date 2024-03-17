@@ -3,8 +3,8 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Self
 
-from cwe import Database
-from cwe import Weakness
+from cwe2.database import Database
+from cwe2.weakness import Weakness
 
 from precli.core.config import Config
 from precli.core.fix import Fix
