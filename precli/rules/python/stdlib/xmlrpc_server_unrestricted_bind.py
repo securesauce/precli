@@ -20,12 +20,12 @@ surface.
 ## Example
 
 ```python
-from http.server import BaseHTTPRequestHandler
-from http.server import HTTPServer
+from xmlrpc.server import DocXMLRPCRequestHandler
+from xmlrpc.server import DocXMLRPCServer
 
 
-def run(server_class: HTTPServer, handler_class: BaseHTTPRequestHandler):
-    server_address = ("", 8000)
+def run(server_class: DocXMLRPCServer, handler_class: DocXMLRPCRequestHandler):
+    server_address = ("::", 8000)
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
 ```
@@ -38,11 +38,11 @@ explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
 ```python
-from http.server import BaseHTTPRequestHandler
-from http.server import HTTPServer
+from xmlrpc.server import DocXMLRPCRequestHandler
+from xmlrpc.server import DocXMLRPCServer
 
 
-def run(server_class: HTTPServer, handler_class: BaseHTTPRequestHandler):
+def run(server_class: DocXMLRPCServer, handler_class: DocXMLRPCRequestHandler):
     server_address = ("127.0.0.1", 8000)
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
