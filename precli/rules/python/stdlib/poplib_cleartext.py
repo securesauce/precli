@@ -55,6 +55,7 @@ for i in range(numMessages):
 _New in version 0.1.9_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -71,7 +72,6 @@ class PopCleartext(Rule):
             cwe_id=319,
             message="The POP protocol can transmit data in cleartext without "
             "encryption.",
-            targets=("call"),
             wildcards={
                 "poplib.*": [
                     "POP3",
@@ -80,8 +80,7 @@ class PopCleartext(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "poplib.POP3.user",
             "poplib.POP3.pass_",

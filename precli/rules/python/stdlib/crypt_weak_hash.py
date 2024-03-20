@@ -80,6 +80,7 @@ alternatives include `bcrypt`, `pbkdf2`, and `scrypt`.
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -100,7 +101,6 @@ class CryptWeakHash(Rule):
             cwe_id=328,
             message="Use of weak hash function '{0}' does not meet security "
             "expectations.",
-            targets=("call"),
             wildcards={
                 "crypt.*": [
                     "crypt",
@@ -109,9 +109,7 @@ class CryptWeakHash(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["crypt.crypt"]:
             name = call.get_argument(position=1, name="salt").value
 

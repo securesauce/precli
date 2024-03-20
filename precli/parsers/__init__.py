@@ -177,22 +177,26 @@ class Parser(ABC):
         child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None
 
-    def process_rules(self, target: str, **kwargs: dict) -> list[Result]:
+    def analyze_node(self, node_type: str, **kwargs: dict) -> list[Result]:
         """
-        Process the rules based on target.
+        Process the rules based on node_type.
 
         This function will iterate through all rules that are designed to
-        handle the given node type (target).
+        handle the given node type (node_type).
 
-        :param str target: process nodes of this node type
+        :param str node_type: process nodes of this node type
 
         :return: list of results
         :rtype: list
         """
+        fn = f"analyze_{node_type}"
         for rule in self.rules.values():
-            if rule.default_config.enabled and target in rule.targets:
+            if hasattr(rule, fn) and rule.default_config.enabled:
                 context = self.context
                 context["symtab"] = self.current_symtab
-                result = rule.analyze(self.context, **kwargs)
+
+                analyze_fn = getattr(rule, fn)
+                result = analyze_fn(self.context, **kwargs)
+
                 if result is not None:
                     self.results.append(result)

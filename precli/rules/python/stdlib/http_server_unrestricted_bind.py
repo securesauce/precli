@@ -57,6 +57,7 @@ def run(server_class: HTTPServer, handler_class: BaseHTTPRequestHandler):
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -75,7 +76,6 @@ class HttpServerUnrestrictedBind(Rule):
             cwe_id=1327,
             message="Binding to '{0}' exposes the application on all network "
             "interfaces, increasing the risk of unauthorized access.",
-            targets=("call"),
             wildcards={
                 "http.server.*": [
                     "HTTPServer",
@@ -84,8 +84,7 @@ class HttpServerUnrestrictedBind(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "http.server.HTTPServer",
             "http.server.ThreadingHTTPServer",

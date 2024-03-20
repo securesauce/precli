@@ -31,6 +31,7 @@ should first sanitize the data to remove any potential malicious code.
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
@@ -46,7 +47,6 @@ class JsonLoad(Rule):
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",
-            targets=("call"),
             wildcards={
                 "json.*": [
                     "load",
@@ -56,9 +56,7 @@ class JsonLoad(Rule):
             config=Config(enabled=False),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in [
             "json.load",
             "json.loads",

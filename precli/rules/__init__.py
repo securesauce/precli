@@ -1,6 +1,5 @@
 # Copyright 2024 Secure Saurce LLC
 from abc import ABC
-from abc import abstractmethod
 from typing import Self
 
 from cwe2.database import Database
@@ -22,7 +21,6 @@ class Rule(ABC):
         description: str,
         cwe_id: int,
         message: str,
-        targets: set[str],
         wildcards: dict[str, list[str]] = None,
         config: Config = None,
         help_url: str = None,
@@ -45,7 +43,6 @@ class Rule(ABC):
         self._full_descr = description[start:]
         self._cwe = Rule._cwedb.get(cwe_id)
         self._message = message
-        self._targets = targets
         self._wildcards = wildcards
         self._config = Config() if not config else config
         self._help_url = f"https://docs.securesauce.dev/rules/{id}"
@@ -149,20 +146,6 @@ class Rule(ABC):
         return self._message
 
     @property
-    def targets(self) -> set[str]:
-        """
-        Target node types this rule operates on.
-
-        This property defines what node types the rule can process. For
-        example, if the rule is designed to find suspicous calls, the rule
-        can define target set of ("call").
-
-        :return: set of target node types
-        :rtype: set
-        """
-        return self._targets
-
-    @property
     def wildcards(self) -> dict[str, list[str]]:
         """
         Mapping of wildcard imports to concrete modules.
@@ -194,15 +177,3 @@ class Rule(ABC):
         ]
         # TODO(ericwb): verify the new content will fully resolve, otherwise
         # only make suggested fix as part of the description.
-
-    @abstractmethod
-    def analyze(self, context: dict, **kwargs: dict):
-        """Analyze the code and return a result.
-
-        :param dict context: current context of the parse
-        :param list args: arguments
-        :param dict kwargs: keyword arguments
-
-        :return: an issue as a Result object or None
-        :rtype: Result
-        """

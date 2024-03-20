@@ -51,6 +51,7 @@ _New in version 0.2.3_
 """  # noqa: E501
 import re
 
+from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -66,13 +67,10 @@ class SslContextWeakKey(Rule):
             cwe_id=326,
             message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",
-            targets=("call"),
             wildcards={},
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "ssl.SSLContext.set_ecdh_curve",
             "ssl.create_default_context.set_ecdh_curve",

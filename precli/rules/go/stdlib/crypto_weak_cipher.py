@@ -112,6 +112,7 @@ func main() {
 _New in version 0.2.1_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -128,14 +129,11 @@ class WeakCipher(Rule):
             cwe_id=327,
             message="Weak ciphers like '{0}' should be avoided due to their "
             "known vulnerabilities and weaknesses.",
-            targets=("call"),
             wildcards={},
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call_expression(self, context: dict, call: Call) -> Result:
         if call.name_qualified in [
             "crypto/des.NewCipher",
             "crypto/des.NewTripleDESCipher",

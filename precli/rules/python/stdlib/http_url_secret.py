@@ -50,6 +50,7 @@ _New in version 0.3.4_
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -68,7 +69,6 @@ class HttpUrlSecret(Rule):
             description=__doc__,
             cwe_id=598,
             message="Secrets in URLs are vulnerable to unauthorized access.",
-            targets=("call"),
             wildcards={
                 "http.client.*": [
                     "HTTPConnection",
@@ -78,8 +78,7 @@ class HttpUrlSecret(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "http.client.HTTPConnection.request",
             "http.client.HTTPSConnection.request",

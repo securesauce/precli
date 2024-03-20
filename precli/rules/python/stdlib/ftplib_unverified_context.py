@@ -52,6 +52,7 @@ with ftplib.FTP_TLS(
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -69,7 +70,6 @@ class FtplibUnverifiedContext(Rule):
             cwe_id=295,
             message="The '{0}' function does not properly validate "
             "certificates when context is unset or None.",
-            targets=("call"),
             wildcards={
                 "ftplib.*": [
                     "FTP_TLS",
@@ -77,8 +77,7 @@ class FtplibUnverifiedContext(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in ["ftplib.FTP_TLS"]:
             return
 

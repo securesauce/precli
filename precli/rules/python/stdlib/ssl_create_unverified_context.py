@@ -45,6 +45,7 @@ context = ssl.create_default_context()
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -59,10 +60,9 @@ class CreateUnverifiedContext(Rule):
             cwe_id=295,
             message="The '{0}' function does not properly validate "
             "certificates.",
-            targets=("call"),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result:
         """
         _create_unverified_context(
             protocol=None,
@@ -94,8 +94,6 @@ class CreateUnverifiedContext(Rule):
             cadata=None
         )
         """
-        call = kwargs.get("call")
-
         if call.name_qualified in ["ssl._create_unverified_context"]:
             fixes = Rule.get_fixes(
                 context=context,

@@ -153,7 +153,7 @@ class Python(Parser):
             self.current_symtab.remove(identifier)
             self.current_symtab.put(identifier, "import", module)
 
-        self.process_rules("call", call=call)
+        self.analyze_node(self.context["node"].type, call=call)
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.text.decode())
@@ -166,7 +166,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_assert(self, nodes: list[Node]):
-        self.process_rules("assert")
+        self.analyze_node(self.context["node"].type)
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
@@ -209,7 +209,7 @@ class Python(Parser):
                 operator=operator,
                 right_hand=right_hand,
             )
-            self.process_rules("comparison_operator", comparison=comparison)
+            self.analyze_node("comparison_operator", comparison=comparison)
         self.visit(nodes)
 
     def import_statement(self, nodes: list[Node]) -> dict:
