@@ -97,6 +97,7 @@ These alternatives include:
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -113,7 +114,6 @@ class TelnetlibCleartext(Rule):
             cwe_id=319,
             message="The '{0}' module transmits data in cleartext without "
             "encryption.",
-            targets=("call"),
             wildcards={
                 "telnetlib.*": [
                     "Telnet",
@@ -122,9 +122,7 @@ class TelnetlibCleartext(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["telnetlib.Telnet"]:
             return Result(
                 rule_id=self.id,

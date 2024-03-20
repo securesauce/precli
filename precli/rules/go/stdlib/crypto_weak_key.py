@@ -79,6 +79,7 @@ func main() {
 _New in version 0.2.1_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -94,13 +95,10 @@ class WeakKey(Rule):
             cwe_id=326,
             message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",
-            targets=("call"),
             wildcards={},
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call_expression(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
             argument = call.get_argument(position=2)
             sizes = argument.value

@@ -44,6 +44,7 @@ token = secrets.token_bytes()
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -59,13 +60,10 @@ class SecretsWeakToken(Rule):
             cwe_id=326,
             message="Using token lengths less than '{0}' bytes is considered "
             "vulnerable to brute-force attacks.",
-            targets=("call"),
             wildcards={},
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "secrets.token_bytes",
             "secrets.token_hex",

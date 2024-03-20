@@ -71,6 +71,7 @@ These alternatives include:
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
@@ -86,7 +87,6 @@ class FtpCleartext(Rule):
             cwe_id=319,
             message="The FTP protocol can transmit data in cleartext without "
             "encryption.",
-            targets=("call"),
             wildcards={
                 "ftplib.*": [
                     "FTP",
@@ -94,9 +94,7 @@ class FtpCleartext(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["ftplib.FTP"]:
             """
             FTP(

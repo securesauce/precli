@@ -57,6 +57,7 @@ parser.add_argument(
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -73,7 +74,6 @@ class ArgparseSensitiveInfo(Rule):
             cwe_id=214,
             message="{0} in CLI arguments are leaked to command history, "
             "logs, ps output, etc.",
-            targets=("call"),
             wildcards={
                 "argparse.*": [
                     "ArgumentParser",
@@ -82,8 +82,7 @@ class ArgparseSensitiveInfo(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "argparse.ArgumentParser.add_argument",
         ]:

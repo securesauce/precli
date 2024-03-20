@@ -49,6 +49,7 @@ _New in version 0.3.14_
 
 """  # noqa: E501
 from precli.core import redos
+from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
@@ -66,14 +67,11 @@ class ReDenialOfService(Rule):
             message="The call to '{0}'' with regex pattern '{1}'' is "
             "susceptible to catastrophic backtracking and may cause "
             "performance degradation.",
-            targets=("call"),
             wildcards={},
             config=Config(level=Level.ERROR),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "re.compile",
             "re.search",

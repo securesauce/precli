@@ -92,7 +92,7 @@ class Go(Parser):
             args=func_call_args,
         )
 
-        self.process_rules("call", call=call)
+        self.analyze_node(self.context["node"].type, call=call)
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.text.decode())

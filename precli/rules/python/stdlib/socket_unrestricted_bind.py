@@ -53,6 +53,7 @@ s.listen()
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -71,7 +72,6 @@ class SocketUnrestrictedBind(Rule):
             cwe_id=1327,
             message="Binding to '{0}' exposes the application on all network "
             "interfaces, increasing the risk of unauthorized access.",
-            targets=("call"),
             wildcards={
                 "socket.*": [
                     "create_server",
@@ -80,8 +80,7 @@ class SocketUnrestrictedBind(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
             "socket.create_server",
             "socket.socket.bind",

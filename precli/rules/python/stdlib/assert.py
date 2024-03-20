@@ -65,10 +65,9 @@ class Assert(Rule):
             cwe_id=703,
             message="Assert statements are disabled when optimizations are "
             "enabled.",
-            targets=("assert"),
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
+    def analyze_assert(self, context: dict) -> Result:
         return Result(
             rule_id=self.id,
             artifact=context["artifact"],

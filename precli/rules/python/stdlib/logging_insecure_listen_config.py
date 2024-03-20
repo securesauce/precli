@@ -43,6 +43,7 @@ thread = logging.config.listen(verify=validate)
 _New in version 0.1.0_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -57,7 +58,6 @@ class InsecureListenConfig(Rule):
             cwe_id=94,
             message="Using '{0}' with unset 'verify' vulnerable to code "
             "injection.",
-            targets=("call"),
             wildcards={
                 "logging.config.*": [
                     "listen",
@@ -65,8 +65,7 @@ class InsecureListenConfig(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in ["logging.config.listen"]:
             return
 

@@ -43,6 +43,7 @@ with tempfile.NamedTemporaryFile(delete=False) as f:
 _New in version 0.1.9_
 
 """  # noqa: E501
+from precli.core.call import Call
 from precli.core.fix import Fix
 from precli.core.location import Location
 from precli.core.result import Result
@@ -59,7 +60,6 @@ class MktempRaceCondition(Rule):
             message="The function '{0}' can allow insecure ways of creating "
             "temporary files and directories that can lead to race "
             "conditions.",
-            targets=("call"),
             wildcards={
                 "os.*": [
                     "open",
@@ -70,9 +70,7 @@ class MktempRaceCondition(Rule):
             },
         )
 
-    def analyze(self, context: dict, **kwargs: dict) -> Result:
-        call = kwargs.get("call")
-
+    def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["open"]:
             file_arg = call.get_argument(position=0, name="file")
 
