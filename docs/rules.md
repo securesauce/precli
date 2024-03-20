@@ -44,3 +44,4 @@
 | PY030 | [socketserver — unrestricted bind](rules/python/stdlib/socketserver-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `socketserver` Module |
 | PY031 | [http — unrestricted bind](rules/python/stdlib/http-server-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `http.server` Module |
 | PY032 | [xmlrpc — unrestricted bind](rules/python/stdlib/xmlrpc-server-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `xmlrpc.server` Module |
+| PY033 | [re — denial of service](rules/python/stdlib/re-denial-of-service.md) | Inefficient Regular Expression Complexity in `re` Module |
