@@ -3,7 +3,7 @@ r"""
 # Invocation of Process Using Visible Sensitive Information in `argparse`
 
 Do not read secrets directly from command line arguments. When a command
-accepts a secret like via a `--password` argument or `--api_key`, the argument
+accepts a secret like via a `--password` argument or `--api-key`, the argument
 value will leak the secret into ps output and shell history. This also
 encourages the use of insecure environment variables for secrets.
 
@@ -56,7 +56,7 @@ parser.add_argument(
 
 _New in version 0.3.14_
 
-_Changed in version 0.4.1: --api_key also checked_
+_Changed in version 0.4.1: --api-key also checked_
 
 """  # noqa: E501
 from precli.core.call import Call
@@ -99,7 +99,7 @@ class ArgparseSensitiveInfo(Rule):
 
         if (
             "--password" in [arg0.value, arg1.value]
-            or "--api_key" in [arg0.value, arg1.value]
+            or "--api-key" in [arg0.value, arg1.value]
         ) and action.value == "store":
             return Result(
                 rule_id=self.id,

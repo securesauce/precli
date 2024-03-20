@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(
     description="What the program does",
 )
 parser.add_argument(
-    "--api_key",
+    "--api-key",
     dest="api_key",
     action="store",
     help="API key to connect to the server",
