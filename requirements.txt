@@ -1,10 +1,10 @@
-cwe2
-Pygments
-rich # MIT
-tree_sitter>=0.20.4
-tree-sitter-languages>=1.9.1
-ignorelib
-requests
-sarif-om>=1.0.4
-jschema-to-python>=1.2.3
-outdated
+cwe2==2.0.0
+Pygments==2.17.2
+rich==13.7.1
+tree-sitter==0.21.1
+tree-sitter-languages==1.10.2
+ignorelib==0.3.0
+requests==2.31.0
+sarif-om==1.0.4
+jschema-to-python==1.2.3
+outdated==0.2.2
