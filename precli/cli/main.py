@@ -141,15 +141,6 @@ def check_for_update():
         print("To update, run: pip install --upgrade precli")
 
 
-def build_ignore_mgr(path: str, ignore_file: str) -> IgnoreFilterManager:
-    return IgnoreFilterManager.build(
-        path,
-        global_ignore_file_paths=[],
-        global_patterns=[],
-        ignore_file_name=ignore_file,
-    )
-
-
 def get_owner_repo(repo_url: str):
     # Extract owner and repository name from the URL
     path = urlparse(repo_url).path.lstrip("/").split("/")
@@ -213,14 +204,30 @@ def discover_files(targets: list[str], recursive: bool):
             repo = None
 
         if os.path.isdir(target):
-            gitignore_mgr = build_ignore_mgr(target, ".gitignore")
-            preignore_mgr = build_ignore_mgr(target, ".preignore")
+            gitignore_mgr = IgnoreFilterManager.build(
+                target,
+                global_ignore_file_paths=[
+                    os.path.join(".git", "info", "exclude"),
+                    os.path.expanduser(
+                        os.path.join("~", ".config", "git", "ignore")
+                    ),
+                ],
+                global_patterns=[".git"],
+                ignore_file_name=".gitignore",
+            )
+            preignore_mgr = IgnoreFilterManager.build(
+                target,
+                global_ignore_file_paths=[],
+                global_patterns=[],
+                ignore_file_name=".preignore",
+            )
 
             if recursive is True:
                 for root, _, files in gitignore_mgr.walk():
                     for file in files:
-                        if not preignore_mgr.is_ignored(file):
-                            path = os.path.join(root, file)
+                        path = os.path.join(root, file)
+
+                        if not preignore_mgr.is_ignored(path):
                             artifact = Artifact(path)
                             if repo:
                                 artifact.uri = file_to_url(
