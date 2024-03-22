@@ -226,8 +226,9 @@ def discover_files(targets: list[str], recursive: bool):
                 for root, _, files in gitignore_mgr.walk():
                     for file in files:
                         path = os.path.join(root, file)
+                        file_path = file if os.path.isabs(path) else path
 
-                        if not preignore_mgr.is_ignored(path):
+                        if not preignore_mgr.is_ignored(file_path):
                             artifact = Artifact(path)
                             if repo:
                                 artifact.uri = file_to_url(
