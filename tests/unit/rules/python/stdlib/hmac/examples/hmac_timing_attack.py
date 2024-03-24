@@ -11,7 +11,7 @@ received_digest = (
     b"\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
 )
 
-key = b"my-secret-key"
+key = b"my-super-duper-secret-key-string"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
