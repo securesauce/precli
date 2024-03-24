@@ -69,6 +69,8 @@ hash.hexdigest()
 
 _New in version 0.1.0_
 
+_Changed in version 0.4.1: Added md5-sha1_
+
 """  # noqa: E501
 from precli.core.argument import Argument
 from precli.core.call import Call
@@ -79,7 +81,14 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
+WEAK_HASHES = ("md4", "md5", "md5-sha1", "ripemd160", "sha", "sha1")
+HASHLIB_WEAK_HASHES = (
+    "hashlib.md4",
+    "hashlib.md5",
+    "hashlib.ripemd160",
+    "hashlib.sha",
+    "hashlib.sha1",
+)
 
 
 class HashlibWeakHash(Rule):
@@ -104,13 +113,7 @@ class HashlibWeakHash(Rule):
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result:
-        if call.name_qualified in [
-            "hashlib.md4",
-            "hashlib.md5",
-            "hashlib.ripemd160",
-            "hashlib.sha",
-            "hashlib.sha1",
-        ]:
+        if call.name_qualified in HASHLIB_WEAK_HASHES:
             """
             hashlib.md4(string=b'', *, usedforsecurity=True)
             hashlib.md5(string=b'', *, usedforsecurity=True)
@@ -147,9 +150,7 @@ class HashlibWeakHash(Rule):
                     message=self.message.format(hash_name),
                 )
         elif call.name_qualified in ["hashlib.new"]:
-            """
-            hashlib.new(name, data=b'', **kwargs)
-            """
+            # hashlib.new(name, data=b'', **kwargs)
             name = call.get_argument(position=0, name="name").value
 
             if isinstance(name, str) and name.lower() in WEAK_HASHES:

@@ -63,6 +63,8 @@ mac = hmac_obj.digest()
 
 _New in version 0.1.0_
 
+_Changed in version 0.4.1: Added md5-sha1_
+
 """  # noqa: E501
 from precli.core.call import Call
 from precli.core.config import Config
@@ -72,7 +74,7 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-WEAK_HASHES = ("md4", "md5", "ripemd160", "sha", "sha1")
+WEAK_HASHES = ("md4", "md5", "md5-sha1", "ripemd160", "sha", "sha1")
 HASHLIB_WEAK_HASHES = (
     "hashlib.md4",
     "hashlib.md5",
@@ -92,19 +94,24 @@ class HmacWeakHash(Rule):
             message="Use of weak hash function '{0}' does not meet security "
             "expectations.",
             wildcards={
+                "hashlib.*": [
+                    "md4",
+                    "md5",
+                    "ripemd160",
+                    "sha",
+                    "sha1",
+                ],
                 "hmac.*": [
                     "new",
                     "digest",
-                ]
+                ],
             },
             config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["hmac.new"]:
-            """
-            hmac.new(key, msg=None, digestmod='')
-            """
+            # hmac.new(key, msg=None, digestmod='')
             argument = call.get_argument(position=2, name="digestmod")
             digestmod = argument.value
 
@@ -117,9 +124,7 @@ class HmacWeakHash(Rule):
                     message=self.message.format(digestmod),
                 )
         elif call.name_qualified in ["hmac.digest"]:
-            """
-            hmac.digest(key, msg, digest)
-            """
+            # hmac.digest(key, msg, digest)
             argument = call.get_argument(position=2, name="digest")
             digest = argument.value
 
