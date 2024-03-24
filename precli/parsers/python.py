@@ -399,14 +399,19 @@ class Python(Parser):
                     for child in node.named_children:
                         value += (self.literal_value(child),)
                 case "string":
-                    # TODO: handle byte strings (b"abc")
                     # TODO: handle f-strings? (f"{a}")
+                    bytestr = False
+                    if nodetext and nodetext[0] == "b":
+                        nodetext = nodetext[1:]
+                        bytestr = True
                     if nodetext.startswith('"""') or nodetext.startswith(
                         "'''"
                     ):
                         value = nodetext[3:-3]
                     elif nodetext.startswith('"') or nodetext.startswith("'"):
                         value = nodetext[1:-1]
+                    if bytestr is True:
+                        value = bytes(value, encoding="utf-8")
                 case "integer":
                     # TODO: hex, octal, binary
                     try:
