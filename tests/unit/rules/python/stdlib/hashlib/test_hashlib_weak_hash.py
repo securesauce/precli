@@ -47,7 +47,7 @@ class HashlibWeakHashTests(test_case.TestCase):
             "hashlib_new_blake2s.py",
             "hashlib_new_md4.py",
             "hashlib_new_md5.py",
-            "hashlib_new_md5-sha1.py",
+            "hashlib_new_md5_sha1.py",
             "hashlib_new_md5_usedforsecurity_true.py",
             "hashlib_new_name_sha.py",
             "hashlib_new_ripemd160.py",
