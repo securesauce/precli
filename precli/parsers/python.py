@@ -114,20 +114,27 @@ class Python(Parser):
         ):
             left_hand = self.literal_value(nodes[0], default=nodes[0])
             right_hand = self.literal_value(nodes[2], default=nodes[2])
-            self.current_symtab.put(left_hand, "identifier", right_hand)
+
             if nodes[2].type == "call":
                 (call_args, call_kwargs) = self.get_func_args(
                     nodes[2].children[1]
                 )
                 call = Call(
                     node=nodes[2],
-                    name=right_hand,
-                    name_qual=right_hand,
+                    name=right_hand.name
+                    if isinstance(right_hand, Call)
+                    else right_hand,
+                    name_qual=right_hand.name_qualified
+                    if isinstance(right_hand, Call)
+                    else right_hand,
                     args=call_args,
                     kwargs=call_kwargs,
                 )
+                self.current_symtab.put(left_hand, "identifier", call)
                 symbol = self.current_symtab.get(left_hand)
                 symbol.push_call(call)
+            else:
+                self.current_symtab.put(left_hand, "identifier", right_hand)
 
         self.visit(nodes)
 
@@ -327,7 +334,8 @@ class Python(Parser):
         if symbol is not None:
             return symbol
         if nodetext in dir(builtins):
-            return Symbol(nodetext, "identifier", nodetext)
+            call = Call(node, nodetext, nodetext)
+            return Symbol(nodetext, "identifier", call)
         for child in node.children:
             return self.get_qual_name(child)
 
@@ -357,8 +365,13 @@ class Python(Parser):
                             value = nodetext.replace(
                                 symbol.name, symbol.value, 1
                             )
+                        elif isinstance(symbol.value, Call):
+                            value = nodetext.replace(
+                                symbol.name, symbol.value.name_qualified, 1
+                            )
                         else:
                             value = symbol.value
+                        value = Call(node, value, value)
                 case "attribute":
                     result = []
                     self.unchain(node, result)
@@ -369,6 +382,10 @@ class Python(Parser):
                             value = nodetext.replace(
                                 symbol.name, symbol.value, 1
                             )
+                        elif isinstance(symbol.value, Call):
+                            value = nodetext.replace(
+                                symbol.name, symbol.value.name_qualified, 1
+                            )
                         else:
                             value = symbol.value
                 case "identifier":
@@ -377,6 +394,10 @@ class Python(Parser):
                         if isinstance(symbol.value, str):
                             value = nodetext.replace(
                                 symbol.name, symbol.value, 1
+                            )
+                        elif isinstance(symbol.value, Call):
+                            value = nodetext.replace(
+                                symbol.name, symbol.value.name_qualified, 1
                             )
                         else:
                             value = symbol.value

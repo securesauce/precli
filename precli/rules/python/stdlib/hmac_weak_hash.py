@@ -114,6 +114,7 @@ class HmacWeakHash(Rule):
             # hmac.new(key, msg=None, digestmod='')
             argument = call.get_argument(position=2, name="digestmod")
             digestmod = argument.value
+            print(type(digestmod))
 
             if (
                 isinstance(digestmod, str) and digestmod.lower() in WEAK_HASHES
