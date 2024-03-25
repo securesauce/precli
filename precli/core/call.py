@@ -1,7 +1,8 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from tree_sitter import Node
 
 from precli.core.argument import Argument
+from precli.parsers import tokens
 
 
 class Call:
@@ -31,19 +32,20 @@ class Call:
     def _get_var_node(node: Node) -> Node:
         if (
             len(node.named_children) >= 2
-            and node.named_children[0].type in ("identifier", "attribute")
-            and node.named_children[1].type == "identifier"
+            and node.named_children[0].type
+            in (tokens.IDENTIFIER, tokens.ATTRIBUTE)
+            and node.named_children[1].type == tokens.IDENTIFIER
         ):
             return node.named_children[0]
-        elif node.type == "attribute":
+        elif node.type == tokens.ATTRIBUTE:
             return Call._get_var_node(node.named_children[0])
 
     @staticmethod
     def _get_func_ident(node: Node) -> Node:
         # TODO(ericwb): does this function fail with nested calls?
-        if node.type == "attribute":
+        if node.type == tokens.ATTRIBUTE:
             return Call._get_func_ident(node.named_children[1])
-        if node.type == "identifier":
+        if node.type == tokens.IDENTIFIER:
             return node
 
     @property
@@ -127,7 +129,7 @@ class Call:
     ) -> Argument:
         if position >= 0:
             for i, child in enumerate(self._arg_list_node.named_children):
-                if child.type == "keyword_argument":
+                if child.type == tokens.KEYWORD_ARGUMENT:
                     break
                 if i == position:
                     return Argument(
@@ -137,7 +139,7 @@ class Call:
                     )
         if name is not None:
             for child in self._arg_list_node.named_children:
-                if child.type == "keyword_argument":
+                if child.type == tokens.KEYWORD_ARGUMENT:
                     keyword = child.named_children[0].text.decode()
                     if keyword == name:
                         return Argument(
