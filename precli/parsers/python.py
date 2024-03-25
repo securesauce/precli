@@ -10,6 +10,7 @@ from precli.core.comparison import Comparison
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
 from precli.parsers import Parser
+from precli.parsers import tokens
 
 
 Import = namedtuple("Import", "module alias")
@@ -33,22 +34,22 @@ class Python(Parser):
     def visit_import_statement(self, nodes: list[Node]):
         imps = self.import_statement(nodes)
         for key, value in imps.items():
-            self.current_symtab.put(key, "import", value)
+            self.current_symtab.put(key, tokens.IMPORT, value)
 
     def visit_import_from_statement(self, nodes: list[Node]):
         imps = self.import_from_statement(nodes)
         for key, value in imps.items():
-            self.current_symtab.put(key, "import", value)
+            self.current_symtab.put(key, tokens.IMPORT, value)
 
     def visit_class_definition(self, nodes: list[Node]):
-        class_id = self.child_by_type(self.context["node"], "identifier")
+        class_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
         cls_name = class_id.text.decode()
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_function_definition(self, nodes: list[Node]):
-        func_id = self.child_by_type(self.context["node"], "identifier")
+        func_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
         func = func_id.text.decode()
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)
@@ -58,25 +59,25 @@ class Python(Parser):
         self.visit_typed_parameter(nodes)
 
     def visit_typed_parameter(self, nodes: list[Node]):
-        param_id = self.child_by_type(self.context["node"], "identifier")
-        param_type = self.child_by_type(self.context["node"], "type")
+        param_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        param_type = self.child_by_type(self.context["node"], tokens.TYPE)
 
         if param_id is not None and param_type.named_children[0].type in (
-            "attribute",
-            "identifier",
-            "string",
-            "integer",
-            "float",
-            "true",
-            "false",
-            "none",
+            tokens.ATTRIBUTE,
+            tokens.IDENTIFIER,
+            tokens.STRING,
+            tokens.INTEGER,
+            tokens.FLOAT,
+            tokens.TRUE,
+            tokens.FALSE,
+            tokens.NONE,
         ):
             param_name = param_id.text.decode()
-            param_type = self.literal_value(
+            param_type = self.resolve(
                 param_type.named_children[0],
                 default=param_type.named_children[0],
             )
-            self.current_symtab.put(param_name, "identifier", param_type)
+            self.current_symtab.put(param_name, tokens.IDENTIFIER, param_type)
 
         self.visit(nodes)
 
@@ -89,8 +90,8 @@ class Python(Parser):
     def visit_assignment(self, nodes: list[Node]):
         # pattern_list = expression_list (i.e. HOST, PORT = "", 9999)
         if (
-            nodes[0].type == "pattern_list"
-            and nodes[2].type == "expression_list"
+            nodes[0].type == tokens.PATTERN_LIST
+            and nodes[2].type == tokens.EXPRESSION_LIST
         ):
             for i in range(len(nodes[0].named_children)):
                 self.visit_assignment(
@@ -100,22 +101,22 @@ class Python(Parser):
                         nodes[2].named_children[i],
                     ]
                 )
-        elif nodes[0].type == "identifier" and nodes[2].type in (
-            "call",
-            "attribute",
-            "identifier",
-            "tuple",
-            "string",
-            "integer",
-            "float",
-            "true",
-            "false",
-            "none",
+        elif nodes[0].type == tokens.IDENTIFIER and nodes[2].type in (
+            tokens.CALL,
+            tokens.ATTRIBUTE,
+            tokens.IDENTIFIER,
+            tokens.TUPLE,
+            tokens.STRING,
+            tokens.INTEGER,
+            tokens.FLOAT,
+            tokens.TRUE,
+            tokens.FALSE,
+            tokens.NONE,
         ):
-            left_hand = self.literal_value(nodes[0], default=nodes[0])
-            right_hand = self.literal_value(nodes[2], default=nodes[2])
-            self.current_symtab.put(left_hand, "identifier", right_hand)
-            if nodes[2].type == "call":
+            left_hand = self.resolve(nodes[0], default=nodes[0])
+            right_hand = self.resolve(nodes[2], default=nodes[2])
+            self.current_symtab.put(left_hand, tokens.IDENTIFIER, right_hand)
+            if nodes[2].type == tokens.CALL:
                 (call_args, call_kwargs) = self.get_func_args(
                     nodes[2].children[1]
                 )
@@ -132,7 +133,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_call(self, nodes: list[Node]):
-        func_call_qual = self.literal_value(nodes[0])
+        func_call_qual = self.resolve(nodes[0])
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
 
         call = Call(
@@ -145,19 +146,19 @@ class Python(Parser):
 
         if (
             call.name_qualified == "importlib.import_module"
-            and self.context["node"].parent.type == "assignment"
+            and self.context["node"].parent.type == tokens.ASSIGNMENT
         ):
             module = self.importlib_import_module(call)
             left_hand = self.context["node"].parent.children[0]
             identifier = left_hand.text.decode()
             self.current_symtab.remove(identifier)
-            self.current_symtab.put(identifier, "import", module)
+            self.current_symtab.put(identifier, tokens.IMPORT, module)
 
         self.analyze_node(self.context["node"].type, call=call)
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.text.decode())
-            if symbol is not None and symbol.type == "identifier":
+            if symbol is not None and symbol.type == tokens.IDENTIFIER:
                 symbol.push_call(call)
         else:
             # TODO: why is var_node None?
@@ -170,7 +171,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
-        as_pattern = nodes[0] if nodes[0].type == "as_pattern" else None
+        as_pattern = nodes[0] if nodes[0].type == tokens.AS_PATTERN else None
 
         if as_pattern is not None and as_pattern.children:
             statement = as_pattern.children[0]
@@ -178,15 +179,18 @@ class Python(Parser):
 
             if (
                 as_pattern_target.children
-                and as_pattern_target.children[0].type == "identifier"
-                and statement.type in ("call", "attribute", "identifier")
+                and as_pattern_target.children[0].type == tokens.IDENTIFIER
+                and statement.type
+                in (tokens.CALL, tokens.ATTRIBUTE, tokens.IDENTIFIER)
             ):
                 identifier = as_pattern_target.children[0]
-                identifier = self.literal_value(identifier, default=identifier)
-                statement = self.literal_value(statement, default=statement)
-                self.current_symtab.put(identifier, "identifier", statement)
+                identifier = self.resolve(identifier, default=identifier)
+                statement = self.resolve(statement, default=statement)
+                self.current_symtab.put(
+                    identifier, tokens.IDENTIFIER, statement
+                )
 
-                if as_pattern.children[0].type == "call":
+                if as_pattern.children[0].type == tokens.CALL:
                     call = Call(
                         node=as_pattern.children[0],
                         name=statement,
@@ -199,9 +203,9 @@ class Python(Parser):
 
     def visit_comparison_operator(self, nodes: list[Node]):
         if len(nodes) > 2:
-            left_hand = self.literal_value(nodes[0], default=nodes[0])
+            left_hand = self.resolve(nodes[0], default=nodes[0])
             operator = nodes[1].text.decode()
-            right_hand = self.literal_value(nodes[2], default=nodes[2])
+            right_hand = self.resolve(nodes[2], default=nodes[2])
 
             comparison = Comparison(
                 self.context["node"],
@@ -209,29 +213,31 @@ class Python(Parser):
                 operator=operator,
                 right_hand=right_hand,
             )
-            self.analyze_node("comparison_operator", comparison=comparison)
+            self.analyze_node(
+                tokens.COMPARISON_OPERATOR, comparison=comparison
+            )
         self.visit(nodes)
 
     def import_statement(self, nodes: list[Node]) -> dict:
         imports = {}
         for child in nodes:
-            if child.type == "dotted_name":
+            if child.type == tokens.DOTTED_NAME:
                 imports[child.text.decode()] = child.text.decode()
-            elif child.type == "aliased_import":
-                module = self.child_by_type(child, "dotted_name")
-                alias = self.child_by_type(child, "identifier")
+            elif child.type == tokens.ALIASED_IMPORT:
+                module = self.child_by_type(child, tokens.DOTTED_NAME)
+                alias = self.child_by_type(child, tokens.IDENTIFIER)
                 imports[alias.text.decode()] = module.text.decode()
         return imports
 
     def parse_import_statement(self, nodes: list[Node]) -> list:
         imports = []
         for child in nodes:
-            if child.type == "dotted_name":
+            if child.type == tokens.DOTTED_NAME:
                 plain_import = Import(child.text.decode(), None)
                 imports.append(plain_import)
-            elif child.type == "aliased_import":
-                module = self.child_by_type(child, "dotted_name").text
-                alias = self.child_by_type(child, "identifier").text
+            elif child.type == tokens.ALIASED_IMPORT:
+                module = self.child_by_type(child, tokens.DOTTED_NAME).text
+                alias = self.child_by_type(child, tokens.IDENTIFIER).text
                 alias_import = Import(module.decode(), alias.decode())
                 imports.append(alias_import)
         return imports
@@ -240,25 +246,25 @@ class Python(Parser):
         modules = []
         for imp in imports:
             if imp.alias is not None:
-                modules.append(imp.module + " as " + imp.alias)
+                modules.append(f"{imp.module} as {imp.alias}")
             else:
                 modules.append(imp.module)
-        return f"import {', '.join(modules)}"
+        return f"{tokens.IMPORT} {', '.join(modules)}"
 
     def import_from_statement(self, nodes: list[Node]) -> dict:
         imports = {}
 
         module = nodes[1]
-        if module.type == "dotted_name":
+        if module.type == tokens.DOTTED_NAME:
             from_module = module.text.decode()
-        elif module.type == "relative_import":
+        elif module.type == tokens.RELATIVE_IMPORT:
             # No known way to resolve the relative to absolute
             # However, shouldn't matter much since most rules
             # won't check for local modules.
             from_module = ""
 
-        if nodes[2].type == "import":
-            if nodes[3].type == "wildcard_import":
+        if nodes[2].type == tokens.IMPORT:
+            if nodes[3].type == tokens.WILDCARD_IMPORT:
                 # FIXME(ericwb): some modules like Cryptodome permit
                 # wildcard imports at various package levels like
                 # from Cryptodome import *
@@ -277,13 +283,13 @@ class Python(Parser):
 
     def parse_import_from_statement(self, nodes: list[Node]) -> tuple:
         module = nodes[1]
-        if module.type == "dotted_name":
+        if module.type == tokens.DOTTED_NAME:
             package = module.text.decode()
-        elif module.type == "relative_import":
+        elif module.type == tokens.RELATIVE_IMPORT:
             package = module.text.decode()
 
-        if nodes[2].type == "import":
-            if nodes[3].type == "wildcard_import":
+        if nodes[2].type == tokens.IMPORT:
+            if nodes[3].type == tokens.WILDCARD_IMPORT:
                 modules = [Import("*", None)]
             else:
                 modules = self.parse_import_statement(nodes[3:])
@@ -309,16 +315,16 @@ class Python(Parser):
         return ".".join((package[0], name.lstrip(".")))
 
     def get_func_args(self, node: Node) -> tuple:
-        if node.type != "argument_list":
+        if node.type != tokens.ARGUMENT_LIST:
             return [], {}
 
         args = []
         kwargs = {}
         for child in node.named_children:
-            if child.type == "keyword_argument":
-                kwargs |= self.literal_value(child)
+            if child.type == tokens.KEYWORD_ARGUMENT:
+                kwargs |= self.resolve(child)
             else:
-                args.append(self.literal_value(child, default=child))
+                args.append(self.resolve(child, default=child))
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> Symbol:
@@ -327,7 +333,7 @@ class Python(Parser):
         if symbol is not None:
             return symbol
         if nodetext in dir(builtins):
-            return Symbol(nodetext, "identifier", nodetext)
+            return Symbol(nodetext, tokens.IDENTIFIER, nodetext)
         for child in node.children:
             return self.get_qual_name(child)
 
@@ -336,20 +342,23 @@ class Python(Parser):
         Unchain an attribute into its component identifiers skipping
         over argument_list of a call node and such.
         """
-        if node.type == "identifier":
+        if node.type == tokens.IDENTIFIER:
             result.append(node.text.decode())
         for child in node.named_children:
-            if child.type != "argument_list":
+            if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
 
-    def literal_value(self, node: Node, default=None):
+    def resolve(self, node: Node, default=None):
+        """
+        Resolve the given node into its liternal value.
+        """
         nodetext = node.text.decode()
         if isinstance(default, Node):
             default = default.text.decode()
 
         try:
             match node.type:
-                case "call":
+                case tokens.CALL:
                     nodetext = node.children[0].text.decode()
                     symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
@@ -359,7 +368,7 @@ class Python(Parser):
                             )
                         else:
                             value = symbol.value
-                case "attribute":
+                case tokens.ATTRIBUTE:
                     result = []
                     self.unchain(node, result)
                     nodetext = ".".join(result)
@@ -371,7 +380,7 @@ class Python(Parser):
                             )
                         else:
                             value = symbol.value
-                case "identifier":
+                case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
                         if isinstance(symbol.value, str):
@@ -380,25 +389,23 @@ class Python(Parser):
                             )
                         else:
                             value = symbol.value
-                case "keyword_argument":
+                case tokens.KEYWORD_ARGUMENT:
                     keyword = node.named_children[0].text.decode()
                     kwvalue = node.named_children[1]
-                    value = {
-                        keyword: self.literal_value(kwvalue, default=kwvalue)
-                    }
-                case "dictionary":
+                    value = {keyword: self.resolve(kwvalue, default=kwvalue)}
+                case tokens.DICTIONARY:
                     # TODO: don't use ast.literal_eval
                     # value = ast.literal_eval(nodetext)
                     pass
-                case "list":
+                case tokens.LIST:
                     # TODO: don't use ast.literal_eval
                     # value = ast.literal_eval(nodetext)
                     pass
-                case "tuple":
+                case tokens.TUPLE:
                     value = ()
                     for child in node.named_children:
-                        value += (self.literal_value(child),)
-                case "string":
+                        value += (self.resolve(child),)
+                case tokens.STRING:
                     # TODO: handle f-strings? (f"{a}")
                     bytestr = False
                     if nodetext and nodetext[0] == "b":
@@ -412,22 +419,22 @@ class Python(Parser):
                         value = nodetext[1:-1]
                     if bytestr is True:
                         value = bytes(value, encoding="utf-8")
-                case "integer":
+                case tokens.INTEGER:
                     # TODO: hex, octal, binary
                     try:
                         value = int(nodetext)
                     except ValueError:
                         value = nodetext
-                case "float":
+                case tokens.FLOAT:
                     try:
                         value = float(nodetext)
                     except ValueError:
                         value = nodetext
-                case "true":
+                case tokens.TRUE:
                     value = True
-                case "false":
+                case tokens.FALSE:
                     value = False
-                case "none":
+                case tokens.NONE:
                     value = None
         except ValueError:
             value = None

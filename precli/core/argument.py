@@ -1,6 +1,8 @@
 # Copyright 2023 Secure Saurce LLC
 from tree_sitter import Node
 
+from precli.parsers import tokens
+
 
 class Argument:
     def __init__(
@@ -21,9 +23,9 @@ class Argument:
         if node is None:
             return None
         # TODO(ericwb): does this function fail with nested calls?
-        if node.type in ["attribute", "selector_expression"]:
+        if node.type in [tokens.ATTRIBUTE, tokens.SELECTOR_EXPRESSION]:
             return Argument._get_func_ident(node.named_children[1])
-        if node.type in ["identifier", "field_identifier"]:
+        if node.type in [tokens.IDENTIFIER, tokens.FIELD_IDENTIFIER]:
             return node
 
     @property

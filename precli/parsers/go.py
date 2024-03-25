@@ -8,6 +8,7 @@ from precli.core.call import Call
 from precli.core.symtab import Symbol
 from precli.core.symtab import SymbolTable
 from precli.parsers import Parser
+from precli.parsers import tokens
 
 
 class Go(Parser):
@@ -28,44 +29,44 @@ class Go(Parser):
         self.current_symtab = self.current_symtab.parent()
 
     def visit_import_declaration(self, nodes: list[Node]):
-        if nodes[0].type == "import":
-            if nodes[1].type == "import_spec":
+        if nodes[0].type == tokens.IMPORT:
+            if nodes[1].type == tokens.IMPORT_SPEC:
                 imps = self.import_spec(nodes[1].children)
                 for key, value in imps.items():
-                    self.current_symtab.put(key, "import", value)
+                    self.current_symtab.put(key, tokens.IMPORT, value)
 
-            elif nodes[1].type == "import_spec_list":
+            elif nodes[1].type == tokens.IMPORT_SPEC_LIST:
                 for child in nodes[1].named_children:
-                    if child.type == "import_spec":
+                    if child.type == tokens.IMPORT_SPEC:
                         imps = self.import_spec(child.children)
                         for key, value in imps.items():
-                            self.current_symtab.put(key, "import", value)
+                            self.current_symtab.put(key, tokens.IMPORT, value)
 
     def import_spec(self, nodes: list[Node]):
         imports = {}
 
         match nodes[0].type:
-            case "interpreted_string_literal":
+            case tokens.INTERPRETED_STRING_LITERAL:
                 # import "fmt"
                 package = ast.literal_eval(nodes[0].text.decode())
                 default_package = package.split("/")[-1]
                 imports[default_package] = package
 
-            case "package_identifier":
+            case tokens.PACKAGE_IDENTIFIER:
                 # import fm "fmt"
                 # Can use fm.Println instead of fmt.Println
-                if nodes[1].type == "interpreted_string_literal":
+                if nodes[1].type == tokens.INTERPRETED_STRING_LITERAL:
                     alias = nodes[0].text.decode()
                     package = ast.literal_eval(nodes[1].text.decode())
                     imports[alias] = package
 
-            case "dot":
+            case tokens.DOT:
                 # import . "fmt"
                 # Can just call Println instead of fmt.Println
                 # TODO: similar to Python wildcard imports
                 pass
 
-            case "blank_identifier":
+            case tokens.BLANK_IDENTIFIER:
                 # import _ "some/driver"
                 # The driver package is imported, and its init function is
                 # executed, but no access any of its other functions or
@@ -75,14 +76,14 @@ class Go(Parser):
         return imports
 
     def visit_function_declaration(self, nodes: list[Node]):
-        func_id = self.child_by_type(self.context["node"], "identifier")
+        func_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
         func = func_id.text.decode()
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_call_expression(self, nodes: list[Node]):
-        func_call_qual = self.literal_value(nodes[0])
+        func_call_qual = self.resolve(nodes[0])
         func_call_args = self.get_func_args(nodes[1])
 
         call = Call(
@@ -96,7 +97,7 @@ class Go(Parser):
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.text.decode())
-            if symbol is not None and symbol.type == "identifier":
+            if symbol is not None and symbol.type == tokens.IDENTIFIER:
                 symbol.push_call(call)
         else:
             # TODO: why is var_node None?
@@ -105,12 +106,12 @@ class Go(Parser):
         self.visit(nodes)
 
     def get_func_args(self, node: Node) -> list:
-        if node.type != "argument_list":
+        if node.type != tokens.ARGUMENT_LIST:
             return []
 
         args = []
         for child in node.named_children:
-            args.append(self.literal_value(child, default=child))
+            args.append(self.resolve(child, default=child))
 
         return args
 
@@ -128,20 +129,23 @@ class Go(Parser):
         Unchain an attribute into its component identifiers skipping
         over argument_list of a call node and such.
         """
-        if node.type == "identifier":
+        if node.type == tokens.IDENTIFIER:
             result.append(node.text.decode())
         for child in node.named_children:
-            if child.type != "argument_list":
+            if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
 
-    def literal_value(self, node: Node, default=None):
+    def resolve(self, node: Node, default=None):
+        """
+        Resolve the given node into its liternal value.
+        """
         nodetext = node.text.decode()
         if isinstance(default, Node):
             default = default.text.decode()
 
         try:
             match node.type:
-                case "selector_expression":
+                case tokens.SELECTOR_EXPRESSION:
                     nodetext = node.text.decode()
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
@@ -151,7 +155,7 @@ class Go(Parser):
                             )
                         else:
                             value = symbol.value
-                case "identifier":
+                case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
                         if isinstance(symbol.value, str):
@@ -160,24 +164,24 @@ class Go(Parser):
                             )
                         else:
                             value = symbol.value
-                case "interpreted_string_literal":
+                case tokens.INTERPRETED_STRING_LITERAL:
                     value = ast.literal_eval(nodetext)
-                case "int_literal":
+                case tokens.INT_LITERAL:
                     # TODO: hex, octal, binary
                     try:
                         value = int(nodetext)
                     except ValueError:
                         value = nodetext
-                case "float_literal":
+                case tokens.FLOAT_LITERAL:
                     try:
                         value = float(nodetext)
                     except ValueError:
                         value = nodetext
-                case "true":
+                case tokens.TRUE:
                     value = True
-                case "false":
+                case tokens.FALSE:
                     value = False
-                case "nil":
+                case tokens.NIL:
                     value = None
         except ValueError:
             value = None
