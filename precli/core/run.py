@@ -62,7 +62,9 @@ class Run:
             len(self._artifacts) > PROGRESS_THRESHOLD
             and LOG.getEffectiveLevel() <= logging.INFO
         ):
-            artifacts = progress.track(self._artifacts)
+            artifacts = progress.track(
+                self._artifacts, description="Analyzing..."
+            )
         else:
             artifacts = self._artifacts
 

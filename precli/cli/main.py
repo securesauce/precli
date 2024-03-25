@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 import requests
 from ignorelib import IgnoreFilterManager
 from outdated import check_outdated
+from rich import progress
 
 import precli
 from precli.core import loader
@@ -163,11 +164,15 @@ def extract_github_repo(owner: str, repo: str, branch: str):
     with requests.get(api_url, stream=True) as r:
         r.raise_for_status()
         with open(zip_path, "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
+            for chunk in progress.track(
+                r.iter_content(chunk_size=8192), description="Downloading..."
+            ):
                 f.write(chunk)
 
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
-        zip_ref.extractall(temp_dir)
+        name_list = zip_ref.namelist()
+        for name in progress.track(name_list, description="Extracting..."):
+            zip_ref.extract(name, temp_dir)
 
     os.remove(zip_path)
 
