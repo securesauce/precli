@@ -86,7 +86,10 @@ class HttpUrlSecret(Rule):
             return
 
         argument = call.get_argument(position=1, name="url")
-        url = argument.value
+        if argument.is_str is False:
+            return
+
+        url = argument.value_str
         split_url = urlsplit(url)
         query = split_url.query
         params = parse_qs(query)

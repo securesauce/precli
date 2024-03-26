@@ -53,6 +53,7 @@ s.listen()
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core import utils
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -90,7 +91,7 @@ class SocketUnrestrictedBind(Rule):
         arg = call.get_argument(position=0, name="address")
         address = arg.value
 
-        if isinstance(address, tuple) and address[0] in (
+        if isinstance(address, tuple) and utils.to_str(address[0]) in (
             "",
             INADDR_ANY,
             IN6ADDR_ANY,

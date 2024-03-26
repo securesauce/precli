@@ -113,26 +113,32 @@ class HmacWeakHash(Rule):
         if call.name_qualified in ["hmac.new"]:
             # hmac.new(key, msg=None, digestmod='')
             argument = call.get_argument(position=2, name="digestmod")
-            digestmod = argument.value
 
-            if (
-                isinstance(digestmod, str) and digestmod.lower() in WEAK_HASHES
-            ) or digestmod in HASHLIB_WEAK_HASHES:
+            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    message=self.message.format(digestmod),
+                    message=self.message.format(argument.value_str),
+                )
+            if argument.value in HASHLIB_WEAK_HASHES:
+                return Result(
+                    rule_id=self.id,
+                    location=Location(node=argument.node),
+                    message=self.message.format(argument.value),
                 )
         elif call.name_qualified in ["hmac.digest"]:
             # hmac.digest(key, msg, digest)
             argument = call.get_argument(position=2, name="digest")
-            digest = argument.value
 
-            if (
-                isinstance(digest, str) and digest.lower() in WEAK_HASHES
-            ) or digest in HASHLIB_WEAK_HASHES:
+            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    message=self.message.format(digest),
+                    message=self.message.format(argument.value_str),
+                )
+            if argument.value in HASHLIB_WEAK_HASHES:
+                return Result(
+                    rule_id=self.id,
+                    location=Location(node=argument.node),
+                    message=self.message.format(argument.value),
                 )

@@ -57,6 +57,7 @@ def run(server_class: DocXMLRPCServer, handler_class: DocXMLRPCRequestHandler):
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core import utils
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -94,7 +95,7 @@ class XmlrpcServerUnrestrictedBind(Rule):
         arg = call.get_argument(position=0, name="addr")
         addr = arg.value
 
-        if isinstance(addr, tuple) and addr[0] in (
+        if isinstance(addr, tuple) and utils.to_str(addr[0]) in (
             "",
             INADDR_ANY,
             IN6ADDR_ANY,

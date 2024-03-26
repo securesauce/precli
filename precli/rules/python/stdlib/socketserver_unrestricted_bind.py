@@ -71,6 +71,7 @@ with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
 _New in version 0.3.14_
 
 """  # noqa: E501
+from precli.core import utils
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -116,7 +117,9 @@ class SocketserverUnrestrictedBind(Rule):
         arg = call.get_argument(position=0, name="server_address")
         server_address = arg.value
 
-        if isinstance(server_address, tuple) and server_address[0] in (
+        if isinstance(server_address, tuple) and utils.to_str(
+            server_address[0]
+        ) in (
             "",
             INADDR_ANY,
             IN6ADDR_ANY,
