@@ -141,19 +141,19 @@ class HashlibWeakHash(Rule):
                 dklen=None
             )
             """
-            hash_name = call.get_argument(position=0, name="hash_name").value
+            argument = call.get_argument(position=0, name="hash_name")
 
-            if isinstance(hash_name, str) and hash_name.lower() in WEAK_HASHES:
+            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
                 return Result(
                     rule_id=self.id,
                     location=Location(node=call.function_node),
-                    message=self.message.format(hash_name),
+                    message=self.message.format(argument.value_str),
                 )
         elif call.name_qualified in ["hashlib.new"]:
             # hashlib.new(name, data=b'', **kwargs)
-            name = call.get_argument(position=0, name="name").value
+            argument = call.get_argument(position=0, name="name")
 
-            if isinstance(name, str) and name.lower() in WEAK_HASHES:
+            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
                 used_for_security = call.get_argument(
                     name="usedforsecurity", default=Argument(None, True)
                 ).value
@@ -162,5 +162,5 @@ class HashlibWeakHash(Rule):
                     return Result(
                         rule_id=self.id,
                         location=Location(node=call.function_node),
-                        message=self.message.format(name),
+                        message=self.message.format(argument.value_str),
                     )

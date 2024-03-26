@@ -1,6 +1,7 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2024 Secure Saurce LLC
 from tree_sitter import Node
 
+from precli.core import utils
 from precli.parsers import tokens
 
 
@@ -17,6 +18,8 @@ class Argument:
         self._position = position
         self._value = value
         self._ident_node = Argument._get_func_ident(self._node)
+        self._is_str = utils.is_str(value)
+        self._value_str = utils.to_str(value) if self._is_str else None
 
     @staticmethod
     def _get_func_ident(node: Node) -> Node:
@@ -79,11 +82,31 @@ class Argument:
         return self._position
 
     @property
+    def is_str(self) -> bool:
+        """
+        True if the value is a true string.
+
+        :return: if value is a string
+        :rtype: bool
+        """
+        return self._is_str
+
+    @property
     def value(self):
         """
-        The value of the argument
+        The value of the argument.
 
         :return: value of argument
         :rtype: object
         """
         return self._value
+
+    @property
+    def value_str(self) -> str:
+        """
+        The value as a true string.
+
+        :return: value as string
+        :rtype: str
+        """
+        return self._value_str

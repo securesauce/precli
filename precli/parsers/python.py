@@ -348,6 +348,13 @@ class Python(Parser):
             if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
 
+    def join_symbol(self, nodetext: str, symbol: Symbol):
+        if isinstance(symbol.value, str):
+            value = nodetext.replace(symbol.name, symbol.value, 1)
+        else:
+            value = symbol.value
+        return value
+
     def resolve(self, node: Node, default=None):
         """
         Resolve the given node into its liternal value.
@@ -362,33 +369,18 @@ class Python(Parser):
                     nodetext = node.children[0].text.decode()
                     symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.ATTRIBUTE:
                     result = []
                     self.unchain(node, result)
                     nodetext = ".".join(result)
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.KEYWORD_ARGUMENT:
                     keyword = node.named_children[0].text.decode()
                     kwvalue = node.named_children[1]
@@ -407,18 +399,7 @@ class Python(Parser):
                         value += (self.resolve(child),)
                 case tokens.STRING:
                     # TODO: handle f-strings? (f"{a}")
-                    bytestr = False
-                    if nodetext and nodetext[0] == "b":
-                        nodetext = nodetext[1:]
-                        bytestr = True
-                    if nodetext.startswith('"""') or nodetext.startswith(
-                        "'''"
-                    ):
-                        value = nodetext[3:-3]
-                    elif nodetext.startswith('"') or nodetext.startswith("'"):
-                        value = nodetext[1:-1]
-                    if bytestr is True:
-                        value = bytes(value, encoding="utf-8")
+                    value = nodetext
                 case tokens.INTEGER:
                     # TODO: hex, octal, binary
                     try:

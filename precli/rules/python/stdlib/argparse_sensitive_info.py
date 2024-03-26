@@ -98,9 +98,9 @@ class ArgparseSensitiveInfo(Rule):
         action = call.get_argument(name="action")
 
         if (
-            "--password" in [arg0.value, arg1.value]
-            or "--api-key" in [arg0.value, arg1.value]
-        ) and action.value == "store":
+            "--password" in [arg0.value_str, arg1.value_str]
+            or "--api-key" in [arg0.value_str, arg1.value_str]
+        ) and action.value_str == "store":
             return Result(
                 rule_id=self.id,
                 location=Location(node=call.node),
