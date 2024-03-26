@@ -306,8 +306,8 @@ class Python(Parser):
         return f"from {package} import {', '.join(modules)}"
 
     def importlib_import_module(self, call: Call) -> dict:
-        name = call.get_argument(position=0, name="name").value
-        package = call.get_argument(position=1, name="package").value
+        name = call.get_argument(position=0, name="name").value_str
+        package = call.get_argument(position=1, name="package").value_str
         if package is None:
             return name
         subpkg = len(name) - len(name.lstrip(".")) - 1
