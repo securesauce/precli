@@ -115,7 +115,16 @@ class Python(Parser):
         ):
             left_hand = self.resolve(nodes[0], default=nodes[0])
             right_hand = self.resolve(nodes[2], default=nodes[2])
+
+            # This is in case a variable is reassigned
+            self.current_symtab.put(
+                nodes[0].text.decode(), tokens.IDENTIFIER, right_hand
+            )
+
+            # This is to help full resolution of an attribute/call.
+            # This results in two entries in the symtab for this assignment.
             self.current_symtab.put(left_hand, tokens.IDENTIFIER, right_hand)
+
             if nodes[2].type == tokens.CALL:
                 (call_args, call_kwargs) = self.get_func_args(
                     nodes[2].children[1]
