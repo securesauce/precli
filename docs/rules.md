@@ -45,3 +45,4 @@
 | PY031 | [http — unrestricted bind](rules/python/stdlib/http-server-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `http.server` Module |
 | PY032 | [xmlrpc — unrestricted bind](rules/python/stdlib/xmlrpc-server-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `xmlrpc.server` Module |
 | PY033 | [re — denial of service](rules/python/stdlib/re-denial-of-service.md) | Inefficient Regular Expression Complexity in `re` Module |
+| PY034 | [hmac — weak key](rules/python/stdlib/hmac-weak-key.md) | Insufficient `hmac` Key Size |
