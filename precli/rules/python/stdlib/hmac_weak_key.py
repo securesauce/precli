@@ -28,14 +28,14 @@ import hmac
 import secrets
 
 
-key = secrets.token_bytes(None)
+key = secrets.token_bytes(nbytes=32)
 message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 ```
 
 ## Remediation
 
-Adjust the key size to be least the length of the digest size.
+Adjust the key size to be at least the size of the digest.
 
 ```python
 import hashlib
