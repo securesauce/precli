@@ -58,8 +58,8 @@ class SecretsWeakToken(Rule):
             name="insufficient_token_length",
             description=__doc__,
             cwe_id=326,
-            message="Using token lengths less than '{0}' bytes is considered "
-            "vulnerable to brute-force attacks.",
+            message="A token size of '{0}' is less than the recommended "
+            "'{1}' bytes, which can be vulnerable to brute-force attacks.",
             wildcards={},
         )
 
@@ -87,6 +87,6 @@ class SecretsWeakToken(Rule):
                 rule_id=self.id,
                 location=Location(node=arg.node),
                 level=Level.ERROR if nbytes < 16 else Level.WARNING,
-                message=self.message.format(32),
+                message=self.message.format(nbytes, 32),
                 fixes=fixes,
             )
