@@ -107,6 +107,7 @@ class HashlibWeakHash(Rule):
                     "ripemd160",
                     "sha",
                     "sha1",
+                    "pbkdf2_hmac",
                 ]
             },
             config=Config(level=Level.ERROR),
