@@ -1,8 +1,8 @@
 # level: ERROR
 # start_line: 16
 # end_line: 16
-# start_column: 14
-# end_column: 16
+# start_column: 13
+# end_column: 15
 import hmac
 
 
@@ -13,4 +13,4 @@ password = b"pass"
 h = hmac.HMAC(key, msg=password, digestmod="sha224")
 digest = h.hexdigest()
 
-return digest == received_digest
+print(digest == received_digest)

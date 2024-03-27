@@ -11,4 +11,4 @@ key = b"my-super-duper-secret-key-string"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
-return hmac.compare_digest(digest, received_digest)
+print(hmac.compare_digest(digest, received_digest))
