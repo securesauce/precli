@@ -36,7 +36,7 @@ key = b"my-secret-key"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
-return digest == received_digest
+print(digest == received_digest)
 ```
 
 ## Remediation
@@ -57,7 +57,7 @@ key = b"my-secret-key"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
-return hmac.compare_digest(digest, received_digest)
+print(hmac.compare_digest(digest, received_digest))
 ```
 
 ## See also

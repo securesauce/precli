@@ -1,8 +1,8 @@
 # level: ERROR
 # start_line: 18
 # end_line: 18
-# start_column: 14
-# end_column: 16
+# start_column: 13
+# end_column: 15
 import hmac
 
 
@@ -15,4 +15,4 @@ key = b"my-super-duper-secret-key-string"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
-return digest == received_digest
+print(digest == received_digest)
