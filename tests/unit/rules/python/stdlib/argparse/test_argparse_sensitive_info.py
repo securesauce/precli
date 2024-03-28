@@ -39,6 +39,7 @@ class ArgparseSensitiveInfoTests(test_case.TestCase):
     @parameterized.expand(
         [
             "argparse_add_argument_api_key.py",
+            "argparse_add_argument_default_action.py",
             "argparse_add_argument_password.py",
             "argparse_add_argument_password_file.py",
             "argparse_add_argument_password_store_true.py",
