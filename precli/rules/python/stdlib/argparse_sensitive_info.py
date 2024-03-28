@@ -100,7 +100,7 @@ class ArgparseSensitiveInfo(Rule):
         if (
             "--password" in [arg0.value_str, arg1.value_str]
             or "--api-key" in [arg0.value_str, arg1.value_str]
-        ) and action.value_str == "store":
+        ) and (action.value is None or action.value_str == "store"):
             return Result(
                 rule_id=self.id,
                 location=Location(node=call.node),
