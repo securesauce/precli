@@ -91,8 +91,8 @@ class HmacWeakHash(Rule):
             name="reversible_one_way_hash",
             description=__doc__,
             cwe_id=328,
-            message="Use of weak hash function '{0}' does not meet security "
-            "expectations.",
+            message="The hash function '{0}' is vulnerable to collision and "
+            "pre-image attacks.",
             wildcards={
                 "hashlib.*": [
                     "md4",
@@ -115,30 +115,62 @@ class HmacWeakHash(Rule):
             argument = call.get_argument(position=2, name="digestmod")
 
             if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content='"sha256"',
+                )
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
                     message=self.message.format(argument.value_str),
+                    fixes=fixes,
                 )
             if argument.value in HASHLIB_WEAK_HASHES:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content="hashlib.sha256",
+                )
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
                     message=self.message.format(argument.value),
+                    fixes=fixes,
                 )
         elif call.name_qualified in ["hmac.digest"]:
             # hmac.digest(key, msg, digest)
             argument = call.get_argument(position=2, name="digest")
 
             if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content='"sha256"',
+                )
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
                     message=self.message.format(argument.value_str),
+                    fixes=fixes,
                 )
             if argument.value in HASHLIB_WEAK_HASHES:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content="hashlib.sha256",
+                )
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
                     message=self.message.format(argument.value),
+                    fixes=fixes,
                 )
