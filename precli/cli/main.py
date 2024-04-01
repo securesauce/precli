@@ -24,6 +24,9 @@ from precli.renderers.markdown import Markdown
 from precli.renderers.plain import Plain
 
 
+GITHUB_URL = "https://github.com"
+
+
 def setup_arg_parser():
     parser = argparse.ArgumentParser(
         description="precli - a static analysis security tool",
@@ -188,14 +191,14 @@ def file_to_url(owner, repo, branch, target, root, file):
     prefix = root[target_len:].lstrip("/")
     urlpath = f"{owner}/{repo}/blob/{branch}"
     rel_path = "/".join([urlpath, prefix, file])
-    return urljoin("https://github.com", rel_path)
+    return urljoin(GITHUB_URL, rel_path)
 
 
 def discover_files(targets: list[str], recursive: bool):
     artifacts = []
 
     for target in targets:
-        if target.startswith("https://github.com"):
+        if target.startswith(GITHUB_URL):
             owner, repo = get_owner_repo(target)
             if repo:
                 try:
@@ -304,7 +307,9 @@ def main():
     args = setup_arg_parser()
 
     # Check if a newer version is available
-    if args.quiet is False:
+    git_target = any(filter(lambda x: x.startswith(GITHUB_URL), args.targets))
+
+    if (git_target or args.gist) and not args.quiet:
         check_for_update()
 
     enabled = args.enable.split(",") if args.enable else []
