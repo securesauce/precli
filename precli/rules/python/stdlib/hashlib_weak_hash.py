@@ -98,8 +98,8 @@ class HashlibWeakHash(Rule):
             name="reversible_one_way_hash",
             description=__doc__,
             cwe_id=328,
-            message="Use of weak hash function '{0}' does not meet security "
-            "expectations.",
+            message="The hash function '{0}' is vulnerable to collision and "
+            "pre-image attacks.",
             wildcards={
                 "hashlib.*": [
                     "md4",
@@ -127,10 +127,19 @@ class HashlibWeakHash(Rule):
             ).value
 
             if used_for_security is True:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=call.identifier_node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content="sha256",
+                )
+
                 return Result(
                     rule_id=self.id,
-                    location=Location(node=call.function_node),
+                    location=Location(node=call.identifier_node),
                     message=self.message.format(call.name_qualified),
+                    fixes=fixes,
                 )
         elif call.name_qualified in ["hashlib.pbkdf2_hmac"]:
             """
@@ -145,10 +154,19 @@ class HashlibWeakHash(Rule):
             argument = call.get_argument(position=0, name="hash_name")
 
             if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
+                fixes = Rule.get_fixes(
+                    context=context,
+                    deleted_location=Location(node=argument.node),
+                    description="For cryptographic purposes, use a hash length"
+                    " of at least 256-bits with hashes such as SHA-256.",
+                    inserted_content='"sha256"',
+                )
+
                 return Result(
                     rule_id=self.id,
-                    location=Location(node=call.function_node),
+                    location=Location(node=argument.node),
                     message=self.message.format(argument.value_str),
+                    fixes=fixes,
                 )
         elif call.name_qualified in ["hashlib.new"]:
             # hashlib.new(name, data=b'', **kwargs)
@@ -160,8 +178,18 @@ class HashlibWeakHash(Rule):
                 ).value
 
                 if used_for_security is True:
+                    fixes = Rule.get_fixes(
+                        context=context,
+                        deleted_location=Location(node=argument.node),
+                        description="For cryptographic purposes, use a hash "
+                        "length of at least 256-bits with hashes such as "
+                        "SHA-256.",
+                        inserted_content='"sha256"',
+                    )
+
                     return Result(
                         rule_id=self.id,
-                        location=Location(node=call.function_node),
+                        location=Location(node=argument.node),
                         message=self.message.format(argument.value_str),
+                        fixes=fixes,
                     )

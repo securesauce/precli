@@ -8,7 +8,7 @@ from precli.core.level import Level
 from precli.parsers import go
 
 
-class TestCase(testtools.TestCase):
+class GoTestCase(testtools.TestCase):
     def setUp(self):
         super().setUp()
         self.parser = go.Go()
