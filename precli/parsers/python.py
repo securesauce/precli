@@ -158,10 +158,11 @@ class Python(Parser):
             and self.context["node"].parent.type == tokens.ASSIGNMENT
         ):
             module = self.importlib_import_module(call)
-            left_hand = self.context["node"].parent.children[0]
-            identifier = left_hand.text.decode()
-            self.current_symtab.remove(identifier)
-            self.current_symtab.put(identifier, tokens.IMPORT, module)
+            if module:
+                left_hand = self.context["node"].parent.children[0]
+                identifier = left_hand.text.decode()
+                self.current_symtab.remove(identifier)
+                self.current_symtab.put(identifier, tokens.IMPORT, module)
 
         self.analyze_node(self.context["node"].type, call=call)
 
@@ -314,8 +315,10 @@ class Python(Parser):
                 modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
-    def importlib_import_module(self, call: Call) -> dict:
+    def importlib_import_module(self, call: Call) -> str:
         name = call.get_argument(position=0, name="name").value_str
+        if name is None:
+            return None
         package = call.get_argument(position=1, name="package").value_str
         if package is None:
             return name

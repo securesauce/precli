@@ -19,6 +19,13 @@ class PythonTestCase(testtools.TestCase):
             "examples",
         )
 
+    def test_importlib_import_module(self):
+        artifact = Artifact(
+            os.path.join(self.base_path, "importlib_import_module.py")
+        )
+        results = self.parser.parse(artifact)
+        self.assertEqual(0, len(results))
+
     def test_suppress(self):
         artifact = Artifact(os.path.join(self.base_path, "suppress.py"))
         results = self.parser.parse(artifact)
