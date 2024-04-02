@@ -92,6 +92,7 @@ class Python(Parser):
         if (
             nodes[0].type == tokens.PATTERN_LIST
             and nodes[2].type == tokens.EXPRESSION_LIST
+            and len(nodes[0].named_children) == len(nodes[2].named_children)
         ):
             for i in range(len(nodes[0].named_children)):
                 self.visit_assignment(
