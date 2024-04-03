@@ -24,6 +24,7 @@ from precli.renderers.markdown import Markdown
 from precli.renderers.plain import Plain
 
 
+BUSL_URL = "https://spdx.org/licenses/BUSL-1.1.html"
 GITHUB_URL = "https://github.com"
 
 
@@ -120,8 +121,10 @@ def setup_arg_parser():
     parser.add_argument(
         "--version",
         action="version",
-        version=f"%(prog)s {precli.__version__}\n"
-        f"  python version = {python_ver}",
+        version=f"precli {precli.__version__}\n"
+        f"Copyright 2024 Secure Saurce LLC\n"
+        f"License BUSL-1.1: Business Source License 1.1 <{BUSL_URL}>\n"
+        f"  Python {python_ver}",
     )
     args = parser.parse_args()
 
