@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import zipfile
+from importlib import metadata
 from urllib.parse import urljoin
 from urllib.parse import urlparse
 
@@ -117,11 +118,16 @@ def setup_arg_parser():
         action="store_true",
         help="quiet mode, display less output",
     )
+    extensions = ""
+    for dist in metadata.distributions():
+        if dist.name.startswith("precli-"):
+            extensions += f"  {dist.name} {dist.version}\n"
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
         action="version",
         version=f"precli {precli.__version__}\n"
+        f"{extensions}"
         f"Copyright 2024 Secure Saurce LLC\n"
         f"License BUSL-1.1: Business Source License 1.1 <{BUSL_URL}>\n"
         f"  Python {python_ver}",
