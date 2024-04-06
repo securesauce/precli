@@ -11,6 +11,7 @@ class Call:
         node: Node,
         name: str,
         name_qual: str,
+        arg_list_node: Node = None,
         args: list = None,
         kwargs: dict = None,
     ):
@@ -20,11 +21,13 @@ class Call:
         self._args = args if args is not None else []
         self._kwargs = kwargs if kwargs is not None else {}
 
-        if self._node.children:
-            # Assign nodes to the call attribute/identifier and argument
-            # list
+        if node.children:
+            # Assign nodes to the call attribute/identifier and argument list
             self._func_node = node.children[0]
-            self._arg_list_node = node.children[1]
+            if arg_list_node is None:
+                self._arg_list_node = node.children[1]
+            else:
+                self._arg_list_node = arg_list_node
             self._var_node = Call._get_var_node(self._func_node)
             self._ident_node = Call._get_func_ident(self._func_node)
 
