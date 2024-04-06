@@ -8,6 +8,12 @@
 | GO002 | [crypto — weak hash](rules/go/stdlib/crypto-weak-hash.md) | Reversible One Way Hash in `crypto` Package |
 | GO003 | [crypto — weak key](rules/go/stdlib/crypto-weak-key.md) | Inadequate Encryption Strength Using Weak Keys in `crypto` Package |
 
+## Java Standard Library
+
+| ID | Name | Description |
+|----|------|-------------|
+| JAV001 | [javax.crypto — weak cipher](rules/java/stdlib/javax-crypto-weak-cipher.md) | Use of a Broken or Risky Cryptographic Algorithm in `javax.crypto` Package |
+
 ## Python Standard Library
 
 | ID | Name | Description |
