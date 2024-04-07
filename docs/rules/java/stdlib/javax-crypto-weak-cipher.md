@@ -1,3 +1,3 @@
 # javax.crypto — weak cipher
 
-::: precli.rules.java.stdlib.crypto_weak_cipher
+::: precli.rules.java.stdlib.javax_crypto_weak_cipher

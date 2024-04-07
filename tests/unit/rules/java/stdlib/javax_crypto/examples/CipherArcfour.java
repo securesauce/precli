@@ -7,7 +7,7 @@ import java.security.*;
 import javax.crypto.*;
 
 
-public class Example {
+public class CipherArcfour {
     public static void main(String [] args) {
         Cipher cipher = null;
         try {

@@ -9,10 +9,10 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class CryptoWeakCipherTests(test_case.TestCase):
+class MessageDigestWeakHashTests(test_case.TestCase):
     def setUp(self):
         super().setUp()
-        self.rule_id = "JAV001"
+        self.rule_id = "JAV002"
         self.parser = java.Java()
         self.base_path = os.path.join(
             "tests",
@@ -20,34 +20,28 @@ class CryptoWeakCipherTests(test_case.TestCase):
             "rules",
             "java",
             "stdlib",
-            "javax_crypto",
+            "java_security",
             "examples",
         )
 
     def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
         self.assertEqual(self.rule_id, rule.id)
-        self.assertEqual(
-            "use_of_a_broken_or_risky_cryptographic_algorithm", rule.name
-        )
+        self.assertEqual("reversible_one_way_hash", rule.name)
         self.assertEqual(
             f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
         )
         self.assertEqual(True, rule.default_config.enabled)
         self.assertEqual(Level.ERROR, rule.default_config.level)
         self.assertEqual(-1.0, rule.default_config.rank)
-        self.assertEqual("327", rule.cwe.cwe_id)
+        self.assertEqual("328", rule.cwe.cwe_id)
 
     @parameterized.expand(
         [
-            "cipher_3des_cbc.java",
-            "cipher_aes_cbc.java",
-            "cipher_arcfour.java",
-            "cipher_blowfish_cbc.java",
-            "cipher_des_cbc.java",
-            "cipher_rc2.java",
-            "cipher_rc4.java",
-            "cipher_rc5.java",
+            "MessageDigestMD2.java",
+            "MessageDigestMD5.java",
+            "MessageDigestSHA1.java",
+            "MessageDigestSHA256.java",
         ]
     )
     def test(self, filename):
