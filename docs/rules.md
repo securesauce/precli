@@ -13,6 +13,7 @@
 | ID | Name | Description |
 |----|------|-------------|
 | JAV001 | [javax.crypto — weak cipher](rules/java/stdlib/javax-crypto-weak-cipher.md) | Use of a Broken or Risky Cryptographic Algorithm in `javax.crypto` Package |
+| JAV002 | [java.security — weak hash](rules/java/stdlib/java-security-weak-hash.md) | Reversible One Way Hash in `java.security` Package |
 
 ## Python Standard Library
 
