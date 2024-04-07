@@ -41,7 +41,13 @@ class CryptoWeakCipherTests(test_case.TestCase):
     @parameterized.expand(
         [
             "cipher_3des_cbc.java",
+            "cipher_aes_cbc.java",
+            "cipher_arcfour.java",
+            "cipher_blowfish_cbc.java",
             "cipher_des_cbc.java",
+            "cipher_rc2.java",
+            "cipher_rc4.java",
+            "cipher_rc5.java",
         ]
     )
     def test(self, filename):

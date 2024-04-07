@@ -5,7 +5,7 @@ r"""
 Using weak ciphers for cryptographic algorithms can pose significant security
 risks, and it's generally advised to avoid them in favor of stronger, more
 secure algorithms. Here's some guidance that advises against using weak
-ciphers like DES and RC4:
+ciphers like 3DES, Blowfish, DES, RC2, RC4, and RC5:
 
 1. **NIST Recommendations**: The National Institute of Standards and
 Technology (NIST) is a widely recognized authority on cryptographic standards.
@@ -22,8 +22,8 @@ their vulnerabilities.
 
 3. **OWASP Guidelines**: The Open Web Application Security Project (OWASP)
 provides guidelines for secure web applications. Their guidance explicitly
-recommends avoiding weak ciphers, including DES and RC4 due to known security
-weaknesses.
+recommends avoiding weak ciphers, including 3DES, Blowfish, DES, RC2, RC4, and
+RC5 due to known security weaknesses.
 
 4. **PCI DSS Compliance**: The Payment Card Industry Data Security Standard
 (PCI DSS) mandates the use of strong cryptographic algorithms. Using weak
@@ -37,9 +37,9 @@ practices for cryptographic algorithms. These resources typically recommend
 avoiding the use of weak ciphers.
 
 6. **Security Research**: Academic papers and security research often
-highlight the vulnerabilities of weak ciphers like DES and RC4. These
-findings reinforce the importance of avoiding these ciphers in
-security-critical applications.
+highlight the vulnerabilities of weak ciphers like 3DES, Blowfish, DES, RC2,
+RC4, and RC5. These findings reinforce the importance of avoiding these
+ciphers in security-critical applications.
 
 7. **Compliance Standards**: Depending on your industry and location,
 there may be specific regulatory requirements that prohibit the use of
@@ -52,18 +52,17 @@ your server to support only strong ciphersuites and protocols. Weak ciphers,
 such as RC4, have known vulnerabilities and should be disabled.
 
 In summary, there is a consensus among reputable standards organizations,
-industry experts, and security professionals that weak ciphers like DES and
-RC4 should be avoided due to their known vulnerabilities and weaknesses.
-Instead, it is advisable to use stronger, more secure cryptographic algorithms
-and adhere to industry best practices and regulatory requirements for
-encryption and security.
+industry experts, and security professionals that weak ciphers like 3DES,
+Blowfish, DES, RC2, RC4, and RC5 should be avoided due to their known
+vulnerabilities and weaknesses. Instead, it is advisable to use stronger,
+more secure cryptographic algorithms and adhere to industry best practices
+and regulatory requirements for encryption and security.
 
 ## Example
 
 ```java
 import java.security.NoSuchAlgorithmException;
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 
 
 public class Example {
@@ -87,8 +86,7 @@ AES.
 
 ```java
 import java.security.NoSuchAlgorithmException;
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 
 
 public class Example {
@@ -122,6 +120,9 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
+WEAK_CIPHERS = ("ARCFOUR", "Blowfish", "DES", "DESede", "RC2", "RC4", "RC5")
+
+
 class WeakCipher(Rule):
     def __init__(self, id: str):
         super().__init__(
@@ -131,7 +132,11 @@ class WeakCipher(Rule):
             cwe_id=327,
             message="Weak ciphers like '{0}' should be avoided due to their "
             "known vulnerabilities and weaknesses.",
-            wildcards={},
+            wildcards={
+                "javax.crypto.*": [
+                    "Cipher",
+                ],
+            },
             config=Config(level=Level.ERROR),
         )
 
@@ -144,25 +149,10 @@ class WeakCipher(Rule):
         argument = call.get_argument(position=0)
         transformation = argument.value_str
 
-        # DES/CBC/NoPadding
         # DES/CBC/PKCS5Padding
-        # DES/ECB/NoPadding
-        # DES/ECB/PKCS5Padding
-        # DESede/CBC/NoPadding
-        # DESede/CBC/PKCS5Padding
-        # DESede/ECB/NoPadding
-        # DESede/ECB/PKCS5Padding
         cipher, *mode_padding = transformation.split("/")
 
-        if cipher not in (
-            "ARCFOUR",
-            "Blowfish",
-            "DES",
-            "DESede",
-            "RC2",
-            "RC4",
-            "RC5",
-        ):
+        if cipher not in WEAK_CIPHERS:
             return
 
         content = "/".join(["AES"] + mode_padding)
