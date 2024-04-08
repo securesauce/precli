@@ -361,13 +361,6 @@ class Python(Parser):
             if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
 
-    def join_symbol(self, nodetext: str, symbol: Symbol):
-        if isinstance(symbol.value, str):
-            value = nodetext.replace(symbol.name, symbol.value, 1)
-        else:
-            value = symbol.value
-        return value
-
     def resolve(self, node: Node, default=None):
         """
         Resolve the given node into its liternal value.
