@@ -49,7 +49,7 @@ class Java(Parser):
             self.current_symtab.put(symbol, tokens.IMPORT, package)
 
     def visit_method_invocation(self, nodes: list[Node]):
-        # field_access "." identifier argument_list
+        # TODO: field_access "." identifier argument_list
         #   or
         # identifier "." identifier argument_list
         if nodes[0] != tokens.IDENTIFIER:
@@ -115,29 +115,37 @@ class Java(Parser):
 
         try:
             match node.type:
-                # TODO: case.tokens.CALL:
+                case tokens.METHOD_INVOCATION:
+                    nodetext = node.children[0].text.decode()
+                    symbol = self.get_qual_name(node.children[0])
+                    if symbol is not None:
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.STRING_LITERAL:
                     value = nodetext
-                case tokens.INT_LITERAL:
-                    # TODO: hex, octal, binary
+                case tokens.CHARACTER_LITERAL:
+                    # TODO
+                    pass
+                case tokens.DECIMAL_INTEGER_LITERAL:
                     try:
                         value = int(nodetext)
                     except ValueError:
                         value = nodetext
-                case tokens.FLOAT_LITERAL:
-                    try:
-                        value = float(nodetext)
-                    except ValueError:
-                        value = nodetext
+                case tokens.HEX_INTEGER_LITERAL:
+                    # TODO
+                    pass
+                case tokens.OCTAL_INTEGER_LITERAL:
+                    # TODO
+                    pass
+                case tokens.DECIMAL_FLOATING_POINT_LITERAL:
+                    # TODO
+                    pass
+                case tokens.BINARY_INTEGER_LITERAL:
+                    # TODO
+                    pass
                 case tokens.TRUE:
                     value = True
                 case tokens.FALSE:

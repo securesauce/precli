@@ -10,6 +10,7 @@ from precli.core.artifact import Artifact
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.suppression import Suppression
+from precli.core.symtab import Symbol
 from precli.rules import Rule
 
 
@@ -176,6 +177,13 @@ class Parser(ABC):
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None
+
+    def join_symbol(self, nodetext: str, symbol: Symbol):
+        if isinstance(symbol.value, str):
+            value = nodetext.replace(symbol.name, symbol.value, 1)
+        else:
+            value = symbol.value
+        return value
 
     def analyze_node(self, node_type: str, **kwargs: dict) -> list[Result]:
         """

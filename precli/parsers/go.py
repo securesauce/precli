@@ -149,22 +149,13 @@ class Go(Parser):
                     nodetext = node.text.decode()
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
-                        if isinstance(symbol.value, str):
-                            value = nodetext.replace(
-                                symbol.name, symbol.value, 1
-                            )
-                        else:
-                            value = symbol.value
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.INTERPRETED_STRING_LITERAL:
+                    # TODO: don't use ast
                     value = ast.literal_eval(nodetext)
                 case tokens.INT_LITERAL:
                     # TODO: hex, octal, binary
