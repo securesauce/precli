@@ -206,7 +206,7 @@ class Python(Parser):
                 self.current_symtab.remove(identifier)
                 self.current_symtab.put(identifier, tokens.IMPORT, module)
 
-        self.analyze_node(self.context["node"].type, call=call)
+        self.analyze_node(tokens.CALL, call=call)
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.text.decode())
@@ -219,7 +219,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_assert(self, nodes: list[Node]):
-        self.analyze_node(self.context["node"].type)
+        self.analyze_node(tokens.ASSERT)
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
