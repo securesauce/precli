@@ -82,14 +82,43 @@ class Go(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
+    def _get_var_node(self, node: Node) -> Node:
+        if (
+            len(node.named_children) >= 2
+            and node.named_children[0].type
+            in (tokens.IDENTIFIER, tokens.ATTRIBUTE)
+            and node.named_children[1].type == tokens.IDENTIFIER
+        ):
+            return node.named_children[0]
+        elif node.type == tokens.ATTRIBUTE:
+            return self._get_var_node(node.named_children[0])
+
+    def _get_func_ident(self, node: Node) -> Node:
+        # TODO(ericwb): does this function fail with nested calls?
+        if node.type == tokens.ATTRIBUTE:
+            return self._get_func_ident(node.named_children[1])
+        if node.type == tokens.IDENTIFIER:
+            return node
+
     def visit_call_expression(self, nodes: list[Node]):
         func_call_qual = self.resolve(nodes[0])
         func_call_args = self.get_func_args(nodes[1])
+
+        if self.context["node"].children:
+            # (selector_expression | identifier) argument_list
+            func_node = self.context["node"].children[0]
+            var_node = self._get_var_node(func_node)
+            ident_node = self._get_func_ident(func_node)
+            arg_list_node = self.context["node"].children[1]
 
         call = Call(
             node=self.context["node"],
             name=func_call_qual,
             name_qual=func_call_qual,
+            func_node=func_node,
+            var_node=var_node,
+            ident_node=ident_node,
+            arg_list_node=arg_list_node,
             args=func_call_args,
         )
 

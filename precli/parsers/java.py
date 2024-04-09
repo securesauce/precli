@@ -48,6 +48,24 @@ class Java(Parser):
             symbol = package.split(".")[-1]
             self.current_symtab.put(symbol, tokens.IMPORT, package)
 
+    def _get_var_node(self, node: Node) -> Node:
+        if (
+            len(node.named_children) >= 2
+            and node.named_children[0].type
+            in (tokens.IDENTIFIER, tokens.ATTRIBUTE)
+            and node.named_children[1].type == tokens.IDENTIFIER
+        ):
+            return node.named_children[0]
+        elif node.type == tokens.ATTRIBUTE:
+            return self._get_var_node(node.named_children[0])
+
+    def _get_func_ident(self, node: Node) -> Node:
+        # TODO(ericwb): does this function fail with nested calls?
+        if node.type == tokens.ATTRIBUTE:
+            return self._get_func_ident(node.named_children[1])
+        if node.type == tokens.IDENTIFIER:
+            return node
+
     def visit_method_invocation(self, nodes: list[Node]):
         # TODO: field_access "." identifier argument_list
         #   or
@@ -58,18 +76,23 @@ class Java(Parser):
         if nodes[2] != tokens.IDENTIFIER:
             return
 
-        class_name = self.resolve(nodes[0])
+        obj_name = self.resolve(nodes[0])
         method = nodes[2].text.decode()
-        if None in (class_name, method):
+        if None in (obj_name, method):
             return
 
-        func_call_qual = ".".join([class_name, method])
+        func_call_qual = ".".join([obj_name, method])
         func_call_args = self.get_func_args(nodes[3])
+
+        # (field_access | identifier) "." identifier argument_list
 
         call = Call(
             node=self.context["node"],
             name=func_call_qual,
             name_qual=func_call_qual,
+            # func_node=func_node, # no equivalent for Java
+            var_node=nodes[0],
+            ident_node=nodes[2],
             arg_list_node=nodes[3],
             args=func_call_args,
         )

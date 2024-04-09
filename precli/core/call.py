@@ -11,6 +11,9 @@ class Call:
         node: Node,
         name: str,
         name_qual: str,
+        func_node: Node = None,
+        var_node: Node = None,
+        ident_node: Node = None,
         arg_list_node: Node = None,
         args: list = None,
         kwargs: dict = None,
@@ -18,38 +21,12 @@ class Call:
         self._node = node
         self._name = name
         self._name_qual = name_qual
+        self._func_node = func_node
+        self._var_node = var_node
+        self._ident_node = ident_node
+        self._arg_list_node = arg_list_node
         self._args = args if args is not None else []
         self._kwargs = kwargs if kwargs is not None else {}
-
-        if node.children:
-            # Assign nodes to the call attribute/identifier and argument list
-            self._func_node = node.children[0]
-            if arg_list_node is None:
-                self._arg_list_node = node.children[1]
-            else:
-                self._arg_list_node = arg_list_node
-            self._var_node = Call._get_var_node(self._func_node)
-            self._ident_node = Call._get_func_ident(self._func_node)
-
-    @staticmethod
-    def _get_var_node(node: Node) -> Node:
-        if (
-            len(node.named_children) >= 2
-            and node.named_children[0].type
-            in (tokens.IDENTIFIER, tokens.ATTRIBUTE)
-            and node.named_children[1].type == tokens.IDENTIFIER
-        ):
-            return node.named_children[0]
-        elif node.type == tokens.ATTRIBUTE:
-            return Call._get_var_node(node.named_children[0])
-
-    @staticmethod
-    def _get_func_ident(node: Node) -> Node:
-        # TODO(ericwb): does this function fail with nested calls?
-        if node.type == tokens.ATTRIBUTE:
-            return Call._get_func_ident(node.named_children[1])
-        if node.type == tokens.IDENTIFIER:
-            return node
 
     @property
     def node(self) -> Node:
