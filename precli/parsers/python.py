@@ -130,10 +130,22 @@ class Python(Parser):
                 (call_args, call_kwargs) = self.get_func_args(
                     nodes[2].children[1]
                 )
+
+                if self.context["node"].children:
+                    # (attribute | identifier) argument_list
+                    func_node = nodes[2].children[0]
+                    var_node = self._get_var_node(func_node)
+                    ident_node = self._get_func_ident(func_node)
+                    arg_list_node = nodes[2].children[1]
+
                 call = Call(
                     node=nodes[2],
                     name=right_hand,
                     name_qual=right_hand,
+                    func_node=func_node,
+                    var_node=var_node,
+                    ident_node=ident_node,
+                    arg_list_node=arg_list_node,
                     args=call_args,
                     kwargs=call_kwargs,
                 )
@@ -142,14 +154,43 @@ class Python(Parser):
 
         self.visit(nodes)
 
+    def _get_var_node(self, node: Node) -> Node:
+        if (
+            len(node.named_children) >= 2
+            and node.named_children[0].type
+            in (tokens.IDENTIFIER, tokens.ATTRIBUTE)
+            and node.named_children[1].type == tokens.IDENTIFIER
+        ):
+            return node.named_children[0]
+        elif node.type == tokens.ATTRIBUTE:
+            return self._get_var_node(node.named_children[0])
+
+    def _get_func_ident(self, node: Node) -> Node:
+        # TODO(ericwb): does this function fail with nested calls?
+        if node.type == tokens.ATTRIBUTE:
+            return self._get_func_ident(node.named_children[1])
+        if node.type == tokens.IDENTIFIER:
+            return node
+
     def visit_call(self, nodes: list[Node]):
         func_call_qual = self.resolve(nodes[0])
         (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
+
+        if self.context["node"].children:
+            # (attribute | identifier) argument_list
+            func_node = self.context["node"].children[0]
+            var_node = self._get_var_node(func_node)
+            ident_node = self._get_func_ident(func_node)
+            arg_list_node = self.context["node"].children[1]
 
         call = Call(
             node=self.context["node"],
             name=func_call_qual,
             name_qual=func_call_qual,
+            func_node=func_node,
+            var_node=var_node,
+            ident_node=ident_node,
+            arg_list_node=arg_list_node,
             args=func_call_args,
             kwargs=func_call_kwargs,
         )
@@ -202,10 +243,21 @@ class Python(Parser):
                 )
 
                 if as_pattern.children[0].type == tokens.CALL:
+                    if as_pattern.children[0].children:
+                        # (attribute | identifier) argument_list
+                        func_node = as_pattern.children[0].children[0]
+                        var_node = self._get_var_node(func_node)
+                        ident_node = self._get_func_ident(func_node)
+                        arg_list_node = as_pattern.children[0].children[1]
+
                     call = Call(
                         node=as_pattern.children[0],
                         name=statement,
                         name_qual=statement,
+                        func_node=func_node,
+                        var_node=var_node,
+                        ident_node=ident_node,
+                        arg_list_node=arg_list_node,
                     )
                     symbol = self.current_symtab.get(identifier)
                     symbol.push_call(call)
