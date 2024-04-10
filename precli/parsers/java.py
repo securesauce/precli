@@ -48,6 +48,27 @@ class Java(Parser):
             symbol = package.split(".")[-1]
             self.current_symtab.put(symbol, tokens.IMPORT, package)
 
+    def visit_class_declaration(self, nodes: list[Node]):
+        class_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        cls_name = class_id.text.decode()
+        self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
+    def visit_constructor_declaration(self, nodes: list[Node]):
+        const_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        cst_name = const_id.text.decode()
+        self.current_symtab = SymbolTable(cst_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
+    def visit_method_declaration(self, nodes: list[Node]):
+        method_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        mth_name = method_id.text.decode()
+        self.current_symtab = SymbolTable(mth_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
     def _get_var_node(self, node: Node) -> Node:
         if (
             len(node.named_children) >= 2
