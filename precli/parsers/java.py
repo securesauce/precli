@@ -55,10 +55,38 @@ class Java(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
+    def visit_interface_declaration(self, nodes: list[Node]):
+        if_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        if_name = if_id.text.decode()
+        self.current_symtab = SymbolTable(if_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
+    def visit_annotation_type_declaration(self, nodes: list[Node]):
+        anno_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        ann_name = anno_id.text.decode()
+        self.current_symtab = SymbolTable(ann_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
+    def visit_enum_declaration(self, nodes: list[Node]):
+        enum_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        e_name = enum_id.text.decode()
+        self.current_symtab = SymbolTable(e_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
     def visit_constructor_declaration(self, nodes: list[Node]):
         const_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
         cst_name = const_id.text.decode()
         self.current_symtab = SymbolTable(cst_name, parent=self.current_symtab)
+        self.visit(nodes)
+        self.current_symtab = self.current_symtab.parent()
+
+    def visit_record_declaration(self, nodes: list[Node]):
+        record_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        rec_name = record_id.text.decode()
+        self.current_symtab = SymbolTable(rec_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
