@@ -1,10 +1,9 @@
 // level: ERROR
-// start_line: 13
-// end_line: 13
+// start_line: 12
+// end_line: 12
 // start_column: 57
 // end_column: 62
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 
 
 public class MessageDigestMD5 {
