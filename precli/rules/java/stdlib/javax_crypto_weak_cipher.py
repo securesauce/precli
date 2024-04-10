@@ -148,6 +148,8 @@ class WeakCipher(Rule):
 
         argument = call.get_argument(position=0)
         transformation = argument.value_str
+        if transformation is None:
+            return
 
         # DES/CBC/PKCS5Padding
         cipher, *mode_padding = transformation.split("/")

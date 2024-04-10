@@ -66,46 +66,125 @@ class Java(Parser):
         if node.type == tokens.IDENTIFIER:
             return node
 
+    def visit_local_variable_declaration(self, nodes: list[Node]):
+        # type_identifier variable_declarator
+        if nodes[0].type != tokens.TYPE_IDENTIFIER:
+            return
+        if nodes[1].type != tokens.VARIABLE_DECLARATOR:
+            return
+
+        var_nodes = nodes[1].named_children
+
+        if (
+            len(var_nodes) > 1
+            and var_nodes[0].type == tokens.IDENTIFIER
+            and var_nodes[1].type
+            in (
+                tokens.METHOD_INVOCATION,
+                tokens.ATTRIBUTE,
+                tokens.IDENTIFIER,
+                tokens.STRING_LITERAL,
+                tokens.CHARACTER_LITERAL,
+                tokens.DECIMAL_INTEGER_LITERAL,
+                tokens.HEX_INTEGER_LITERAL,
+                tokens.OCTAL_INTEGER_LITERAL,
+                tokens.DECIMAL_FLOATING_POINT_LITERAL,
+                tokens.BINARY_INTEGER_LITERAL,
+                tokens.TRUE,
+                tokens.FALSE,
+                tokens.NULL_LITERAL,
+            )
+        ):
+            left_hand = self.resolve(var_nodes[0], default=var_nodes[0])
+            right_hand = self.resolve(var_nodes[1], default=var_nodes[1])
+
+            # This is in case a variable is reassigned
+            self.current_symtab.put(
+                var_nodes[0].text.decode(), tokens.IDENTIFIER, right_hand
+            )
+
+            # This is to help full resolution of an attribute/call.
+            # This results in two entries in the symtab for this assignment.
+            self.current_symtab.put(left_hand, tokens.IDENTIFIER, right_hand)
+
+            if var_nodes[1].type == tokens.METHOD_INVOCATION:
+                meth_invoke = var_nodes[1]
+                if (
+                    meth_invoke.children[1].type == "."
+                    and meth_invoke.children[2].type == tokens.IDENTIFIER
+                ):
+                    # (field_access | identifier) "." identifier argument_list
+                    obj_node = meth_invoke.children[0]
+                    method_node = meth_invoke.children[2]
+                else:
+                    # identifier argument_list
+                    obj_node = meth_invoke.children[0]
+                    method_node = meth_invoke.children[0]
+
+                arg_list_node = self.child_by_type(
+                    meth_invoke, tokens.ARGUMENT_LIST
+                )
+                call_args = self.get_func_args(arg_list_node)
+
+                call = Call(
+                    node=var_nodes[1],
+                    name=right_hand,
+                    name_qual=right_hand,
+                    # func_node=func_node, # no equivalent for Java
+                    var_node=obj_node,
+                    ident_node=method_node,
+                    arg_list_node=arg_list_node,
+                    args=call_args,
+                )
+                symbol = self.current_symtab.get(left_hand)
+                symbol.push_call(call)
+
+        self.visit(nodes)
+
     def visit_method_invocation(self, nodes: list[Node]):
-        # TODO: field_access "." identifier argument_list
-        #   or
-        # identifier "." identifier argument_list
-        if nodes[0] != tokens.IDENTIFIER:
+        meth_invoke = self.context["node"]
+        if nodes[0].type not in (tokens.FIELD_ACCESS, tokens.IDENTIFIER):
             return
 
-        if nodes[2] != tokens.IDENTIFIER:
-            return
+        if nodes[1].type == "." and nodes[2].type == tokens.IDENTIFIER:
+            # (field_access | identifier) "." identifier argument_list
+            obj_node = nodes[0]
+            method_node = nodes[2]
 
-        obj_name = self.resolve(nodes[0])
-        method = nodes[2].text.decode()
-        if None in (obj_name, method):
-            return
+            obj_name = self.resolve(obj_node)
+            method = method_node.text.decode()
+            if None in (obj_name, method):
+                return
 
-        func_call_qual = ".".join([obj_name, method])
-        func_call_args = self.get_func_args(nodes[3])
+            func_call_qual = ".".join([obj_name, method])
+        else:
+            # identifier argument_list
+            obj_node = nodes[0]
+            method_node = nodes[0]
+            method_name = self.resolve(method_node)
+            if method_name is None:
+                return
+            func_call_qual = method_name
 
-        # (field_access | identifier) "." identifier argument_list
+        arg_list_node = self.child_by_type(meth_invoke, tokens.ARGUMENT_LIST)
+        func_call_args = self.get_func_args(arg_list_node)
 
         call = Call(
-            node=self.context["node"],
+            node=meth_invoke,
             name=func_call_qual,
             name_qual=func_call_qual,
             # func_node=func_node, # no equivalent for Java
-            var_node=nodes[0],
-            ident_node=nodes[2],
-            arg_list_node=nodes[3],
+            var_node=obj_node,
+            ident_node=method_node,
+            arg_list_node=arg_list_node,
             args=func_call_args,
         )
 
-        self.analyze_node(self.context["node"].type, call=call)
+        self.analyze_node(tokens.METHOD_INVOCATION, call=call)
 
-        if call.var_node is not None:
-            symbol = self.current_symtab.get(call.var_node.text.decode())
-            if symbol is not None and symbol.type == tokens.IDENTIFIER:
-                symbol.push_call(call)
-        else:
-            # TODO: why is var_node None?
-            pass
+        symbol = self.current_symtab.get(call.var_node.text.decode())
+        if symbol is not None and symbol.type == tokens.IDENTIFIER:
+            symbol.push_call(call)
 
         self.visit(nodes)
 
@@ -139,10 +218,24 @@ class Java(Parser):
         try:
             match node.type:
                 case tokens.METHOD_INVOCATION:
-                    nodetext = node.children[0].text.decode()
+                    if (
+                        node.children[1].type == "."
+                        and node.children[2].type == tokens.IDENTIFIER
+                    ):
+                        # (field_access | identifier) "." identifier
+                        # argument_list
+                        part1 = node.children[0].text.decode()
+                        part2 = node.children[2].text.decode()
+                        nodetext = ".".join([part1, part2])
+                    else:
+                        # identifier argument_list
+                        nodetext = node.children[0].text.decode()
                     symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
+                case tokens.FIELD_ACCESS:
+                    # TODO
+                    pass
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
