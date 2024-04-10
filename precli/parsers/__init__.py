@@ -57,7 +57,11 @@ class Parser(ABC):
                 self.rules[rule.name].default_config.enabled = False
 
             if self.rules[rule.name].wildcards:
-                self.wildcards |= self.rules[rule.name].wildcards
+                for k, v in self.rules[rule.name].wildcards.items():
+                    if k in self.wildcards:
+                        self.wildcards[k] += v
+                    else:
+                        self.wildcards[k] = v
 
     @property
     def lexer(self) -> str:
