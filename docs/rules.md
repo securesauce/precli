@@ -15,6 +15,7 @@
 | JAV001 | [javax.crypto — weak cipher](rules/java/stdlib/javax-crypto-weak-cipher.md) | Use of a Broken or Risky Cryptographic Algorithm in `javax.crypto` Package |
 | JAV002 | [java.security — weak hash](rules/java/stdlib/java-security-weak-hash.md) | Reversible One Way Hash in `java.security` Package |
 | JAV003 | [java.security — weak key](rules/java/stdlib/java-security-weak-key.md) | Inadequate Encryption Strength Using Weak Keys in `java.security` Package |
+| JAV004 | [java.security — weak random](rules/java/stdlib/java-security-weak-random.md) | Use of Cryptographically Weak Pseudo-Random Number Generator `SHA1PRNG` |
 
 ## Python Standard Library
 
