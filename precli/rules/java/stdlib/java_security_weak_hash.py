@@ -95,7 +95,7 @@ class MessageDigestWeakHash(Rule):
         argument = call.get_argument(position=0)
         algorithm = argument.value_str
 
-        if algorithm.upper() not in WEAK_HASHES:
+        if algorithm is None or algorithm.upper() not in WEAK_HASHES:
             return
 
         fixes = Rule.get_fixes(

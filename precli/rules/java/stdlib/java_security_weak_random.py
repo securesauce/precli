@@ -92,7 +92,7 @@ class SecureRandomWeakRandom(Rule):
         argument = call.get_argument(position=0)
         algorithm = argument.value_str
 
-        if algorithm.upper() != "SHA1PRNG":
+        if algorithm is None or algorithm.upper() != "SHA1PRNG":
             return
 
         fixes = Rule.get_fixes(
