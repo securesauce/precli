@@ -97,11 +97,11 @@ class SecureRandomWeakRandom(Rule):
 
         fixes = Rule.get_fixes(
             context=context,
-            deleted_location=Location(node=call.node),
+            deleted_location=Location(node=argument.node),
             description="Use SecureRandom without specifying an algorithm, "
             "allowing the Java runtime to select the strongest available "
             "algorithm.",
-            inserted_content="new SecureRandom()",
+            inserted_content='"DRBG"',
         )
         return Result(
             rule_id=self.id,
