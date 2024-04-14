@@ -117,7 +117,10 @@ class Java(Parser):
 
     def visit_local_variable_declaration(self, nodes: list[Node]):
         # type_identifier variable_declarator
-        if nodes[0].type != tokens.TYPE_IDENTIFIER:
+        if nodes[0].type not in (
+            tokens.TYPE_IDENTIFIER,
+            tokens.SCOPED_TYPE_IDENTIFIER,
+        ):
             return
         if nodes[1].type != tokens.VARIABLE_DECLARATOR:
             return
@@ -126,7 +129,11 @@ class Java(Parser):
 
         if (
             len(var_nodes) > 1
-            and var_nodes[0].type == tokens.IDENTIFIER
+            and var_nodes[0].type
+            in (
+                tokens.IDENTIFIER,
+                tokens.SCOPED_TYPE_IDENTIFIER,
+            )
             and var_nodes[1].type
             in (
                 tokens.METHOD_INVOCATION,
@@ -216,7 +223,7 @@ class Java(Parser):
             func_call_qual = method_name
 
         arg_list_node = self.child_by_type(meth_invoke, tokens.ARGUMENT_LIST)
-        func_call_args = self.get_func_args(arg_list_node)
+        call_args = self.get_func_args(arg_list_node)
 
         call = Call(
             node=meth_invoke,
@@ -226,7 +233,7 @@ class Java(Parser):
             var_node=obj_node,
             ident_node=method_node,
             arg_list_node=arg_list_node,
-            args=func_call_args,
+            args=call_args,
         )
 
         self.analyze_node(tokens.METHOD_INVOCATION, call=call)
@@ -283,8 +290,9 @@ class Java(Parser):
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
                 case tokens.FIELD_ACCESS:
-                    # TODO
-                    pass
+                    symbol = Symbol(nodetext, tokens.IDENTIFIER, nodetext)
+                    if symbol is not None:
+                        value = self.join_symbol(nodetext, symbol)
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
