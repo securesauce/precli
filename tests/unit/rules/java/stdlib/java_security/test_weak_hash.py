@@ -40,6 +40,7 @@ class MessageDigestWeakHashTests(test_case.TestCase):
         [
             "MessageDigestMD2.java",
             "MessageDigestMD5.java",
+            "MessageDigestMD5Property.java",
             "MessageDigestSHA1.java",
             "MessageDigestSHA256.java",
         ]
