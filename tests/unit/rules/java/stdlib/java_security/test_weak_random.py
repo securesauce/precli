@@ -38,6 +38,7 @@ class SecureRandomWeakRandomTests(test_case.TestCase):
 
     @parameterized.expand(
         [
+            "JavaSecuritySecureRandomSHA1PRNG.java",
             "SecureRandomDefault.java",
             "SecureRandomSHA1PRNG.java",
         ]
