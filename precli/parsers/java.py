@@ -136,6 +136,7 @@ class Java(Parser):
             )
             and var_nodes[1].type
             in (
+                tokens.OBJECT_CREATION_EXPRESSION,
                 tokens.METHOD_INVOCATION,
                 tokens.ATTRIBUTE,
                 tokens.IDENTIFIER,
@@ -164,78 +165,53 @@ class Java(Parser):
             self.current_symtab.put(left_hand, tokens.IDENTIFIER, right_hand)
 
             if var_nodes[1].type == tokens.METHOD_INVOCATION:
-                meth_invoke = var_nodes[1]
-                if (
-                    meth_invoke.children[1].type == "."
-                    and meth_invoke.children[2].type == tokens.IDENTIFIER
-                ):
-                    # (field_access | identifier) "." identifier argument_list
-                    obj_node = meth_invoke.children[0]
-                    method_node = meth_invoke.children[2]
-                else:
-                    # identifier argument_list
-                    obj_node = meth_invoke.children[0]
-                    method_node = meth_invoke.children[0]
-
-                arg_list_node = self.child_by_type(
-                    meth_invoke, tokens.ARGUMENT_LIST
-                )
-                call_args = self.get_func_args(arg_list_node)
-
-                call = Call(
-                    node=var_nodes[1],
-                    name=right_hand,
-                    name_qual=right_hand,
-                    # func_node=func_node, # no equivalent for Java
-                    var_node=obj_node,
-                    ident_node=method_node,
-                    arg_list_node=arg_list_node,
-                    args=call_args,
-                )
+                call = self.method_call(var_nodes[1], right_hand)
                 symbol = self.current_symtab.get(left_hand)
                 symbol.push_call(call)
 
         self.visit(nodes)
 
+    def visit_object_creation_expression(self, nodes: list[Node]):
+        if nodes[0].type != "new":
+            return
+
+        if nodes[1].type not in (
+            tokens.TYPE_IDENTIFIER,
+            tokens.SCOPED_TYPE_IDENTIFIER,
+        ):
+            return
+
+        # "new" (type_identifier | scoped_type_identifier) argument_list
+
+        cls_name = self.resolve(nodes[1])
+        if cls_name is None:
+            return
+        func_call_qual = cls_name
+
+        call = self.method_call(self.context["node"], func_call_qual)
+        self.analyze_node(tokens.OBJECT_CREATION_EXPRESSION, call=call)
+
+        self.visit(nodes)
+
     def visit_method_invocation(self, nodes: list[Node]):
-        meth_invoke = self.context["node"]
         if nodes[0].type not in (tokens.FIELD_ACCESS, tokens.IDENTIFIER):
             return
 
         if nodes[1].type == "." and nodes[2].type == tokens.IDENTIFIER:
             # (field_access | identifier) "." identifier argument_list
-            obj_node = nodes[0]
-            method_node = nodes[2]
-
-            obj_name = self.resolve(obj_node)
-            method = method_node.text.decode()
+            obj_name = self.resolve(nodes[0])
+            method = nodes[2].text.decode()
             if None in (obj_name, method):
                 return
-
             func_call_qual = ".".join([obj_name, method])
         else:
             # identifier argument_list
-            obj_node = nodes[0]
-            method_node = nodes[0]
-            method_name = self.resolve(method_node)
+            method_name = self.resolve(nodes[0])
             if method_name is None:
                 return
             func_call_qual = method_name
 
-        arg_list_node = self.child_by_type(meth_invoke, tokens.ARGUMENT_LIST)
-        call_args = self.get_func_args(arg_list_node)
-
-        call = Call(
-            node=meth_invoke,
-            name=func_call_qual,
-            name_qual=func_call_qual,
-            # func_node=func_node, # no equivalent for Java
-            var_node=obj_node,
-            ident_node=method_node,
-            arg_list_node=arg_list_node,
-            args=call_args,
-        )
-
+        call = self.method_call(self.context["node"], func_call_qual)
         self.analyze_node(tokens.METHOD_INVOCATION, call=call)
 
         symbol = self.current_symtab.get(call.var_node.text.decode())
@@ -243,6 +219,44 @@ class Java(Parser):
             symbol.push_call(call)
 
         self.visit(nodes)
+
+    def method_call(self, node: Node, func_call_qual: str):
+        if (
+            node.children[1].type == "."
+            and node.children[2].type == tokens.IDENTIFIER
+        ):
+            # (field_access | identifier) "." identifier argument_list
+            func_node = None
+            obj_node = node.children[0]
+            method_node = node.children[2]
+        elif node.children[1].type in (
+            tokens.TYPE_IDENTIFIER,
+            tokens.SCOPED_TYPE_IDENTIFIER,
+        ):
+            # "new" (type_identifier | scoped_type_identifier) argument_list
+            func_node = node.children[1]
+            # TODO: get the obj_node and method_node from func_node
+            obj_node = None
+            method_node = None
+        else:
+            # identifier argument_list
+            func_node = None
+            obj_node = node.children[0]
+            method_node = node.children[0]
+
+        arg_list_node = self.child_by_type(node, tokens.ARGUMENT_LIST)
+        call_args = self.get_func_args(arg_list_node)
+
+        return Call(
+            node=node,
+            name=func_call_qual,
+            name_qual=func_call_qual,
+            func_node=func_node,
+            var_node=obj_node,
+            ident_node=method_node,
+            arg_list_node=arg_list_node,
+            args=call_args,
+        )
 
     def get_func_args(self, node: Node) -> list:
         if node.type != tokens.ARGUMENT_LIST:
@@ -273,6 +287,27 @@ class Java(Parser):
 
         try:
             match node.type:
+                case tokens.OBJECT_CREATION_EXPRESSION:
+                    # "new" (type_identifier | scoped_type_identifier)
+                    # argument_list
+                    if node.children[0].type == "new" and node.children[
+                        1
+                    ].type in (
+                        tokens.TYPE_IDENTIFIER,
+                        tokens.SCOPED_TYPE_IDENTIFIER,
+                    ):
+                        nodetext = node.children[1].text.decode()
+                        if (
+                            node.children[1].type
+                            == tokens.SCOPED_TYPE_IDENTIFIER
+                        ):
+                            symbol = Symbol(
+                                nodetext, tokens.IDENTIFIER, nodetext
+                            )
+                        else:
+                            symbol = self.get_qual_name(node.children[1])
+                        if symbol is not None:
+                            value = self.join_symbol(nodetext, symbol)
                 case tokens.METHOD_INVOCATION:
                     if (
                         node.children[1].type == "."
@@ -291,8 +326,7 @@ class Java(Parser):
                         value = self.join_symbol(nodetext, symbol)
                 case tokens.FIELD_ACCESS:
                     symbol = Symbol(nodetext, tokens.IDENTIFIER, nodetext)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
+                    value = self.join_symbol(nodetext, symbol)
                 case tokens.IDENTIFIER:
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
