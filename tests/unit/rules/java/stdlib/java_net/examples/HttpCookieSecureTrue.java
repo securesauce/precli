@@ -1,10 +1,10 @@
 // level: NONE
-import javax.servlet.http.Cookie;
+import java.net.*;
 
 
-public class CookieSecureTrue {
+public class HttpCookieSecureTrue {
     public static void main(String[] args) {
-        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        HttpCookie cookie = new HttpCookie("cookieName", "cookieValue");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
     }

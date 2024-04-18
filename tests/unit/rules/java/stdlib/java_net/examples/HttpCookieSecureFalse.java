@@ -3,12 +3,12 @@
 // end_line: 13
 // start_column: 25
 // end_column: 30
-import javax.servlet.http.Cookie;
+import java.net.*;
 
 
-public class CookieSecureFalse {
+public class HttpCookieSecureFalse {
     public static void main(String[] args) {
-        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        HttpCookie cookie = new HttpCookie("cookieName", "cookieValue");
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
     }
