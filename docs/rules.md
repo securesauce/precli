@@ -16,7 +16,7 @@
 | JAV002 | [java.security — weak hash](rules/java/stdlib/java-security-weak-hash.md) | Reversible One Way Hash in `java.security` Package |
 | JAV003 | [java.security — weak key](rules/java/stdlib/java-security-weak-key.md) | Inadequate Encryption Strength Using Weak Keys in `java.security` Package |
 | JAV004 | [java.security — weak random](rules/java/stdlib/java-security-weak-random.md) | Use of Cryptographically Weak Pseudo-Random Number Generator `SHA1PRNG` |
-| JAV005 | [javax.servlet.http — insecure cookie](rules/java/stdlib/javax-servlet-http-insecure_cookie.md) | Sensitive Cookie in HTTPS Session Without 'Secure' Attribute |
+| JAV005 | [javax.servlet.http — insecure cookie](rules/java/stdlib/javax-servlet-http-insecure-cookie.md) | Sensitive Cookie in HTTPS Session Without 'Secure' Attribute |
 
 ## Python Standard Library
 
