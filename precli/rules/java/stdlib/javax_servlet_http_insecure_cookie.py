@@ -21,7 +21,7 @@ they are only sent via secure connections.
 ```java
 import javax.servlet.http.Cookie;
 
-public class CookieSecureFalse {
+public class SessionCookie {
     public static void main(String[] args) {
         Cookie cookie = Cookie();
         cookie.setSecure(false);
@@ -39,7 +39,7 @@ MITM attacks on the communication channel.
 ```java
 import javax.servlet.http.Cookie;
 
-public class CookieSecureFalse {
+public class SessionCookie {
     public static void main(String[] args) {
         Cookie cookie = Cookie();
         cookie.setSecure(true);
