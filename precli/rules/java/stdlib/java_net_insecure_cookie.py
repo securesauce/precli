@@ -19,11 +19,11 @@ they are only sent via secure connections.
 ## Example
 
 ```java
-import javax.servlet.http.Cookie;
+import java.net.HttpCookie;
 
 public class SessionCookie {
     public static void main(String[] args) {
-        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        HttpCookie cookie = new HttpCookie("cookieName", "cookieValue");
         cookie.setSecure(false);
     }
 }
@@ -37,11 +37,11 @@ transmitted only over HTTPS, providing protection against eavesdropping and
 MITM attacks on the communication channel.
 
 ```java
-import javax.servlet.http.Cookie;
+import java.net.HttpCookie;
 
 public class SessionCookie {
     public static void main(String[] args) {
-        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        HttpCookie cookie = new HttpCookie("cookieName", "cookieValue");
         cookie.setSecure(true);
     }
 }
@@ -49,7 +49,7 @@ public class SessionCookie {
 
 ## See also
 
-- [Cookie (Java(TM) EE Specification APIs)](https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/Cookie.html)
+- [HttpCookie (Java SE & JDK))](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/net/HttpCookie.html)
 - [CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute (PRNG)](https://cwe.mitre.org/data/definitions/614.html)
 
 _New in version 0.5.1_
@@ -71,15 +71,15 @@ class InsecureCookie(Rule):
             message="The cookie '{0}' was found without the 'Secure' flag "
             "set.",
             wildcards={
-                "javax.servlet.http.*": [
-                    "Cookie",
+                "java.net.*": [
+                    "HttpCookie",
                 ],
             },
         )
 
     def analyze_method_invocation(self, context: dict, call: Call) -> Result:
         if call.name_qualified not in [
-            "javax.servlet.http.Cookie.setSecure",
+            "java.net.HttpCookie.setSecure",
         ]:
             return
 
