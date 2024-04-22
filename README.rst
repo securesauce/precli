@@ -39,5 +39,5 @@ Example result:
     Suggested fix: Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the
     vulnerability to timing attacks.
       17
-    ❱ 18 print(hmac.compare_digest(digest, received_digest))                                                   
+    ❱ 18 print(hmac.compare_digest(digest, received_digest))
       19
