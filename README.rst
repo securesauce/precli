@@ -24,4 +24,20 @@ Run precli on a single test example:
 
 .. code-block:: console
 
-    precli tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py
+    precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py
+
+Example result:
+
+.. code-block:: console
+
+    ⛔️ Error on line 18 in tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py
+    PY005: Observable Timing Discrepancy
+    Comparing digests with the '==' operator is vulnerable to timing attacks.
+      17
+    ❱ 18 print(digest == received_digest)
+      19
+    Suggested fix: Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the
+    vulnerability to timing attacks.
+      17
+    ❱ 18 print(hmac.compare_digest(digest, received_digest))                                                   
+      19
