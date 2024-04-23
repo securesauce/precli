@@ -14,31 +14,31 @@ pip install precli
 Run precli on a single test example:
 
 ```
-precli tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py
+precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py
 ```
 
 Run precli on a single test example, showing results in SARIF format:
 
 ```
-precli tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py --json
+precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py --json
 ```
 
 Run precli on a single test example, showing results in plain format:
 
 ```
-precli tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py --plain
+precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py --plain
 ```
 
 Run precli on a single test example, showing results in markdown format:
 
 ```
-precli tests/unit/rules/python/stdlib/examples/hmac_timing_attack.py --markdown
+precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py --markdown
 ```
 
 Run precli against all the python test examples:
 
 ```
-precli -r tests/unit/rules/python/stdlib/examples/
+precli -r tests/unit/rules/python/
 ```
 
 Run precli against an entire GitHub repository:
