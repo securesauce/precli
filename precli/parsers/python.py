@@ -131,7 +131,7 @@ class Python(Parser):
                     nodes[2].children[1]
                 )
 
-                if self.context["node"].children:
+                if nodes[2].children:
                     # (attribute | identifier) argument_list
                     func_node = nodes[2].children[0]
                     var_node = self._get_var_node(func_node)

@@ -1,6 +1,4 @@
-import torch
+import ssl
 
 
-torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
-x = torch.tensor([[0.1, 1.2], [2.2, 3.1], [4.9, 5.2]])
-b, *_, device = *x.shape, x.device
+ssl_ctx1, ssl_ctx2 = ssl.SSLContext(), ssl.SSLContext()
