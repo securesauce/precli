@@ -26,6 +26,15 @@ class PythonTestCase(testtools.TestCase):
         results = self.parser.parse(artifact)
         self.assertEqual(0, len(results))
 
+    def test_expression_list_assignment_uneven(self):
+        artifact = Artifact(
+            os.path.join(
+                self.base_path, "expression_list_assignment_uneven.py"
+            )
+        )
+        results = self.parser.parse(artifact)
+        self.assertEqual(0, len(results))
+
     def test_importlib_import_module(self):
         artifact = Artifact(
             os.path.join(self.base_path, "importlib_import_module.py")
