@@ -2,7 +2,6 @@
 import pathlib
 import sys
 import urllib.parse as urlparse
-from datetime import datetime
 
 import sarif_om
 from jschema_to_python.to_json import to_json
@@ -116,7 +115,8 @@ class Json(Renderer):
                     tool=sarif_om.Tool(driver=self.create_tool_component(run)),
                     invocations=[
                         sarif_om.Invocation(
-                            end_time_utc=datetime.utcnow().strftime(TS_FORMAT),
+                            start_time_utc=run.start_time.strftime(TS_FORMAT),
+                            end_time_utc=run.end_time.strftime(TS_FORMAT),
                             execution_successful=True,
                         )
                     ],
