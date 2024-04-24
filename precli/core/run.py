@@ -1,4 +1,5 @@
 # Copyright 2024 Secure Saurce LLC
+import datetime
 import io
 import logging
 import os
@@ -28,6 +29,8 @@ class Run:
         self._parsers = parsers
         self._artifacts = artifacts
         self._init_logger(debug)
+        self._start_time = None
+        self._endt_time = None
 
     def _init_logger(self, log_level=logging.INFO):
         """Initialize the logger.
@@ -54,6 +57,8 @@ class Run:
 
     def invoke(self):
         """Invokes a run"""
+        self._start_time = datetime.datetime.now(datetime.UTC)
+
         # if we have problems with a file, we'll remove it from the file_list
         # and add it to the skipped list instead
         new_artifacts = list(self._artifacts)
@@ -98,6 +103,15 @@ class Run:
             notes=sum(result.level == Level.NOTE for result in results),
         )
         self._results = results
+        self._end_time = datetime.datetime.now(datetime.UTC)
+
+    @property
+    def start_time(self):
+        return self._start_time
+
+    @property
+    def end_time(self):
+        return self._end_time
 
     def parse_file(
         self,
