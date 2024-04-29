@@ -22,6 +22,13 @@ class Python(Parser):
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
+        def child_by_type(node: Node, type: str) -> Node:
+            # Return first child with type as specified
+            child = list(filter(lambda x: x.type == type, node.named_children))
+            return child[0] if child else None
+
+        setattr(Node, "child_by_type", child_by_type)
+
     def file_extensions(self) -> list[str]:
         return [".py", ".pyw"]
 
@@ -42,14 +49,14 @@ class Python(Parser):
             self.current_symtab.put(key, tokens.IMPORT, value)
 
     def visit_class_definition(self, nodes: list[Node]):
-        class_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        class_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         cls_name = class_id.text.decode()
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_function_definition(self, nodes: list[Node]):
-        func_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        func_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         func = func_id.text.decode()
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)
@@ -59,8 +66,8 @@ class Python(Parser):
         self.visit_typed_parameter(nodes)
 
     def visit_typed_parameter(self, nodes: list[Node]):
-        param_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
-        param_type = self.child_by_type(self.context["node"], tokens.TYPE)
+        param_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
+        param_type = self.context["node"].child_by_type(tokens.TYPE)
 
         if param_id is not None and param_type.named_children[0].type in (
             tokens.ATTRIBUTE,
@@ -287,8 +294,8 @@ class Python(Parser):
             if child.type == tokens.DOTTED_NAME:
                 imports[child.text.decode()] = child.text.decode()
             elif child.type == tokens.ALIASED_IMPORT:
-                module = self.child_by_type(child, tokens.DOTTED_NAME)
-                alias = self.child_by_type(child, tokens.IDENTIFIER)
+                module = child.child_by_type(tokens.DOTTED_NAME)
+                alias = child.child_by_type(tokens.IDENTIFIER)
                 imports[alias.text.decode()] = module.text.decode()
         return imports
 
@@ -299,8 +306,8 @@ class Python(Parser):
                 plain_import = Import(child.text.decode(), None)
                 imports.append(plain_import)
             elif child.type == tokens.ALIASED_IMPORT:
-                module = self.child_by_type(child, tokens.DOTTED_NAME).text
-                alias = self.child_by_type(child, tokens.IDENTIFIER).text
+                module = child.child_by_type(tokens.DOTTED_NAME).text
+                alias = child.child_by_type(tokens.IDENTIFIER).text
                 alias_import = Import(module.decode(), alias.decode())
                 imports.append(alias_import)
         return imports
