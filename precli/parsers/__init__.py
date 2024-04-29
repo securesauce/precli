@@ -63,6 +63,12 @@ class Parser(ABC):
                     else:
                         self.wildcards[k] = v
 
+        @property
+        def utf8_text(self) -> str:
+            return self.text.decode()
+
+        setattr(Node, "utf8_text", utf8_text)
+
     @property
     def lexer(self) -> str:
         """
