@@ -22,9 +22,9 @@ class Python(Parser):
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
-        def child_by_type(node: Node, type: str) -> Node:
+        def child_by_type(self, type: str) -> Node:
             # Return first child with type as specified
-            child = list(filter(lambda x: x.type == type, node.named_children))
+            child = list(filter(lambda x: x.type == type, self.named_children))
             return child[0] if child else None
 
         setattr(Node, "child_by_type", child_by_type)
@@ -50,14 +50,14 @@ class Python(Parser):
 
     def visit_class_definition(self, nodes: list[Node]):
         class_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        cls_name = class_id.text.decode()
+        cls_name = class_id.utf8_text
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_function_definition(self, nodes: list[Node]):
         func_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        func = func_id.text.decode()
+        func = func_id.utf8_text
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
@@ -79,7 +79,7 @@ class Python(Parser):
             tokens.FALSE,
             tokens.NONE,
         ):
-            param_name = param_id.text.decode()
+            param_name = param_id.utf8_text
             param_type = self.resolve(
                 param_type.named_children[0],
                 default=param_type.named_children[0],
@@ -89,7 +89,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_named_expression(self, nodes: list[Node]):
-        if len(nodes) > 1 and nodes[1].text.decode() == ":=":
+        if len(nodes) > 1 and nodes[1].utf8_text == ":=":
             self.visit_assignment(nodes)
         else:
             self.visit(nodes)
@@ -126,7 +126,7 @@ class Python(Parser):
 
             # This is in case a variable is reassigned
             self.current_symtab.put(
-                nodes[0].text.decode(), tokens.IDENTIFIER, right_hand
+                nodes[0].utf8_text, tokens.IDENTIFIER, right_hand
             )
 
             # This is to help full resolution of an attribute/call.
@@ -209,14 +209,14 @@ class Python(Parser):
             module = self.importlib_import_module(call)
             if module:
                 left_hand = self.context["node"].parent.children[0]
-                identifier = left_hand.text.decode()
+                identifier = left_hand.utf8_text
                 self.current_symtab.remove(identifier)
                 self.current_symtab.put(identifier, tokens.IMPORT, module)
 
         self.analyze_node(tokens.CALL, call=call)
 
         if call.var_node is not None:
-            symbol = self.current_symtab.get(call.var_node.text.decode())
+            symbol = self.current_symtab.get(call.var_node.utf8_text)
             if symbol is not None and symbol.type == tokens.IDENTIFIER:
                 symbol.push_call(call)
         else:
@@ -274,7 +274,7 @@ class Python(Parser):
     def visit_comparison_operator(self, nodes: list[Node]):
         if len(nodes) > 2:
             left_hand = self.resolve(nodes[0], default=nodes[0])
-            operator = nodes[1].text.decode()
+            operator = nodes[1].utf8_text
             right_hand = self.resolve(nodes[2], default=nodes[2])
 
             comparison = Comparison(
@@ -292,23 +292,23 @@ class Python(Parser):
         imports = {}
         for child in nodes:
             if child.type == tokens.DOTTED_NAME:
-                imports[child.text.decode()] = child.text.decode()
+                imports[child.utf8_text] = child.utf8_text
             elif child.type == tokens.ALIASED_IMPORT:
                 module = child.child_by_type(tokens.DOTTED_NAME)
                 alias = child.child_by_type(tokens.IDENTIFIER)
-                imports[alias.text.decode()] = module.text.decode()
+                imports[alias.utf8_text] = module.utf8_text
         return imports
 
     def parse_import_statement(self, nodes: list[Node]) -> list:
         imports = []
         for child in nodes:
             if child.type == tokens.DOTTED_NAME:
-                plain_import = Import(child.text.decode(), None)
+                plain_import = Import(child.utf8_text, None)
                 imports.append(plain_import)
             elif child.type == tokens.ALIASED_IMPORT:
-                module = child.child_by_type(tokens.DOTTED_NAME).text
-                alias = child.child_by_type(tokens.IDENTIFIER).text
-                alias_import = Import(module.decode(), alias.decode())
+                module = child.child_by_type(tokens.DOTTED_NAME)
+                alias = child.child_by_type(tokens.IDENTIFIER)
+                alias_import = Import(module.utf8_text, alias.utf8_text)
                 imports.append(alias_import)
         return imports
 
@@ -326,7 +326,7 @@ class Python(Parser):
 
         module = nodes[1]
         if module.type == tokens.DOTTED_NAME:
-            from_module = module.text.decode()
+            from_module = module.utf8_text
         elif module.type == tokens.RELATIVE_IMPORT:
             # No known way to resolve the relative to absolute
             # However, shouldn't matter much since most rules
@@ -354,9 +354,9 @@ class Python(Parser):
     def parse_import_from_statement(self, nodes: list[Node]) -> tuple:
         module = nodes[1]
         if module.type == tokens.DOTTED_NAME:
-            package = module.text.decode()
+            package = module.utf8_text
         elif module.type == tokens.RELATIVE_IMPORT:
-            package = module.text.decode()
+            package = module.utf8_text
 
         if nodes[2].type == tokens.IMPORT:
             if nodes[3].type == tokens.WILDCARD_IMPORT:
@@ -400,7 +400,7 @@ class Python(Parser):
         return args, kwargs
 
     def get_qual_name(self, node: Node) -> Symbol:
-        nodetext = node.text.decode()
+        nodetext = node.utf8_text
         symbol = self.current_symtab.get(nodetext)
         if symbol is not None:
             return symbol
@@ -415,7 +415,7 @@ class Python(Parser):
         over argument_list of a call node and such.
         """
         if node.type == tokens.IDENTIFIER:
-            result.append(node.text.decode())
+            result.append(node.utf8_text)
         for child in node.named_children:
             if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
@@ -424,14 +424,14 @@ class Python(Parser):
         """
         Resolve the given node into its liternal value.
         """
-        nodetext = node.text.decode()
+        nodetext = node.utf8_text
         if isinstance(default, Node):
-            default = default.text.decode()
+            default = default.utf8_text
 
         try:
             match node.type:
                 case tokens.CALL:
-                    nodetext = node.children[0].text.decode()
+                    nodetext = node.children[0].utf8_text
                     symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
@@ -447,7 +447,7 @@ class Python(Parser):
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
                 case tokens.KEYWORD_ARGUMENT:
-                    keyword = node.named_children[0].text.decode()
+                    keyword = node.named_children[0].utf8_text
                     kwvalue = node.named_children[1]
                     value = {keyword: self.resolve(kwvalue, default=kwvalue)}
                 case tokens.DICTIONARY:

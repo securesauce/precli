@@ -48,7 +48,7 @@ class Go(Parser):
         match nodes[0].type:
             case tokens.INTERPRETED_STRING_LITERAL:
                 # import "fmt"
-                package = ast.literal_eval(nodes[0].text.decode())
+                package = ast.literal_eval(nodes[0].utf8_text)
                 default_package = package.split("/")[-1]
                 imports[default_package] = package
 
@@ -56,8 +56,8 @@ class Go(Parser):
                 # import fm "fmt"
                 # Can use fm.Println instead of fmt.Println
                 if nodes[1].type == tokens.INTERPRETED_STRING_LITERAL:
-                    alias = nodes[0].text.decode()
-                    package = ast.literal_eval(nodes[1].text.decode())
+                    alias = nodes[0].utf8_text
+                    package = ast.literal_eval(nodes[1].utf8_text)
                     imports[alias] = package
 
             case tokens.DOT:
@@ -77,7 +77,7 @@ class Go(Parser):
 
     def visit_function_declaration(self, nodes: list[Node]):
         func_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
-        func = func_id.text.decode()
+        func = func_id.utf8_text
         self.current_symtab = SymbolTable(func, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
@@ -125,7 +125,7 @@ class Go(Parser):
         self.analyze_node(tokens.CALL_EXPRESSION, call=call)
 
         if call.var_node is not None:
-            symbol = self.current_symtab.get(call.var_node.text.decode())
+            symbol = self.current_symtab.get(call.var_node.utf8_text)
             if symbol is not None and symbol.type == tokens.IDENTIFIER:
                 symbol.push_call(call)
         else:
@@ -145,7 +145,7 @@ class Go(Parser):
         return args
 
     def get_qual_name(self, node: Node) -> Symbol:
-        nodetext = node.text.decode()
+        nodetext = node.utf8_text
         symbol = self.current_symtab.get(nodetext)
 
         if symbol is not None:
@@ -159,7 +159,7 @@ class Go(Parser):
         over argument_list of a call node and such.
         """
         if node.type == tokens.IDENTIFIER:
-            result.append(node.text.decode())
+            result.append(node.utf8_text)
         for child in node.named_children:
             if child.type != tokens.ARGUMENT_LIST:
                 self.unchain(child, result)
@@ -168,14 +168,14 @@ class Go(Parser):
         """
         Resolve the given node into its liternal value.
         """
-        nodetext = node.text.decode()
+        nodetext = node.utf8_text
         if isinstance(default, Node):
-            default = default.text.decode()
+            default = default.utf8_text
 
         try:
             match node.type:
                 case tokens.SELECTOR_EXPRESSION:
-                    nodetext = node.text.decode()
+                    nodetext = node.utf8_text
                     symbol = self.get_qual_name(node)
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
