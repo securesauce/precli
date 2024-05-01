@@ -49,49 +49,49 @@ class Java(Parser):
             self.current_symtab.put(symbol, tokens.IMPORT, package)
 
     def visit_class_declaration(self, nodes: list[Node]):
-        class_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        class_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         cls_name = class_id.utf8_text
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_interface_declaration(self, nodes: list[Node]):
-        if_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        if_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         if_name = if_id.utf8_text
         self.current_symtab = SymbolTable(if_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_annotation_type_declaration(self, nodes: list[Node]):
-        anno_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        anno_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         ann_name = anno_id.utf8_text
         self.current_symtab = SymbolTable(ann_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_enum_declaration(self, nodes: list[Node]):
-        enum_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        enum_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         e_name = enum_id.utf8_text
         self.current_symtab = SymbolTable(e_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_constructor_declaration(self, nodes: list[Node]):
-        const_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        const_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         cst_name = const_id.utf8_text
         self.current_symtab = SymbolTable(cst_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_record_declaration(self, nodes: list[Node]):
-        record_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        record_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         rec_name = record_id.utf8_text
         self.current_symtab = SymbolTable(rec_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_method_declaration(self, nodes: list[Node]):
-        method_id = self.child_by_type(self.context["node"], tokens.IDENTIFIER)
+        method_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
         mth_name = method_id.utf8_text
         self.current_symtab = SymbolTable(mth_name, parent=self.current_symtab)
         self.visit(nodes)
@@ -244,7 +244,7 @@ class Java(Parser):
             obj_node = node.children[0]
             method_node = node.children[0]
 
-        arg_list_node = self.child_by_type(node, tokens.ARGUMENT_LIST)
+        arg_list_node = node.child_by_type(tokens.ARGUMENT_LIST)
         call_args = self.get_func_args(arg_list_node)
 
         return Call(

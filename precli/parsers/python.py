@@ -22,13 +22,6 @@ class Python(Parser):
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
-        def child_by_type(self, type: str) -> Node:
-            # Return first child with type as specified
-            child = list(filter(lambda x: x.type == type, self.named_children))
-            return child[0] if child else None
-
-        setattr(Node, "child_by_type", child_by_type)
-
     def file_extensions(self) -> list[str]:
         return [".py", ".pyw"]
 
