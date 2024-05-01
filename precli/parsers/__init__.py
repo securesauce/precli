@@ -63,10 +63,16 @@ class Parser(ABC):
                     else:
                         self.wildcards[k] = v
 
+        def child_by_type(self, type: str) -> Node:
+            # Return first child with type as specified
+            child = list(filter(lambda x: x.type == type, self.named_children))
+            return child[0] if child else None
+
         @property
         def utf8_text(self) -> str:
             return self.text.decode()
 
+        setattr(Node, "child_by_type", child_by_type)
         setattr(Node, "utf8_text", utf8_text)
 
     @property
