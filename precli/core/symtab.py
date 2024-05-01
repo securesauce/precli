@@ -22,10 +22,12 @@ class SymbolTable:
     def get(self, name: str):
         if name in self._symbols:
             return self._symbols[name]
-        elif self._parent is not None:
-            return self._parent.get(name)
         else:
-            return None
+            # Check top-most scope (global)
+            root_symtab = self
+            while root_symtab._parent is not None:
+                root_symtab = root_symtab._parent
+            return root_symtab._symbols.get(name)
 
     def remove(self, name: str) -> None:
         if name in self._symbols:
