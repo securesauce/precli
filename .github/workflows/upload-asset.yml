@@ -9,10 +9,17 @@ jobs:
   build-n-publish:
     name: Build and upload wheel as asset
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
@@ -32,3 +39,8 @@ jobs:
         files: |
           dist/*.whl
           dist/*.tar.gz
+
+    - name: Attest Build Provenance
+      uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940
+      with:
+        subject-path: 'dist/precli-*'
