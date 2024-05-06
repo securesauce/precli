@@ -1,5 +1,5 @@
 cwe2==2.0.0
-Pygments==2.17.2
+Pygments==2.18.0
 rich==13.7.1
 tree-sitter==0.21.3
 tree-sitter-languages==1.10.2
