@@ -71,6 +71,10 @@ class Json(Renderer):
             short_description=sarif_om.MultiformatMessageString(
                 text=rule.short_description
             ),
+            default_configuration=sarif_om.ReportingConfiguration(
+                enabled=rule.default_config.enabled,
+                level=rule.default_config.level.name.lower(),
+            ),
             help=sarif_om.MultiformatMessageString(
                 text=rule.full_description, markdown=rule.full_description
             ),
