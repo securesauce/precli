@@ -2,6 +2,7 @@
 import pathlib
 import sys
 import urllib.parse as urlparse
+from importlib import metadata
 
 import sarif_om
 from jschema_to_python.to_json import to_json
@@ -106,13 +107,32 @@ class Json(Renderer):
             ),
         )
 
+    def get_extensions(self) -> list:
+        precli_exts = []
+        for dist in metadata.distributions():
+            if dist.name.startswith("precli-"):
+                precli_exts.append(
+                    sarif_om.ToolComponent(
+                        name=dist.name,
+                        organization=dist.metadata["Author"],
+                        semantic_version=dist.version,
+                        short_description=sarif_om.MultiformatMessageString(
+                            text=dist.metadata["Summary"]
+                        ),
+                    )
+                )
+        return precli_exts
+
     def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
             version=SCHEMA_VER,
             runs=[
                 sarif_om.Run(
-                    tool=sarif_om.Tool(driver=self.create_tool_component(run)),
+                    tool=sarif_om.Tool(
+                        driver=self.create_tool_component(run),
+                        extensions=self.get_extensions(),
+                    ),
                     invocations=[
                         sarif_om.Invocation(
                             start_time_utc=run.start_time.strftime(TS_FORMAT),
