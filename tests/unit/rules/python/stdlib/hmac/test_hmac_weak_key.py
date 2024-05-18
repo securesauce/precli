@@ -1,7 +1,7 @@
 # Copyright 2024 Secure Saurce LLC
 import os
 
-from parameterized import parameterized
+import pytest
 
 from precli.core.level import Level
 from precli.parsers import python
@@ -9,12 +9,12 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class HmacWeakKeyTests(test_case.TestCase):
-    def setUp(self):
-        super().setUp()
-        self.rule_id = "PY034"
-        self.parser = python.Python()
-        self.base_path = os.path.join(
+class TestHmacWeakKey(test_case.TestCase):
+    @classmethod
+    def setup_class(cls):
+        cls.rule_id = "PY034"
+        cls.parser = python.Python()
+        cls.base_path = os.path.join(
             "tests",
             "unit",
             "rules",
@@ -26,17 +26,19 @@ class HmacWeakKeyTests(test_case.TestCase):
 
     def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
-        self.assertEqual(self.rule_id, rule.id)
-        self.assertEqual("insufficient_key_size", rule.name)
-        self.assertEqual(
-            f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
+        assert rule.id == self.rule_id
+        assert rule.name == "insufficient_key_size"
+        assert (
+            rule.help_url
+            == f"https://docs.securesauce.dev/rules/{self.rule_id}"
         )
-        self.assertEqual(True, rule.default_config.enabled)
-        self.assertEqual(Level.WARNING, rule.default_config.level)
-        self.assertEqual(-1.0, rule.default_config.rank)
-        self.assertEqual("326", rule.cwe.cwe_id)
+        assert rule.default_config.enabled is True
+        assert rule.default_config.level == Level.WARNING
+        assert rule.default_config.rank == -1.0
+        assert rule.cwe.cwe_id == "326"
 
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "filename",
         [
             "hmac_digest_weak_key_hashlib_blake2b.py",
             "hmac_digest_weak_key_hashlib_sha3_256.py",
@@ -50,7 +52,7 @@ class HmacWeakKeyTests(test_case.TestCase):
             "hmac_new_weak_key_hashlib_sha3_512.py",
             "hmac_new_weak_key_sha384.py",
             "hmac_new_weak_key_sha512_256.py",
-        ]
+        ],
     )
     def test(self, filename):
         self.check(filename)

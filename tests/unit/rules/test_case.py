@@ -1,16 +1,11 @@
 # Copyright 2024 Secure Saurce LLC
 import os
 
-import testtools
-
 from precli.core.artifact import Artifact
 from precli.core.level import Level
 
 
-class TestCase(testtools.TestCase):
-    def setUp(self):
-        super().setUp()
-
+class TestCase:
     def expected(self, filename):
         with open(os.path.join(self.base_path, filename)) as f:
             level = f.readline().strip()
@@ -49,15 +44,15 @@ class TestCase(testtools.TestCase):
         artifact = Artifact(os.path.join(self.base_path, filename))
         results = self.parser.parse(artifact)
         if level == Level.NONE:
-            self.assertEqual(0, len(results))
+            assert len(results) == 0
         else:
             results = list(filter(lambda x: x.level != Level.NOTE, results))
-            self.assertEqual(1, len(results))
+            assert len(results) == 1
             result = results[0]
-            self.assertEqual(self.rule_id, result.rule_id)
-            self.assertEqual(start_line, result.location.start_line)
-            self.assertEqual(end_line, result.location.end_line)
-            self.assertEqual(start_column, result.location.start_column)
-            self.assertEqual(end_column, result.location.end_column)
-            self.assertEqual(level, result.level)
-            self.assertEqual(-1.0, result.rank)
+            assert result.rule_id == self.rule_id
+            assert result.location.start_line == start_line
+            assert result.location.end_line == end_line
+            assert result.location.start_column == start_column
+            assert result.location.end_column == end_column
+            assert result.level == level
+            assert result.rank == -1.0
