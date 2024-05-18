@@ -1,7 +1,7 @@
 # Copyright 2024 Secure Saurce LLC
 import os
 
-from parameterized import parameterized
+import pytest
 
 from precli.core.level import Level
 from precli.parsers import java
@@ -9,12 +9,12 @@ from precli.rules import Rule
 from tests.unit.rules import test_case
 
 
-class KeyPairGeneratorWeakkeyTests(test_case.TestCase):
-    def setUp(self):
-        super().setUp()
-        self.rule_id = "JAV003"
-        self.parser = java.Java()
-        self.base_path = os.path.join(
+class TestKeyPairGeneratorWeakkey(test_case.TestCase):
+    @classmethod
+    def setup_class(cls):
+        cls.rule_id = "JAV003"
+        cls.parser = java.Java()
+        cls.base_path = os.path.join(
             "tests",
             "unit",
             "rules",
@@ -26,21 +26,23 @@ class KeyPairGeneratorWeakkeyTests(test_case.TestCase):
 
     def test_rule_meta(self):
         rule = Rule.get_by_id(self.rule_id)
-        self.assertEqual(self.rule_id, rule.id)
-        self.assertEqual("inadequate_encryption_strength", rule.name)
-        self.assertEqual(
-            f"https://docs.securesauce.dev/rules/{self.rule_id}", rule.help_url
+        assert rule.id == self.rule_id
+        assert rule.name == "inadequate_encryption_strength"
+        assert (
+            rule.help_url
+            == f"https://docs.securesauce.dev/rules/{self.rule_id}"
         )
-        self.assertEqual(True, rule.default_config.enabled)
-        self.assertEqual(Level.WARNING, rule.default_config.level)
-        self.assertEqual(-1.0, rule.default_config.rank)
-        self.assertEqual("326", rule.cwe.cwe_id)
+        assert rule.default_config.enabled is True
+        assert rule.default_config.level == Level.WARNING
+        assert rule.default_config.rank == -1.0
+        assert rule.cwe.cwe_id == "326"
 
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "filename",
         [
             "KeyPairGeneratorDSA.java",
             "KeyPairGeneratorRSA.java",
-        ]
+        ],
     )
     def test(self, filename):
         self.check(filename)

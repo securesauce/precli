@@ -1,18 +1,16 @@
 # Copyright 2024 Secure Saurce LLC
 import os
 
-import testtools
-
 from precli.core.artifact import Artifact
 from precli.core.level import Level
 from precli.parsers import python
 
 
-class PythonTestCase(testtools.TestCase):
-    def setUp(self):
-        super().setUp()
-        self.parser = python.Python()
-        self.base_path = os.path.join(
+class TestPython:
+    @classmethod
+    def setup_class(cls):
+        cls.parser = python.Python()
+        cls.base_path = os.path.join(
             "tests",
             "unit",
             "parsers",
@@ -24,7 +22,7 @@ class PythonTestCase(testtools.TestCase):
             os.path.join(self.base_path, "expression_list_assignment.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(0, len(results))
+        assert len(results) == 0
 
     def test_expression_list_assignment_uneven(self):
         artifact = Artifact(
@@ -33,42 +31,42 @@ class PythonTestCase(testtools.TestCase):
             )
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(0, len(results))
+        assert len(results) == 0
 
     def test_importlib_import_module(self):
         artifact = Artifact(
             os.path.join(self.base_path, "importlib_import_module.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(0, len(results))
+        assert len(results) == 0
 
     def test_suppress(self):
         artifact = Artifact(os.path.join(self.base_path, "suppress.py"))
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_lowercase_rule(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_lowercase_rule.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.ERROR
+        assert result.rank == -1.0
 
     def test_suppress_multiline(self):
         # TODO: not testing multiline
@@ -76,87 +74,87 @@ class PythonTestCase(testtools.TestCase):
             os.path.join(self.base_path, "suppress_multiline.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_multiple_comments(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_multiple_comments.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_multiple_rules(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_multiple_rules.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_preceding(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_preceding.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(5, result.location.start_line)
-        self.assertEqual(5, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 5
+        assert result.location.end_line == 5
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_spaced_rules(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_spaced_rules.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.NOTE, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.NOTE
+        assert result.rank == -1.0
 
     def test_suppress_wrong_rule(self):
         artifact = Artifact(
             os.path.join(self.base_path, "suppress_wrong_rule.py")
         )
         results = self.parser.parse(artifact)
-        self.assertEqual(1, len(results))
+        assert len(results) == 1
         result = results[0]
-        self.assertEqual("PY004", result.rule_id)
-        self.assertEqual(4, result.location.start_line)
-        self.assertEqual(4, result.location.end_line)
-        self.assertEqual(8, result.location.start_column)
-        self.assertEqual(11, result.location.end_column)
-        self.assertEqual(Level.ERROR, result.level)
-        self.assertEqual(-1.0, result.rank)
+        assert result.rule_id == "PY004"
+        assert result.location.start_line == 4
+        assert result.location.end_line == 4
+        assert result.location.start_column == 8
+        assert result.location.end_column == 11
+        assert result.level == Level.ERROR
+        assert result.rank == -1.0
