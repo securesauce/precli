@@ -36,7 +36,7 @@ class Java(Parser):
 
         if len(nodes) > 3 and nodes[3].type == tokens.ASTERISK:
             # "import" scoped_identifier "." asterisk ";"
-            wc_import = nodes[1].utf8_text
+            wc_import = nodes[1].string
 
             if f"{wc_import}.*" in self.wildcards:
                 for wc in self.wildcards[f"{wc_import}.*"]:
@@ -44,55 +44,55 @@ class Java(Parser):
                     self.current_symtab.put(wc, tokens.IMPORT, full_import)
         else:
             # "import" scoped_identifier ";"
-            package = nodes[1].utf8_text
+            package = nodes[1].string
             symbol = package.split(".")[-1]
             self.current_symtab.put(symbol, tokens.IMPORT, package)
 
     def visit_class_declaration(self, nodes: list[Node]):
         class_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        cls_name = class_id.utf8_text
+        cls_name = class_id.string
         self.current_symtab = SymbolTable(cls_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_interface_declaration(self, nodes: list[Node]):
         if_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        if_name = if_id.utf8_text
+        if_name = if_id.string
         self.current_symtab = SymbolTable(if_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_annotation_type_declaration(self, nodes: list[Node]):
         anno_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        ann_name = anno_id.utf8_text
+        ann_name = anno_id.string
         self.current_symtab = SymbolTable(ann_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_enum_declaration(self, nodes: list[Node]):
         enum_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        e_name = enum_id.utf8_text
+        e_name = enum_id.string
         self.current_symtab = SymbolTable(e_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_constructor_declaration(self, nodes: list[Node]):
         const_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        cst_name = const_id.utf8_text
+        cst_name = const_id.string
         self.current_symtab = SymbolTable(cst_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_record_declaration(self, nodes: list[Node]):
         record_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        rec_name = record_id.utf8_text
+        rec_name = record_id.string
         self.current_symtab = SymbolTable(rec_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
     def visit_method_declaration(self, nodes: list[Node]):
         method_id = self.context["node"].child_by_type(tokens.IDENTIFIER)
-        mth_name = method_id.utf8_text
+        mth_name = method_id.string
         self.current_symtab = SymbolTable(mth_name, parent=self.current_symtab)
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
@@ -157,7 +157,7 @@ class Java(Parser):
 
             # This is in case a variable is reassigned
             self.current_symtab.put(
-                var_nodes[0].utf8_text, tokens.IDENTIFIER, right_hand
+                var_nodes[0].string, tokens.IDENTIFIER, right_hand
             )
 
             # This is to help full resolution of an attribute/call.
@@ -200,7 +200,7 @@ class Java(Parser):
         if nodes[1].type == "." and nodes[2].type == tokens.IDENTIFIER:
             # (field_access | identifier) "." identifier argument_list
             obj_name = self.resolve(nodes[0])
-            method = nodes[2].utf8_text
+            method = nodes[2].string
             if None in (obj_name, method):
                 return
             func_call_qual = ".".join([obj_name, method])
@@ -214,7 +214,7 @@ class Java(Parser):
         call = self.method_call(self.context["node"], func_call_qual)
         self.analyze_node(tokens.METHOD_INVOCATION, call=call)
 
-        symbol = self.current_symtab.get(call.var_node.utf8_text)
+        symbol = self.current_symtab.get(call.var_node.string)
         if symbol is not None and symbol.type == tokens.IDENTIFIER:
             symbol.push_call(call)
 
@@ -269,7 +269,7 @@ class Java(Parser):
         return args
 
     def get_qual_name(self, node: Node) -> Symbol:
-        nodetext = node.utf8_text
+        nodetext = node.string
         symbol = self.current_symtab.get(nodetext)
 
         if symbol is not None:
@@ -281,9 +281,9 @@ class Java(Parser):
         """
         Resolve the given node into its liternal value.
         """
-        nodetext = node.utf8_text
+        nodetext = node.string
         if isinstance(default, Node):
-            default = default.utf8_text
+            default = default.string
 
         try:
             match node.type:
@@ -296,7 +296,7 @@ class Java(Parser):
                         tokens.TYPE_IDENTIFIER,
                         tokens.SCOPED_TYPE_IDENTIFIER,
                     ):
-                        nodetext = node.children[1].utf8_text
+                        nodetext = node.children[1].string
                         if (
                             node.children[1].type
                             == tokens.SCOPED_TYPE_IDENTIFIER
@@ -315,12 +315,12 @@ class Java(Parser):
                     ):
                         # (field_access | identifier) "." identifier
                         # argument_list
-                        part1 = node.children[0].utf8_text
-                        part2 = node.children[2].utf8_text
+                        part1 = node.children[0].string
+                        part2 = node.children[2].string
                         nodetext = ".".join([part1, part2])
                     else:
                         # identifier argument_list
-                        nodetext = node.children[0].utf8_text
+                        nodetext = node.children[0].string
                     symbol = self.get_qual_name(node.children[0])
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)

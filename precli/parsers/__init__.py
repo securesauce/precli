@@ -68,12 +68,7 @@ class Parser(ABC):
             child = list(filter(lambda x: x.type == type, self.named_children))
             return child[0] if child else None
 
-        @property
-        def utf8_text(self) -> str:
-            return self.text.decode()
-
         setattr(Node, "child_by_type", child_by_type)
-        setattr(Node, "utf8_text", utf8_text)
 
     @property
     def lexer(self) -> str:
@@ -89,9 +84,17 @@ class Parser(ABC):
         self.results = []
         self.context = {"artifact": artifact}
         if artifact.contents is None:
+            # TODO: determine encoding
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
         tree = self.tree_sitter_parser.parse(artifact.contents)
+
+        @property
+        def string(self) -> str:
+            return self.text.decode(encoding=artifact.encoding)
+
+        setattr(Node, "string", string)
+
         self.visit([tree.root_node])
 
         for result in self.results:
@@ -118,7 +121,7 @@ class Parser(ABC):
             visitor_fn(node.children)
 
     def visit_comment(self, nodes: list[Node]):
-        comment = self.context["node"].text.decode()
+        comment = self.context["node"].string
 
         suppressed = self.SUPPRESS_COMMENT.search(comment)
         if suppressed is None:
