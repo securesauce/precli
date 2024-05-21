@@ -1,11 +1,11 @@
 # Copyright 2024 Secure Sauce LLC
 import pathlib
-import sys
 import urllib.parse as urlparse
 from importlib import metadata
 
 import sarif_om
 from jschema_to_python.to_json import to_json
+from rich.console import Console
 
 from precli.core.fix import Fix
 from precli.core.result import Result
@@ -20,8 +20,8 @@ TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 class Json(Renderer):
-    def __init__(self, file: sys.stdout, no_color: bool = False):
-        super().__init__(file=file, no_color=no_color)
+    def __init__(self, console: Console):
+        super().__init__(console)
 
     def to_uri(self, file):
         path = pathlib.PurePath(file)
