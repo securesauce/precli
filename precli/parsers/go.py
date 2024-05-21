@@ -22,6 +22,9 @@ class Go(Parser):
     def file_extensions(self) -> list[str]:
         return [".go"]
 
+    def get_file_encoding(self, file_path):
+        return "utf-8"
+
     def visit_source_file(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<source_file>")

@@ -84,7 +84,7 @@ class Parser(ABC):
         self.results = []
         self.context = {"artifact": artifact}
         if artifact.contents is None:
-            # TODO: determine encoding
+            artifact.encoding = self.get_file_encoding(artifact.file_name)
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
         tree = self.tree_sitter_parser.parse(artifact.contents)

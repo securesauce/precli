@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 import builtins
+import codecs
 import re
 from collections import namedtuple
 
@@ -24,6 +25,21 @@ class Python(Parser):
 
     def file_extensions(self) -> list[str]:
         return [".py", ".pyw"]
+
+    def get_file_encoding(self, file_path):
+        with open(file_path, "rb") as f:
+            first_two_lines = f.readline() + f.readline()
+
+        encoding_match = re.search(rb"coding[:=]\s*([-\w.]+)", first_two_lines)
+        if encoding_match:
+            encoding = encoding_match.group(1).decode("ascii")
+            try:
+                codecs.lookup(encoding)
+            except LookupError:
+                encoding = "utf-8"
+        else:
+            encoding = "utf-8"
+        return encoding
 
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
