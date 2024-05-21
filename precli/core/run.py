@@ -47,12 +47,7 @@ class Run:
 
     @property
     def tool(self) -> Tool:
-        """
-        Get the tool associated with this run.
-
-        :return: tool object
-        :rtype: Tool
-        """
+        """Get the tool associated with this run."""
         return self._tool
 
     def invoke(self):
@@ -165,20 +160,10 @@ class Run:
 
     @property
     def results(self) -> list[Result]:
-        """
-        Get the list of results.
-
-        :return: list of results
-        :rtype: list
-        """
+        """Get the list of results."""
         return self._results
 
     @property
     def metrics(self) -> list[Result]:
-        """
-        Get the list of results.
-
-        :return: list of results
-        :rtype: list
-        """
+        """Get the list of results."""
         return self._metrics

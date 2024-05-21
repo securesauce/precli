@@ -20,60 +20,30 @@ class Metrics:
 
     @property
     def files(self) -> int:
-        """
-        Number of files analyzed.
-
-        :return: number of files
-        :rtype: int
-        """
+        """Number of files analyzed."""
         return self._files
 
     @property
     def files_skipped(self) -> int:
-        """
-        Number of files skipped due to exclusion or parsing problem.
-
-        :return: number of files skipped
-        :rtype: int
-        """
+        """Number of files skipped due to exclusion or parsing problem."""
         return self._files_skipped
 
     @property
     def lines(self) -> int:
-        """
-        Total number of lines analyzed.
-
-        :return: number of lines
-        :rtype: int
-        """
+        """Total number of lines analyzed."""
         return self._lines
 
     @property
     def errors(self) -> int:
-        """
-        Total number of errors found.
-
-        :return: number of errors
-        :rtype: int
-        """
+        """Total number of errors found."""
         return self._errors
 
     @property
     def warnings(self) -> int:
-        """
-        Total number of warnings found.
-
-        :return: number of warnings
-        :rtype: int
-        """
+        """Total number of warnings found."""
         return self._warnings
 
     @property
     def notes(self) -> int:
-        """
-        Total number of notes found.
-
-        :return: number of notes
-        :rtype: int
-        """
+        """Total number of notes found."""
         return self._notes

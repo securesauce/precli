@@ -62,29 +62,17 @@ class Result:
 
         The IDs match ??XXX where ?? is language identifier and XXX is a
         unique number.
-
-        :return: rule ID
-        :rtype: str
         """
         return self._rule_id
 
     @property
     def artifact(self) -> Artifact:
-        """
-        Artifact, typically the file.
-
-        :return: the artifact
-        :rtype: Artifact
-        """
+        """Artifact, typically the file."""
         return self._artifact
 
     @artifact.setter
-    def artifact(self, artifact):
-        """
-        Set the file artifact.
-
-        :param Artifact artifact: file artifact
-        """
+    def artifact(self, artifact: Artifact):
+        """Set the file artifact."""
         self._artifact = artifact
         self._init_snippet(artifact)
 
@@ -95,9 +83,6 @@ class Result:
 
         A location object indicates coordinates within a source file where
         the issue was found.
-
-        :return: location
-        :rtype: Location
         """
         return self._location
 
@@ -108,9 +93,6 @@ class Result:
 
         Typically having a value of pass or fail to indicate the nature of
         the result.
-
-        :return: kind or nature of result
-        :rtype: Kind
         """
         return self._kind
 
@@ -120,20 +102,12 @@ class Result:
         The result severity level.
 
         If the result is being supporessed, then the level is set to NOTE.
-
-        :return: severity level
-        :rtype: Level
         """
         return self._level if self._suppression is None else Level.NOTE
 
     @property
     def message(self) -> str:
-        """
-        The result issue message.
-
-        :return: issue message
-        :rtype: str
-        """
+        """The result issue message."""
         if self._suppression is None:
             return self._message
         else:
@@ -146,47 +120,25 @@ class Result:
 
         The value defaults to the value from the default configuration of the
         rule.
-
-        :return: rank
-        :rtype: float
         """
         return self._rank
 
     @property
     def fixes(self) -> list[Fix]:
-        """
-        The suggested fixes for the issue.
-
-        :return: list of fixes
-        :rtype: list
-        """
+        """The suggested fixes for the issue."""
         return self._fixes if self._suppression is None else []
 
     @property
     def suppression(self) -> Suppression:
-        """
-        Possible suppressions of the result.
-
-        :return: suppression or None
-        :rtype: Suppression
-        """
+        """Possible suppressions of the result."""
         return self._suppression
 
     @suppression.setter
-    def suppression(self, suppression):
-        """
-        Set the suppression of this result
-
-        :param Suppression suppression: suppression
-        """
+    def suppression(self, suppression: Suppression):
+        """Set the suppression of this result"""
         self._suppression = suppression
 
     @property
     def snippet(self) -> str:
-        """
-        Snippet of context of the code.
-
-        :return: snippet of context
-        :rtype: str
-        """
+        """Snippet of context of the code."""
         return self._snippet

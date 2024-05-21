@@ -20,22 +20,12 @@ class Suppression:
 
     @property
     def location(self) -> Location:
-        """
-        Specifies the location of the suppression.
-
-        :return: location of suppression
-        :rtype: Location
-        """
+        """Specifies the location of the suppression."""
         return self._location
 
     @property
     def rules(self) -> set[str]:
-        """
-        What rules are being suppressed.
-
-        :return: set of rule ID/names
-        :rtype: set
-        """
+        """What rules are being suppressed."""
         return self._rules
 
     @property
@@ -44,28 +34,15 @@ class Suppression:
         The kind of suppression. This can be one of two values:
             "inSource" supporessed inline in the code
             "external" suppressed in an external persistent store
-
-        :return: kind of suppression
-        :rtype: str
         """
         return self._kind
 
     @property
     def status(self) -> Status:
-        """
-        The status of the suppression.
-
-        :return: status on whether to suppress
-        :rtype: Status
-        """
+        """The status of the suppression."""
         return self._status
 
     @property
     def justification(self) -> str:
-        """
-        User-supplied string that explains why the result was suppressed.
-
-        :return: why the result was suppressed
-        :rtype: str
-        """
+        """User-supplied string that explains why the result was suppressed."""
         return self._justification

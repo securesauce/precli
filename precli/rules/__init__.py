@@ -62,14 +62,7 @@ class Rule(ABC):
 
     @staticmethod
     def get_by_id(id: str) -> Self:
-        """
-        Get the rule instance by the given ID.
-
-        :param str id: rule ID
-
-        :return: rule instance
-        :rtype: Rule
-        """
+        """Get the rule instance by the given ID."""
         return Rule._rules.get(id)
 
     @property
@@ -79,70 +72,37 @@ class Rule(ABC):
 
         The rule name is an alpha string corresponding to the CWE name
         but in snake case format.
-
-        :return: rule name
-        :rtype: str
         """
         return self._name
 
     @property
     def short_description(self) -> str:
-        """
-        Short description of the rule.
-
-        :return: rule short description
-        :rtype: str
-        """
+        """Short description of the rule."""
         return self._short_descr
 
     @property
     def full_description(self) -> str:
-        """
-        Full description of the rule in markdown format.
-
-        :return: rule full description
-        :rtype: str
-        """
+        """Full description of the rule in markdown format."""
         return self._full_descr
 
     @property
     def help_url(self) -> str:
-        """
-        URL to help documentation.
-
-        :return: rule help documentation URL
-        :rtype: str
-        """
+        """URL to help documentation."""
         return self._help_url
 
     @property
     def default_config(self) -> Config:
-        """
-        Default configuration for this rule.
-
-        :return: configuration
-        :rtype: Config
-        """
+        """Default configuration for this rule."""
         return self._config
 
     @property
     def cwe(self) -> Weakness:
-        """
-        CWE weakness object for this rule.
-
-        :return: CWE weakness object
-        :rtype: Weakness
-        """
+        """CWE weakness object for this rule."""
         return self._cwe
 
     @property
     def message(self) -> str:
-        """
-        Concise description message of the found issue.
-
-        :return: issue message
-        :rtype: str
-        """
+        """Concise description message of the found issue."""
         return self._message
 
     @property
@@ -155,9 +115,6 @@ class Rule(ABC):
 
         The * must map to concrete module names in order to fully resolve
         for rule matching.
-
-        :return: mapping of wildcard imports
-        :rtype: dict
         """
         return self._wildcards
 

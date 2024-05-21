@@ -25,40 +25,20 @@ class Location:
 
     @property
     def start_line(self) -> int:
-        """
-        The starting line of the issue.
-
-        :return: starting line
-        :rtype: int
-        """
+        """The starting line of the issue."""
         return self._start_line
 
     @property
     def end_line(self) -> int:
-        """
-        The ending line of the issue.
-
-        :return: ending line
-        :rtype: int
-        """
+        """The ending line of the issue."""
         return self._end_line
 
     @property
     def start_column(self) -> int:
-        """
-        The starting column of the issue.
-
-        :return: starting column
-        :rtype: int
-        """
+        """The starting column of the issue."""
         return self._start_column
 
     @property
     def end_column(self) -> int:
-        """
-        The ending column of the issue.
-
-        :return: ending column
-        :rtype: int
-        """
+        """The ending column of the issue."""
         return self._end_column

@@ -15,30 +15,15 @@ class Fix:
 
     @property
     def description(self) -> str:
-        """
-        Describes the proposed fix.
-
-        :return: fix description
-        :rtype: str
-        """
+        """Describes the proposed fix."""
         return self._description
 
     @property
     def deleted_location(self) -> Location:
-        """
-        Specifies the location to delete.
-
-        :return: location object indicating region to delete
-        :rtype: Location
-        """
+        """Specifies the location to delete."""
         return self._deleted_location
 
     @property
     def inserted_content(self) -> str:
-        """
-        Content to insert at location specified by deleted_location.
-
-        :return: content to insert
-        :rtype: str
-        """
+        """Content to insert at location specified by deleted_location."""
         return self._inserted_content

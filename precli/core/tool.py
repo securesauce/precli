@@ -28,110 +28,55 @@ class Tool:
 
     @property
     def name(self) -> str:
-        """
-        Name of the tool.
-
-        :return: tool name
-        :rtype: str
-        """
+        """Name of the tool."""
         return self._name
 
     @property
     def download_uri(self) -> str:
-        """
-        URI location to download tool.
-
-        :return: location of download
-        :rtype: str
-        """
+        """URI location to download tool."""
         return self._download_uri
 
     @property
     def full_description(self) -> str:
-        """
-        Full description of the tool.
-
-        :return: full description
-        :rtype: str
-        """
+        """Full description of the tool."""
         return self._full_description
 
     @property
     def information_uri(self) -> str:
-        """
-        Main page URL of the project
-
-        :return: information URI
-        :rtype: str
-        """
+        """Main page URL of the project"""
         return self._information_uri
 
     @property
     def organization(self) -> str:
-        """
-        Organization that produced the tool.
-
-        :return: organization name
-        :rtype: str
-        """
+        """Organization that produced the tool."""
         return self._organization
 
     @property
     def short_description(self) -> str:
-        """
-        Short description of the tool.
-
-        :return: short description
-        :rtype: str
-        """
+        """Short description of the tool."""
         return self._short_description
 
     @property
     def version(self) -> str:
-        """
-        Version of the tool.
-
-        :return: tool version
-        :rtype: str
-        """
+        """Version of the tool."""
         return self._version
 
     @property
     def release_date(self) -> str:
-        """
-        Release date of the tool.
-
-        :return: release date
-        :rtype: str
-        """
+        """Release date of the tool."""
         return self._release_date
 
     @property
     def extensions(self) -> list:
-        """
-        Extensions for the tool in use.
-
-        :return: extension list
-        :rtype: list
-        """
+        """Extensions for the tool in use."""
         return self._extensions
 
     @property
     def rules(self) -> list[Rule]:
-        """
-        Set of supported rules.
-
-        :return: policy list
-        :rtype: list
-        """
+        """Set of supported rules."""
         return self._rules
 
     @property
     def policies(self) -> list:
-        """
-        Set of rule configurations.
-
-        :return: policy list
-        :rtype: list
-        """
+        """Set of rule configurations."""
         return self._policies

@@ -77,31 +77,15 @@ class Parser(ABC):
 
     @property
     def lexer(self) -> str:
-        """
-        The name of the lexer
-
-        :return: lexer name
-        :rtype: str
-        """
+        """The name of the lexer"""
         return self._lexer
 
     @abstractmethod
     def file_extensions(self) -> list[str]:
-        """
-        File extension of files this parser can handle.
-        :return: file extensions such as ".py"
-        :rtype: list
-        """
+        """File extension of files this parser can handle."""
 
     def parse(self, artifact: Artifact) -> list[Result]:
-        """
-        File extension of files this parser can handle.
-
-        :param Artifact artifact: artifact representing the file
-
-        :return: list of results
-        :rtype: list
-        """
+        """File extension of files this parser can handle."""
         self.results = []
         self.context = {"artifact": artifact}
         if artifact.contents is None:
@@ -125,8 +109,6 @@ class Parser(ABC):
 
         THis function will visit each node and attempt to call a more
         specific visit function if defined based on the node type.
-
-        :param list nodes: list of nodes
         """
         for node in nodes:
             # print(node)
@@ -207,11 +189,6 @@ class Parser(ABC):
 
         This function will iterate through all rules that are designed to
         handle the given node type (node_type).
-
-        :param str node_type: process nodes of this node type
-
-        :return: list of results
-        :rtype: list
         """
         fn = f"analyze_{node_type}"
         for rule in self.rules.values():
