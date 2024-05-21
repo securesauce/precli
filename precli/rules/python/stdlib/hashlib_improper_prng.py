@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 r"""
 # Improper Randomness for Cryptographic `hashlib` Functions
 

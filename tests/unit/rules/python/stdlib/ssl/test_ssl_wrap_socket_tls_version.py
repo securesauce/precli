@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2023 Secure Sauce LLC
 import os
 
 import pytest

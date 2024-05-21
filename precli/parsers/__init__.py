@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points

@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 # Copyright 2019 Duo Security
 import collections
 import itertools

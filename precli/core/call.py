@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 from tree_sitter import Node
 
 from precli.core.argument import Argument

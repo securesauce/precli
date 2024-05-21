@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 from precli.core.artifact import Artifact
 from precli.core.fix import Fix
 from precli.core.kind import Kind
