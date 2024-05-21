@@ -1,6 +1,5 @@
 # Copyright 2024 Secure Sauce LLC
-import sys
-
+from rich.console import Console
 from rich.padding import Padding
 
 from precli.core.level import Level
@@ -10,8 +9,8 @@ from precli.rules import Rule
 
 
 class Plain(Renderer):
-    def __init__(self, file: sys.stdout, no_color: bool = False):
-        super().__init__(file=file, no_color=no_color)
+    def __init__(self, console: Console):
+        super().__init__(console)
 
     def render(self, run: Run):
         for result in run.results:

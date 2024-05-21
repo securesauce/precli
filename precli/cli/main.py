@@ -13,6 +13,7 @@ import requests
 from ignorelib import IgnoreFilterManager
 from outdated import check_outdated
 from rich import progress
+from rich.console import Console
 
 import precli
 from precli.core import loader
@@ -331,6 +332,17 @@ def main():
     # Flatten into a list all rules for all parsers
     rules = [r for parser in parsers.values() for r in parser.rules.values()]
 
+    if args.gist is True:
+        file = tempfile.NamedTemporaryFile(mode="w+t")
+    else:
+        file = args.output if args.output else sys.stdout
+
+    console = Console(
+        file=file,
+        no_color=True if file.name != sys.stdout.name else False,
+        highlight=False,
+    )
+
     # Initialize the run
     tool = Tool(
         name="Precaution",
@@ -342,7 +354,7 @@ def main():
         version=precli.__version__,
         rules=rules,
     )
-    run = Run(tool, parsers, artifacts, debug)
+    run = Run(tool, parsers, artifacts, console, debug)
 
     # Invoke the run
     run.invoke()
@@ -353,23 +365,23 @@ def main():
 
     if args.json is True:
         renderer = "json"
-        json = Json(file=file, no_color=args.no_color)
+        json = Json(console)
         json.render(run)
     elif args.plain is True:
         renderer = "plain"
-        plain = Plain(file=file, no_color=args.no_color)
+        plain = Plain(console)
         plain.render(run)
     elif args.markdown is True:
         renderer = "markdown"
-        markdown = Markdown(file=file, no_color=args.no_color)
+        markdown = Markdown(console)
         markdown.render(run)
     else:
         renderer = "detailed"
-        detailed = Detailed(file=file, no_color=args.no_color)
+        detailed = Detailed(console)
         detailed.render(run)
 
     if file.name != sys.stdout.name:
-        print(f"Output written to file: {file.name}")
+        console.print(f"Output written to file: {file.name}")
 
     if args.gist is True:
         create_gist(file, renderer)

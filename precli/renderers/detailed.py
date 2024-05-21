@@ -1,8 +1,7 @@
 # Copyright 2024 Secure Sauce LLC
-import sys
-
 from rich import box
 from rich import syntax
+from rich.console import Console
 from rich.table import Table
 
 from precli.core.level import Level
@@ -13,8 +12,8 @@ from precli.rules import Rule
 
 
 class Detailed(Renderer):
-    def __init__(self, file: sys.stdout, no_color: bool = False):
-        super().__init__(file=file, no_color=no_color)
+    def __init__(self, console: Console):
+        super().__init__(console)
 
     def render(self, run: Run):
         for result in run.results:

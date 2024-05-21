@@ -5,10 +5,10 @@ import logging
 import os
 import pathlib
 import sys
-import traceback
 
 from pygments import lexers
 from rich import progress
+from rich.console import Console
 
 from precli.core.artifact import Artifact
 from precli.core.level import Level
@@ -23,11 +23,17 @@ PROGRESS_THRESHOLD = 50
 
 class Run:
     def __init__(
-        self, tool: Tool, parsers: dict, artifacts: list[Artifact], debug
+        self,
+        tool: Tool,
+        parsers: dict,
+        artifacts: list[Artifact],
+        console: Console,
+        debug,
     ):
         self._tool = tool
         self._parsers = parsers
         self._artifacts = artifacts
+        self._console = console
         self._init_logger(debug)
         self._start_time = None
         self._endt_time = None
@@ -137,31 +143,34 @@ class Run:
         except KeyboardInterrupt:
             sys.exit(2)
         except SyntaxError as e:
-            LOG.error(
+            self._console.print()
+            self._console.print(
                 f"Syntax error while parsing file. ({e.filename}, "
                 f"line {e.lineno})",
             )
             files_skipped.append((artifact.file_name, e))
             new_artifacts.remove(artifact)
         except UnicodeDecodeError as e:
-            LOG.error(
+            self._console.print()
+            self._console.print(
                 f"Invalid unicode character encountered parsing file ("
                 f"{artifact.file_name}).",
             )
             files_skipped.append((artifact.file_name, e))
             new_artifacts.remove(artifact)
-        except Exception as e:
-            LOG.error(
+        except Exception:
+            self._console.print()
+            self._console.print(
                 f"Exception occurred when executing rules against "
                 f'{artifact.file_name}. Run "precli --debug '
-                f'{artifact.file_name}" to see the full traceback.'
+                f'{artifact.file_name}" to see the full traceback.',
             )
             files_skipped.append(
                 (artifact.file_name, "Exception while parsing file")
             )
             new_artifacts.remove(artifact)
-            LOG.debug(f"  Exception string: {e}")
-            LOG.debug(f"  Exception traceback: {traceback.format_exc()}")
+            self._console.print()
+            self._console.print_exception(extra_lines=0)
         return []
 
     @property
