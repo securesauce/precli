@@ -4,7 +4,6 @@ import io
 import logging
 import os
 import pathlib
-import re
 import sys
 import traceback
 
@@ -51,17 +50,6 @@ class Run:
         """Get the tool associated with this run."""
         return self._tool
 
-    def _get_file_encoding(self, file_path):
-        with open(file_path, "rb") as f:
-            first_two_lines = f.readline() + f.readline()
-
-        encoding_match = re.search(rb"coding[:=]\s*([-\w.]+)", first_two_lines)
-        if encoding_match:
-            encoding = encoding_match.group(1).decode("ascii")
-        else:
-            encoding = "utf-8"
-        return encoding
-
     def invoke(self):
         """Invokes a run"""
         self._start_time = datetime.datetime.now(datetime.UTC)
@@ -90,8 +78,6 @@ class Run:
                     artifact.file_name = "<stdin>"
                     artifact.contents = fdata.read()
                 else:
-                    encoding = self._get_file_encoding(artifact.file_name)
-                    artifact.encoding = encoding
                     with open(artifact.file_name, "rb") as f:
                         lines += sum(1 for _ in f)
                     with open(artifact.file_name, "rb") as f:

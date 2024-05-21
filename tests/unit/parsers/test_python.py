@@ -19,6 +19,10 @@ class TestPython:
             "examples",
         )
 
+    def test_bad_coding(self):
+        artifact = Artifact(os.path.join(self.base_path, "bad_coding.py"))
+        self.parser.parse(artifact)
+
     def test_expression_list_assignment(self):
         artifact = Artifact(
             os.path.join(self.base_path, "expression_list_assignment.py")

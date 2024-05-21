@@ -21,6 +21,9 @@ class Java(Parser):
     def file_extensions(self) -> list[str]:
         return [".java"]
 
+    def get_file_encoding(self, file_path):
+        return "utf-8"
+
     def visit_program(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<program>")
