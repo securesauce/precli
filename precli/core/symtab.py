@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Saurce LLC
+# Copyright 2023 Secure Sauce LLC
 from typing import Self
 
 from precli.core.call import Call

@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 IMPORT = "import"
 IMPORT_SPEC = "import_spec"
 IMPORT_SPEC_LIST = "import_spec_list"

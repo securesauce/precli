@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 import argparse
 import logging
 import os
@@ -128,7 +128,7 @@ def setup_arg_parser():
         action="version",
         version=f"precli {precli.__version__}\n"
         f"{extensions}"
-        f"Copyright 2024 Secure Saurce LLC\n"
+        f"Copyright 2024 Secure Sauce LLC\n"
         f"License BUSL-1.1: Business Source License 1.1 <{BUSL_URL}>\n"
         f"  Python {python_ver}",
     )

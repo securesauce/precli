@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Saurce LLC
+# Copyright 2024 Secure Sauce LLC
 r"""
 # Use of a Broken or Risky Cryptographic Algorithm in `crypto` Package
 
