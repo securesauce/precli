@@ -72,7 +72,7 @@ class SecretsWeakToken(Rule):
             return
 
         arg = call.get_argument(position=0, name="nbytes")
-        nbytes = int(arg.value) if arg.value else 32
+        nbytes = int(arg.value) if isinstance(arg.value, int) else 32
 
         if nbytes < 32:
             fixes = Rule.get_fixes(

@@ -44,6 +44,7 @@ class TestSecretsWeakToken(test_case.TestCase):
             "secrets_token_bytes_default.py",
             "secrets_token_bytes_size_var.py",
             "secrets_token_hex.py",
+            "secrets_token_hex_nbytes_unknown.py",
             "secrets_token_urlsafe.py",
         ],
     )
