@@ -2,12 +2,7 @@
 
 
 def is_str(value) -> bool:
-    """
-    True if the value is a tree-sitter node string.
-
-    :return: if value is a string
-    :rtype: bool
-    """
+    """True if the value is a tree-sitter node string."""
     if isinstance(value, str) and (
         value.startswith('b"""')
         or value.startswith("b'''")
@@ -26,9 +21,6 @@ def to_str(value: str) -> str:
     """
     Converts a tree-sitter node string value to a
     true string.
-
-    :return: value as string
-    :rtype: str
     """
     if isinstance(value, str):
         value_str = value

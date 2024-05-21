@@ -11,76 +11,40 @@ class Artifact:
 
     @property
     def file_name(self) -> str:
-        """
-        The name of the file.
-
-        :return: file name
-        :rtype: str
-        """
+        """The name of the file."""
         return self._file_name
 
     @file_name.setter
     def file_name(self, file_name):
-        """
-        Set the file name
-
-        :param str file_name: file name
-        """
+        """Set the file name"""
         self._file_name = file_name
 
     @property
     def uri(self) -> str:
-        """
-        The URI of the artifact.
-
-        :return: URI
-        :rtype: str
-        """
+        """The URI of the artifact."""
         return self._uri
 
     @uri.setter
     def uri(self, uri):
-        """
-        Set the artifact URI.
-
-        :param str uri: URI
-        """
+        """Set the artifact URI."""
         self._uri = uri
 
     @property
     def contents(self) -> str:
-        """
-        The contents of the artifact.
-
-        :return: typically file contents
-        :rtype: str
-        """
+        """The contents of the artifact."""
         return self._contents
 
     @contents.setter
     def contents(self, contents) -> str:
-        """
-        Set the contents (for typically the file).
-
-        :param str contents: file contents
-        """
+        """Set the contents (for typically the file)."""
         self._contents = contents
 
     @property
     def language(self) -> str:
-        """
-        The programming language for this artifact.
-
-        :return: programming language name
-        :rtype: str
-        """
+        """The programming language for this artifact."""
         return self._language
 
     @language.setter
     def language(self, language) -> str:
-        """
-        Set the programming language.
-
-        :param str language: program language
-        """
+        """Set the programming language."""
         self._language = language

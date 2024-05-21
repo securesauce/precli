@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Sauce LLC
+# Copyright 2024 Secure Sauce LLC
 from precli.core.level import Level
 
 
@@ -15,39 +15,20 @@ class Config:
 
     @property
     def enabled(self) -> bool:
-        """
-        Whether the configuration indicates the rule is enabled.
-
-        :return: true if rule enabled
-        :rtype: bool
-        """
+        """Whether the configuration indicates the rule is enabled."""
         return self._enabled
 
     @enabled.setter
     def enabled(self, enabled):
-        """
-        Set whether the rule is enabled
-
-        :param bool enabled: True to enable
-        """
+        """Set whether the rule is enabled"""
         self._enabled = enabled
 
     @property
     def level(self) -> Level:
-        """
-        The default severity level.
-
-        :return: severity level
-        :rtype: Level
-        """
+        """The default severity level."""
         return self._level
 
     @property
     def rank(self) -> float:
-        """
-        The default rank for the rule.
-
-        :return: rank
-        :rtype: float
-        """
+        """The default rank for the rule."""
         return self._rank

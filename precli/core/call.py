@@ -30,12 +30,7 @@ class Call:
 
     @property
     def node(self) -> Node:
-        """
-        The node representing this call.
-
-        :return: node for the call
-        :rtype: Node
-        """
+        """The node representing this call."""
         return self._node
 
     @property
@@ -46,9 +41,6 @@ class Call:
         For example, if the function call is:
             a.b.c()
         The function node would be a.b
-
-        :return: function for the call
-        :rtype: Node
         """
         return self._var_node
 
@@ -60,9 +52,6 @@ class Call:
         For example, if the function call is:
             a.b.c()
         The function node would be a.b.c
-
-        :return: function for the call
-        :rtype: Node
         """
         return self._func_node
 
@@ -74,30 +63,17 @@ class Call:
         For example, if the function call is:
             a.b.c()
         The identifier node would be c
-
-        :return: identifier of the function
-        :rtype: Node
         """
         return self._ident_node
 
     @property
     def name(self) -> str:
-        """
-        The name of the function call.
-
-        :return: name of function
-        :rtype: str
-        """
+        """The name of the function call."""
         return self._name
 
     @property
     def name_qualified(self) -> str:
-        """
-        The fully qualified name of the function.
-
-        :return: fully qualified name of function
-        :rtype: str
-        """
+        """The fully qualified name of the function."""
         return self._name_qual
 
     @property

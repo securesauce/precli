@@ -35,12 +35,7 @@ class Argument:
 
     @property
     def node(self) -> Node:
-        """
-        The node representing this argument.
-
-        :return: node for the argument
-        :rtype: Node
-        """
+        """The node representing this argument."""
         return self._node
 
     @property
@@ -51,9 +46,6 @@ class Argument:
         For example, if the function is:
             a.b.c()
         The identifier node would be c
-
-        :return: identifier of the argument
-        :rtype: Node
         """
         return self._ident_node
 
@@ -64,9 +56,6 @@ class Argument:
 
         If this argument is a keyword argument, then name is the
         name component of the name-value pair.
-
-        :return: name of keyword arg
-        :rtype: str
         """
         return self._name
 
@@ -77,38 +66,20 @@ class Argument:
 
         If this argument is a positional, then position references
         the index in the arg list of the argument.
-
-        :return: index in arg list
-        :rtype: int
         """
         return self._position
 
     @property
     def is_str(self) -> bool:
-        """
-        True if the value is a true string.
-
-        :return: if value is a string
-        :rtype: bool
-        """
+        """True if the value is a true string."""
         return self._is_str
 
     @property
     def value(self):
-        """
-        The value of the argument.
-
-        :return: value of argument
-        :rtype: object
-        """
+        """The value of the argument."""
         return self._value
 
     @property
     def value_str(self) -> str:
-        """
-        The value as a true string.
-
-        :return: value as string
-        :rtype: str
-        """
+        """The value as a true string."""
         return self._value_str

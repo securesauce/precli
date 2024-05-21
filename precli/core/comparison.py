@@ -1,4 +1,4 @@
-# Copyright 2023 Secure Sauce LLC
+# Copyright 2024 Secure Sauce LLC
 from tree_sitter import Node
 
 
@@ -20,70 +20,35 @@ class Comparison:
 
     @property
     def node(self) -> Node:
-        """
-        The node representing this comparison.
-
-        :return: node for the comparison
-        :rtype: Node
-        """
+        """The node representing this comparison."""
         return self._node
 
     @property
     def left_node(self) -> Node:
-        """
-        The left node of the comparison.
-
-        :return: left node of comparison
-        :rtype: Node
-        """
+        """The left node of the comparison."""
         return self._left_node
 
     @property
     def operator_node(self) -> Node:
-        """
-        The operator node of this comparison.
-
-        :return: operator node of comparison
-        :rtype: Node
-        """
+        """The operator node of this comparison."""
         return self._operator_node
 
     @property
     def right_node(self) -> Node:
-        """
-        The right node of the comparison.
-
-        :return: right node of comparison
-        :rtype: Node
-        """
+        """The right node of the comparison."""
         return self._right_node
 
     @property
     def left_hand(self) -> str:
-        """
-        The left hand side of the comparison.
-
-        :return: left part of comparison
-        :rtype: str
-        """
+        """The left hand side of the comparison."""
         return self._left_hand
 
     @property
     def operator(self) -> str:
-        """
-        The operator of this comparison.
-
-        :return: operator of comparison
-        :rtype: str
-        """
+        """The operator of this comparison."""
         return self._operator
 
     @property
     def right_hand(self) -> str:
-        """
-        The right hand side of the comparison.
-
-        :return: right part of comparison
-        :rtype: str
-        """
+        """The right hand side of the comparison."""
         return self._right_hand
