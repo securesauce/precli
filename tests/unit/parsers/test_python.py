@@ -1,6 +1,8 @@
 # Copyright 2024 Secure Sauce LLC
 import os
 
+import pytest
+
 from precli.core.artifact import Artifact
 from precli.core.level import Level
 from precli.parsers import python
@@ -39,6 +41,11 @@ class TestPython:
         )
         results = self.parser.parse(artifact)
         assert len(results) == 0
+
+    def test_pep3120(self):
+        artifact = Artifact(os.path.join(self.base_path, "pep3120.py"))
+        with pytest.raises(UnicodeDecodeError):
+            self.parser.parse(artifact)
 
     def test_suppress(self):
         artifact = Artifact(os.path.join(self.base_path, "suppress.py"))

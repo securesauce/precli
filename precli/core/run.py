@@ -151,10 +151,16 @@ class Run:
         except KeyboardInterrupt:
             sys.exit(2)
         except SyntaxError as e:
-            print(
+            LOG.error(
                 f"Syntax error while parsing file. ({e.filename}, "
                 f"line {e.lineno})",
-                file=sys.stderr,
+            )
+            files_skipped.append((artifact.file_name, e))
+            new_artifacts.remove(artifact)
+        except UnicodeDecodeError as e:
+            LOG.error(
+                f"Invalid unicode character encountered parsing file ("
+                f"{artifact.file_name}).",
             )
             files_skipped.append((artifact.file_name, e))
             new_artifacts.remove(artifact)
