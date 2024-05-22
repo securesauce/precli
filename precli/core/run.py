@@ -77,23 +77,10 @@ class Run:
         results = []
         lines = 0
         for artifact in artifacts:
-            try:
-                if artifact.file_name == "-":
-                    open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
-                    fdata = io.BytesIO(open_fd.read())
-                    artifact.file_name = "<stdin>"
-                    artifact.contents = fdata.read()
-                else:
-                    with open(artifact.file_name, "rb") as f:
-                        lines += sum(1 for _ in f)
-                    with open(artifact.file_name, "rb") as f:
-                        artifact.contents = f.read()
-                results += self.parse_file(
-                    artifact, new_artifacts, files_skipped
-                )
-            except OSError as e:
-                files_skipped.append((artifact.file_name, e.strerror))
-                new_artifacts.remove(artifact)
+            if artifact.file_name != "-":
+                with open(artifact.file_name, "rb") as f:
+                    lines += sum(1 for _ in f)
+            results += self.parse_file(artifact, new_artifacts, files_skipped)
 
         self._metrics = Metrics(
             files=len(new_artifacts),
@@ -121,11 +108,17 @@ class Run:
         files_skipped: list,
     ) -> list[Result]:
         try:
-            if artifact.file_name == "<stdin>":
+            if artifact.file_name == "-":
+                open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
+                fdata = io.BytesIO(open_fd.read())
+                artifact.file_name = "<stdin>"
+                artifact.contents = fdata.read()
                 lxr = lexers.guess_lexer(artifact.contents)
                 artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
                 parser = self._parsers.get(artifact.language)
             else:
+                with open(artifact.file_name, "rb") as f:
+                    artifact.contents = f.read()
                 file_extension = pathlib.Path(artifact.file_name).suffix
                 parser = next(
                     (
@@ -136,12 +129,15 @@ class Run:
                     None,
                 )
 
-            if parser is not None:
+            if parser:
                 LOG.debug(f"Working on file: {artifact.file_name}")
                 artifact.language = parser.lexer
                 return parser.parse(artifact)
         except KeyboardInterrupt:
             sys.exit(2)
+        except OSError as e:
+            files_skipped.append((artifact.file_name, e.strerror))
+            new_artifacts.remove(artifact)
         except SyntaxError as e:
             self._console.print()
             self._console.print(
