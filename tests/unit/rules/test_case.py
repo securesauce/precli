@@ -33,7 +33,7 @@ class TestCase:
 
         return (level, start_line, end_line, start_col, end_col)
 
-    def check(self, filename):
+    def check(self, filename, enabled=None, disabled=None):
         (
             level,
             start_line,
@@ -42,7 +42,7 @@ class TestCase:
             end_column,
         ) = self.expected(filename)
         artifact = Artifact(os.path.join(self.base_path, filename))
-        results = self.parser.parse(artifact)
+        results = self.parser.parse(artifact, enabled, disabled)
         if level == Level.NONE:
             assert len(results) == 0
         else:

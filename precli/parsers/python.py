@@ -18,8 +18,8 @@ Import = namedtuple("Import", "module alias")
 
 
 class Python(Parser):
-    def __init__(self, enabled: list = None, disabled: list = None):
-        super().__init__("python", enabled, disabled)
+    def __init__(self):
+        super().__init__("python")
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 

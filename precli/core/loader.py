@@ -2,12 +2,12 @@
 from importlib.metadata import entry_points
 
 
-def load_parsers(enabled: list[str], disabled: list[str]) -> dict:
+def load_parsers() -> dict:
     parsers = {}
 
     discovered_plugins = entry_points(group="precli.parsers")
     for plugin in discovered_plugins:
-        parser = plugin.load()(enabled, disabled)
+        parser = plugin.load()()
         parsers[parser.lexer] = parser
 
     return parsers

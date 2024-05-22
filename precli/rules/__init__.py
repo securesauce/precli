@@ -45,6 +45,7 @@ class Rule(ABC):
         self._message = message
         self._wildcards = wildcards
         self._config = Config() if not config else config
+        self._enabled = self._config.enabled
         self._help_url = f"https://docs.securesauce.dev/rules/{id}"
         Rule._rules[id] = self
 
@@ -94,6 +95,16 @@ class Rule(ABC):
     def default_config(self) -> Config:
         """Default configuration for this rule."""
         return self._config
+
+    @property
+    def enabled(self) -> bool:
+        """Whether the rule is enabled."""
+        return self._enabled
+
+    @enabled.setter
+    def enabled(self, enabled):
+        """Set whether the rule is enabled"""
+        self._enabled = enabled
 
     @property
     def cwe(self) -> Weakness:

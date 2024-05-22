@@ -24,14 +24,8 @@ class Parser(ABC):
     Each parser is designed to operate on a specific programming language.
     """
 
-    def __init__(self, lang: str, enabled: list = None, disabled: list = None):
-        """
-        Initialize a new parser.
-
-        :param str lang: programming language name
-        :param list enabled: list of rules to enable
-        :param list disabled: list of rules to disable
-        """
+    def __init__(self, lang: str):
+        """Initialize a new parser."""
         self._lexer = lang
         self.tree_sitter_language = tree_sitter_languages.get_language(lang)
         self.tree_sitter_parser = tree_sitter_languages.get_parser(lang)
@@ -41,20 +35,6 @@ class Parser(ABC):
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
-
-            if enabled is not None and (
-                enabled == ["all"]
-                or self.rules[rule.name].id in enabled
-                or self.rules[rule.name].name in enabled
-            ):
-                self.rules[rule.name].default_config.enabled = True
-
-            if disabled is not None and (
-                disabled == ["all"]
-                or self.rules[rule.name].id in disabled
-                or self.rules[rule.name].name in disabled
-            ):
-                self.rules[rule.name].default_config.enabled = False
 
             if self.rules[rule.name].wildcards:
                 for k, v in self.rules[rule.name].wildcards.items():
@@ -79,12 +59,29 @@ class Parser(ABC):
     def file_extensions(self) -> list[str]:
         """File extension of files this parser can handle."""
 
-    def parse(self, artifact: Artifact) -> list[Result]:
+    def parse(
+        self, artifact: Artifact, enabled: list = None, disabled: list = None
+    ) -> list[Result]:
         """File extension of files this parser can handle."""
+        for rule in self.rules.values():
+            if enabled is not None and (
+                enabled == ["all"]
+                or rule.id in enabled
+                or rule.name in enabled
+            ):
+                rule.enabled = True
+
+            if disabled is not None and (
+                disabled == ["all"]
+                or rule.id in disabled
+                or rule.name in disabled
+            ):
+                rule.enabled = False
+
         self.results = []
         self.context = {"artifact": artifact}
+        artifact.encoding = self.get_file_encoding(artifact.file_name)
         if artifact.contents is None:
-            artifact.encoding = self.get_file_encoding(artifact.file_name)
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
         tree = self.tree_sitter_parser.parse(artifact.contents)
@@ -195,7 +192,7 @@ class Parser(ABC):
         """
         fn = f"analyze_{node_type}"
         for rule in self.rules.values():
-            if hasattr(rule, fn) and rule.default_config.enabled:
+            if hasattr(rule, fn) and rule.enabled:
                 context = self.context
                 context["symtab"] = self.current_symtab
 

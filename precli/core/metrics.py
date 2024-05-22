@@ -1,18 +1,16 @@
-# Copyright 2023 Secure Sauce LLC
+# Copyright 2024 Secure Sauce LLC
 
 
 class Metrics:
     def __init__(
         self,
         files: int,
-        files_skipped: int,
         lines: int,
         errors: int = 0,
         warnings: int = 0,
         notes: int = 0,
     ):
         self._files = files
-        self._files_skipped = files_skipped
         self._lines = lines
         self._errors = errors
         self._warnings = warnings
@@ -22,11 +20,6 @@ class Metrics:
     def files(self) -> int:
         """Number of files analyzed."""
         return self._files
-
-    @property
-    def files_skipped(self) -> int:
-        """Number of files skipped due to exclusion or parsing problem."""
-        return self._files_skipped
 
     @property
     def lines(self) -> int:

@@ -61,6 +61,9 @@ class Json(Renderer):
         self, result: Result, rules: dict, rule_indices: dict
     ):
         rule = Rule.get_by_id(result.rule_id)
+        if not rule:
+            return None, -1
+
         if rule.id in rules:
             return rules[rule.id], rule_indices[rule.id]
 
@@ -158,6 +161,9 @@ class Json(Renderer):
             rule, rule_index = self.create_rule_if_needed(
                 result, rules, rule_indices
             )
+
+            if not rule:
+                continue
 
             fixes = []
             for fix in result.fixes:

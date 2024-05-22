@@ -25,11 +25,12 @@ class Result:
         self._rule_id = rule_id
         self._artifact = artifact
         self._kind = kind
-        default_config = Rule.get_by_id(self._rule_id).default_config
-        self._rank = default_config.rank
+        rule = Rule.get_by_id(self._rule_id)
+        default_config = rule.default_config if rule else None
+        self._rank = default_config.rank if default_config else -1.0
         if level:
             self._level = level
-        else:
+        elif default_config:
             self._level = default_config.level
         self._location = location
         if message:
@@ -45,15 +46,18 @@ class Result:
 
     def _init_snippet(self, artifact: Artifact):
         if artifact is not None:
-            linecache = LineCache(
-                artifact.file_name,
-                artifact.contents.decode(),
-            )
             self._snippet = ""
-            for i in range(
-                self._location.start_line - 1, self._location.end_line + 2
-            ):
-                self._snippet += linecache.getline(i)
+            try:
+                linecache = LineCache(
+                    artifact.file_name,
+                    artifact.contents.decode(encoding=artifact.encoding),
+                )
+                for i in range(
+                    self._location.start_line - 1, self._location.end_line + 2
+                ):
+                    self._snippet += linecache.getline(i)
+            except UnicodeDecodeError:
+                pass
 
     @property
     def rule_id(self) -> str:

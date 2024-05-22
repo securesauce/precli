@@ -13,7 +13,7 @@ class TestJsonLoad(test_case.TestCase):
     @classmethod
     def setup_class(cls):
         cls.rule_id = "PY009"
-        cls.parser = python.Python(enabled=[cls.rule_id])
+        cls.parser = python.Python()
         cls.base_path = os.path.join(
             "tests",
             "unit",
@@ -32,7 +32,7 @@ class TestJsonLoad(test_case.TestCase):
             rule.help_url
             == f"https://docs.securesauce.dev/rules/{self.rule_id}"
         )
-        assert rule.default_config.enabled is True
+        assert rule.default_config.enabled is False
         assert rule.default_config.level == Level.WARNING
         assert rule.default_config.rank == -1.0
         assert rule.cwe.cwe_id == "502"
@@ -46,4 +46,4 @@ class TestJsonLoad(test_case.TestCase):
         ],
     )
     def test(self, filename):
-        self.check(filename)
+        self.check(filename, enabled=[self.rule_id])
