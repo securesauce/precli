@@ -1,7 +1,4 @@
 # Copyright 2024 Secure Sauce LLC
-from precli.rules import Rule
-
-
 class Tool:
     def __init__(
         self,
@@ -12,7 +9,6 @@ class Tool:
         organization: str,
         short_description: str,
         version: str,
-        rules: list[Rule],
     ):
         self._name = name
         self._download_uri = download_uri
@@ -21,7 +17,6 @@ class Tool:
         self._organization = organization
         self._short_description = short_description
         self._version = version
-        self._rules = rules
         self._release_date = ""
         self._extensions = []
         self._policies = []
@@ -70,11 +65,6 @@ class Tool:
     def extensions(self) -> list:
         """Extensions for the tool in use."""
         return self._extensions
-
-    @property
-    def rules(self) -> list[Rule]:
-        """Set of supported rules."""
-        return self._rules
 
     @property
     def policies(self) -> list:

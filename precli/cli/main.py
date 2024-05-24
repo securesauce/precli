@@ -16,7 +16,6 @@ from rich import progress
 from rich.console import Console
 
 import precli
-from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.run import Run
 from precli.core.tool import Tool
@@ -328,11 +327,6 @@ def main():
     # Compile a list of the targets
     artifacts = discover_files(args.targets, args.recursive)
 
-    # TODO: Move this to Run
-    # Flatten into a list of rules for all parsers
-    parsers = loader.load_parsers()
-    rules = [r for parser in parsers.values() for r in parser.rules.values()]
-
     if args.gist is True:
         file = tempfile.NamedTemporaryFile(mode="w+t")
     else:
@@ -353,7 +347,6 @@ def main():
         organization=precli.__author__,
         short_description=precli.__summary__,
         version=precli.__version__,
-        rules=rules,
     )
     run = Run(tool, enabled, disabled, artifacts, console, debug)
 
