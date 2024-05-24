@@ -19,11 +19,13 @@ from precli.core.location import Location
 from precli.core.metrics import Metrics
 from precli.core.result import Result
 from precli.core.tool import Tool
+from precli.rules import Rule
 
 
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 parsers = loader.load_parsers()
+rules = [r for parser in parsers.values() for r in parser.rules.values()]
 
 
 def parse_file(
@@ -140,6 +142,11 @@ class Run:
     def tool(self) -> Tool:
         """Get the tool associated with this run."""
         return self._tool
+
+    @property
+    def rules(self) -> list[Rule]:
+        """Set of supported rules."""
+        return rules
 
     def invoke(self):
         """Invokes a run"""
