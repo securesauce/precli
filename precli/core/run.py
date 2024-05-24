@@ -29,7 +29,7 @@ rules = [r for parser in parsers.values() for r in parser.rules.values()]
 
 
 def parse_file(
-    enabled: list[str], disabled: list[str], artifact: Artifact
+    artifact: Artifact, enabled: list[str], disabled: list[str]
 ) -> list[Result]:
     results = []
     try:
@@ -156,7 +156,9 @@ class Run:
             len(self._artifacts) > PROGRESS_THRESHOLD
             and LOG.getEffectiveLevel() <= logging.INFO
         ):
-            parse_artifact = partial(parse_file, self._enabled, self._disabled)
+            parse_artifact = partial(
+                parse_file, enabled=self._enabled, disabled=self._disabled
+            )
 
             with Progress() as progress:
                 task_id = progress.add_task(
@@ -177,7 +179,7 @@ class Run:
                         lines += sum(1 for _ in f)
                 try:
                     results += parse_file(
-                        self._enabled, self._disabled, artifact
+                        artifact, self._enabled, self._disabled
                     )
                 except KeyboardInterrupt:
                     sys.exit(2)
