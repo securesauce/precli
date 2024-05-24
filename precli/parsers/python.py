@@ -2,6 +2,7 @@
 import builtins
 import codecs
 import re
+import warnings
 from collections import namedtuple
 
 from tree_sitter import Node
@@ -222,7 +223,12 @@ class Python(Parser):
                 self.current_symtab.remove(identifier)
                 self.current_symtab.put(identifier, tokens.IMPORT, module)
 
-        self.analyze_node(tokens.CALL, call=call)
+        # Suppress re module FutureWarnings. Usually a result of scanning
+        # test cases in cpython repo.
+        # For example: FutureWarning: Possible set union at position 6
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", FutureWarning)
+            self.analyze_node(tokens.CALL, call=call)
 
         if call.var_node is not None:
             symbol = self.current_symtab.get(call.var_node.string)
