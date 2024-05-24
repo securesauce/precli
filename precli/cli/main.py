@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import pathlib
 import sys
 import tempfile
 import zipfile
@@ -204,6 +205,7 @@ def file_to_url(owner, repo, branch, target, root, file):
 
 
 def discover_files(targets: list[str], recursive: bool):
+    FILE_EXTS = (".go", ".java", ".py", ".pyw")
     artifacts = []
 
     for target in targets:
@@ -245,7 +247,10 @@ def discover_files(targets: list[str], recursive: bool):
                         path = os.path.join(root, file)
                         file_path = file if os.path.isabs(path) else path
 
-                        if not preignore_mgr.is_ignored(file_path):
+                        if (
+                            not preignore_mgr.is_ignored(file_path)
+                            and pathlib.Path(path).suffix in FILE_EXTS
+                        ):
                             artifact = Artifact(path)
                             if repo:
                                 artifact.uri = file_to_url(
@@ -255,15 +260,19 @@ def discover_files(targets: list[str], recursive: bool):
             else:
                 files = os.listdir(path=target)
                 for file in files:
-                    if not (
-                        gitignore_mgr.is_ignored(file)
-                        or preignore_mgr.is_ignored(file)
+                    if (
+                        not (
+                            gitignore_mgr.is_ignored(file)
+                            or preignore_mgr.is_ignored(file)
+                        )
+                        and pathlib.Path(file).suffix in FILE_EXTS
                     ):
                         artifact = Artifact(os.path.join(target, file))
                         artifacts.append(artifact)
         else:
-            artifact = Artifact(target)
-            artifacts.append(artifact)
+            if pathlib.Path(target).suffix in FILE_EXTS:
+                artifact = Artifact(target)
+                artifacts.append(artifact)
 
     return artifacts
 
