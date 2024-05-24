@@ -58,8 +58,6 @@ def parse_file(
             LOG.debug(f"Working on file: {artifact.file_name}")
             artifact.language = parser.lexer
             return parser.parse(artifact, enabled, disabled)
-    except KeyboardInterrupt:
-        sys.exit(2)
     except OSError as e:
         results.append(
             Result(
@@ -166,15 +164,23 @@ class Run:
                 )
 
                 with Pool(processes=None) as pool:
-                    for result in pool.imap(parse_artifact, self._artifacts):
-                        results += result
-                        progress.advance(task_id)
+                    try:
+                        for res in pool.imap(parse_artifact, self._artifacts):
+                            results += res
+                            progress.advance(task_id)
+                    except KeyboardInterrupt:
+                        sys.exit(2)
         else:
             for artifact in self._artifacts:
                 if artifact.file_name != "-":
                     with open(artifact.file_name, "rb") as f:
                         lines += sum(1 for _ in f)
-                results += parse_file(self._enabled, self._disabled, artifact)
+                try:
+                    results += parse_file(
+                        self._enabled, self._disabled, artifact
+                    )
+                except KeyboardInterrupt:
+                    sys.exit(2)
 
         self._metrics = Metrics(
             files=len(self._artifacts),
