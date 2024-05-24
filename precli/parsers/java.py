@@ -11,8 +11,8 @@ from precli.parsers import tokens
 
 
 class Java(Parser):
-    def __init__(self, enabled: list = None, disabled: list = None):
-        super().__init__("java", enabled, disabled)
+    def __init__(self):
+        super().__init__("java")
         self.SUPPRESS_COMMENT = re.compile(
             r"// suppress:? (?P<rules>[^#]+)?#?"
         )

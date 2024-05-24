@@ -24,10 +24,13 @@ class Markdown(Renderer):
         for result in run.results:
             rule = Rule.get_by_id(result.rule_id)
 
-            linecache = LineCache(
-                result.artifact.file_name,
-                result.artifact.contents.decode(),
-            )
+            try:
+                linecache = LineCache(
+                    result.artifact.file_name,
+                    result.artifact.contents.decode(result.artifact.encoding),
+                )
+            except UnicodeDecodeError:
+                pass
 
             match result.level:
                 case Level.ERROR:
@@ -49,20 +52,26 @@ class Markdown(Renderer):
             else:
                 file_name = result.artifact.file_name
 
-            output += (
-                f"> [!{alert}]\n"
-                f">\n"
-                f"> [{rule.id}]({rule.help_url}): {rule.cwe.name}\n"
-                f"on line {result.location.start_line} in {file_name}\n"
-                f"> \n"
-                f"> {result.message}\n"
-            )
+            if rule:
+                output += (
+                    f"> [!{alert}]\n"
+                    f">\n"
+                    f"> [{rule.id}]({rule.help_url}): {rule.cwe.name}\n"
+                    f"on line {result.location.start_line} in {file_name}\n"
+                    f"> \n"
+                    f"> {result.message}\n"
+                )
+            else:
+                output += (
+                    f"> [!{alert}]\n"
+                    f">\n"
+                    f"on line {result.location.start_line} in {file_name}\n"
+                    f"> \n"
+                    f"> {result.message}\n"
+                )
 
             output += f"> ```{result.artifact.language}\n"
-            for lineno in range(
-                result.location.start_line, result.location.end_line + 1
-            ):
-                output += f"> {linecache.getline(lineno=lineno)}"
+            output += f"{result.snippet}"
             output += "> ```\n"
 
             if result.fixes:
@@ -90,13 +99,12 @@ class Markdown(Renderer):
             f"| --- | --- |\n"
             f"| Files analyzed | {run.metrics.files:,} |\n"
             f"| Lines analyzed | {run.metrics.lines:,} |\n"
-            f"| Files skipped | {run.metrics.files_skipped:,} |\n"
             f"| Errors | {run.metrics.errors:,} |\n"
             f"| Warnings | {run.metrics.warnings:,} |\n"
             f"| Notes | {run.metrics.notes:,} |\n"
         )
 
-        if self._file.name != sys.stdout.name:
+        if self.console.file.name != sys.stdout.name:
             self.console.print(output, soft_wrap=True)
         else:
             md = markdown.Markdown(output)

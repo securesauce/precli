@@ -49,10 +49,11 @@ class Detailed(Renderer):
                 markup=False,
             )
             rule = Rule.get_by_id(result.rule_id)
-            self.console.print(
-                f"{rule.id}: {rule.cwe.name}",
-                style=style,
-            )
+            if rule:
+                self.console.print(
+                    f"{rule.id}: {rule.cwe.name}",
+                    style=style,
+                )
             self.console.print(
                 f"{result.message}",
                 style=style,
@@ -147,10 +148,6 @@ class Detailed(Renderer):
             f"{run.metrics.files:,}",
             "Lines analyzed",
             f"{run.metrics.lines:,}",
-        )
-        table.add_row(
-            "Files skipped",
-            f"{run.metrics.files_skipped:,}",
             end_section=True,
         )
         table.add_row(

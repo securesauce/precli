@@ -12,8 +12,8 @@ from precli.parsers import tokens
 
 
 class Go(Parser):
-    def __init__(self, enabled: list = None, disabled: list = None):
-        super().__init__("go", enabled, disabled)
+    def __init__(self):
+        super().__init__("go")
         self.SUPPRESS_COMMENT = re.compile(
             r"// suppress:? (?P<rules>[^#]+)?#?"
         )

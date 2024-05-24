@@ -5,13 +5,17 @@ import logging
 import os
 import pathlib
 import sys
+from functools import partial
+from multiprocessing import Pool
 
 from pygments import lexers
-from rich import progress
 from rich.console import Console
+from rich.progress import Progress
 
+from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.level import Level
+from precli.core.location import Location
 from precli.core.metrics import Metrics
 from precli.core.result import Result
 from precli.core.tool import Tool
@@ -19,24 +23,105 @@ from precli.core.tool import Tool
 
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
+parsers = loader.load_parsers()
+
+
+def parse_file(
+    enabled: list[str], disabled: list[str], artifact: Artifact
+) -> list[Result]:
+    results = []
+    try:
+        if artifact.file_name == "-":
+            open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
+            fdata = io.BytesIO(open_fd.read())
+            artifact.file_name = "<stdin>"
+            artifact.contents = fdata.read()
+            lxr = lexers.guess_lexer(artifact.contents)
+            artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
+            parser = parsers.get(artifact.language)
+        else:
+            with open(artifact.file_name, "rb") as f:
+                artifact.contents = f.read()
+            file_extension = pathlib.Path(artifact.file_name).suffix
+            parser = next(
+                (
+                    p
+                    for p in parsers.values()
+                    if file_extension in p.file_extensions()
+                ),
+                None,
+            )
+
+        if parser:
+            LOG.debug(f"Working on file: {artifact.file_name}")
+            artifact.language = parser.lexer
+            return parser.parse(artifact, enabled, disabled)
+    except KeyboardInterrupt:
+        sys.exit(2)
+    except OSError as e:
+        results.append(
+            Result(
+                "NO_RULE",
+                location=Location(parser.context["node"]),
+                artifact=artifact,
+                level=Level.ERROR,
+                message=e.strerror,
+            )
+        )
+    except SyntaxError as e:
+        results.append(
+            Result(
+                "NO_RULE",
+                location=Location(
+                    start_line=e.lineno,
+                    end_line=e.lineno,
+                ),
+                artifact=artifact,
+                level=Level.ERROR,
+                message="Syntax error while parsing file.",
+            )
+        )
+    except UnicodeDecodeError:
+        results.append(
+            Result(
+                "NO_RULE",
+                location=Location(parser.context["node"]),
+                artifact=artifact,
+                level=Level.ERROR,
+                message="Invalid unicode character while parsing file.",
+            )
+        )
+    except Exception as e:
+        results.append(
+            Result(
+                "NO_RULE",
+                location=Location(parser.context["node"]),
+                artifact=artifact,
+                level=Level.ERROR,
+                message=": ".join([type(e).__name__, str(e)]),
+            )
+        )
+    return results
 
 
 class Run:
     def __init__(
         self,
         tool: Tool,
-        parsers: dict,
+        enabled: list[str],
+        disabled: list[str],
         artifacts: list[Artifact],
         console: Console,
         debug,
     ):
         self._tool = tool
-        self._parsers = parsers
+        self._enabled = enabled
+        self._disabled = disabled
         self._artifacts = artifacts
         self._console = console
         self._init_logger(debug)
         self._start_time = None
-        self._endt_time = None
+        self._end_time = None
 
     def _init_logger(self, log_level=logging.INFO):
         """Initialize the logger.
@@ -59,32 +144,33 @@ class Run:
     def invoke(self):
         """Invokes a run"""
         self._start_time = datetime.datetime.now(datetime.UTC)
+        results = []
+        lines = 0
 
-        # if we have problems with a file, we'll remove it from the file_list
-        # and add it to the skipped list instead
-        new_artifacts = list(self._artifacts)
-        files_skipped = []
         if (
             len(self._artifacts) > PROGRESS_THRESHOLD
             and LOG.getEffectiveLevel() <= logging.INFO
         ):
-            artifacts = progress.track(
-                self._artifacts, description="Analyzing..."
-            )
-        else:
-            artifacts = self._artifacts
+            parse_artifact = partial(parse_file, self._enabled, self._disabled)
 
-        results = []
-        lines = 0
-        for artifact in artifacts:
-            if artifact.file_name != "-":
-                with open(artifact.file_name, "rb") as f:
-                    lines += sum(1 for _ in f)
-            results += self.parse_file(artifact, new_artifacts, files_skipped)
+            with Progress() as progress:
+                task_id = progress.add_task(
+                    "Analyzing...", total=len(self._artifacts)
+                )
+
+                with Pool(processes=None) as pool:
+                    for result in pool.imap(parse_artifact, self._artifacts):
+                        results += result
+                        progress.advance(task_id)
+        else:
+            for artifact in self._artifacts:
+                if artifact.file_name != "-":
+                    with open(artifact.file_name, "rb") as f:
+                        lines += sum(1 for _ in f)
+                results += parse_file(self._enabled, self._disabled, artifact)
 
         self._metrics = Metrics(
-            files=len(new_artifacts),
-            files_skipped=len(files_skipped),
+            files=len(self._artifacts),
             lines=lines,
             errors=sum(result.level == Level.ERROR for result in results),
             warnings=sum(result.level == Level.WARNING for result in results),
@@ -100,74 +186,6 @@ class Run:
     @property
     def end_time(self):
         return self._end_time
-
-    def parse_file(
-        self,
-        artifact: Artifact,
-        new_artifacts: list,
-        files_skipped: list,
-    ) -> list[Result]:
-        try:
-            if artifact.file_name == "-":
-                open_fd = os.fdopen(sys.stdin.fileno(), "rb", 0)
-                fdata = io.BytesIO(open_fd.read())
-                artifact.file_name = "<stdin>"
-                artifact.contents = fdata.read()
-                lxr = lexers.guess_lexer(artifact.contents)
-                artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
-                parser = self._parsers.get(artifact.language)
-            else:
-                with open(artifact.file_name, "rb") as f:
-                    artifact.contents = f.read()
-                file_extension = pathlib.Path(artifact.file_name).suffix
-                parser = next(
-                    (
-                        p
-                        for p in self._parsers.values()
-                        if file_extension in p.file_extensions()
-                    ),
-                    None,
-                )
-
-            if parser:
-                LOG.debug(f"Working on file: {artifact.file_name}")
-                artifact.language = parser.lexer
-                return parser.parse(artifact)
-        except KeyboardInterrupt:
-            sys.exit(2)
-        except OSError as e:
-            files_skipped.append((artifact.file_name, e.strerror))
-            new_artifacts.remove(artifact)
-        except SyntaxError as e:
-            self._console.print()
-            self._console.print(
-                f"Syntax error while parsing file. ({e.filename}, "
-                f"line {e.lineno})",
-            )
-            files_skipped.append((artifact.file_name, e))
-            new_artifacts.remove(artifact)
-        except UnicodeDecodeError as e:
-            self._console.print()
-            self._console.print(
-                f"Invalid unicode character encountered parsing file ("
-                f"{artifact.file_name}).",
-            )
-            files_skipped.append((artifact.file_name, e))
-            new_artifacts.remove(artifact)
-        except Exception:
-            self._console.print()
-            self._console.print(
-                f"Exception occurred when executing rules against "
-                f'{artifact.file_name}. Run "precli --debug '
-                f'{artifact.file_name}" to see the full traceback.',
-            )
-            files_skipped.append(
-                (artifact.file_name, "Exception while parsing file")
-            )
-            new_artifacts.remove(artifact)
-            self._console.print()
-            self._console.print_exception(extra_lines=0)
-        return []
 
     @property
     def results(self) -> list[Result]:

@@ -16,7 +16,7 @@ class Plain(Renderer):
         for result in run.results:
             rule = Rule.get_by_id(result.rule_id)
 
-            if self._no_color is True:
+            if self.console.no_color is True:
                 style = ""
             else:
                 match result.level:
@@ -34,9 +34,10 @@ class Plain(Renderer):
             else:
                 file_name = result.artifact.file_name
 
-            self.console.print(
-                f"{rule.id}: {rule.cwe.name}",
-            )
+            if rule:
+                self.console.print(
+                    f"{rule.id}: {rule.cwe.name}",
+                )
 
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(

@@ -324,12 +324,13 @@ def main():
 
     enabled = args.enable.split(",") if args.enable else []
     disabled = args.disable.split(",") if args.disable else []
-    parsers = loader.load_parsers(enabled, disabled)
 
     # Compile a list of the targets
     artifacts = discover_files(args.targets, args.recursive)
 
-    # Flatten into a list all rules for all parsers
+    # TODO: Move this to Run
+    # Flatten into a list of rules for all parsers
+    parsers = loader.load_parsers()
     rules = [r for parser in parsers.values() for r in parser.rules.values()]
 
     if args.gist is True:
@@ -354,14 +355,10 @@ def main():
         version=precli.__version__,
         rules=rules,
     )
-    run = Run(tool, parsers, artifacts, console, debug)
+    run = Run(tool, enabled, disabled, artifacts, console, debug)
 
     # Invoke the run
     run.invoke()
-
-    file = args.output
-    if args.gist is True:
-        file = tempfile.NamedTemporaryFile(mode="w+t")
 
     if args.json is True:
         renderer = "json"
