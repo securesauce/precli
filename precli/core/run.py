@@ -42,8 +42,6 @@ def parse_file(
             artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
             parser = parsers.get(artifact.language)
         else:
-            with open(artifact.file_name, "rb") as f:
-                artifact.contents = f.read()
             file_extension = pathlib.Path(artifact.file_name).suffix
             parser = next(
                 (
@@ -57,6 +55,8 @@ def parse_file(
         if parser:
             LOG.debug(f"Working on file: {artifact.file_name}")
             artifact.language = parser.lexer
+            with open(artifact.file_name, "rb") as f:
+                artifact.contents = f.read()
             return parser.parse(artifact, enabled, disabled)
     except OSError as e:
         results.append(
