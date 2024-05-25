@@ -25,7 +25,6 @@ from precli.rules import Rule
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 parsers = loader.load_parsers()
-rules = [r for parser in parsers.values() for r in parser.rules.values()]
 
 
 def parse_file(
@@ -144,7 +143,7 @@ class Run:
     @property
     def rules(self) -> list[Rule]:
         """Set of supported rules."""
-        return rules
+        return [r for p in parsers.values() for r in p.rules.values()]
 
     def invoke(self):
         """Invokes a run"""
