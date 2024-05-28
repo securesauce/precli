@@ -65,14 +65,16 @@ class Markdown(Renderer):
                 output += (
                     f"> [!{alert}]\n"
                     f">\n"
+                    f"> {result.rule_id}: Parsing error\n"
                     f"on line {result.location.start_line} in {file_name}\n"
                     f"> \n"
                     f"> {result.message}\n"
                 )
 
-            output += f"> ```{result.artifact.language}\n"
-            output += f"{result.snippet}"
-            output += "> ```\n"
+            if result.snippet:
+                output += f"> ```{result.artifact.language}\n"
+                output += f"{result.snippet}"
+                output += "> ```\n"
 
             if result.fixes:
                 output += f"> Suggested fix: {result.fixes[0].description}\n"
