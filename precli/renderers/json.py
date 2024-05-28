@@ -162,9 +162,6 @@ class Json(Renderer):
                 result, rules, rule_indices
             )
 
-            if not rule:
-                continue
-
             fixes = []
             for fix in result.fixes:
                 fixes.append(self.to_fix(result.artifact.file_name, fix))
@@ -175,24 +172,28 @@ class Json(Renderer):
                 )
             )
 
-            code_lines = result.snippet.splitlines(keepends=True)
-            code_line = code_lines[1] if len(code_lines) > 1 else code_lines[0]
             physical_location.region = sarif_om.Region(
                 start_line=result.location.start_line,
                 end_line=result.location.end_line,
                 start_column=result.location.start_column + 1,
                 end_column=result.location.end_column + 1,
-                snippet=sarif_om.ArtifactContent(text=code_line),
             )
 
-            physical_location.context_region = sarif_om.Region(
-                start_line=result.location.start_line - 1,
-                end_line=result.location.end_line + 1,
-                snippet=sarif_om.ArtifactContent(text=result.snippet),
-            )
+            if result.snippet:
+                lines = result.snippet.splitlines(keepends=True)
+                code_line = lines[1] if len(lines) > 1 else lines[0]
+                physical_location.region.snippet = sarif_om.ArtifactContent(
+                    text=code_line
+                )
+
+                physical_location.context_region = sarif_om.Region(
+                    start_line=result.location.start_line - 1,
+                    end_line=result.location.end_line + 1,
+                    snippet=sarif_om.ArtifactContent(text=result.snippet),
+                )
 
             sarif_result = sarif_om.Result(
-                rule_id=rule.id,
+                rule_id=result.rule_id,
                 rule_index=rule_index,
                 message=sarif_om.Message(text=result.message),
                 fixes=fixes,

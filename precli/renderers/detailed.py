@@ -50,14 +50,12 @@ class Detailed(Renderer):
             )
             rule = Rule.get_by_id(result.rule_id)
             if rule:
+                self.console.print(f"{rule.id}: {rule.cwe.name}", style=style)
+            else:
                 self.console.print(
-                    f"{rule.id}: {rule.cwe.name}",
-                    style=style,
+                    f"{result.rule_id}: Parsing error", style=style
                 )
-            self.console.print(
-                f"{result.message}",
-                style=style,
-            )
+            self.console.print(f"{result.message}", style=style)
 
             line_offset = result.location.start_line - 2
             code = syntax.Syntax(

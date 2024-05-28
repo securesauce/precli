@@ -35,34 +35,33 @@ class Plain(Renderer):
                 file_name = result.artifact.file_name
 
             if rule:
-                self.console.print(
-                    f"{rule.id}: {rule.cwe.name}",
-                )
+                self.console.print(f"{rule.id}: {rule.cwe.name}")
+            else:
+                self.console.print(f"{result.rule_id}: Parsing error")
 
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
                 f'  File "{file_name}", line '
                 f"{result.location.start_line}, in <module>",
             )
-            code_lines = result.snippet.splitlines(keepends=True)
-            code_line = code_lines[1] if len(code_lines) > 1 else code_lines[0]
-            underline_width = (
-                result.location.end_column - result.location.start_column
-            )
-            underline = (
-                " " * result.location.start_column + "^" * underline_width
-            )
-            self.console.print(
-                Padding(code_line + underline, (0, 4)),
-            )
+            if result.snippet:
+                lines = result.snippet.splitlines(keepends=True)
+                code_line = lines[1] if len(lines) > 1 else lines[0]
+                underline_width = (
+                    result.location.end_column - result.location.start_column
+                )
+                underline = (
+                    " " * result.location.start_column + "^" * underline_width
+                )
+                self.console.print(
+                    Padding(code_line + underline, (0, 4)),
+                )
             self.console.print(
                 f"{result.level.name.title()}: ",
                 style=style,
                 end="",
             )
-            self.console.print(
-                f"{result.message}",
-            )
+            self.console.print(f"{result.message}")
             self.console.print()
         self.console.print(
             f"Found {run.metrics.errors} errors, {run.metrics.warnings} "
