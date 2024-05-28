@@ -12,6 +12,7 @@ from pygments import lexers
 from rich.console import Console
 from rich.progress import Progress
 
+import precli
 from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.level import Level
@@ -106,14 +107,12 @@ def parse_file(
 class Run:
     def __init__(
         self,
-        tool: Tool,
         enabled: list[str],
         disabled: list[str],
         artifacts: list[Artifact],
         console: Console,
         debug,
     ):
-        self._tool = tool
         self._enabled = enabled
         self._disabled = disabled
         self._artifacts = artifacts
@@ -134,6 +133,16 @@ class Run:
         handler = logging.StreamHandler(sys.stderr)
         LOG.addHandler(handler)
         LOG.debug("logging initialized")
+
+        self._tool = Tool(
+            name="Precaution",
+            download_uri=precli.__download_url__,
+            full_description=precli.__summary__,
+            information_uri=precli.__url__,
+            organization=precli.__author__,
+            short_description=precli.__summary__,
+            version=precli.__version__,
+        )
 
     @property
     def tool(self) -> Tool:
