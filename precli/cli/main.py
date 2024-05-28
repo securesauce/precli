@@ -19,7 +19,6 @@ from rich.console import Console
 import precli
 from precli.core.artifact import Artifact
 from precli.core.run import Run
-from precli.core.tool import Tool
 from precli.renderers.detailed import Detailed
 from precli.renderers.json import Json
 from precli.renderers.markdown import Markdown
@@ -347,19 +346,8 @@ def main():
         highlight=False,
     )
 
-    # Initialize the run
-    tool = Tool(
-        name="Precaution",
-        download_uri=precli.__download_url__,
-        full_description=precli.__summary__,
-        information_uri=precli.__url__,
-        organization=precli.__author__,
-        short_description=precli.__summary__,
-        version=precli.__version__,
-    )
-    run = Run(tool, enabled, disabled, artifacts, console, debug)
-
     # Invoke the run
+    run = Run(enabled, disabled, artifacts, console, debug)
     run.invoke()
 
     if args.json is True:
