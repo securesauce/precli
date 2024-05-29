@@ -68,6 +68,10 @@ class Parser(ABC):
     def file_extensions(self) -> list[str]:
         """File extension of files this parser can handle."""
 
+    @abstractmethod
+    def rule_prefix(self) -> str:
+        """The prefix for the rule ID"""
+
     def parse(
         self, artifact: Artifact, enabled: list = None, disabled: list = None
     ) -> list[Result]:

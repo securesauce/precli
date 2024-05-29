@@ -31,6 +31,7 @@ parsers = loader.load_parsers()
 def parse_file(
     artifact: Artifact, enabled: list[str], disabled: list[str]
 ) -> list[Result]:
+    parser = None
     results = []
     try:
         if artifact.file_name == "-":
@@ -61,7 +62,7 @@ def parse_file(
     except OSError as e:
         results.append(
             Result(
-                "NO_RULE",
+                f"{parser.rule_prefix()}000" if parser else "NO_RULE",
                 location=Location(parser.context["node"]),
                 artifact=artifact,
                 level=Level.ERROR,
@@ -71,7 +72,7 @@ def parse_file(
     except SyntaxError as e:
         results.append(
             Result(
-                "NO_RULE",
+                f"{parser.rule_prefix()}000" if parser else "NO_RULE",
                 location=Location(
                     start_line=e.lineno,
                     end_line=e.lineno,
@@ -84,7 +85,7 @@ def parse_file(
     except UnicodeDecodeError:
         results.append(
             Result(
-                "NO_RULE",
+                f"{parser.rule_prefix()}000" if parser else "NO_RULE",
                 location=Location(parser.context["node"]),
                 artifact=artifact,
                 level=Level.ERROR,
@@ -94,7 +95,7 @@ def parse_file(
     except Exception as e:
         results.append(
             Result(
-                "NO_RULE",
+                f"{parser.rule_prefix()}000" if parser else "NO_RULE",
                 location=Location(parser.context["node"]),
                 artifact=artifact,
                 level=Level.ERROR,
