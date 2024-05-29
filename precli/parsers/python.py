@@ -27,6 +27,9 @@ class Python(Parser):
     def file_extensions(self) -> list[str]:
         return [".py", ".pyw"]
 
+    def rule_prefix(self) -> str:
+        return "PY"
+
     def get_file_encoding(self, file_path):
         with open(file_path, "rb") as f:
             first_two_lines = f.readline() + f.readline()

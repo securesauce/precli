@@ -21,6 +21,9 @@ class Java(Parser):
     def file_extensions(self) -> list[str]:
         return [".java"]
 
+    def rule_prefix(self) -> str:
+        return "JAV"
+
     def get_file_encoding(self, file_path):
         return "utf-8"
 

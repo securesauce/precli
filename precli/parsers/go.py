@@ -22,6 +22,9 @@ class Go(Parser):
     def file_extensions(self) -> list[str]:
         return [".go"]
 
+    def rule_prefix(self) -> str:
+        return "GO"
+
     def get_file_encoding(self, file_path):
         return "utf-8"
 
