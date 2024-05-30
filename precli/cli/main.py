@@ -13,8 +13,12 @@ from urllib.parse import urlparse
 import requests
 from ignorelib import IgnoreFilterManager
 from outdated import check_outdated
-from rich import progress
 from rich.console import Console
+from rich.progress import BarColumn
+from rich.progress import DownloadColumn
+from rich.progress import MofNCompleteColumn
+from rich.progress import Progress
+from rich.progress import TextColumn
 
 import precli
 from precli.core.artifact import Artifact
@@ -173,18 +177,34 @@ def extract_github_repo(owner: str, repo: str, branch: str):
     temp_dir = tempfile.mkdtemp()
     zip_path = os.path.join(temp_dir, f"{repo}.zip")
 
-    with requests.get(api_url, stream=True) as r:
-        r.raise_for_status()
-        with open(zip_path, "wb") as f:
-            for chunk in progress.track(
-                r.iter_content(chunk_size=8192), description="Downloading..."
-            ):
-                f.write(chunk)
+    progress = Progress(
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        DownloadColumn(),
+    )
+    with progress:
+        with requests.get(api_url, stream=True) as r:
+            r.raise_for_status()
 
-    with zipfile.ZipFile(zip_path, "r") as zip_ref:
-        name_list = zip_ref.namelist()
-        for name in progress.track(name_list, description="Extracting..."):
-            zip_ref.extract(name, temp_dir)
+            # TODO: ideally set total to file size, but the Content-Length is
+            # not reliably sent in the response header.
+            task_id = progress.add_task("Downloading...", total=None)
+            chunk_size = 8192
+            with open(zip_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    f.write(chunk)
+                    progress.update(task_id, advance=chunk_size)
+
+    progress = Progress(
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+    )
+    with progress:
+        with zipfile.ZipFile(zip_path, "r") as zip_ref:
+            name_list = zip_ref.namelist()
+            for name in progress.track(name_list, description="Extracting..."):
+                zip_ref.extract(name, temp_dir)
 
     os.remove(zip_path)
 
