@@ -2,17 +2,14 @@
 from abc import ABC
 from typing import Self
 
-from cwe2.database import Database
-from cwe2.weakness import Weakness
-
 from precli.core.config import Config
+from precli.core.cwe import Cwe
 from precli.core.fix import Fix
 from precli.core.location import Location
 
 
 class Rule(ABC):
     _rules = {}
-    _cwedb = Database()
 
     def __init__(
         self,
@@ -41,7 +38,7 @@ class Rule(ABC):
         except ValueError:
             start = 0
         self._full_descr = description[start:]
-        self._cwe = Rule._cwedb.get(cwe_id)
+        self._cwe = Cwe(cwe_id)
         self._message = message
         self._wildcards = wildcards
         self._config = Config() if not config else config
@@ -107,7 +104,7 @@ class Rule(ABC):
         self._enabled = enabled
 
     @property
-    def cwe(self) -> Weakness:
+    def cwe(self) -> Cwe:
         """CWE weakness object for this rule."""
         return self._cwe
 

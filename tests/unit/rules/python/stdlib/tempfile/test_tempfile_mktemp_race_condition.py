@@ -35,7 +35,7 @@ class TestMktempRaceCondition(test_case.TestCase):
         assert rule.default_config.enabled is True
         assert rule.default_config.level == Level.WARNING
         assert rule.default_config.rank == -1.0
-        assert rule.cwe.cwe_id == "377"
+        assert rule.cwe.id == 377
 
     @pytest.mark.parametrize(
         "filename",

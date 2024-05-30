@@ -35,7 +35,7 @@ class TestJsonLoad(test_case.TestCase):
         assert rule.default_config.enabled is False
         assert rule.default_config.level == Level.WARNING
         assert rule.default_config.rank == -1.0
-        assert rule.cwe.cwe_id == "502"
+        assert rule.cwe.id == 502
 
     @pytest.mark.parametrize(
         "filename",
