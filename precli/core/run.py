@@ -10,7 +10,12 @@ from multiprocessing import Pool
 
 from pygments import lexers
 from rich.console import Console
+from rich.progress import BarColumn
+from rich.progress import MofNCompleteColumn
 from rich.progress import Progress
+from rich.progress import TaskProgressColumn
+from rich.progress import TextColumn
+from rich.progress import TimeRemainingColumn
 
 import precli
 from precli.core import loader
@@ -169,7 +174,15 @@ class Run:
                 parse_file, enabled=self._enabled, disabled=self._disabled
             )
 
-            with Progress() as progress:
+            progress = Progress(
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                MofNCompleteColumn(),
+                TaskProgressColumn(),
+                TimeRemainingColumn(),
+            )
+
+            with progress:
                 task_id = progress.add_task(
                     "Analyzing...", total=len(self._artifacts)
                 )
