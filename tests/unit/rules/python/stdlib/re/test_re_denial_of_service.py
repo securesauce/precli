@@ -35,7 +35,7 @@ class TestReDenialOfService(test_case.TestCase):
         assert rule.default_config.enabled is True
         assert rule.default_config.level == Level.ERROR
         assert rule.default_config.rank == -1.0
-        assert rule.cwe.cwe_id == "1333"
+        assert rule.cwe.id == 1333
 
     @pytest.mark.parametrize(
         "filename",

@@ -87,7 +87,7 @@ class Json(Renderer):
             properties={
                 "tags": [
                     "security",
-                    f"external/cwe/cwe-{rule.cwe.cwe_id}",
+                    f"external/cwe/cwe-{rule.cwe.id}",
                 ],
                 "security-severity": (rule.default_config.level.to_severity()),
             },
