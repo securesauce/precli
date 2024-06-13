@@ -45,6 +45,7 @@ class TestArgparseSensitiveInfo(test_case.TestCase):
             "argparse_add_argument_password.py",
             "argparse_add_argument_password_file.py",
             "argparse_add_argument_password_store_true.py",
+            "argparse_add_argument_token.py",
         ],
     )
     def test(self, filename):
