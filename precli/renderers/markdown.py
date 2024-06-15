@@ -3,7 +3,6 @@ import logging
 import sys
 
 from rich import markdown
-from rich.console import Console
 
 from precli.core.level import Level
 from precli.core.linecache import LineCache
@@ -16,9 +15,6 @@ logging.getLogger("markdown_it").setLevel(logging.INFO)
 
 
 class Markdown(Renderer):
-    def __init__(self, console: Console):
-        super().__init__(console)
-
     def render(self, run: Run):
         output = ""
         for result in run.results:

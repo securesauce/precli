@@ -79,18 +79,6 @@ class MktempRaceCondition(Rule):
                 and file_arg.node.type == "identifier"
                 and file_arg.value == "tempfile.mktemp"
             ):
-                """
-                open(
-                    file,
-                    mode='r',
-                    buffering=-1,
-                    encoding=None,
-                    errors=None,
-                    newline=None,
-                    closefd=True,
-                    opener=None
-                )
-                """
                 arg_list = []
                 mode = call.get_argument(position=1, name="mode").node
                 mode = mode.text.decode() if mode is not None else '"r"'
@@ -131,20 +119,6 @@ class MktempRaceCondition(Rule):
                     arg_list.append(f"errors={errors.text.decode()}")
                 arg_str = ", ".join(arg_list)
 
-                """
-                NamedTemporaryFile(
-                    mode='w+b',
-                    buffering=-1,
-                    encoding=None,
-                    newline=None,
-                    suffix=None,
-                    prefix=None,
-                    dir=None,
-                    delete=True,
-                    *,
-                    errors=None
-                )
-                """
                 fixes = [
                     Fix(
                         description="Use the 'NamedTemporaryFile' class to "

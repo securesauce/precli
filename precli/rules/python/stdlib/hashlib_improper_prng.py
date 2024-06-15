@@ -97,20 +97,20 @@ class HashlibImproperPrng(Rule):
         ):
             return
 
-        """
-        hashlib.blake2b(data=b'', *, digest_size=64, key=b'', salt=b'',
-        person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,
-        node_depth=0, inner_size=0, last_node=False, usedforsecurity=True)
+        # hashlib.blake2b(data=b'', *, digest_size=64, key=b'', salt=b'',
+        # person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,
+        # node_depth=0, inner_size=0, last_node=False, usedforsecurity=True)
 
-        hashlib.blake2s(data=b'', *, digest_size=32, key=b'', salt=b'',
-        person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,
-        node_depth=0, inner_size=0, last_node=False, usedforsecurity=True)
+        # hashlib.blake2s(data=b'', *, digest_size=32, key=b'', salt=b'',
+        # person=b'', fanout=1, depth=1, leaf_size=0, node_offset=0,
+        # node_depth=0, inner_size=0, last_node=False, usedforsecurity=True)
 
-        hashlib.pbkdf2_hmac(hash_name, password, salt, iterations, dklen=None)
+        # hashlib.pbkdf2_hmac(
+        #   hash_name, password, salt, iterations, dklen=None
+        # )
 
-        hashlib.scrypt(password, *, salt, n, r, p, maxmem=0, dklen=64)
-        """
-
+        # hashlib.scrypt(password, *, salt, n, r, p, maxmem=0, dklen=64)
+        argument = None
         if call.name_qualified == "hashlib.pbkdf2_hmac":
             argument = call.get_argument(position=2, name="salt")
         elif call.name_qualified in (
@@ -120,7 +120,7 @@ class HashlibImproperPrng(Rule):
         ):
             argument = call.get_argument(name="salt")
 
-        if argument.value not in (
+        if not argument or argument.value not in (
             "random.randbytes",
             "ssl.RAND_bytes",
         ):

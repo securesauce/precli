@@ -114,7 +114,7 @@ class Python(Parser):
             and nodes[2].type == tokens.EXPRESSION_LIST
             and len(nodes[0].named_children) == len(nodes[2].named_children)
         ):
-            for i in range(len(nodes[0].named_children)):
+            for i, _ in enumerate(nodes[0].named_children):
                 self.visit_assignment(
                     [
                         nodes[0].named_children[i],
@@ -158,19 +158,19 @@ class Python(Parser):
                     ident_node = self._get_func_ident(func_node)
                     arg_list_node = nodes[2].children[1]
 
-                call = Call(
-                    node=nodes[2],
-                    name=right_hand,
-                    name_qual=right_hand,
-                    func_node=func_node,
-                    var_node=var_node,
-                    ident_node=ident_node,
-                    arg_list_node=arg_list_node,
-                    args=call_args,
-                    kwargs=call_kwargs,
-                )
-                symbol = self.current_symtab.get(left_hand)
-                symbol.push_call(call)
+                    call = Call(
+                        node=nodes[2],
+                        name=right_hand,
+                        name_qual=right_hand,
+                        func_node=func_node,
+                        var_node=var_node,
+                        ident_node=ident_node,
+                        arg_list_node=arg_list_node,
+                        args=call_args,
+                        kwargs=call_kwargs,
+                    )
+                    symbol = self.current_symtab.get(left_hand)
+                    symbol.push_call(call)
 
         self.visit(nodes)
 
@@ -203,17 +203,17 @@ class Python(Parser):
             ident_node = self._get_func_ident(func_node)
             arg_list_node = self.context["node"].children[1]
 
-        call = Call(
-            node=self.context["node"],
-            name=func_call_qual,
-            name_qual=func_call_qual,
-            func_node=func_node,
-            var_node=var_node,
-            ident_node=ident_node,
-            arg_list_node=arg_list_node,
-            args=func_call_args,
-            kwargs=func_call_kwargs,
-        )
+            call = Call(
+                node=self.context["node"],
+                name=func_call_qual,
+                name_qual=func_call_qual,
+                func_node=func_node,
+                var_node=var_node,
+                ident_node=ident_node,
+                arg_list_node=arg_list_node,
+                args=func_call_args,
+                kwargs=func_call_kwargs,
+            )
 
         if (
             call.name_qualified == "importlib.import_module"
@@ -275,17 +275,17 @@ class Python(Parser):
                         ident_node = self._get_func_ident(func_node)
                         arg_list_node = as_pattern.children[0].children[1]
 
-                    call = Call(
-                        node=as_pattern.children[0],
-                        name=statement,
-                        name_qual=statement,
-                        func_node=func_node,
-                        var_node=var_node,
-                        ident_node=ident_node,
-                        arg_list_node=arg_list_node,
-                    )
-                    symbol = self.current_symtab.get(identifier)
-                    symbol.push_call(call)
+                        call = Call(
+                            node=as_pattern.children[0],
+                            name=statement,
+                            name_qual=statement,
+                            func_node=func_node,
+                            var_node=var_node,
+                            ident_node=ident_node,
+                            arg_list_node=arg_list_node,
+                        )
+                        symbol = self.current_symtab.get(identifier)
+                        symbol.push_call(call)
 
         self.visit(nodes)
 
@@ -342,6 +342,7 @@ class Python(Parser):
     def import_from_statement(self, nodes: list[Node]) -> dict:
         imports = {}
 
+        from_module = None
         module = nodes[1]
         if module.type == tokens.DOTTED_NAME:
             from_module = module.string
@@ -370,10 +371,9 @@ class Python(Parser):
         return imports
 
     def parse_import_from_statement(self, nodes: list[Node]) -> tuple:
+        package = None
         module = nodes[1]
-        if module.type == tokens.DOTTED_NAME:
-            package = module.string
-        elif module.type == tokens.RELATIVE_IMPORT:
+        if module.type in (tokens.DOTTED_NAME, tokens.RELATIVE_IMPORT):
             package = module.string
 
         if nodes[2].type == tokens.IMPORT:

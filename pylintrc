@@ -6,7 +6,6 @@
 # C0325: Parens are required on print in py3x
 # F0401: Imports are check by other linters
 # W0511: TODOs in code comments are fine.
-# W0142: *args and **kwargs are fine.
 # W0622: Redefining id is fine.
 
 # TODO(browne): fix these in the future
@@ -23,8 +22,6 @@
 # R1702: too-many-nested-blocks
 # R1705: no-else-return
 # R1710: inconsistent-return-statements
-# W0110: deprecated-lambda
-# W0141: bad-builtin
 # W0201: attribute-defined-outside-init
 # W0212: protected-access
 # W0401: wildcard-import
@@ -34,7 +31,7 @@
 # W0703: broad-except
 # W1201: logging-not-lazy
 # W1505: deprecated-method
-disable=C0111,C0201,C0301,C0325,C1801,F0401,W0511,W0142,W0622,C0103,E1101,E1111,R0902,R0912,R0913,R0914,R0915,R1702,R1705,R1710,W0110,W0141,W0201,W0401,W0603,W0212,W0613,W0621,W0703,W1201,W1505
+disable=C0111,C0201,C0301,C0325,C1801,F0401,W0511,W0622,C0103,E1101,E1111,R0902,R0912,R0913,R0914,R0915,R1702,R1705,R1710,W0201,W0401,W0603,W0212,W0613,W0621,W0703,W1201,W1505
 
 [Basic]
 # Variable names can be 1 to 31 characters long, with lowercase and underscores

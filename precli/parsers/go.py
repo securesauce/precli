@@ -117,26 +117,26 @@ class Go(Parser):
             ident_node = self._get_func_ident(func_node)
             arg_list_node = self.context["node"].children[1]
 
-        call = Call(
-            node=self.context["node"],
-            name=func_call_qual,
-            name_qual=func_call_qual,
-            func_node=func_node,
-            var_node=var_node,
-            ident_node=ident_node,
-            arg_list_node=arg_list_node,
-            args=func_call_args,
-        )
+            call = Call(
+                node=self.context["node"],
+                name=func_call_qual,
+                name_qual=func_call_qual,
+                func_node=func_node,
+                var_node=var_node,
+                ident_node=ident_node,
+                arg_list_node=arg_list_node,
+                args=func_call_args,
+            )
 
-        self.analyze_node(tokens.CALL_EXPRESSION, call=call)
+            self.analyze_node(tokens.CALL_EXPRESSION, call=call)
 
-        if call.var_node is not None:
-            symbol = self.current_symtab.get(call.var_node.string)
-            if symbol is not None and symbol.type == tokens.IDENTIFIER:
-                symbol.push_call(call)
-        else:
-            # TODO: why is var_node None?
-            pass
+            if call.var_node is not None:
+                symbol = self.current_symtab.get(call.var_node.string)
+                if symbol is not None and symbol.type == tokens.IDENTIFIER:
+                    symbol.push_call(call)
+            else:
+                # TODO: why is var_node None?
+                pass
 
         self.visit(nodes)
 

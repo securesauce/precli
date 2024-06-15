@@ -1,5 +1,4 @@
 # Copyright 2024 Secure Sauce LLC
-from rich.console import Console
 from rich.padding import Padding
 
 from precli.core.level import Level
@@ -9,16 +8,12 @@ from precli.rules import Rule
 
 
 class Plain(Renderer):
-    def __init__(self, console: Console):
-        super().__init__(console)
-
     def render(self, run: Run):
         for result in run.results:
             rule = Rule.get_by_id(result.rule_id)
 
-            if self.console.no_color is True:
-                style = ""
-            else:
+            style = ""
+            if self.console.no_color is False:
                 match result.level:
                     case Level.ERROR:
                         style = "red"

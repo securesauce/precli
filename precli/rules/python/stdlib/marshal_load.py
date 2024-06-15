@@ -61,11 +61,8 @@ class MarshalLoad(Rule):
 
     def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["marshal.load", "marshal.loads"]:
-            """
-            marshal.load(file, /)
-
-            marshal.loads(bytes, /)
-            """
+            # marshal.load(file, /)
+            # marshal.loads(bytes, /)
             return Result(
                 rule_id=self.id,
                 location=Location(node=call.function_node),

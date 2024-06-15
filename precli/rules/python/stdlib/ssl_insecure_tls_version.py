@@ -92,14 +92,12 @@ class InsecureTlsVersion(Rule):
 
     def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["ssl.get_server_certificate"]:
-            """
-            get_server_certificate(
-                addr,
-                ssl_version=<_SSLMethod.PROTOCOL_TLS_CLIENT: 16>,
-                ca_certs=None,
-                timeout=<object object at 0x1007186e0>
-            )
-            """
+            # get_server_certificate(
+            #     addr,
+            #     ssl_version=<_SSLMethod.PROTOCOL_TLS_CLIENT: 16>,
+            #     ca_certs=None,
+            #     timeout=<object object at 0x1007186e0>
+            # )
             argument = call.get_argument(position=1, name="ssl_version")
             version = argument.value
 
@@ -119,20 +117,18 @@ class InsecureTlsVersion(Rule):
                     fixes=fixes,
                 )
         if call.name_qualified in ["ssl.wrap_socket"]:
-            """
-            wrap_socket(
-                sock,
-                keyfile=None,
-                certfile=None,
-                server_side=False,
-                cert_reqs=<VerifyMode.CERT_NONE: 0>,
-                ssl_version=<_SSLMethod.PROTOCOL_TLS: 2>,
-                ca_certs=None,
-                do_handshake_on_connect=True,
-                suppress_ragged_eofs=True,
-                ciphers=None
-            )
-            """
+            # wrap_socket(
+            #     sock,
+            #     keyfile=None,
+            #     certfile=None,
+            #     server_side=False,
+            #     cert_reqs=<VerifyMode.CERT_NONE: 0>,
+            #     ssl_version=<_SSLMethod.PROTOCOL_TLS: 2>,
+            #     ca_certs=None,
+            #     do_handshake_on_connect=True,
+            #     suppress_ragged_eofs=True,
+            #     ciphers=None
+            # )
             argument = call.get_argument(position=1, name="ssl_version")
             version = argument.value
             server_side = call.get_argument(
@@ -158,13 +154,7 @@ class InsecureTlsVersion(Rule):
                     fixes=fixes,
                 )
         if call.name_qualified in ["ssl.SSLContext"]:
-            """
-            SSLContext(
-                protocol=None,
-                *args,
-                **kwargs
-            )
-            """
+            # SSLContext(protocol=None, *args, **kwargs)
             argument = call.get_argument(position=0, name="protocol")
             protocol = argument.value
 

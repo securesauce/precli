@@ -96,32 +96,6 @@ class FtpCleartext(Rule):
 
     def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in ["ftplib.FTP"]:
-            """
-            FTP(
-                host='',
-                user='',
-                passwd='',
-                acct='',
-                timeout=<object object at 0x104730630>,
-                source_address=None,
-                *,
-                encoding='utf-8'
-            )
-
-            FTP_TLS(
-                host='',
-                user='',
-                passwd='',
-                acct='',
-                keyfile=None,
-                certfile=None,
-                context=None,
-                timeout=<object object at 0x104730630>,
-                source_address=None,
-                *,
-                encoding='utf-8'
-            )
-            """
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.identifier_node),
@@ -154,9 +128,6 @@ class FtpCleartext(Rule):
                     fixes=fixes,
                 )
         if call.name_qualified in ["ftplib.FTP.login"]:
-            """
-            login(self, user='', passwd='', acct='')
-            """
             if call.get_argument(position=1, name="passwd").value is not None:
                 return Result(
                     rule_id=self.id,
