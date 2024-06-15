@@ -69,7 +69,7 @@ def _build_op_tree_helper(
             for a in av[1]:
                 subpatterns.append(a)
         elif op is constants.GROUPREF_EXISTS:
-            condgroup, item_yes, item_no = av
+            _, item_yes, item_no = av
             subpatterns.append(item_yes)
             if item_no:
                 subpatterns.append(item_no)
@@ -211,12 +211,12 @@ class CharacterRange:
         )
 
     def __repr__(self) -> str:
-        return "<{} - negate={} ranges={}>".format(
-            self.__class__.__name__,
-            self.negate,
-            ", ".join(
-                str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges
-            ),
+        ranges = ", ".join(
+            str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges
+        )
+        return (
+            f"<{self.__class__.__name__} - negate={self.negate} "
+            f"ranges={ranges}>"
         )
 
 

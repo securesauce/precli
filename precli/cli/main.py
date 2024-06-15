@@ -152,7 +152,7 @@ def get_owner_repo(repo_url: str):
 
 def get_default_branch(owner: str, repo: str):
     api_url = f"https://api.github.com/repos/{owner}/{repo}"
-    response = requests.get(api_url)
+    response = requests.get(api_url, timeout=5)
     response.raise_for_status()
     return response.json().get("default_branch")
 
@@ -169,7 +169,7 @@ def extract_github_repo(owner: str, repo: str, branch: str):
         DownloadColumn(),
     )
     with progress:
-        with requests.get(api_url, stream=True) as r:
+        with requests.get(api_url, stream=True, timeout=5) as r:
             r.raise_for_status()
 
             # TODO: ideally set total to file size, but the Content-Length is
@@ -293,7 +293,7 @@ def create_gist(file, renderer: str):
         case "detailed":
             filename = "results.txt"
 
-    with open(file.name) as f:
+    with open(file.name, encoding="utf-8") as f:
         file_content = f.read()
 
     url = "https://api.github.com/gists"
@@ -306,7 +306,7 @@ def create_gist(file, renderer: str):
         "public": False,
         "files": {filename: {"content": file_content}},
     }
-    response = requests.post(url, json=data, headers=headers)
+    response = requests.post(url, json=data, headers=headers, timeout=5)
 
     if response.status_code == 201:
         print(f"Gist created successfully: {response.json()['html_url']}")
@@ -342,7 +342,7 @@ def main():
 
     console = Console(
         file=file,
-        no_color=True if file.name != sys.stdout.name else False,
+        no_color=file.name != sys.stdout.name,
         highlight=False,
     )
 

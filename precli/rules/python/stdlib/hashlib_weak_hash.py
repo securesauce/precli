@@ -115,13 +115,6 @@ class HashlibWeakHash(Rule):
 
     def analyze_call(self, context: dict, call: Call) -> Result:
         if call.name_qualified in HASHLIB_WEAK_HASHES:
-            """
-            hashlib.md4(string=b'', *, usedforsecurity=True)
-            hashlib.md5(string=b'', *, usedforsecurity=True)
-            hashlib.ripemd160(string=b'', *, usedforsecurity=True)
-            hashlib.sha(string=b'', *, usedforsecurity=True)
-            hashlib.sha1(string=b'', *, usedforsecurity=True)
-            """
             used_for_security = call.get_argument(
                 name="usedforsecurity", default=Argument(None, True)
             ).value
@@ -142,15 +135,6 @@ class HashlibWeakHash(Rule):
                     fixes=fixes,
                 )
         elif call.name_qualified in ["hashlib.pbkdf2_hmac"]:
-            """
-            hashlib.pbkdf2_hmac(
-                hash_name,
-                password,
-                salt,
-                iterations,
-                dklen=None
-            )
-            """
             argument = call.get_argument(position=0, name="hash_name")
 
             if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
