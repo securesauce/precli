@@ -117,17 +117,32 @@ class SocketserverUnrestrictedBind(Rule):
         arg = call.get_argument(position=0, name="server_address")
         server_address = arg.value
 
-        if isinstance(server_address, tuple) and utils.to_str(
-            server_address[0]
-        ) in (
-            "",
-            INADDR_ANY,
-            IN6ADDR_ANY,
-        ):
+        if not isinstance(server_address, tuple):
+            return
+
+        if utils.to_str(server_address[0]) in ("", INADDR_ANY):
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=arg.node),
+                description="Use the localhost address to restrict binding.",
+                inserted_content=str(("127.0.0.1",) + server_address[1:]),
+            )
             return Result(
                 rule_id=self.id,
                 location=Location(node=arg.node),
-                message=self.message.format(
-                    "INADDR_ANY (0.0.0.0) or IN6ADDR_ANY (::)"
-                ),
+                message=self.message.format("INADDR_ANY (0.0.0.0)"),
+                fixes=fixes,
+            )
+        if utils.to_str(server_address[0]) == IN6ADDR_ANY:
+            fixes = Rule.get_fixes(
+                context=context,
+                deleted_location=Location(node=arg.node),
+                description="Use the localhost address to restrict binding.",
+                inserted_content=str(("::1",) + server_address[1:]),
+            )
+            return Result(
+                rule_id=self.id,
+                location=Location(node=arg.node),
+                message=self.message.format("IN6ADDR_ANY (::)"),
+                fixes=fixes,
             )
