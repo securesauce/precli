@@ -24,6 +24,8 @@ class Cwe:
                 return (
                     "Invocation of Process Using Visible Sensitive Information"
                 )
+            case 215:
+                return "Insertion of Sensitive Information Into Debugging Code"
             case 295:
                 return "Improper Certificate Validation"
             case 319:
