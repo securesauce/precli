@@ -14,6 +14,11 @@ class Cwe:
     def name(self) -> str:
         """Name of the CWE."""
         match self._id:
+            case 79:
+                return (
+                    "Improper Neutralization of Input During Web Page"
+                    "Generation ('Cross-site Scripting')"
+                )
             case 94:
                 return (
                     "Improper Control of Generation of Code ('Code Injection')"
