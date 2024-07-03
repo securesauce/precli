@@ -37,6 +37,8 @@ class Cwe:
                 return "Cleartext Transmission of Sensitive Information"
             case 326:
                 return "Inadequate Encryption Strength"
+            case 306:
+                return "Missing Authentication for Critical Function"
             case 327:
                 return "Use of a Broken or Risky Cryptographic Algorithm"
             case 328:
