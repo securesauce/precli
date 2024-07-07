@@ -45,6 +45,8 @@ class Cwe:
                 return "Use of Weak Hash"
             case 330:
                 return "Use of Insufficiently Random Values"
+            case 347:
+                return "Improper Verification of Cryptographic Signature"
             case 377:
                 return "Insecure Temporary File"
             case 502:
