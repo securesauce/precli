@@ -7,6 +7,7 @@ from collections import namedtuple
 
 from tree_sitter import Node
 
+from precli.core import utils
 from precli.core.call import Call
 from precli.core.comparison import Comparison
 from precli.core.symtab import Symbol
@@ -126,6 +127,7 @@ class Python(Parser):
             tokens.CALL,
             tokens.ATTRIBUTE,
             tokens.IDENTIFIER,
+            tokens.DICTIONARY,
             tokens.TUPLE,
             tokens.STRING,
             tokens.INTEGER,
@@ -137,8 +139,6 @@ class Python(Parser):
             left_hand = nodes[0].string
             right_hand = self.resolve(nodes[2], default=nodes[2])
 
-            # This is to help full resolution of an attribute/call.
-            # This results in two entries in the symtab for this assignment.
             self.current_symtab.put(left_hand, tokens.IDENTIFIER, right_hand)
 
             if nodes[2].type == tokens.CALL:
@@ -464,9 +464,32 @@ class Python(Parser):
                     kwvalue = node.named_children[1]
                     value = {keyword: self.resolve(kwvalue, default=kwvalue)}
                 case tokens.DICTIONARY:
-                    # TODO: don't use ast.literal_eval
-                    # value = ast.literal_eval(nodetext)
-                    pass
+                    value = {}
+                    for child in node.named_children:
+                        if child.type == tokens.PAIR:
+                            keyword = utils.to_str(
+                                child.named_children[0].string
+                            )
+                            kwvalue = child.named_children[1]
+                            value[keyword] = self.resolve(
+                                kwvalue, default=kwvalue
+                            )
+                case tokens.SUBSCRIPT:
+                    # TODO: fix other subscript usage like list, slice, etc?
+                    var = self.resolve(node.named_children[0])
+                    if (
+                        var is not None
+                        and isinstance(var, dict)
+                        or isinstance(var, tuple)
+                    ):
+                        key = node.named_children[1]
+                        try:
+                            if key.type == tokens.STRING:
+                                value = var[utils.to_str(self.resolve(key))]
+                            elif key.type == tokens.INTEGER:
+                                value = var[self.resolve(key)]
+                        except KeyError:
+                            pass
                 case tokens.LIST:
                     # TODO: don't use ast.literal_eval
                     # value = ast.literal_eval(nodetext)
