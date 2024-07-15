@@ -388,7 +388,7 @@ class Python(Parser):
                 modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
-    def importlib_import_module(self, call: Call) -> str:
+    def importlib_import_module(self, call: Call) -> str | None:
         name = call.get_argument(position=0, name="name").value_str
         if name is None:
             return None
