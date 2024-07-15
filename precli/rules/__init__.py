@@ -1,6 +1,5 @@
 # Copyright 2024 Secure Sauce LLC
 from abc import ABC
-from typing import Self
 
 from precli.core.config import Config
 from precli.core.cwe import Cwe
@@ -59,7 +58,7 @@ class Rule(ABC):
         return self._id
 
     @staticmethod
-    def get_by_id(id: str) -> Self:
+    def get_by_id(id: str):
         """Get the rule instance by the given ID."""
         return Rule._rules.get(id)
 

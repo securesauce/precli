@@ -24,7 +24,7 @@ class Java(Parser):
     def rule_prefix(self) -> str:
         return "JAV"
 
-    def get_file_encoding(self, file_path):
+    def get_file_encoding(self, file_path: str) -> str:
         return "utf-8"
 
     def visit_program(self, nodes: list[Node]):
@@ -103,7 +103,7 @@ class Java(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
-    def _get_var_node(self, node: Node) -> Node:
+    def _get_var_node(self, node: Node) -> Node | None:
         if (
             len(node.named_children) >= 2
             and node.named_children[0].type
@@ -114,7 +114,7 @@ class Java(Parser):
         elif node.type == tokens.ATTRIBUTE:
             return self._get_var_node(node.named_children[0])
 
-    def _get_func_ident(self, node: Node) -> Node:
+    def _get_func_ident(self, node: Node) -> Node | None:
         # TODO(ericwb): does this function fail with nested calls?
         if node.type == tokens.ATTRIBUTE:
             return self._get_func_ident(node.named_children[1])
@@ -274,7 +274,7 @@ class Java(Parser):
 
         return args
 
-    def get_qual_name(self, node: Node) -> Symbol:
+    def get_qual_name(self, node: Node) -> Symbol | None:
         nodetext = node.string
         symbol = self.current_symtab.get(nodetext)
 
