@@ -13,7 +13,7 @@ class SymbolTable:
     def name(self) -> str:
         return self._name
 
-    def parent(self) -> Self:
+    def parent(self) -> Self | None:
         return self._parent
 
     def put(self, name: str, type: str, value: str) -> None:

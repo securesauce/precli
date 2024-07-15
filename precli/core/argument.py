@@ -22,7 +22,7 @@ class Argument:
         self._value_str = utils.to_str(value) if self._is_str else None
 
     @staticmethod
-    def _get_func_ident(node: Node) -> Node:
+    def _get_func_ident(node: Node) -> Node | None:
         if node is None:
             return None
         # TODO(ericwb): does this function fail with nested calls?
@@ -39,7 +39,7 @@ class Argument:
         return self._node
 
     @property
-    def identifier_node(self) -> Node:
+    def identifier_node(self) -> Node | None:
         """
         The node representing just the identifier of the argument.
 
@@ -80,6 +80,6 @@ class Argument:
         return self._value
 
     @property
-    def value_str(self) -> str:
+    def value_str(self) -> str | None:
         """The value as a true string."""
         return self._value_str

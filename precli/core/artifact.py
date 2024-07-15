@@ -36,26 +36,26 @@ class Artifact:
         return self._encoding
 
     @encoding.setter
-    def encoding(self, encoding) -> str:
+    def encoding(self, encoding):
         """Set the encoding of the file."""
         self._encoding = encoding
 
     @property
-    def contents(self) -> str:
+    def contents(self) -> str | None:
         """The contents of the artifact."""
         return self._contents
 
     @contents.setter
-    def contents(self, contents) -> str:
+    def contents(self, contents):
         """Set the contents (for typically the file)."""
         self._contents = contents
 
     @property
-    def language(self) -> str:
+    def language(self) -> str | None:
         """The programming language for this artifact."""
         return self._language
 
     @language.setter
-    def language(self, language) -> str:
+    def language(self, language):
         """Set the programming language."""
         self._language = language

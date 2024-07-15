@@ -52,7 +52,7 @@ class Parser(ABC):
                     else:
                         self.wildcards[k] = v
 
-        def child_by_type(self, type: str) -> Node:
+        def child_by_type(self, type: str) -> Node | None:
             # Return first child with type as specified
             child = list(filter(lambda x: x.type == type, self.named_children))
             return child[0] if child else None
@@ -72,8 +72,15 @@ class Parser(ABC):
     def rule_prefix(self) -> str:
         """The prefix for the rule ID"""
 
+    @abstractmethod
+    def get_file_encoding(self, file_path: str) -> str:
+        """The prefix for the rule ID"""
+
     def parse(
-        self, artifact: Artifact, enabled: list = None, disabled: list = None
+        self,
+        artifact: Artifact,
+        enabled: list[str] = None,
+        disabled: list[str] = None,
     ) -> list[Result]:
         """File extension of files this parser can handle."""
         for rule in self.rules.values():
@@ -184,7 +191,7 @@ class Parser(ABC):
             ),
         )
 
-    def child_by_type(self, node: Node, type: str) -> Node:
+    def child_by_type(self, node: Node, type: str) -> Node | None:
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None

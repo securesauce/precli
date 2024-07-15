@@ -65,7 +65,7 @@ class Cwe:
             case 1333:
                 return "Inefficient Regular Expression Complexity"
 
-        return self._id
+        return str(self._id)
 
     def url(self) -> str:
         """URL of the CWE."""
