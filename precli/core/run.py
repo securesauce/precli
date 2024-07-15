@@ -117,7 +117,7 @@ class Run:
         disabled: list[str],
         artifacts: list[Artifact],
         console: Console,
-        debug,
+        debug: int,
     ):
         self._enabled = enabled
         self._disabled = disabled
@@ -230,6 +230,6 @@ class Run:
         return self._results
 
     @property
-    def metrics(self) -> list[Result]:
+    def metrics(self) -> Metrics:
         """Get the list of results."""
         return self._metrics
