@@ -4,6 +4,10 @@ from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points
 
+from rich.progress import BarColumn
+from rich.progress import MofNCompleteColumn
+from rich.progress import Progress
+from rich.progress import TextColumn
 import tree_sitter_languages
 from tree_sitter import Node
 
@@ -41,16 +45,25 @@ class Parser(ABC):
         self.rules = {}
         self.wildcards = {}
 
-        discovered_rules = entry_points(group=f"precli.rules.{lang}")
-        for rule in discovered_rules:
-            self.rules[rule.name] = rule.load()(rule.name)
+        progress = Progress(
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            MofNCompleteColumn(),
+        )
+        with progress:
+            discovered_rules = entry_points(group=f"precli.rules.{lang}")
+            for rule in progress.track(
+                discovered_rules,
+                description=f"Loading {lang.capitalize()} rules..."
+            ):
+                self.rules[rule.name] = rule.load()(rule.name)
 
-            if self.rules[rule.name].wildcards:
-                for k, v in self.rules[rule.name].wildcards.items():
-                    if k in self.wildcards:
-                        self.wildcards[k] += v
-                    else:
-                        self.wildcards[k] = v
+                if self.rules[rule.name].wildcards:
+                    for k, v in self.rules[rule.name].wildcards.items():
+                        if k in self.wildcards:
+                            self.wildcards[k] += v
+                        else:
+                            self.wildcards[k] = v
 
         def child_by_type(self, type: str) -> Node | None:
             # Return first child with type as specified
