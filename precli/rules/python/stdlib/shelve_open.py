@@ -58,7 +58,7 @@ class ShelveOpen(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["shelve.open", "shelve.DbfilenameShelf"]:
             return Result(
                 rule_id=self.id,

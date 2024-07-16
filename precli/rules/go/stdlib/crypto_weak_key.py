@@ -98,7 +98,9 @@ class WeakKey(Rule):
             wildcards={},
         )
 
-    def analyze_call_expression(self, context: dict, call: Call) -> Result:
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Result | None:
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
             argument = call.get_argument(position=2)
             sizes = argument.value

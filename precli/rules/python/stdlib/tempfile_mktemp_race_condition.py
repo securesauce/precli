@@ -70,7 +70,7 @@ class MktempRaceCondition(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["open"]:
             file_arg = call.get_argument(position=0, name="file")
 

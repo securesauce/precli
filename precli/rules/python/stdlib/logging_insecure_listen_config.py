@@ -65,7 +65,7 @@ class InsecureListenConfig(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in ["logging.config.listen"]:
             return
 

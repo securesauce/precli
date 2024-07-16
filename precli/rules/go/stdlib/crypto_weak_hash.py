@@ -84,7 +84,9 @@ class WeakHash(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call_expression(self, context: dict, call: Call) -> Result:
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Result | None:
         if call.name_qualified in [
             "crypto/md5.New",
             "crypto/sha1.New",

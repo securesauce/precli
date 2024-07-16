@@ -78,7 +78,7 @@ class HttpUrlSecret(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in [
             "http.client.HTTPConnection.request",
             "http.client.HTTPSConnection.request",

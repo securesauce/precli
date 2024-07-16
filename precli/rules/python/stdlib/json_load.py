@@ -56,7 +56,7 @@ class JsonLoad(Rule):
             config=Config(enabled=False),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in [
             "json.load",
             "json.loads",
