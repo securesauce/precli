@@ -88,7 +88,7 @@ class HashlibImproperPrng(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in (
             "hashlib.blake2b",
             "hashlib.blake2s",

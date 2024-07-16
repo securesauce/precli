@@ -70,7 +70,7 @@ class SslContextWeakKey(Rule):
             wildcards={},
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in [
             "ssl.SSLContext.set_ecdh_curve",
             "ssl.create_default_context.set_ecdh_curve",

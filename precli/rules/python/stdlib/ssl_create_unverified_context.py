@@ -62,7 +62,7 @@ class CreateUnverifiedContext(Rule):
             "certificates.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         """
         _create_unverified_context(
             protocol=None,

@@ -122,7 +122,7 @@ class TelnetlibCleartext(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["telnetlib.Telnet"]:
             return Result(
                 rule_id=self.id,

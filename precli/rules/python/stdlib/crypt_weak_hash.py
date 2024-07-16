@@ -109,7 +109,7 @@ class CryptWeakHash(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["crypt.crypt"]:
             name = call.get_argument(position=1, name="salt").value
 

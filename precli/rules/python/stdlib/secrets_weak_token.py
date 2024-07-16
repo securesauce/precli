@@ -63,7 +63,7 @@ class SecretsWeakToken(Rule):
             wildcards={},
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in [
             "secrets.token_bytes",
             "secrets.token_hex",

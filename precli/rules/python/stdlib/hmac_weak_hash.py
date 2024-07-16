@@ -109,7 +109,7 @@ class HmacWeakHash(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["hmac.new"]:
             # hmac.new(key, msg=None, digestmod='')
             argument = call.get_argument(position=2, name="digestmod")

@@ -94,7 +94,7 @@ class FtpCleartext(Rule):
             },
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in ["ftplib.FTP"]:
             fixes = Rule.get_fixes(
                 context=context,

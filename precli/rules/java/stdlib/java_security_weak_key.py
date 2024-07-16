@@ -99,7 +99,9 @@ class KeyPairGeneratorWeakKey(Rule):
             },
         )
 
-    def analyze_method_invocation(self, context: dict, call: Call) -> Result:
+    def analyze_method_invocation(
+        self, context: dict, call: Call
+    ) -> Result | None:
         if call.name_qualified not in [
             "java.security.KeyPairGenerator.getInstance.initialize"
         ]:

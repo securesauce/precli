@@ -108,7 +108,7 @@ class HmacTimingAttack(Rule):
 
     def analyze_comparison_operator(
         self, context: dict, comparison: Comparison
-    ) -> Result:
+    ) -> Result | None:
         if comparison.operator == "==" and (
             comparison.left_hand in TIMING_VULNERABLE
             or comparison.right_hand in TIMING_VULNERABLE

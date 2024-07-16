@@ -113,7 +113,7 @@ class HashlibWeakHash(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result:
+    def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified in HASHLIB_WEAK_HASHES:
             used_for_security = call.get_argument(
                 name="usedforsecurity", default=Argument(None, True)
