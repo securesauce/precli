@@ -74,14 +74,6 @@ class MktempRaceCondition(Rule):
             message="The function '{0}' can allow insecure ways of creating "
             "temporary files and directories that can lead to race "
             "conditions.",
-            wildcards={
-                "os.*": [
-                    "open",
-                ],
-                "tempfile.*": [
-                    "mktemp",
-                ],
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

@@ -78,7 +78,6 @@ class ReDenialOfService(Rule):
             message="The call to '{0}'' with regex pattern '{1}'' is "
             "susceptible to catastrophic backtracking and may cause "
             "performance degradation.",
-            wildcards={},
             config=Config(level=Level.ERROR),
         )
 

@@ -100,16 +100,6 @@ class SocketserverUnrestrictedBind(Rule):
             cwe_id=1327,
             message="Binding to '{0}' exposes the application on all network "
             "interfaces, increasing the risk of unauthorized access.",
-            wildcards={
-                "socketserver.*": [
-                    "TCPServer",
-                    "UDPServer",
-                    "ForkingTCPServer",
-                    "ForkingUDPServer",
-                    "ThreadingTCPServer",
-                    "ThreadingUDPServer",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

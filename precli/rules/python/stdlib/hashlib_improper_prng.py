@@ -81,20 +81,6 @@ class HashlibImproperPrng(Rule):
             cwe_id=330,
             message="The '{0}' pseudo-random generator should not be used for "
             "security purposes.",
-            wildcards={
-                "hashlib.*": [
-                    "blake2b",
-                    "blake2s",
-                    "pbkdf2_hmac",
-                    "scrypt",
-                ],
-                "random.*": [
-                    "randbytes",
-                ],
-                "ssl.*": [
-                    "RAND_bytes",
-                ],
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

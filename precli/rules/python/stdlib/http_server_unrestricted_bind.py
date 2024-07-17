@@ -92,12 +92,6 @@ class HttpServerUnrestrictedBind(Rule):
             cwe_id=1327,
             message="Binding to '{0}' exposes the application on all network "
             "interfaces, increasing the risk of unauthorized access.",
-            wildcards={
-                "http.server.*": [
-                    "HTTPServer",
-                    "ThreadingHTTPServer",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

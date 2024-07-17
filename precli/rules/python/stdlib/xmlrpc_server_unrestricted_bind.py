@@ -92,12 +92,6 @@ class XmlrpcServerUnrestrictedBind(Rule):
             cwe_id=1327,
             message="Binding to '{0}' exposes the application on all network "
             "interfaces, increasing the risk of unauthorized access.",
-            wildcards={
-                "xmlrpc.server.*": [
-                    "DocXMLRPCServer",
-                    "SimpleXMLRPCServer",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

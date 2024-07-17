@@ -42,9 +42,12 @@ class Java(Parser):
 
         if len(nodes) > 3 and nodes[3].type == NodeTypes.ASTERISK:
             # "import" scoped_identifier "." asterisk ";"
-            self.analyze_node(
-                NodeTypes.WILDCARD_IMPORT, package=nodes[1].string
-            )
+            wc_import = nodes[1].string
+
+            if f"{wc_import}.*" in self.wildcards:
+                for wc in self.wildcards[f"{wc_import}.*"]:
+                    full_import = ".".join(filter(None, [wc_import, wc]))
+                    self.current_symtab.put(wc, NodeTypes.IMPORT, full_import)
         else:
             # "import" scoped_identifier ";"
             package = nodes[1].string

@@ -71,11 +71,6 @@ class NntpCleartext(Rule):
             cwe_id=319,
             message="The NNTP protocol can transmit data in cleartext without "
             "encryption.",
-            wildcards={
-                "nntplib.*": [
-                    "NNTP",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

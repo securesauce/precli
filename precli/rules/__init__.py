@@ -126,17 +126,6 @@ class Rule(ABC):
         """
         return self._wildcards
 
-    def analyze_wildcard_import(self, context: dict, package: str) -> None:
-        # FIXME(ericwb): some modules like Cryptodome permit
-        # wildcard imports at various package levels like
-        # from Cryptodome import *
-        # from Cryptodome.Hash import *
-        if f"{package}.*" in self._wildcards:
-            for wc in self._wildcards[f"{package}.*"]:
-                context["symtab"].put(
-                    wc, "import", ".".join(filter(None, [package, wc]))
-                )
-
     @staticmethod
     def get_fixes(
         context: dict,

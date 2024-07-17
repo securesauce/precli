@@ -80,11 +80,6 @@ class PopCleartext(Rule):
             cwe_id=319,
             message="The POP protocol can transmit data in cleartext without "
             "encryption.",
-            wildcards={
-                "poplib.*": [
-                    "POP3",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 
