@@ -11,7 +11,7 @@ in your code.
 
 ## Example
 
-```python
+```python linenums="1"
 import tempfile
 
 
@@ -27,7 +27,7 @@ consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class
 automatically handles the generation of unique filenames, proper file closure,
 and cleanup when the file is no longer needed.
 
-```python
+```python linenums="1"
 import tempfile
 
 

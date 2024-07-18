@@ -11,7 +11,7 @@ allow them to execute arbitrary code.
 
 ## Example
 
-```python
+```python linenums="1"
 import logging.config
 
 
@@ -24,7 +24,7 @@ The verify argument should be set to a callable function that should verify
 whether bytes received on the socket are valid to be processed. One way to
 verify the data is to use encryption and/or signing.
 
-```python
+```python linenums="1"
 import logging.config
 
 

@@ -31,7 +31,7 @@ its efficiency and strong security properties.
 
 ## Example
 
-```go
+```go linenums="1"
 package main
 
 import (
@@ -53,7 +53,7 @@ func main() {
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
 
-```go
+```go linenums="1"
 package main
 
 import (

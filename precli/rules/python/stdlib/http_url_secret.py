@@ -10,7 +10,7 @@ access.
 
 ## Example
 
-```python
+```python linenums="1"
 import http.client
 
 
@@ -25,7 +25,7 @@ response = conn.getresponse()
 To avoid this vulnerability, put sensitive information in the request as
 headers, rather than a parameter of the URL.
 
-```python
+```python linenums="1"
 import http.client
 
 

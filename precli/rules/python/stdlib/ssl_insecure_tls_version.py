@@ -29,7 +29,7 @@ protocols:
 
 ## Example
 
-```python
+```python linenums="1"
 import ssl
 
 
@@ -45,7 +45,7 @@ If you need to connect to a server over HTTPS, you should use the
 These protocols are more secure than the weak protocols and will help to
 protect your application from these security risks.
 
-```python
+```python linenums="1"
 import ssl
 
 

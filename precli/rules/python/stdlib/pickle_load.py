@@ -13,7 +13,7 @@ the malicious code would be executed.
 
 ## Example
 
-```python
+```python linenums="1"
 import pickle
 
 

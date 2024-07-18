@@ -4,9 +4,13 @@ edit_uri: blob/main/docs/
 copyright: Copyright 2024 Secure Sauce LLC
 
 theme:
-  name: "readthedocs"
+  name: "material"
   locale: en
   highlightjs: true
+  features:
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
 
 plugins:
   - mkdocstrings
@@ -19,3 +23,12 @@ nav:
     - getting-started.md
   - Rules:
     - Rules: rules.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
