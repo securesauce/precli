@@ -16,7 +16,7 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```java linenums="1"
+```java linenums="1" hl_lines="6"
 import java.security.*;
 
 public class MessageDigestMD5 {
@@ -35,7 +35,7 @@ public class MessageDigestMD5 {
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA-256` or `SHA-512`.
 
-```java linenums="1"
+```java linenums="1" hl_lines="6"
 import java.security.*;
 
 public class MessageDigestSHA256 {

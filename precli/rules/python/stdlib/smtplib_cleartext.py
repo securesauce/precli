@@ -13,7 +13,7 @@ data when accessing SMTP servers.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="24 25"
 import smtplib
 
 
@@ -38,6 +38,7 @@ while True:
 print("Message length is", len(msg))
 
 server = smtplib.SMTP('localhost')
+server.login("user", "password")
 server.set_debuglevel(1)
 server.sendmail(fromaddr, toaddrs, msg)
 server.quit()
@@ -50,7 +51,7 @@ is recommended to secure the connection using `SMTP_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
 
-```python linenums="1"
+```python linenums="1" hl_lines="24"
 import smtplib
 
 
@@ -75,6 +76,7 @@ while True:
 print("Message length is", len(msg))
 
 server = smtplib.SMTP_SSL('localhost')
+server.login("user", "password")
 server.set_debuglevel(1)
 server.sendmail(fromaddr, toaddrs, msg)
 server.quit()

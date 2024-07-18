@@ -23,7 +23,7 @@ digests. This makes it more resistant to timing attacks.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="13"
 import hmac
 
 
@@ -44,7 +44,7 @@ print(digest == received_digest)
 The recommendation is to replace the == operator with the function
 `compare_digest`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="13"
 import hmac
 
 

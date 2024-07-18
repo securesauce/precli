@@ -18,7 +18,7 @@ they are only sent via secure connections.
 
 ## Example
 
-```java linenums="1"
+```java linenums="1" hl_lines="6"
 import javax.servlet.http.Cookie;
 
 public class SessionCookie {
@@ -36,7 +36,7 @@ the Secure flag enabled. This practice ensures that the cookies are
 transmitted only over HTTPS, providing protection against eavesdropping and
 MITM attacks on the communication channel.
 
-```java linenums="1"
+```java linenums="1" hl_lines="6"
 import javax.servlet.http.Cookie;
 
 public class SessionCookie {

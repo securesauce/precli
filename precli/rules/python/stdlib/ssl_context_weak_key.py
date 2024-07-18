@@ -20,7 +20,7 @@ even higher security margins.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="5"
 import ssl
 
 
@@ -32,7 +32,7 @@ context.set_ecdh_curve("prime192v1")
 
 Its recommended to increase the key size to at least 224 EC algorithms.
 
-```python linenums="1"
+```python linenums="1" hl_lines="5"
 import ssl
 
 

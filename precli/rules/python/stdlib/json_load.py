@@ -10,7 +10,7 @@ and memory resources, which could lead to a denial-of-service attack.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import json
 
 

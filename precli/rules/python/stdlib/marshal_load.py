@@ -9,7 +9,7 @@ a malicious data could be used to cause the decoder to execute arbitrary code.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="10"
 import marshal
 
 

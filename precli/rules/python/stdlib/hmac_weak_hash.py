@@ -28,7 +28,7 @@ created with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="5"
 import hmac
 
 
@@ -44,7 +44,7 @@ mac = hmac_obj.digest()
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256`, `SHA-384`, or `SHA512`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="5"
 import hmac
 
 

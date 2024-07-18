@@ -15,7 +15,7 @@ ftplib for accessing sensitive data.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import ftplib
 
 
@@ -34,7 +34,7 @@ If the FTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `FTP_TLS` class. It's also
 important to call `prot_p()` to secure the data connection.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4 6"
 import ftplib
 
 

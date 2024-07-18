@@ -21,14 +21,14 @@ as `SHA256` and `SHA512`.
 
 ## Examples
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import crypt
 
 
 crypt.crypt("password", salt=crypt.METHOD_MD5)
 ```
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import crypt
 
 
@@ -40,14 +40,14 @@ crypt.mksalt(crypt.METHOD_CRYPT)
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256` or `SHA512`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import crypt
 
 
 crypt.crypt("password", salt=crypt.METHOD_SHA256)
 ```
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import crypt
 
 

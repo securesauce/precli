@@ -28,7 +28,7 @@ Here are some additional reasons why you should not use telnetlib:
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 9"
 import getpass
 import telnetlib
 
@@ -59,7 +59,7 @@ There are better alternatives. There are a number of other Python modules
 that provide access to the telnet protocol, such as Paramiko. These modules
 are more secure than telnetlib and should be used instead.
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 9"
 import getpass
 import paramiko
 

@@ -16,7 +16,7 @@ application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import ftplib
 
 
@@ -30,7 +30,7 @@ with ftplib.FTP_TLS("ftp.us.debian.org") as ftp:
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 7"
 import ftplib
 import ssl
 

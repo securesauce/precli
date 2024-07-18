@@ -16,7 +16,7 @@ causing it to hang or crash.
 
 ## Examples
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import re
 
 
@@ -31,7 +31,7 @@ that patterns are designed to avoid ambiguous repetition and nested
 quantifiers that can cause catastrophic backtracking. Regular expressions
 should be reviewed and tested for efficiency and resistance to DoS attacks.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import re
 
 

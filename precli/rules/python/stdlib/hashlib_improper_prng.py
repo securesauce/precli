@@ -22,7 +22,7 @@ generation and creating salts for hashing functions.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 6"
 import hashlib
 import random
 
@@ -37,7 +37,7 @@ hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)
 For security or cryptographic uses use a secure pseudo-random generator such
 as `os.urandom()` or `secrets.token_bytes()`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 6"
 import hashlib
 import os
 

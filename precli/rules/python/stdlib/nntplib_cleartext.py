@@ -13,7 +13,7 @@ data when accessing NNTP servers.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 from nntplib import NNTP
 
 
@@ -27,7 +27,7 @@ If the NNTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `NNTP_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 from nntplib import NNTP
 
 
