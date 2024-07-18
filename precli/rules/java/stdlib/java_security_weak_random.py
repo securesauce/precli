@@ -18,7 +18,7 @@ stronger guarantees of randomness to prevent attacks.
 
 ## Example
 
-```java linenums="1"
+```java linenums="1" hl_lines="6"
 import java.security.*;
 
 public class WeakRNG {
@@ -40,7 +40,7 @@ explicitly specify a more secure algorithm like `NativePRNG` or `DRBG` where
 available and appropriate for the application's requirements. This ensures
 the use of secure and up-to-date algorithms for random number generation.
 
-```java linenums="1"
+```java linenums="1" hl_lines="5"
 import java.security.*;
 
 public class StrongRNG {

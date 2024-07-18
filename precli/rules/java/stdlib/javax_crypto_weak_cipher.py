@@ -60,7 +60,7 @@ and regulatory requirements for encryption and security.
 
 ## Example
 
-```java linenums="1"
+```java linenums="1" hl_lines="9"
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 
@@ -84,7 +84,7 @@ public class Example {
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
-```java linenums="1"
+```java linenums="1" hl_lines="9"
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 

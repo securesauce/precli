@@ -22,7 +22,7 @@ mechanisms and validations that do not get removed during optimization.
 
 ## Examples
 
-```python linenums="1"
+```python linenums="1" hl_lines="2"
 def foobar(a: str = None):
     assert a is not None
     return f"Hello {a}"
@@ -34,7 +34,7 @@ foobar("World")
 
 Use proper error handling mechanism appropriate for production code.
 
-```python linenums="1"
+```python linenums="1" hl_lines="2"
 def foobar(a: str = None):
     if a is not None:
         return f"Hello {a}"

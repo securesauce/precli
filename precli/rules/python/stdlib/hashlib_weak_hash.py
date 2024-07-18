@@ -28,7 +28,7 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import hashlib
 
 
@@ -41,7 +41,7 @@ hash.hexdigest()
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256` or `SHA512`.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import hashlib
 
 
@@ -53,7 +53,7 @@ If an insecure hash such as MD5 must be used and not in within a security
 context, then set the keyword-only argument `usedforsecurity` in the hashes
 constructor.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import hashlib
 
 

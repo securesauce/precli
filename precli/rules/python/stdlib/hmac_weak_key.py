@@ -22,7 +22,7 @@ HMAC and protects the integrity of the message authentication process.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="6 8"
 import hashlib
 import hmac
 import secrets
@@ -37,7 +37,7 @@ hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 
 Adjust the key size to be at least the size of the digest.
 
-```python linenums="1"
+```python linenums="1" hl_lines="6"
 import hashlib
 import hmac
 import secrets

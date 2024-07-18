@@ -16,7 +16,7 @@ up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import ssl
 
 
@@ -30,7 +30,7 @@ If you need to connect to a server over HTTPS, you should use the
 the server's certificate, which will help to protect your application from
 these security risks.
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import ssl
 
 

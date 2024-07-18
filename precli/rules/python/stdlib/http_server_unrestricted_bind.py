@@ -19,7 +19,7 @@ surface.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="6 7"
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
 
@@ -37,7 +37,7 @@ All socket bindings MUST specify a specific network interface or localhost
 explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
-```python linenums="1"
+```python linenums="1" hl_lines="6 7"
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
 

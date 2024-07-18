@@ -16,7 +16,7 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import smtplib
 
 
@@ -30,7 +30,7 @@ with smtplib.SMTP_SSL("domain.org") as smtp:
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1"
+```python linenums="1" hl_lines="2 7"
 import smtplib
 import ssl
 

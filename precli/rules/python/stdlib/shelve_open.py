@@ -12,7 +12,7 @@ cause the decoder to execute arbitrary code.
 
 ## Example
 
-```python linenums="1"
+```python linenums="1" hl_lines="4"
 import shelve
 
 

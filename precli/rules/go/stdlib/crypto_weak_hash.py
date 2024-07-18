@@ -18,7 +18,7 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 ## Example
 
 
-```go linenums="1"
+```go linenums="1" hl_lines="9"
 package main
 
 import (
@@ -38,7 +38,7 @@ func main() {
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `sha256` or `sha512`.
 
-```go linenums="1"
+```go linenums="1" hl_lines="9"
 package main
 
 import (
