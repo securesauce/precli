@@ -9,7 +9,7 @@ encourages the use of insecure environment variables for secrets.
 
 ## Example
 
-```python
+```python linenums="1"
 import argparse
 
 
@@ -32,7 +32,7 @@ Consider accepting sensitive data only from an interactive hidden prompt or
 via files. A --password-file argument allows a secret to be passed in
 discreetly, in a wide variety of contexts.
 
-```python
+```python linenums="1"
 import argparse
 
 

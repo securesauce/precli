@@ -60,7 +60,7 @@ encryption and security.
 
 ## Example
 
-```go
+```go linenums="1"
 package main
 
 import (
@@ -86,7 +86,7 @@ func main() {
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
-```go
+```go linenums="1"
 package main
 
 import (

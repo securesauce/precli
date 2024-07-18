@@ -31,7 +31,7 @@ its efficiency and strong security properties.
 
 ## Example
 
-```java
+```java linenums="1"
 import java.security.*;
 
 public class KeyPairGeneratorRSA {
@@ -52,7 +52,7 @@ public class KeyPairGeneratorRSA {
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
 
-```java
+```java linenums="1"
 import java.security.*;
 
 public class KeyPairGeneratorRSA {

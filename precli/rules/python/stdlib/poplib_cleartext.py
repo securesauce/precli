@@ -13,7 +13,7 @@ data when accessing POP servers.
 
 ## Example
 
-```python
+```python linenums="1"
 import getpass
 import poplib
 
@@ -33,7 +33,7 @@ If the POP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `POP3_SSL` class.
 Alternatively, the `stls` function can be used to enter a secure session.
 
-```python
+```python linenums="1"
 import getpass
 import poplib
 

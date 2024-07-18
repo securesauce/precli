@@ -17,7 +17,7 @@ token prediction or brute-force attacks.
 
 ## Example
 
-```python
+```python linenums="1"
 import secrets
 
 
@@ -29,7 +29,7 @@ token = secrets.token_bytes(16)
 Its recommended to increase the token size to at least 32 bytes or leave
 the `nbytes` parameter unset or set to None to use a default entropy.
 
-```python
+```python linenums="1"
 import secrets
 
 

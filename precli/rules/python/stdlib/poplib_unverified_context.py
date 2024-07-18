@@ -16,7 +16,7 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python
+```python linenums="1"
 import poplib
 
 
@@ -29,7 +29,7 @@ with poplib.POP3_SSL("domain.org") as pop3:
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python
+```python linenums="1"
 import poplib
 import ssl
 

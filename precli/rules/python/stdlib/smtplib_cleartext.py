@@ -13,7 +13,7 @@ data when accessing SMTP servers.
 
 ## Example
 
-```python
+```python linenums="1"
 import smtplib
 
 
@@ -50,7 +50,7 @@ is recommended to secure the connection using `SMTP_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
 
-```python
+```python linenums="1"
 import smtplib
 
 

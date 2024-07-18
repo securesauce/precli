@@ -16,7 +16,7 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python
+```python linenums="1"
 import imaplib
 
 
@@ -30,7 +30,7 @@ with imaplib.IMAP4_SSL("domain.org") as imap4:
 Set the value of the `ssl_context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python
+```python linenums="1"
 import imaplib
 import ssl
 
