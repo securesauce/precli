@@ -9,7 +9,7 @@ encourages the use of insecure environment variables for secrets.
 
 ## Example
 
-```python linenums="1" hl_lines="10 12"
+```python linenums="1" hl_lines="8-14"
 import argparse
 
 
