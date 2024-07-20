@@ -6,11 +6,15 @@ copyright: Copyright 2024 Secure Sauce LLC
 theme:
   name: "material"
   locale: en
-  highlightjs: true
   features:
+    - content.code.annotate
     - content.code.copy
     - content.code.select
-    - content.code.annotate
+  highlightjs: true
+  icon:
+    admonition:
+      failure: octicons/no-entry-fill-12
+    repo: fontawesome/brands/github
 
 plugins:
   - mkdocstrings
@@ -24,6 +28,13 @@ nav:
     - Rules: rules.md
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -33,8 +44,6 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-  - attr_list
-  - md_in_html
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - stylesheets/extra.css
