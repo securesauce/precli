@@ -24,8 +24,7 @@ nav:
   - Home: index.md
   - getting-started.md
   - 'CLI Reference': man/precli.md
-  - Rules:
-    - Rules: rules.md
+  - Rules: rules.md
 
 markdown_extensions:
   - admonition
