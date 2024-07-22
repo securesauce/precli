@@ -16,29 +16,49 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="5" title="poplib_pop3_ssl_context_unset.py"
+import getpass
 import poplib
 
 
-with poplib.POP3_SSL("domain.org") as pop3:
-    pop3.user("user")
+M = poplib.POP3_SSL("localhost")
+M.user(getpass.getuser())
+M.pass_(getpass.getpass())
+numMessages = len(M.list()[1])
+for i in range(numMessages):
+    for j in M.retr(i + 1)[1]:
+        print(j)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/poplib/examples/poplib_pop3_ssl_context_unset.py
+    ⚠️  Warning on line 5 in tests/unit/rules/python/stdlib/poplib/examples/poplib_pop3_ssl_context_unset.py
+    PY025: Improper Certificate Validation
+    The 'poplib.POP3_SSL' function does not properly validate certificates when context is unset or None.
+    ```
 
 ## Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1" hl_lines="2 7"
+```python linenums="1" hl_lines="3 8" title="poplib_pop3_ssl_context_unset.py"
+import getpass
 import poplib
 import ssl
 
 
-with poplib.POP3_SSL(
-    "domain.org",
+M = poplib.POP3_SSL(
+    "localhost",
     context=ssl.create_default_context(),
-) as pop3:
-    pop3.user("user")
+)
+M.user(getpass.getuser())
+M.pass_(getpass.getpass())
+numMessages = len(M.list()[1])
+for i in range(numMessages):
+    for j in M.retr(i + 1)[1]:
+        print(j)
 ```
 
 ## See also

@@ -19,7 +19,7 @@ surface.
 
 ## Example
 
-```python linenums="1" hl_lines="11 12"
+```python linenums="1" hl_lines="11 12" title="socketserver_udp_server.py"
 import socketserver
 
 
@@ -35,6 +35,14 @@ with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
     server.serve_forever()
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/socketserver/examples/socketserver_udp_server.py
+    ⚠️  Warning on line 12 in tests/unit/rules/python/stdlib/socketserver/examples/socketserver_udp_server.py
+    PY030: Binding to an Unrestricted IP Address
+    Binding to 'INADDR_ANY (0.0.0.0)' exposes the application on all network interfaces, increasing the risk of unauthorized access.
+    ```
+
 ## Remediation
 
 All socket bindings MUST specify a specific network interface or localhost
@@ -42,7 +50,7 @@ All socket bindings MUST specify a specific network interface or localhost
 explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
-```python linenums="1" hl_lines="11 12"
+```python linenums="1" hl_lines="11" title="socketserver_udp_server.py"
 import socketserver
 
 

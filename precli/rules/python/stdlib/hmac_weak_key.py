@@ -22,22 +22,30 @@ HMAC and protects the integrity of the message authentication process.
 
 ## Example
 
-```python linenums="1" hl_lines="6 8"
+```python linenums="1" hl_lines="6 8" title="hmac_new_weak_key_hashlib_sha3_384.py"
 import hashlib
 import hmac
 import secrets
 
 
-key = secrets.token_bytes(nbytes=32)
+key = secrets.token_bytes(None)
 message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/hmac/examples/hmac_new_weak_key_hashlib_sha3_384.py
+    ⚠️  Warning on line 8 in tests/unit/rules/python/stdlib/hmac/examples/hmac_new_weak_key_hashlib_sha3_384.py
+    PY034: Inadequate Encryption Strength
+    The given key is only '32' bytes which is insufficient for the 'hashlib.sha3_384' algorithm.
+    ```
 
 ## Remediation
 
 Adjust the key size to be at least the size of the digest.
 
-```python linenums="1" hl_lines="6"
+```python linenums="1" hl_lines="6" title="hmac_new_weak_key_hashlib_sha3_384.py"
 import hashlib
 import hmac
 import secrets

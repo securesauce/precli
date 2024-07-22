@@ -28,7 +28,7 @@ Here are some additional reasons why you should not use telnetlib:
 
 ## Example
 
-```python linenums="1" hl_lines="2 9"
+```python linenums="1" hl_lines="2 9" title="telnetlib_telnet.py"
 import getpass
 import telnetlib
 
@@ -48,6 +48,14 @@ tn.write(b"ls\n")
 tn.write(b"exit\n")
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/telnetlib/examples/telnetlib_telnet.py
+    ⛔️ Error on line 9 in tests/unit/rules/python/stdlib/telnetlib/examples/telnetlib_telnet.py
+    PY020: Cleartext Transmission of Sensitive Information
+    The 'telnetlib.Telnet' module transmits data in cleartext without encryption.
+    ```
+
 ## Remediation
 
 If you need to access a remote system over a network, you should use a more
@@ -59,7 +67,7 @@ There are better alternatives. There are a number of other Python modules
 that provide access to the telnet protocol, such as Paramiko. These modules
 are more secure than telnetlib and should be used instead.
 
-```python linenums="1" hl_lines="2 9"
+```python linenums="1" hl_lines="2 9" title="telnetlib_telnet.py"
 import getpass
 import paramiko
 

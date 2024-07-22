@@ -20,7 +20,7 @@ even higher security margins.
 
 ## Example
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="ssl_context_set_ecdh_curve_prime192v1.py"
 import ssl
 
 
@@ -28,11 +28,19 @@ context = ssl.SSLContext()
 context.set_ecdh_curve("prime192v1")
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/ssl/examples/ssl_context_set_ecdh_curve_prime192v1.py
+    ⚠️  Warning on line 5 in tests/unit/rules/python/stdlib/ssl/examples/ssl_context_set_ecdh_curve_prime192v1.py
+    PY019: Inadequate Encryption Strength
+    Using 'EC' key sizes less than '224' bits is considered vulnerable to attacks.
+    ```
+
 ## Remediation
 
 Its recommended to increase the key size to at least 224 EC algorithms.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="ssl_context_set_ecdh_curve_prime192v1.py"
 import ssl
 
 

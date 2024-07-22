@@ -13,13 +13,12 @@ data when accessing POP servers.
 
 ## Example
 
-```python linenums="1" hl_lines="5-7"
+```python linenums="1" hl_lines="5 6" title="poplib_pop3_pass_.py"
 import getpass
 import poplib
 
 
 M = poplib.POP3('localhost')
-M.user(getpass.getuser())
 M.pass_(getpass.getpass())
 numMessages = len(M.list()[1])
 for i in range(numMessages):
@@ -27,13 +26,21 @@ for i in range(numMessages):
         print(j)
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/poplib/examples/poplib_pop3_pass_.py
+    ⛔️ Error on line 6 in tests/unit/rules/python/stdlib/poplib/examples/poplib_pop3_pass_.py
+    PY014: Cleartext Transmission of Sensitive Information
+    The 'poplib.POP3.pass_' function will transmit authentication information such as a user, password in cleartext.
+    ```
+
 ## Remediation
 
 If the POP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `POP3_SSL` class.
 Alternatively, the `stls` function can be used to enter a secure session.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="poplib_pop3_pass_.py"
 import getpass
 import poplib
 

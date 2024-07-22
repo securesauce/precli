@@ -13,7 +13,7 @@ data when accessing SMTP servers.
 
 ## Example
 
-```python linenums="1" hl_lines="24 25"
+```python linenums="1" hl_lines="24 25" title="smtplib_smtp_login.py"
 import smtplib
 
 
@@ -44,6 +44,14 @@ server.sendmail(fromaddr, toaddrs, msg)
 server.quit()
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/smtplib/examples/smtplib_smtp_login.py
+    ⛔️ Error on line 25 in tests/unit/rules/python/stdlib/smtplib/examples/smtplib_smtp_login.py
+    PY016: Cleartext Transmission of Sensitive Information
+    The 'smtplib.SMTP.login' function will transmit authentication information such as a user, password in cleartext.
+    ```
+
 ## Remediation
 
 If the SMTP protocol must be used and sensitive data will be transferred, it
@@ -51,7 +59,7 @@ is recommended to secure the connection using `SMTP_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
 
-```python linenums="1" hl_lines="24"
+```python linenums="1" hl_lines="24" title="smtplib_smtp_login.py"
 import smtplib
 
 

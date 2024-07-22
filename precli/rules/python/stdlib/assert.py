@@ -22,7 +22,7 @@ mechanisms and validations that do not get removed during optimization.
 
 ## Examples
 
-```python linenums="1" hl_lines="2"
+```python linenums="1" hl_lines="2" title="assert.py"
 def foobar(a: str = None):
     assert a is not None
     return f"Hello {a}"
@@ -30,11 +30,19 @@ def foobar(a: str = None):
 foobar("World")
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/assert/examples/assert.py
+    ⚠️  Warning on line 2 in tests/unit/rules/python/stdlib/assert/examples/assert.py
+    PY001: Improper Check or Handling of Exceptional Conditions
+    Assert statements are disabled when optimizations are enabled.
+    ```
+
 ## Remediation
 
 Use proper error handling mechanism appropriate for production code.
 
-```python linenums="1" hl_lines="2"
+```python linenums="1" hl_lines="2" title="assert.py"
 def foobar(a: str = None):
     if a is not None:
         return f"Hello {a}"

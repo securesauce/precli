@@ -15,7 +15,7 @@ ftplib for accessing sensitive data.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4 5" title="ftplib_ftp_login.py"
 import ftplib
 
 
@@ -28,13 +28,25 @@ ftp.retrlines("LIST")
 ftp.quit()
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/ftplib/examples/ftplib_ftp_login.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/ftplib/examples/ftplib_ftp_login.py
+    PY003: Cleartext Transmission of Sensitive Information
+    The FTP protocol can transmit data in cleartext without encryption.
+
+    ⛔️ Error on line 5 in tests/unit/rules/python/stdlib/ftplib/examples/ftplib_ftp_login.py
+    PY003: Cleartext Transmission of Sensitive Information
+    The 'ftplib.FTP.login' function will transmit the password argument in cleartext.
+    ```
+
 ## Remediation
 
 If the FTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `FTP_TLS` class. It's also
 important to call `prot_p()` to secure the data connection.
 
-```python linenums="1" hl_lines="4 6"
+```python linenums="1" hl_lines="4 6" title="ftplib_ftp_login.py"
 import ftplib
 
 

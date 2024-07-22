@@ -60,7 +60,7 @@ and regulatory requirements for encryption and security.
 
 ## Example
 
-```java linenums="1" hl_lines="9"
+```java linenums="1" hl_lines="9" title="CipherDESCBC.java"
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 
@@ -79,12 +79,20 @@ public class Example {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/java/stdlib/javax_crypto/examples/CipherDESCBC.java
+    ⛔️ Error on line 9 in tests/unit/rules/java/stdlib/javax_crypto/examples/CipherDESCBC.java
+    JAV001: Use of a Broken or Risky Cryptographic Algorithm
+    Weak ciphers like 'DES' should be avoided due to their known vulnerabilities and weaknesses.
+    ```
+
 ## Remediation
 
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
-```java linenums="1" hl_lines="9"
+```java linenums="1" hl_lines="9" title="CipherDESCBC.java"
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 

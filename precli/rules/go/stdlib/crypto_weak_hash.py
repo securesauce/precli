@@ -18,7 +18,7 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 ## Example
 
 
-```go linenums="1" hl_lines="9"
+```go linenums="1" hl_lines="4 9" title="crypto_weak_hash_md5_new.go"
 package main
 
 import (
@@ -33,12 +33,20 @@ func main() {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_hash_md5_new.go
+    ⛔️ Error on line 9 in tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_hash_md5_new.go
+    GO002: Use of Weak Hash
+    Use of weak hash function 'crypto/md5.New' does not meet security expectations.
+    ```
+
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `sha256` or `sha512`.
 
-```go linenums="1" hl_lines="9"
+```go linenums="1" hl_lines="4 9" title="crypto_weak_hash_md5_new.go"
 package main
 
 import (

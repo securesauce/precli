@@ -18,16 +18,25 @@ they are only sent via secure connections.
 
 ## Example
 
-```java linenums="1" hl_lines="6"
+```java linenums="1" hl_lines="7" title="CookieSecureFalse.java"
 import javax.servlet.http.Cookie;
 
 public class SessionCookie {
     public static void main(String[] args) {
         Cookie cookie = new Cookie("cookieName", "cookieValue");
+        cookie.setHttpOnly(true);
         cookie.setSecure(false);
     }
 }
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/java/stdlib/javax_servlet_http/examples/CookieSecureFalse.java
+    ⚠️  Warning on line 7 in tests/unit/rules/java/stdlib/javax_servlet_http/examples/CookieSecureFalse.java
+    JAV005: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute
+    The cookie 'cookie' was found without the 'Secure' flag set.
+    ```
 
 ## Remediation
 
@@ -36,12 +45,13 @@ the Secure flag enabled. This practice ensures that the cookies are
 transmitted only over HTTPS, providing protection against eavesdropping and
 MITM attacks on the communication channel.
 
-```java linenums="1" hl_lines="6"
+```java linenums="1" hl_lines="7" title="CookieSecureFalse.java"
 import javax.servlet.http.Cookie;
 
 public class SessionCookie {
     public static void main(String[] args) {
         Cookie cookie = new Cookie("cookieName", "cookieValue");
+        cookie.setHttpOnly(true);
         cookie.setSecure(true);
     }
 }

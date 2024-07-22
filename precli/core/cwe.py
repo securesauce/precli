@@ -45,6 +45,11 @@ class Cwe:
                 return "Use of Weak Hash"
             case 330:
                 return "Use of Insufficiently Random Values"
+            case 338:
+                return (
+                    "Use of Cryptographically Weak Pseudo-Random Number "
+                    "Generator (PRNG)"
+                )
             case 347:
                 return "Improper Verification of Cryptographic Signature"
             case 377:

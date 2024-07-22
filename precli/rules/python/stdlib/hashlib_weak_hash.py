@@ -28,20 +28,27 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="hashlib_md5.py"
 import hashlib
 
 
-hash = hashlib.md5(b"Nobody inspects the spammish repetition")
-hash.hexdigest()
+hashlib.md5()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/hashlib/examples/hashlib_md5.py
+    ⛔️ Error on line 4 in tests/unit/rules/python/stdlib/hashlib/examples/hashlib_md5.py
+    PY004: Use of Weak Hash
+    The hash function 'hashlib.md5' is vulnerable to collision and pre-image attacks.
+    ```
 
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256` or `SHA512`.
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="hashlib_md5.py"
 import hashlib
 
 

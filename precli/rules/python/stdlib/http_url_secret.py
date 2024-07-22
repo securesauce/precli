@@ -10,27 +10,38 @@ access.
 
 ## Example
 
-```python linenums="1" hl_lines="6"
+```python linenums="1" hl_lines="7" title="http_url_secret_apikey.py"
 import http.client
 
 
 host = "example.com"
 conn = http.client.HTTPSConnection(host)
-conn.request("GET", "/path?apiKey=value&otherParam=123", headers={})
+conn.request(
+    "GET", "/path?apiKey=value&otherParam=123", headers={"Host": host}
+)
 response = conn.getresponse()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/http/examples/http_url_secret_apikey.py
+    ⛔️ Error on line 7 in tests/unit/rules/python/stdlib/http/examples/http_url_secret_apikey.py
+    PY007: Use of GET Request Method With Sensitive Query Strings
+    Secrets in URLs are vulnerable to unauthorized access.
+    ```
 
 ## Remediation
 
 To avoid this vulnerability, put sensitive information in the request as
 headers, rather than a parameter of the URL.
 
-```python linenums="1" hl_lines="5-7 9"
+```python linenums="1" hl_lines="7 10" title="http_url_secret_apikey.py"
 import http.client
 
 
 host = "example.com"
 headers = {
+    "Host": host,
     "X-FullContact-APIKey": "value"
 }
 conn = http.client.HTTPSConnection(host)

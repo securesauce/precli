@@ -13,7 +13,7 @@ the malicious code would be executed.
 
 ## Example
 
-```python linenums="1" hl_lines="9"
+```python linenums="1" hl_lines="9" title="pickle_loads.py"
 import pickle
 
 
@@ -29,6 +29,14 @@ def load_pickle_file(file_path):
 pickle_file = 'malicious.pickle'
 loaded_object = load_pickle_file(pickle_file)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/pickle/examples/pickle_loads.py
+    ⚠️  Warning on line 9 in tests/unit/rules/python/stdlib/pickle/examples/pickle_loads.py
+    PY013: Deserialization of Untrusted Data
+    Potential unsafe usage of 'pickle.loads' that can allow instantiation of arbitrary objects.
+    ```
 
 ## Remediation
 

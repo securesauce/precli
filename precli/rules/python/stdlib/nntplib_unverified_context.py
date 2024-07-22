@@ -16,31 +16,43 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="nntplib_nntp_ssl_context_unset.py"
 import nntplib
 
 
-with nntplib.NNTP_SSL("news.gmane.io") as n:
-    n.login("user", "password")
-    n.group("gmane.comp.python.committers")
+s = nntplib.NNTP_SSL("news.gmane.io")
+s.login("user", "password")
+f = open("article.txt", "rb")
+s.post(f)
+s.quit()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_ssl_context_unset.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_ssl_context_unset.py
+    PY024: Improper Certificate Validation
+    The 'nntplib.NNTP_SSL' function does not properly validate certificates when context is unset or None.
+    ```
 
 ## Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1" hl_lines="2 7"
+```python linenums="1" hl_lines="2 7" title="nntplib_nntp_ssl_context_unset.py"
 import nntplib
 import ssl
 
 
-with nntplib.NNTP_SSL(
+s = nntplib.NNTP_SSL(
     "news.gmane.io",
     context=ssl.create_default_context(),
-) as n:
-    n.login("user", "password")
-    n.group("gmane.comp.python.committers")
+)
+s.login("user", "password")
+f = open("article.txt", "rb")
+s.post(f)
+s.quit()
 ```
 
 ## See also

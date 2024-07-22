@@ -9,13 +9,20 @@ encourages the use of insecure environment variables for secrets.
 
 ## Example
 
-```python linenums="1" hl_lines="8-14"
+```python linenums="1" hl_lines="15-21" title="argparse_add_argument_password.py"
 import argparse
 
 
 parser = argparse.ArgumentParser(
-    prog='ProgramName',
-    description='What the program does',
+    prog="ProgramName",
+    description="What the program does",
+)
+parser.add_argument(
+    "-u",
+    "--user",
+    dest="user",
+    action="store",
+    help="user for the database",
 )
 parser.add_argument(
     "-p",
@@ -26,13 +33,21 @@ parser.add_argument(
 )
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/argparse/examples/argparse_add_argument_password.py
+    ⛔️ Error on line 8 in argparse_add_argument_password.py
+    PY027: Invocation of Process Using Visible Sensitive Information
+    Secrets in CLI arguments are leaked to command history, logs, ps output, etc.
+    ```
+
 ## Remediation
 
 Consider accepting sensitive data only from an interactive hidden prompt or
 via files. A --password-file argument allows a secret to be passed in
 discreetly, in a wide variety of contexts.
 
-```python linenums="1" hl_lines="12"
+```python linenums="1" hl_lines="12" title="argparse_add_argument_password.py"
 import argparse
 
 

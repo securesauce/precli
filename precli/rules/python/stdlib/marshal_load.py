@@ -9,7 +9,7 @@ a malicious data could be used to cause the decoder to execute arbitrary code.
 
 ## Example
 
-```python linenums="1" hl_lines="10"
+```python linenums="1" hl_lines="10" title="marshal_load.py"
 import marshal
 
 
@@ -21,6 +21,14 @@ with open('data.dat', 'wb') as f:
 with open('data.dat', 'rb') as f:
     loaded_data = marshal.load(f)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/marshal/examples/marshal_load.py
+    ⚠️  Warning on line 10 in tests/unit/rules/python/stdlib/marshal/examples/marshal_load.py
+    PY011: Deserialization of Untrusted Data
+    Potential unsafe usage of 'marshal.load' that can allow instantiation of arbitrary objects.
+    ```
 
 ## Remediation
 

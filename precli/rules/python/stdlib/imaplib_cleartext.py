@@ -13,7 +13,7 @@ data when accessing IMAP servers.
 
 ## Example
 
-```python linenums="1" hl_lines="5 6"
+```python linenums="1" hl_lines="5 6" title="imaplib_imap4_login.py"
 import getpass
 import imaplib
 
@@ -29,13 +29,21 @@ M.close()
 M.logout()
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/imaplib/examples/imaplib_imap4_login.py
+    ⛔️ Error on line 6 in tests/unit/rules/python/stdlib/imaplib/examples/imaplib_imap4_login.py
+    PY008: Cleartext Transmission of Sensitive Information
+    The 'imaplib.IMAP4.login' function will transmit authentication information such as a user, password in cleartext.
+    ```
+
 ## Remediation
 
 If the IMAP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `IMAP4_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="imaplib_imap4_login.py"
 import getpass
 import imaplib
 

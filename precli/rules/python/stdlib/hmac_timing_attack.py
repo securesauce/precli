@@ -23,7 +23,7 @@ digests. This makes it more resistant to timing attacks.
 
 ## Example
 
-```python linenums="1" hl_lines="13"
+```python linenums="1" hl_lines="13" title="hmac_timing_attack.py"
 import hmac
 
 
@@ -32,19 +32,27 @@ received_digest = (
     "\xf5\x10>\xdbf\xa2\xaf\xf7x\xcdX\xdf"
 )
 
-key = b"my-secret-key"
+key = b"my-super-duper-secret-key-string"
 password = b"pass"
 digest = hmac.digest(key, password, digest="sha224")
 
 print(digest == received_digest)
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py
+    ⛔️ Error on line 13 in tests/unit/rules/python/stdlib/hmac/examples/hmac_timing_attack.py
+    PY005: Observable Timing Discrepancy
+    Comparing digests with the '==' operator is vulnerable to timing attacks.
+    ```
+
 ## Remediation
 
 The recommendation is to replace the == operator with the function
 `compare_digest`.
 
-```python linenums="1" hl_lines="13"
+```python linenums="1" hl_lines="13" title="hmac_timing_attack.py"
 import hmac
 
 

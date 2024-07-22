@@ -10,12 +10,20 @@ and memory resources, which could lead to a denial-of-service attack.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="json_loads.py"
 import json
 
 
 json.loads('["foo", {"bar":["baz", null, 1.0, 2]}]')
 ```
+
+??? example "Example Output"
+    ```
+    > precli --enable=all tests/unit/rules/python/stdlib/json/examples/json_loads.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/json/examples/json_loads.py
+    PY009: Deserialization of Untrusted Data
+    Potential unsafe usage of 'json.loads' that can allow instantiation of arbitrary objects.
+    ```
 
 ## Remediation
 
