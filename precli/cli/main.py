@@ -59,7 +59,8 @@ def setup_arg_parser():
         action="store_true",
         help="find and process files in subdirectories",
     )
-    parser.add_argument(
+    enable_grp = parser.add_mutually_exclusive_group()
+    enable_grp.add_argument(
         "--enable",
         dest="enable",
         action="store",
@@ -67,7 +68,7 @@ def setup_arg_parser():
         type=str,
         help="comma-separated list of rule IDs or names to enable",
     )
-    parser.add_argument(
+    enable_grp.add_argument(
         "--disable",
         dest="disable",
         action="store",
@@ -329,8 +330,8 @@ def main():
     # Setup the command line arguments
     args = setup_arg_parser()
 
-    enabled = args.enable.split(",") if args.enable else []
-    disabled = args.disable.split(",") if args.disable else []
+    enabled = args.enable.split(",") if args.enable else None
+    disabled = args.disable.split(",") if args.disable else None
 
     # Compile a list of the targets
     artifacts = discover_files(args.targets, args.recursive)
