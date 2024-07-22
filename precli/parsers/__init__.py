@@ -76,6 +76,25 @@ class Parser(ABC):
     def get_file_encoding(self, file_path: str) -> str:
         """The prefix for the rule ID"""
 
+    @staticmethod
+    def _expand_rule_list(rule_list: list[str]) -> list[str]:
+        """Expand rule range if exists in the rule list"""
+        expanded_rules = []
+        for rule in rule_list:
+            if "-" in rule:
+                (rule_start, rule_end) = rule.split("-", maxsplit=1)
+                if rule_start[:-3] == rule_end[:-3]:
+                    try:
+                        start = int(rule_start[-3:])
+                        end = int(rule_end[-3:])
+                        for i in range(start, end + 1):
+                            expanded_rules.append(f"{rule_start[:-3]}{i:03d}")
+                    except ValueError:
+                        pass
+            else:
+                expanded_rules.append(rule)
+        return expanded_rules
+
     def parse(
         self,
         artifact: Artifact,
@@ -83,15 +102,22 @@ class Parser(ABC):
         disabled: list[str] = None,
     ) -> list[Result]:
         """File extension of files this parser can handle."""
-        for rule in self.rules.values():
-            if enabled is not None and (
-                enabled == ["all"]
-                or rule.id in enabled
-                or rule.name in enabled
-            ):
-                rule.enabled = True
+        if enabled is not None:
+            enabled = Parser._expand_rule_list(enabled)
+        if disabled is not None:
+            disabled = Parser._expand_rule_list(disabled)
 
-            if disabled is not None and (
+        for rule in self.rules.values():
+            if enabled is not None:
+                if (
+                    enabled == ["all"]
+                    or rule.id in enabled
+                    or rule.name in enabled
+                ):
+                    rule.enabled = True
+                else:
+                    rule.enabled = False
+            elif disabled is not None and (
                 disabled == ["all"]
                 or rule.id in disabled
                 or rule.name in disabled

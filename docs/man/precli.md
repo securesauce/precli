@@ -3,7 +3,7 @@
 ## SYNOPSIS
 
 ```
-precli [-h] [-d] [-r] [--enable ENABLE] [--disable DISABLE] [--json] [--plain]
+precli [-h] [-d] [-r] [--enable ENABLE | --disable DISABLE] [--json] [--plain]
        [--markdown] [--gist] [-o OUTPUT] [--no-color] [-q] [--version]
        [targets ...]
 ```
