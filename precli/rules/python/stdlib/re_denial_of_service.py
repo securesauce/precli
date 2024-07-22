@@ -16,13 +16,22 @@ causing it to hang or crash.
 
 ## Examples
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="5" title="re_compile.py"
 import re
 
 
-pattern = re.compile('(a+)+$')
-result = pattern.match('aaaaaaaaaaaaaaaaaaaa!')
+IPv6address = r"([A-Fa-f0-9:]+:+)+[A-Fa-f0-9]+"
+reg = re.compile(IPv6address)
+reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/re/examples/re_compile.py
+    ⛔️ Error on line 5 in tests/unit/rules/python/stdlib/re/examples/re_compile.py
+    PY033: Inefficient Regular Expression Complexity
+    The call to 're.compile'' with regex pattern 'r"([A-Fa-f0-9:]+:+)+[A-Fa-f0-9]+"'' is susceptible to catastrophic backtracking and may cause performance degradation.
+    ```
 
 ## Remediation
 
@@ -31,12 +40,13 @@ that patterns are designed to avoid ambiguous repetition and nested
 quantifiers that can cause catastrophic backtracking. Regular expressions
 should be reviewed and tested for efficiency and resistance to DoS attacks.
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="re_compile.py"
 import re
 
 
-pattern = re.compile('a+$')
-result = pattern.match('aaaaaaaaaaaaaaaaaaaa!')
+IPv6address = r"([A-Fa-f0-9:]+[:$])[A-Fa-f0-9]{1,4}"
+reg = re.compile(IPv6address)
+reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")
 ```
 
 ## See also

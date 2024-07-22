@@ -11,14 +11,24 @@ in your code.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="tempfile_mktemp_args_with_open_args.py"
 import tempfile
 
 
-filename = tempfile.mktemp(suffix='', prefix='tmp', dir=None)
-with open(filename) as f:
+filename = tempfile.mktemp("", "tmp", dir=None)
+with open(
+    filename, "w+", buffering=-1, encoding=None, errors=None, newline=None
+) as f:
     f.write(b"Hello World!\n")
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/tempfile/examples/tempfile_mktemp_args_with_open_args.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/tempfile/examples/tempfile_mktemp_args_with_open_args.py
+    PY021: Insecure Temporary File
+    The function 'tempfile.mktemp' can allow insecure ways of creating temporary files and directories that can lead to race conditions.
+    ```
 
 ## Remediation
 
@@ -27,11 +37,14 @@ consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class
 automatically handles the generation of unique filenames, proper file closure,
 and cleanup when the file is no longer needed.
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="tempfile_mktemp_args_with_open_args.py"
 import tempfile
 
 
-with tempfile.NamedTemporaryFile(delete=False) as f:
+filename = tempfile.NamedTemporaryFile(delete=False)
+with open(
+    filename, "w+", buffering=-1, encoding=None, errors=None, newline=None
+) as f:
     f.write(b"Hello World!\n")
 ```
 

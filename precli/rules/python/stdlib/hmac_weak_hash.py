@@ -28,31 +28,35 @@ created with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="6" title="hmac_new_digestmod_md5.py"
 import hmac
 
 
-secret_key = "This is my secret key."
-hmac_obj = hmac.new(key, digestmod="md5")
-message = "This is my message.".encode()
-hmac_obj.update(message)
-mac = hmac_obj.digest()
+key = b"my-secret-key"
+message = b"Hello, world!"
+hmac.new(key, msg=message, digestmod="md5")
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/hmac/examples/hmac_new_digestmod_md5.py
+    ⛔️ Error on line 6 in tests/unit/rules/python/stdlib/hmac/examples/hmac_new_digestmod_md5.py
+    PY006: Use of Weak Hash
+    The hash function 'md5' is vulnerable to collision and pre-image attacks.
+    ```
 
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256`, `SHA-384`, or `SHA512`.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="6" title="hmac_new_digestmod_md5.py"
 import hmac
 
 
-secret_key = "This is my secret key."
-hmac_obj = hmac.new(key, digestmod="sha256")
-message = "This is my message.".encode()
-hmac_obj.update(message)
-mac = hmac_obj.digest()
+key = b"my-secret-key"
+message = b"Hello, world!"
+hmac.new(key, msg=message, digestmod="sha256")
 ```
 
 ## See also

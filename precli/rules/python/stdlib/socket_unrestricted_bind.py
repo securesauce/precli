@@ -19,14 +19,22 @@ surface.
 
 ## Example
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="socket_socket_bind.py"
 import socket
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("0.0.0.0", 8080))
+s.bind(("", 80))
 s.listen()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/socket/examples/socket_socket_bind.py
+    ⚠️  Warning on line 5 in tests/unit/rules/python/stdlib/socket/examples/socket_socket_bind.py
+    PY029: Binding to an Unrestricted IP Address
+    Binding to 'INADDR_ANY (0.0.0.0)' exposes the application on all network interfaces, increasing the risk of unauthorized access.
+    ```
 
 ## Remediation
 
@@ -35,7 +43,7 @@ All socket bindings MUST specify a specific network interface or localhost
 explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="5" title="socket_socket_bind.py"
 import socket
 
 

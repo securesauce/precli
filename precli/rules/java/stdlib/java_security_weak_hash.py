@@ -16,7 +16,7 @@ passwords hashed with SHA-1 can be easily cracked by attackers.
 
 ## Example
 
-```java linenums="1" hl_lines="6"
+```java linenums="1" hl_lines="6" title="MessageDigestMD5.java"
 import java.security.*;
 
 public class MessageDigestMD5 {
@@ -30,12 +30,20 @@ public class MessageDigestMD5 {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/java/stdlib/java_net/examples/MessageDigestMD5.java
+    ⛔️ Error on line 6 in tests/unit/rules/java/stdlib/java_security/examples/MessageDigestMD5.java
+    JAV002: Use of Weak Hash
+    The hash function 'MD5' is vulnerable to collision and pre-image attacks.
+    ```
+
 ## Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA-256` or `SHA-512`.
 
-```java linenums="1" hl_lines="6"
+```java linenums="1" hl_lines="6" title="MessageDigestMD5.java"
 import java.security.*;
 
 public class MessageDigestSHA256 {

@@ -12,13 +12,21 @@ cause the decoder to execute arbitrary code.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="shelve_open_context_mgr.py"
 import shelve
 
 
-with shelve.open('spam') as db:
-    db['eggs'] = 'eggs'
+with shelve.open("db.dat") as db:
+    flag = "key" in db
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/shelve/examples/shelve_open_context_mgr.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/shelve/examples/shelve_open_context_mgr.py
+    PY015: Deserialization of Untrusted Data
+    Potential unsafe usage of 'shelve.open' that can allow instantiation of arbitrary objects.
+    ```
 
 ## Remediation
 

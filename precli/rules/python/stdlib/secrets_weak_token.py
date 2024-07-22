@@ -17,19 +17,27 @@ token prediction or brute-force attacks.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="secrets_token_bytes.py"
 import secrets
 
 
-token = secrets.token_bytes(16)
+token = secrets.token_bytes(4)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/secrets/examples/secrets_token_bytes.py
+    ⛔️ Error on line 4 in tests/unit/rules/python/stdlib/secrets/examples/secrets_token_bytes.py
+    PY028: Inadequate Encryption Strength
+    A token size of '4' is less than the recommended '32' bytes, which can be vulnerable to brute-force attacks.
+    ```
 
 ## Remediation
 
 Its recommended to increase the token size to at least 32 bytes or leave
 the `nbytes` parameter unset or set to None to use a default entropy.
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="secrets_token_bytes.py"
 import secrets
 
 

@@ -16,31 +16,85 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="25" title="smtplib_smtp_ssl_context_unset.py"
 import smtplib
 
 
-with smtplib.SMTP_SSL("domain.org") as smtp:
-    smtp.noop()
-    smtp.login("user", "password")
+def prompt(prompt):
+    return input(prompt).strip()
+
+
+fromaddr = prompt("From: ")
+toaddrs = prompt("To: ").split()
+print("Enter message, end with ^D (Unix) or ^Z (Windows):")
+
+# Add the From: and To: headers at the start!
+msg = "From: {}\r\nTo: {}\r\n\r\n".format(fromaddr, ", ".join(toaddrs))
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    if not line:
+        break
+    msg = msg + line
+
+print("Message length is", len(msg))
+
+server = smtplib.SMTP_SSL("localhost")
+server.login("user", "password")
+server.set_debuglevel(1)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/smtplib/examples/smtplib_smtp_ssl_context_unset.py
+    ⚠️  Warning on line 25 in tests/unit/rules/python/stdlib/smtplib/examples/smtplib_smtp_ssl_context_unset.py
+    PY026: Improper Certificate Validation
+    The 'smtplib.SMTP_SSL' function does not properly validate certificates when context is unset or None.
+    ```
 
 ## Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1" hl_lines="2 7"
+```python linenums="1" hl_lines="2 28" title="smtplib_smtp_ssl_context_unset.py"
 import smtplib
 import ssl
 
 
-with smtplib.SMTP_SSL(
-    "domain.org",
+def prompt(prompt):
+    return input(prompt).strip()
+
+
+fromaddr = prompt("From: ")
+toaddrs = prompt("To: ").split()
+print("Enter message, end with ^D (Unix) or ^Z (Windows):")
+
+# Add the From: and To: headers at the start!
+msg = "From: {}\r\nTo: {}\r\n\r\n".format(fromaddr, ", ".join(toaddrs))
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    if not line:
+        break
+    msg = msg + line
+
+print("Message length is", len(msg))
+
+server = smtplib.SMTP_SSL(
+    "localhost",
     context=ssl.create_default_context(),
-) as smtp:
-    smtp.noop()
-    smtp.login("user", "password")
+)
+server.login("user", "password")
+server.set_debuglevel(1)
+server.sendmail(fromaddr, toaddrs, msg)
+server.quit()
 ```
 
 ## See also

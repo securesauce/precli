@@ -16,31 +16,53 @@ opening your application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="5" title="imaplib_imap4_ssl_context_unset.py"
+import getpass
 import imaplib
 
 
-with imaplib.IMAP4_SSL("domain.org") as imap4:
-    imap4.noop()
-    imap4.login("user", "password")
+imap4 = imaplib.IMAP4_SSL("domain.org")
+imap4.login(getpass.getuser(), getpass.getpass())
+imap4.select()
+typ, data = imap4.search(None, "ALL")
+for num in data[0].split():
+    typ, data = imap4.fetch(num, "(RFC822)")
+    print(f"Message {num}\n{data[0][1]}\n")
+imap4.close()
+imap4.logout()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/imaplib/examples/imaplib_imap4_ssl_context_unset.py
+    ⚠️  Warning on line 5 in tests/unit/rules/python/stdlib/imaplib/examples/imaplib_imap4_ssl_context_unset.py
+    PY023: Improper Certificate Validation
+    The 'imaplib.IMAP4_SSL' function does not properly validate certificates when context is unset or None.
+    ```
 
 ## Remediation
 
 Set the value of the `ssl_context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1" hl_lines="2 7"
+```python linenums="1" hl_lines="3 8" title="imaplib_imap4_ssl_context_unset.py"
+import getpass
 import imaplib
 import ssl
 
 
-with imaplib.IMAP4_SSL(
+imap4 = imaplib.IMAP4_SSL(
     "domain.org",
     ssl_context=ssl.create_default_context(),
-) as imap4:
-    imap4.noop()
-    imap4.login("user", "password")
+)
+imap4.login(getpass.getuser(), getpass.getpass())
+imap4.select()
+typ, data = imap4.search(None, "ALL")
+for num in data[0].split():
+    typ, data = imap4.fetch(num, "(RFC822)")
+    print(f"Message {num}\n{data[0][1]}\n")
+imap4.close()
+imap4.logout()
 ```
 
 ## See also

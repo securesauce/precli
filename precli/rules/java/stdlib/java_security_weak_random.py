@@ -18,7 +18,7 @@ stronger guarantees of randomness to prevent attacks.
 
 ## Example
 
-```java linenums="1" hl_lines="6"
+```java linenums="1" hl_lines="6" title="SecureRandomSHA1PRNG.java"
 import java.security.*;
 
 public class WeakRNG {
@@ -32,6 +32,14 @@ public class WeakRNG {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/java/stdlib/java_security/examples/SecureRandomSHA1PRNG.java
+    ⚠️  Warning on line 6 in tests/unit/rules/java/stdlib/java_security/examples/SecureRandomSHA1PRNG.java
+    JAV004: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
+    The SecureRandom algorithm 'SHA1PRNG' may not provide sufficient entropy.
+    ```
+
 ## Remediation
 
 It is recommended to use SecureRandom without specifying an algorithm,
@@ -40,7 +48,7 @@ explicitly specify a more secure algorithm like `NativePRNG` or `DRBG` where
 available and appropriate for the application's requirements. This ensures
 the use of secure and up-to-date algorithms for random number generation.
 
-```java linenums="1" hl_lines="5"
+```java linenums="1" hl_lines="5" title="SecureRandomSHA1PRNG.java"
 import java.security.*;
 
 public class StrongRNG {

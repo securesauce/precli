@@ -16,21 +16,33 @@ application up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="ftplib_ftp_tls_context_unset.py"
 import ftplib
 
 
-with ftplib.FTP_TLS("ftp.us.debian.org") as ftp:
-    ftp.cwd("debian")
-    ftp.retrlines("LIST")
+ftp = ftplib.FTP_TLS("ftp.us.debian.org")
+ftp.login()
+
+ftp.cwd("debian")
+ftp.retrlines("LIST")
+
+ftp.quit()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/ftplib/examples/ftplib_ftp_tls_context_unset.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/ftplib/examples/ftplib_ftp_tls_context_unset.py
+    PY022: Improper Certificate Validation
+    The 'ftplib.FTP_TLS' function does not properly validate certificates when context is unset or None.
+    ```
 
 ## Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
 
-```python linenums="1" hl_lines="2 7"
+```python linenums="1" hl_lines="2 7" title="ftplib_ftp_tls_context_unset.py"
 import ftplib
 import ssl
 

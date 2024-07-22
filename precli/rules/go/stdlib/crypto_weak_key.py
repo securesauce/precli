@@ -31,42 +31,90 @@ its efficiency and strong security properties.
 
 ## Example
 
-```go linenums="1" hl_lines="10"
+```go linenums="1" hl_lines="13" title="crypto_weak_key_rsa_1024.go"
 package main
 
 import (
     "crypto/rand"
     "crypto/rsa"
+    "crypto/x509"
+    "encoding/pem"
     "log"
 )
 
 func main() {
+    // Generate the RSA key
     privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
     if err != nil {
         log.Fatalf("Failed to generate key: %v", err)
     }
+
+    // Extract the public key from the private key
+    publicKey := &privateKey.PublicKey
+
+    // Encode the public key to PEM format
+    publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
+    if err != nil {
+        log.Fatalf("Failed to marshal public key: %v", err)
+    }
+
+    publicKeyPEM := pem.EncodeToMemory(&pem.Block{
+        Type:  "RSA PUBLIC KEY",
+        Bytes: publicKeyBytes,
+    })
+
+    // Print the public key
+    log.Println(string(publicKeyPEM))
 }
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_key_rsa_1024.go
+    ⛔️ Error on line 13 in tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_key_rsa_1024.go
+    GO003: Inadequate Encryption Strength
+    Using 'RSA' key sizes less than '2048' bits is considered vulnerable to attacks.
+    ```
 
 ## Remediation
 
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
 
-```go linenums="1" hl_lines="10"
+```go linenums="1" hl_lines="13" title="crypto_weak_key_rsa_1024.go"
 package main
 
 import (
     "crypto/rand"
     "crypto/rsa"
+    "crypto/x509"
+    "encoding/pem"
     "log"
 )
 
 func main() {
+    // Generate the RSA key
     privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
     if err != nil {
         log.Fatalf("Failed to generate key: %v", err)
     }
+
+    // Extract the public key from the private key
+    publicKey := &privateKey.PublicKey
+
+    // Encode the public key to PEM format
+    publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
+    if err != nil {
+        log.Fatalf("Failed to marshal public key: %v", err)
+    }
+
+    publicKeyPEM := pem.EncodeToMemory(&pem.Block{
+        Type:  "RSA PUBLIC KEY",
+        Bytes: publicKeyBytes,
+    })
+
+    // Print the public key
+    log.Println(string(publicKeyPEM))
 }
 ```
 

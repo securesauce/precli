@@ -22,7 +22,7 @@ generation and creating salts for hashing functions.
 
 ## Example
 
-```python linenums="1" hl_lines="2 6"
+```python linenums="1" hl_lines="2 6 7" title="hashlib_improper_prng_scrypt.py"
 import hashlib
 import random
 
@@ -32,12 +32,20 @@ salt = random.randbytes(16)
 hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/hashlib/examples/hashlib_improper_prng_scrypt.py
+    ⚠️  Warning on line 7 in tests/unit/rules/python/stdlib/hashlib/examples/hashlib_improper_prng_scrypt.py
+    PY035: Use of Insufficiently Random Values
+    The 'random.randbytes' pseudo-random generator should not be used for security purposes.
+    ```
+
 ## Remediation
 
 For security or cryptographic uses use a secure pseudo-random generator such
 as `os.urandom()` or `secrets.token_bytes()`.
 
-```python linenums="1" hl_lines="2 6"
+```python linenums="1" hl_lines="2 6" title="hashlib_improper_prng_scrypt.py"
 import hashlib
 import os
 

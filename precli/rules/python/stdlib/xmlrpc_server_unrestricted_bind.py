@@ -19,16 +19,27 @@ surface.
 
 ## Example
 
-```python linenums="1" hl_lines="6 7"
-from xmlrpc.server import DocXMLRPCRequestHandler
+```python linenums="1" hl_lines="5 6" title="xmlrpc_server_doc_xml_rpc_server.py"
 from xmlrpc.server import DocXMLRPCServer
 
 
-def run(server_class: DocXMLRPCServer, handler_class: DocXMLRPCRequestHandler):
+def run(server_class: DocXMLRPCServer):
     server_address = ("::", 8000)
-    httpd = server_class(server_address, handler_class)
+    httpd = server_class(server_address, allow_none=True)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run(DocXMLRPCServer)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/xmlrpc/examples/xmlrpc_server_doc_xml_rpc_server.py
+    ⚠️  Warning on line 6 in tests/unit/rules/python/stdlib/xmlrpc/examples/xmlrpc_server_doc_xml_rpc_server.py
+    PY032: Binding to an Unrestricted IP Address
+    Binding to 'IN6ADDR_ANY (::)' exposes the application on all network interfaces, increasing the risk of unauthorized access.
+    ```
 
 ## Remediation
 
@@ -37,15 +48,18 @@ All socket bindings MUST specify a specific network interface or localhost
 explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
-```python linenums="1"  hl_lines="6"
-from xmlrpc.server import DocXMLRPCRequestHandler
+```python linenums="1"  hl_lines="5" title="xmlrpc_server_doc_xml_rpc_server.py"
 from xmlrpc.server import DocXMLRPCServer
 
 
-def run(server_class: DocXMLRPCServer, handler_class: DocXMLRPCRequestHandler):
+def run(server_class: DocXMLRPCServer):
     server_address = ("127.0.0.1", 8000)
-    httpd = server_class(server_address, handler_class)
+    httpd = server_class(server_address, allow_none=True)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run(DocXMLRPCServer)
 ```
 
 ## See also

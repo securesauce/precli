@@ -19,16 +19,27 @@ surface.
 
 ## Example
 
-```python linenums="1" hl_lines="6 7"
-from http.server import BaseHTTPRequestHandler
+```python linenums="1" hl_lines="5 6" title="http_server_http_server.py"
 from http.server import HTTPServer
 
 
-def run(server_class: HTTPServer, handler_class: BaseHTTPRequestHandler):
+def run(server_class: HTTPServer):
     server_address = ("", 8000)
-    httpd = server_class(server_address, handler_class)
+    httpd = server_class(server_address, allow_none=True)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run(HTTPServer)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/http/examples/http_server_http_server.py
+    ⚠️  Warning on line 6 in tests/unit/rules/python/stdlib/http/examples/http_server_http_server.py
+    PY031: Binding to an Unrestricted IP Address
+    Binding to 'INADDR_ANY (0.0.0.0)' exposes the application on all network interfaces, increasing the risk of unauthorized access.
+    ```
 
 ## Remediation
 
@@ -37,15 +48,18 @@ All socket bindings MUST specify a specific network interface or localhost
 explicitly designed to be accessible from any network interface. This
 practice ensures that services are not exposed more broadly than intended.
 
-```python linenums="1" hl_lines="6 7"
-from http.server import BaseHTTPRequestHandler
+```python linenums="1" hl_lines="5 6" title="http_server_http_server.py"
 from http.server import HTTPServer
 
 
-def run(server_class: HTTPServer, handler_class: BaseHTTPRequestHandler):
+def run(server_class: HTTPServer):
     server_address = ("127.0.0.1", 8000)
-    httpd = server_class(server_address, handler_class)
+    httpd = server_class(server_address, allow_none=True)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run(HTTPServer)
 ```
 
 ## See also

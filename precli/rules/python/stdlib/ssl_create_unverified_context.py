@@ -16,12 +16,20 @@ up to a number of security risks, including:
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="create_unverified_context.py"
 import ssl
 
 
 context = ssl._create_unverified_context()
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/ssl/examples/create_unverified_context.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/ssl/examples/create_unverified_context.py
+    PY017: Improper Certificate Validation
+    The 'ssl._create_unverified_context' function does not properly validate certificates.
+    ```
 
 ## Remediation
 
@@ -30,7 +38,7 @@ If you need to connect to a server over HTTPS, you should use the
 the server's certificate, which will help to protect your application from
 these security risks.
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="create_unverified_context.py"
 import ssl
 
 

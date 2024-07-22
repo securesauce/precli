@@ -29,14 +29,20 @@ protocols:
 
 ## Example
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="4" title="get_server_certificate_sslv2.py"
 import ssl
 
 
-ssl.get_server_certificate(
-    ("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2
-)
+ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/ssl/examples/get_server_certificate_sslv2.py
+    ⛔️ Error on line 4 in tests/unit/rules/python/stdlib/ssl/examples/get_server_certificate_sslv2.py
+    PY018: Inadequate Encryption Strength
+    The 'ssl.PROTOCOL_SSLv2' protocol has insufficient encryption strength.
+    ```
 
 ## Remediation
 
@@ -45,13 +51,11 @@ If you need to connect to a server over HTTPS, you should use the
 These protocols are more secure than the weak protocols and will help to
 protect your application from these security risks.
 
-```python linenums="1" hl_lines="5"
+```python linenums="1" hl_lines="4" title="get_server_certificate_sslv2.py"
 import ssl
 
 
-ssl.get_server_certificate(
-    ("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2
-)
+ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2)
 ```
 
 ## See also

@@ -31,7 +31,7 @@ its efficiency and strong security properties.
 
 ## Example
 
-```java linenums="1" hl_lines="7"
+```java linenums="1" hl_lines="7" title="KeyPairGeneratorRSA.java"
 import java.security.*;
 
 public class KeyPairGeneratorRSA {
@@ -47,12 +47,20 @@ public class KeyPairGeneratorRSA {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/java/stdlib/java_security/examples/KeyPairGeneratorRSA.java
+    ⛔️ Error on line 7 in tests/unit/rules/java/stdlib/java_security/examples/KeyPairGeneratorRSA.java
+    JAV003: Inadequate Encryption Strength
+    Using 'RSA' key sizes less than '2048' bits is considered vulnerable to attacks.
+    ```
+
 ## Remediation
 
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
 
-```java linenums="1" hl_lines="7"
+```java linenums="1" hl_lines="7" title="KeyPairGeneratorRSA.java"
 import java.security.*;
 
 public class KeyPairGeneratorRSA {

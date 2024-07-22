@@ -23,21 +23,37 @@ as `SHA256` and `SHA512`.
 
 === "crypt.crypt"
 
-    ```python linenums="1" hl_lines="4"
+    ```python linenums="1" hl_lines="4" title="crypt_crypt_method_md5.py"
     import crypt
 
 
     crypt.crypt("password", salt=crypt.METHOD_MD5)
     ```
 
+    ??? example "Example Output"
+        ```
+        > precli tests/unit/rules/python/stdlib/crypt/examples/crypt_crypt_method_md5.py
+        ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/crypt/examples/crypt_crypt_method_md5.py
+        PY002: Use of Weak Hash
+        Use of weak hash function 'crypt.METHOD_MD5' does not meet security expectations.
+        ```
+
 === "crypt.mksalt"
 
-    ```python linenums="1" hl_lines="4"
+    ```python linenums="1" hl_lines="4" title="crypt_mksalt_method_crypt.py"
     import crypt
 
 
     crypt.mksalt(crypt.METHOD_CRYPT)
     ```
+
+    ??? example "Example Output"
+        ```
+        > precli tests/unit/rules/python/stdlib/crypt/examples/crypt_mksalt_method_crypt.py
+        ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/crypt/examples/crypt_mksalt_method_crypt.py
+        PY002: Use of Weak Hash
+        Use of weak hash function 'crypt.METHOD_CRYPT' does not meet security expectations.
+        ```
 
 ## Remediation
 
@@ -46,7 +62,7 @@ secure alternatives, `SHA256` or `SHA512`.
 
 === "crypt.crypt"
 
-    ```python linenums="1" hl_lines="4"
+    ```python linenums="1" hl_lines="4" title="crypt_crypt_method_md5.py"
     import crypt
 
 
@@ -55,7 +71,7 @@ secure alternatives, `SHA256` or `SHA512`.
 
 === "crypt.mksalt"
 
-    ```python linenums="1" hl_lines="4"
+    ```python linenums="1" hl_lines="4" title="crypt_mksalt_method_crypt.py"
     import crypt
 
 

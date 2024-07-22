@@ -13,13 +13,22 @@ data when accessing NNTP servers.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
-from nntplib import NNTP
+```python linenums="1" hl_lines="5" title="nntplib_nntp_context_mgr.py"
+import nntplib
 
 
-with NNTP('news.gmane.io') as n:
-    n.group('gmane.comp.python.committers')
+with nntplib.NNTP("news.gmane.io") as n:
+    n.login("user", "password")
+    n.group("gmane.comp.python.committers")
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_context_mgr.py
+    ⛔️ Error on line 5 in tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_context_mgr.py
+    PY012: Cleartext Transmission of Sensitive Information
+    The 'nntplib.NNTP.login' function will transmit authentication information such as a user, password  in cleartext.
+    ```
 
 ## Remediation
 
@@ -27,11 +36,12 @@ If the NNTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `NNTP_SSL` class.
 Alternatively, the `starttls` function can be used to enter a secure session.
 
-```python linenums="1" hl_lines="4"
-from nntplib import NNTP
+```python linenums="1" hl_lines="4" title="nntplib_nntp_context_mgr.py"
+import nntplib
 
 
-with NNTP_SSL('news.gmane.io') as n:
+with nntplib.NNTP_SSL('news.gmane.io') as n:
+    n.login("user", "password")
     n.group('gmane.comp.python.committers')
 ```
 

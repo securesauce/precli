@@ -60,7 +60,7 @@ encryption and security.
 
 ## Example
 
-```go linenums="1" hl_lines="4 14"
+```go linenums="1" hl_lines="4 14" title="crypto_weak_cipher_des.go"
 package main
 
 import (
@@ -81,12 +81,20 @@ func main() {
 }
 ```
 
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_cipher_des.go
+    ⛔️ Error on line 14 in tests/unit/rules/go/stdlib/crypto/examples/crypto_weak_cipher_des.go
+    GO001: Use of a Broken or Risky Cryptographic Algorithm
+    Weak ciphers like 'crypto/des.NewTripleDESCipher' should be avoided due to their known vulnerabilities and weaknesses.
+    ```
+
 ## Remediation
 
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
 
-```go linenums="1" hl_lines="4 10"
+```go linenums="1" hl_lines="4 10" title="crypto_weak_cipher_des.go"
 package main
 
 import (

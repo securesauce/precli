@@ -11,12 +11,20 @@ allow them to execute arbitrary code.
 
 ## Example
 
-```python linenums="1" hl_lines="4"
+```python linenums="1" hl_lines="4" title="insecure_listen_config_port_verify_none.py"
 import logging.config
 
 
 thread = logging.config.listen(port=1111, verify=None)
 ```
+
+??? example "Example Output"
+    ```
+    > precli tests/unit/rules/python/stdlib/logging/examples/insecure_listen_config_port_verify_none.py
+    ⚠️  Warning on line 4 in tests/unit/rules/python/stdlib/logging/examples/insecure_listen_config_port_verify_none.py
+    PY010: Improper Control of Generation of Code ('Code Injection')
+    Using 'logging.config.listen' with unset 'verify' vulnerable to code injection.
+    ```
 
 ## Remediation
 
@@ -24,7 +32,7 @@ The verify argument should be set to a callable function that should verify
 whether bytes received on the socket are valid to be processed. One way to
 verify the data is to use encryption and/or signing.
 
-```python linenums="1" hl_lines="4 5 8"
+```python linenums="1" hl_lines="4 5 8" title="insecure_listen_config_port_verify_none.py"
 import logging.config
 
 
