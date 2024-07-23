@@ -14,7 +14,7 @@ up to a number of security risks, including:
 - Session hijacking
 - Data theft
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="create_unverified_context.py"
 import ssl
@@ -31,7 +31,7 @@ context = ssl._create_unverified_context()
     The 'ssl._create_unverified_context' function does not properly validate certificates.
     ```
 
-## Remediation
+# Remediation
 
 If you need to connect to a server over HTTPS, you should use the
 `ssl.create_default_context()` function instead. This function will verify
@@ -45,10 +45,11 @@ import ssl
 context = ssl.create_default_context()
 ```
 
-## See also
+# See also
 
-- [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html)
-- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
+!!! info
+    - [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html)
+    - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
 _New in version 0.1.0_
 

@@ -8,7 +8,7 @@ to attack applications that use the json module. For example, a malicious
 JSON string could be used to cause the decoder to consume considerable CPU
 and memory resources, which could lead to a denial-of-service attack.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="json_loads.py"
 import json
@@ -25,16 +25,17 @@ json.loads('["foo", {"bar":["baz", null, 1.0, 2]}]')
     Potential unsafe usage of 'json.loads' that can allow instantiation of arbitrary objects.
     ```
 
-## Remediation
+# Remediation
 
 To avoid this vulnerability, it is important to only parse JSON data from
 trusted sources. If you are parsing JSON data from an untrusted source, you
 should first sanitize the data to remove any potential malicious code.
 
-## See also
+# See also
 
-- [json — JSON encoder and decoder](https://docs.python.org/3/library/json.html)
-- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+!!! info
+    - [json — JSON encoder and decoder](https://docs.python.org/3/library/json.html)
+    - [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
 
 _New in version 0.1.0_
 

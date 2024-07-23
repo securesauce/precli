@@ -14,7 +14,7 @@ opening your application up to a number of security risks, including:
 - Session hijacking
 - Data theft
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5" title="imaplib_imap4_ssl_context_unset.py"
 import getpass
@@ -40,7 +40,7 @@ imap4.logout()
     The 'imaplib.IMAP4_SSL' function does not properly validate certificates when context is unset or None.
     ```
 
-## Remediation
+# Remediation
 
 Set the value of the `ssl_context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
@@ -65,12 +65,13 @@ imap4.close()
 imap4.logout()
 ```
 
-## See also
+# See also
 
-- [imaplib.IMAP4_SSL — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4_SSL)
-- [imaplib.IMAP4.starttls — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.starttls)
-- [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
-- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
+!!! info
+    - [imaplib.IMAP4_SSL — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4_SSL)
+    - [imaplib.IMAP4.starttls — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.starttls)
+    - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
+    - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
 _New in version 0.3.14_
 

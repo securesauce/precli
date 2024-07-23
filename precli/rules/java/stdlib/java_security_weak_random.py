@@ -16,7 +16,7 @@ in its implementation across different Java platforms raise concerns about
 its suitability and security. Modern cryptographic applications require
 stronger guarantees of randomness to prevent attacks.
 
-## Example
+# Example
 
 ```java linenums="1" hl_lines="6" title="SecureRandomSHA1PRNG.java"
 import java.security.*;
@@ -40,7 +40,7 @@ public class WeakRNG {
     The SecureRandom algorithm 'SHA1PRNG' may not provide sufficient entropy.
     ```
 
-## Remediation
+# Remediation
 
 It is recommended to use SecureRandom without specifying an algorithm,
 allowing the Java runtime to select the strongest available algorithm, or
@@ -58,13 +58,14 @@ public class StrongRNG {
 }
 ```
 
-## See also
+# See also
 
-- [SecureRandom (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/SecureRandom.html#getInstance(java.lang.String))
-- [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)](https://cwe.mitre.org/data/definitions/338.html)
-- [Recommendations for Random Number Generation Using Deterministic Random Bit Generators (NIST SP 800-90A)](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf)
-- [Weak Random](https://thesecurityvault.com/weak-random/)
-- [Android Developers Blog Security Crypto provider deprecated in Android N](https://android-developers.googleblog.com/2016/06/security-crypto-provider-deprecated-in.html)
+!!! info
+    - [SecureRandom (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/SecureRandom.html#getInstance(java.lang.String))
+    - [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)](https://cwe.mitre.org/data/definitions/338.html)
+    - [Recommendations for Random Number Generation Using Deterministic Random Bit Generators (NIST SP 800-90A)](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf)
+    - [Weak Random](https://thesecurityvault.com/weak-random/)
+    - [Android Developers Blog Security Crypto provider deprecated in Android N](https://android-developers.googleblog.com/2016/06/security-crypto-provider-deprecated-in.html)
 
 _New in version 0.5.0_
 

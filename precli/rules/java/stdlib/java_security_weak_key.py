@@ -29,7 +29,7 @@ Note that DSA is not as commonly used as RSA or ECC for new applications, and
 ECDSA (Elliptic Curve Digital Signature Algorithm) is often preferred due to
 its efficiency and strong security properties.
 
-## Example
+# Example
 
 ```java linenums="1" hl_lines="7" title="KeyPairGeneratorRSA.java"
 import java.security.*;
@@ -55,7 +55,7 @@ public class KeyPairGeneratorRSA {
     Using 'RSA' key sizes less than '2048' bits is considered vulnerable to attacks.
     ```
 
-## Remediation
+# Remediation
 
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
@@ -76,10 +76,11 @@ public class KeyPairGeneratorRSA {
 }
 ```
 
-## See also
+# See also
 
-- [KeyPairGenerator (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/KeyPairGenerator.html)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+!!! info
+    - [KeyPairGenerator (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/KeyPairGenerator.html)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
 _New in version 0.5.0_
 

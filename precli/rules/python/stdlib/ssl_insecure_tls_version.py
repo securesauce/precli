@@ -27,7 +27,7 @@ protocols:
   using the `ssl.PROTOCOL_TLS_SERVER` or `ssl.PROTOCOL_TLS_CLIENT` protocol
   instead.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="get_server_certificate_sslv2.py"
 import ssl
@@ -44,7 +44,7 @@ ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_SSLv2)
     The 'ssl.PROTOCOL_SSLv2' protocol has insufficient encryption strength.
     ```
 
-## Remediation
+# Remediation
 
 If you need to connect to a server over HTTPS, you should use the
 `ssl.PROTOCOL_TLS_SERVER` or `ssl.PROTOCOL_TLS_CLIENT` protocol instead.
@@ -58,10 +58,11 @@ import ssl
 ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2)
 ```
 
-## See also
+# See also
 
-- [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+!!! info
+    - [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
 _New in version 0.1.0_
 

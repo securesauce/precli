@@ -14,7 +14,7 @@ crafted input, this can lead to an exponential number of combinations
 being checked, severely impacting application performance and potentially
 causing it to hang or crash.
 
-## Examples
+# Examples
 
 ```python linenums="1" hl_lines="5" title="re_compile.py"
 import re
@@ -33,7 +33,7 @@ reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")
     The call to 're.compile'' with regex pattern 'r"([A-Fa-f0-9:]+:+)+[A-Fa-f0-9]+"'' is susceptible to catastrophic backtracking and may cause performance degradation.
     ```
 
-## Remediation
+# Remediation
 
 When using Python's re module to compile or match regular expressions, ensure
 that patterns are designed to avoid ambiguous repetition and nested
@@ -49,11 +49,12 @@ reg = re.compile(IPv6address)
 reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")
 ```
 
-## See also
+# See also
 
-- [re — Regular expression operations](https://docs.python.org/3/library/re.html)
-- [Regular expression Denial of Service - ReDoS OWASP Foundation](https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS)
-- [CWE-1333: Inefficient Regular Expression Complexity](https://cwe.mitre.org/data/definitions/1333.html)
+!!! info
+    - [re — Regular expression operations](https://docs.python.org/3/library/re.html)
+    - [Regular expression Denial of Service - ReDoS OWASP Foundation](https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS)
+    - [CWE-1333: Inefficient Regular Expression Complexity](https://cwe.mitre.org/data/definitions/1333.html)
 
 _New in version 0.3.14_
 

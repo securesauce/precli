@@ -29,7 +29,7 @@ Note that DSA is not as commonly used as RSA or ECC for new applications, and
 ECDSA (Elliptic Curve Digital Signature Algorithm) is often preferred due to
 its efficiency and strong security properties.
 
-## Example
+# Example
 
 ```go linenums="1" hl_lines="13" title="crypto_weak_key_rsa_1024.go"
 package main
@@ -76,7 +76,7 @@ func main() {
     Using 'RSA' key sizes less than '2048' bits is considered vulnerable to attacks.
     ```
 
-## Remediation
+# Remediation
 
 Its recommended to increase the key size to at least 2048 for DSA and RSA
 algorithms.
@@ -118,11 +118,12 @@ func main() {
 }
 ```
 
-## See also
+# See also
 
-- [dsa package - crypto_dsa - Go Packages](https://pkg.go.dev/crypto/dsa#ParameterSizes)
-- [rsa package - crypto_rsa - Go Packages](https://pkg.go.dev/crypto/rsa#GenerateKey)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+!!! info
+    - [dsa package - crypto_dsa - Go Packages](https://pkg.go.dev/crypto/dsa#ParameterSizes)
+    - [rsa package - crypto_rsa - Go Packages](https://pkg.go.dev/crypto/rsa#GenerateKey)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
 _New in version 0.2.1_
 

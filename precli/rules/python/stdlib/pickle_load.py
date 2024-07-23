@@ -11,7 +11,7 @@ example, an attacker could create a pickle file that contains malicious code
 and then trick a user into opening the file. When the user opens the file,
 the malicious code would be executed.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="9" title="pickle_loads.py"
 import pickle
@@ -38,7 +38,7 @@ loaded_object = load_pickle_file(pickle_file)
     Potential unsafe usage of 'pickle.loads' that can allow instantiation of arbitrary objects.
     ```
 
-## Remediation
+# Remediation
 
 Consider signing data with hmac if you need to ensure that pickle data has
 not been tampered with.
@@ -47,11 +47,12 @@ Alternatively if you need to serialize sensitive data, you could use a
 secure serialization format, such as JSON or XML. These formats are designed
 to be secure and cannot be used to execute malicious code.
 
-## See also
+# See also
 
-- [pickle — Python object serialization](https://docs.python.org/3/library/pickle.html)
-- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
-- [json — JSON encoder and decoder](https://docs.python.org/3/library/json.html)
+!!! info
+    - [pickle — Python object serialization](https://docs.python.org/3/library/pickle.html)
+    - [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+    - [json — JSON encoder and decoder](https://docs.python.org/3/library/json.html)
 
 _New in version 0.1.0_
 

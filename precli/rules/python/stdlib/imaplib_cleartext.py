@@ -11,7 +11,7 @@ to intercept and read this data.
 The Python module imaplib should only in a secure mannner to protect sensitive
 data when accessing IMAP servers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5 6" title="imaplib_imap4_login.py"
 import getpass
@@ -37,7 +37,7 @@ M.logout()
     The 'imaplib.IMAP4.login' function will transmit authentication information such as a user, password in cleartext.
     ```
 
-## Remediation
+# Remediation
 
 If the IMAP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `IMAP4_SSL` class.
@@ -59,10 +59,11 @@ M.close()
 M.logout()
 ```
 
-## See also
+# See also
 
-- [imaplib — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+!!! info
+    - [imaplib — IMAP4 protocol client](https://docs.python.org/3/library/imaplib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
 _New in version 0.1.9_
 

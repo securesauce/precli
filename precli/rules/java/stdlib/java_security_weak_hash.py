@@ -14,7 +14,7 @@ The SHA-1 hash algorithm is also a cryptographic hash function that was
 designed in the early 1990s. SHA-1 is no longer considered secure, and
 passwords hashed with SHA-1 can be easily cracked by attackers.
 
-## Example
+# Example
 
 ```java linenums="1" hl_lines="6" title="MessageDigestMD5.java"
 import java.security.*;
@@ -38,7 +38,7 @@ public class MessageDigestMD5 {
     The hash function 'MD5' is vulnerable to collision and pre-image attacks.
     ```
 
-## Remediation
+# Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA-256` or `SHA-512`.
@@ -57,11 +57,12 @@ public class MessageDigestSHA256 {
 }
 ```
 
-## See also
+# See also
 
-- [MessageDigest (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String))
-- [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
-- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
+!!! info
+    - [MessageDigest (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html#getInstance(java.lang.String))
+    - [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
+    - [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 
 _New in version 0.5.0_
 

@@ -13,7 +13,7 @@ contain sensitive data. There are a number of alternatives to ftplib that
 provide security features. These alternatives should be used instead of
 ftplib for accessing sensitive data.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4 5" title="ftplib_ftp_login.py"
 import ftplib
@@ -40,7 +40,7 @@ ftp.quit()
     The 'ftplib.FTP.login' function will transmit the password argument in cleartext.
     ```
 
-## Remediation
+# Remediation
 
 If the FTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `FTP_TLS` class. It's also
@@ -60,7 +60,7 @@ ftp.retrlines("LIST")
 ftp.quit()
 ```
 
-## Alternatives to ftplib
+# Alternatives to ftplib
 
 There are a number of alternatives to ftplib that provide security features.
 These alternatives include:
@@ -75,10 +75,11 @@ These alternatives include:
 
 ## See also
 
-- [ftplib — FTP protocol client](https://docs.python.org/3/library/ftplib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
-- [Paramiko](https://www.paramiko.org/)
-- [Twisted](https://twisted.org/)
+!!! info
+    - [ftplib — FTP protocol client](https://docs.python.org/3/library/ftplib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+    - [Paramiko](https://www.paramiko.org/)
+    - [Twisted](https://twisted.org/)
 
 _New in version 0.1.0_
 

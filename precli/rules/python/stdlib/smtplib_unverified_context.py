@@ -14,7 +14,7 @@ opening your application up to a number of security risks, including:
 - Session hijacking
 - Data theft
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="25" title="smtplib_smtp_ssl_context_unset.py"
 import smtplib
@@ -56,7 +56,7 @@ server.quit()
     The 'smtplib.SMTP_SSL' function does not properly validate certificates when context is unset or None.
     ```
 
-## Remediation
+# Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
@@ -97,12 +97,13 @@ server.sendmail(fromaddr, toaddrs, msg)
 server.quit()
 ```
 
-## See also
+# See also
 
-- [smtplib.SMTP_SSL — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL)
-- [smtplib.SMTP.starttls — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP.starttls)
-- [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
-- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
+!!! info
+    - [smtplib.SMTP_SSL — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL)
+    - [smtplib.SMTP.starttls — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP.starttls)
+    - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
+    - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
 _New in version 0.3.14_
 

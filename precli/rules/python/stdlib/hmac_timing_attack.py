@@ -21,7 +21,7 @@ The `hmac.compare_digest()` function is designed to be used for cryptographic
 comparisons. It works by comparing the binary representations of two HMAC
 digests. This makes it more resistant to timing attacks.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="13" title="hmac_timing_attack.py"
 import hmac
@@ -47,7 +47,7 @@ print(digest == received_digest)
     Comparing digests with the '==' operator is vulnerable to timing attacks.
     ```
 
-## Remediation
+# Remediation
 
 The recommendation is to replace the == operator with the function
 `compare_digest`.
@@ -68,10 +68,11 @@ digest = hmac.digest(key, password, digest="sha224")
 print(hmac.compare_digest(digest, received_digest))
 ```
 
-## See also
+# See also
 
-- [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
-- [CWE-208: Observable Timing Discrepancy](https://cwe.mitre.org/data/definitions/208.html)
+!!! info
+    - [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
+    - [CWE-208: Observable Timing Discrepancy](https://cwe.mitre.org/data/definitions/208.html)
 
 _New in version 0.1.4_
 

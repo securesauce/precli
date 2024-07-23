@@ -11,7 +11,7 @@ to intercept and read this data.
 The Python module poplib should only in a secure mannner to protect sensitive
 data when accessing POP servers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5 6" title="poplib_pop3_pass_.py"
 import getpass
@@ -34,7 +34,7 @@ for i in range(numMessages):
     The 'poplib.POP3.pass_' function will transmit authentication information such as a user, password in cleartext.
     ```
 
-## Remediation
+# Remediation
 
 If the POP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `POP3_SSL` class.
@@ -54,10 +54,11 @@ for i in range(numMessages):
         print(j)
 ```
 
-## See also
+# See also
 
-- [poplib — POP3 protocol client](https://docs.python.org/3/library/poplib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+!!! info
+    - [poplib — POP3 protocol client](https://docs.python.org/3/library/poplib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
 _New in version 0.1.9_
 

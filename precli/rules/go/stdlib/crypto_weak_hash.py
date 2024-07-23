@@ -15,7 +15,7 @@ The SHA-1 hash algorithm is also a cryptographic hash function that was
 designed in the early 1990s. SHA-1 is no longer considered secure, and
 passwords hashed with SHA-1 can be easily cracked by attackers.
 
-## Example
+# Example
 
 
 ```go linenums="1" hl_lines="4 9" title="crypto_weak_hash_md5_new.go"
@@ -41,7 +41,7 @@ func main() {
     Use of weak hash function 'crypto/md5.New' does not meet security expectations.
     ```
 
-## Remediation
+# Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `sha256` or `sha512`.
@@ -61,12 +61,13 @@ func main() {
 }
 ```
 
-## See also
+# See also
 
-- [md5 package - crypto_md5 - Go Packages](https://pkg.go.dev/crypto/md5)
-- [sha1 package - crypto_sha1 - Go Packages](https://pkg.go.dev/crypto/sha1)
-- [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
-- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
+!!! info
+    - [md5 package - crypto_md5 - Go Packages](https://pkg.go.dev/crypto/md5)
+    - [sha1 package - crypto_sha1 - Go Packages](https://pkg.go.dev/crypto/sha1)
+    - [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
+    - [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 
 _New in version 0.2.1_
 

@@ -15,7 +15,7 @@ This requirement ensures that the generated tokens have a strong level of
 cryptographic security, reducing the risk of unauthorized access through
 token prediction or brute-force attacks.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="secrets_token_bytes.py"
 import secrets
@@ -32,7 +32,7 @@ token = secrets.token_bytes(4)
     A token size of '4' is less than the recommended '32' bytes, which can be vulnerable to brute-force attacks.
     ```
 
-## Remediation
+# Remediation
 
 Its recommended to increase the token size to at least 32 bytes or leave
 the `nbytes` parameter unset or set to None to use a default entropy.
@@ -44,10 +44,11 @@ import secrets
 token = secrets.token_bytes()
 ```
 
-## See also
+# See also
 
-- [secrets — Generate secure random numbers for managing secrets](https://docs.python.org/3/library/secrets.html#generating-tokens)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+!!! info
+    - [secrets — Generate secure random numbers for managing secrets](https://docs.python.org/3/library/secrets.html#generating-tokens)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
 _New in version 0.3.14_
 

@@ -10,7 +10,7 @@ However, it is important to be aware that the shelve module is not secure
 against malicious data. For example, a malicious shelf could be used to
 cause the decoder to execute arbitrary code.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="shelve_open_context_mgr.py"
 import shelve
@@ -28,17 +28,18 @@ with shelve.open("db.dat") as db:
     Potential unsafe usage of 'shelve.open' that can allow instantiation of arbitrary objects.
     ```
 
-## Remediation
+# Remediation
 
 To avoid this vulnerability, it is important to only use the shelve module
 with data from trusted sources. If you are using the shelve module with
 data from an untrusted source, you should first sanitize the data to remove
 any potential malicious code.
 
-## See also
+# See also
 
-- [shelve — Python object persistence](https://docs.python.org/3/library/shelve.html)
-- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+!!! info
+    - [shelve — Python object persistence](https://docs.python.org/3/library/shelve.html)
+    - [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
 
 _New in version 0.1.0_
 
