@@ -8,7 +8,7 @@ logged in various places, such as web server logs, browser history, and network
 monitoring tools, making the sensitive information vulnerable to unauthorized
 access.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="7" title="http_url_secret_apikey.py"
 import http.client
@@ -30,7 +30,7 @@ response = conn.getresponse()
     Secrets in URLs are vulnerable to unauthorized access.
     ```
 
-## Remediation
+# Remediation
 
 To avoid this vulnerability, put sensitive information in the request as
 headers, rather than a parameter of the URL.
@@ -49,11 +49,12 @@ conn.request("GET", "/path?otherParam=123", headers=headers)
 response = conn.getresponse()
 ```
 
-## See also
+# See also
 
-- [http.client — HTTP protocol client](https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection.request)
-- [CWE-598: Use of GET Request Method With Sensitive Query Strings](https://cwe.mitre.org/data/definitions/598.html)
-- [Never Put Secrets in URLs and Query Parameters](https://www.fullcontact.com/blog/2016/04/29/never-put-secrets-urls-query-parameters/)
+!!! info
+    - [http.client — HTTP protocol client](https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection.request)
+    - [CWE-598: Use of GET Request Method With Sensitive Query Strings](https://cwe.mitre.org/data/definitions/598.html)
+    - [Never Put Secrets in URLs and Query Parameters](https://www.fullcontact.com/blog/2016/04/29/never-put-secrets-urls-query-parameters/)
 
 _New in version 0.3.4_
 

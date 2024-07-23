@@ -20,7 +20,7 @@ least equal to the digest size of the hash function being used. This
 compliance requirement helps maintain the cryptographic strength of the
 HMAC and protects the integrity of the message authentication process.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="6 8" title="hmac_new_weak_key_hashlib_sha3_384.py"
 import hashlib
@@ -41,7 +41,7 @@ hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
     The given key is only '32' bytes which is insufficient for the 'hashlib.sha3_384' algorithm.
     ```
 
-## Remediation
+# Remediation
 
 Adjust the key size to be at least the size of the digest.
 
@@ -56,11 +56,12 @@ message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 ```
 
-## See also
+# See also
 
-- [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
-- [secrets — Generate secure random numbers for managing secrets](https://docs.python.org/3/library/secrets.html#generating-tokens)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+!!! info
+    - [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
+    - [secrets — Generate secure random numbers for managing secrets](https://docs.python.org/3/library/secrets.html#generating-tokens)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
 
 _New in version 0.4.3_
 

@@ -7,7 +7,7 @@ Python objects. However, it is important to be aware that malicious data
 can be used to attack applications that use the marshal module. For example,
 a malicious data could be used to cause the decoder to execute arbitrary code.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="10" title="marshal_load.py"
 import marshal
@@ -30,16 +30,17 @@ with open('data.dat', 'rb') as f:
     Potential unsafe usage of 'marshal.load' that can allow instantiation of arbitrary objects.
     ```
 
-## Remediation
+# Remediation
 
 To avoid this vulnerability, it is important to only deserialize data from
 trusted sources. If you are deserializing data from an untrusted source,
 you should first sanitize the data to remove any potential malicious code.
 
-## See also
+# See also
 
-- [marshal — Internal Python object serialization](https://docs.python.org/3/library/marshal.html)
-- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+!!! info
+    - [marshal — Internal Python object serialization](https://docs.python.org/3/library/marshal.html)
+    - [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
 
 _New in version 0.1.0_
 

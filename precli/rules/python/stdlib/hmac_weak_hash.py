@@ -26,7 +26,7 @@ The SHA-1 hash algorithm is also a cryptographic hash function that was
 designed in the early 1990s. SHA-1 is no longer considered secure, and MACs
 created with SHA-1 can be easily cracked by attackers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="6" title="hmac_new_digestmod_md5.py"
 import hmac
@@ -45,7 +45,7 @@ hmac.new(key, msg=message, digestmod="md5")
     The hash function 'md5' is vulnerable to collision and pre-image attacks.
     ```
 
-## Remediation
+# Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256`, `SHA-384`, or `SHA512`.
@@ -59,11 +59,12 @@ message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod="sha256")
 ```
 
-## See also
+# See also
 
-- [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
-- [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
-- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
+!!! info
+    - [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
+    - [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
+    - [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 
 _New in version 0.1.0_
 

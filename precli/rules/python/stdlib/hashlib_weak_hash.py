@@ -26,7 +26,7 @@ The SHA-1 hash algorithm is also a cryptographic hash function that was
 designed in the early 1990s. SHA-1 is no longer considered secure, and
 passwords hashed with SHA-1 can be easily cracked by attackers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="hashlib_md5.py"
 import hashlib
@@ -43,7 +43,7 @@ hashlib.md5()
     The hash function 'hashlib.md5' is vulnerable to collision and pre-image attacks.
     ```
 
-## Remediation
+# Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256` or `SHA512`.
@@ -68,11 +68,12 @@ hash = hashlib.md5(b"Non-security related text", usedforsecurity=False)
 hash.hexdigest()
 ```
 
-## See also
+# See also
 
-- [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
-- [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
-- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
+!!! info
+    - [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+    - [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
+    - [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 
 _New in version 0.1.0_
 

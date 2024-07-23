@@ -58,7 +58,7 @@ Instead, it is advisable to use stronger, more secure cryptographic algorithms
 and adhere to industry best practices and regulatory requirements for
 encryption and security.
 
-## Example
+# Example
 
 ```go linenums="1" hl_lines="4 14" title="crypto_weak_cipher_des.go"
 package main
@@ -89,7 +89,7 @@ func main() {
     Weak ciphers like 'crypto/des.NewTripleDESCipher' should be avoided due to their known vulnerabilities and weaknesses.
     ```
 
-## Remediation
+# Remediation
 
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
@@ -111,11 +111,12 @@ func main() {
 }
 ```
 
-## See also
+# See also
 
-- [des package - crypto_des - Go Packages](https://pkg.go.dev/crypto/des)
-- [rc4 package - crypto_rc4 - Go Packages](https://pkg.go.dev/crypto/rc4)
-- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
+!!! info
+    - [des package - crypto_des - Go Packages](https://pkg.go.dev/crypto/des)
+    - [rc4 package - crypto_rc4 - Go Packages](https://pkg.go.dev/crypto/rc4)
+    - [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
 
 _New in version 0.2.1_
 

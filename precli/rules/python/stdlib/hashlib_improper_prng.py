@@ -20,7 +20,7 @@ of randomness. Python provides the `secrets` module for generating secure
 random numbers suitable for security-sensitive applications, including key
 generation and creating salts for hashing functions.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="2 6 7" title="hashlib_improper_prng_scrypt.py"
 import hashlib
@@ -40,7 +40,7 @@ hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)
     The 'random.randbytes' pseudo-random generator should not be used for security purposes.
     ```
 
-## Remediation
+# Remediation
 
 For security or cryptographic uses use a secure pseudo-random generator such
 as `os.urandom()` or `secrets.token_bytes()`.
@@ -55,12 +55,13 @@ salt = os.urandom(16)
 hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)
 ```
 
-## See also
+# See also
 
-- [random — Generate pseudo-random numbers](https://docs.python.org/3/library/random.html#random.randbytes)
-- [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
-- [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#ssl.RAND_bytes)
-- [CWE-330: Use of Insufficiently Random Values](https://cwe.mitre.org/data/definitions/330.html)
+!!! info
+    - [random — Generate pseudo-random numbers](https://docs.python.org/3/library/random.html#random.randbytes)
+    - [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+    - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#ssl.RAND_bytes)
+    - [CWE-330: Use of Insufficiently Random Values](https://cwe.mitre.org/data/definitions/330.html)
 
 _New in version 0.4.3_
 

@@ -18,7 +18,7 @@ applications, curves like NIST P-256 (secp256r1) with a 256-bit key size
 are considered secure. Larger curves, like NIST P-384 or P-521, can provide
 even higher security margins.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5" title="ssl_context_set_ecdh_curve_prime192v1.py"
 import ssl
@@ -36,7 +36,7 @@ context.set_ecdh_curve("prime192v1")
     Using 'EC' key sizes less than '224' bits is considered vulnerable to attacks.
     ```
 
-## Remediation
+# Remediation
 
 Its recommended to increase the key size to at least 224 EC algorithms.
 
@@ -48,11 +48,12 @@ context = ssl.SSLContext()
 context.set_ecdh_curve("prime256v1")
 ```
 
-## See also
+# See also
 
-- [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#ssl.SSLContext.set_ecdh_curve)
-- [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
-- [Transport Layer Security (TLS) Parameters](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8)
+!!! info
+    - [ssl — TLS/SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#ssl.SSLContext.set_ecdh_curve)
+    - [CWE-326: Inadequate Encryption Strength](https://cwe.mitre.org/data/definitions/326.html)
+    - [Transport Layer Security (TLS) Parameters](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8)
 
 _New in version 0.2.3_
 

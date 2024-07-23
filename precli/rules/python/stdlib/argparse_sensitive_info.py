@@ -2,12 +2,14 @@
 r"""
 # Invocation of Process Using Visible Sensitive Information in `argparse`
 
+---
+
 Do not read secrets directly from command line arguments. When a command
 accepts a secret like via a `--password` argument or `--api-key`, the argument
 value will leak the secret into ps output and shell history. This also
 encourages the use of insecure environment variables for secrets.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="15-21" title="argparse_add_argument_password.py"
 import argparse
@@ -41,7 +43,7 @@ parser.add_argument(
     Secrets in CLI arguments are leaked to command history, logs, ps output, etc.
     ```
 
-## Remediation
+# Remediation
 
 Consider accepting sensitive data only from an interactive hidden prompt or
 via files. A --password-file argument allows a secret to be passed in
@@ -64,10 +66,11 @@ parser.add_argument(
 )
 ```
 
-## See also
+# See also
 
-- [argparse — Parser for command-line options, arguments and sub-commands](https://docs.python.org/3/library/argparse.html)
-- [CWE-214: Invocation of Process Using Visible Sensitive Information](https://cwe.mitre.org/data/definitions/214.html)
+!!! info
+    - [argparse — Parser for command-line options, arguments and sub-commands](https://docs.python.org/3/library/argparse.html)
+    - [CWE-214: Invocation of Process Using Visible Sensitive Information](https://cwe.mitre.org/data/definitions/214.html)
 
 _New in version 0.3.14_
 

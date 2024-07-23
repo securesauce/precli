@@ -17,7 +17,7 @@ not adequately secured or if the binding is unintended. Restricting the socket
 to listen on specific interfaces limits the exposure and reduces the attack
 surface.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5" title="socket_socket_bind.py"
 import socket
@@ -36,7 +36,7 @@ s.listen()
     Binding to 'INADDR_ANY (0.0.0.0)' exposes the application on all network interfaces, increasing the risk of unauthorized access.
     ```
 
-## Remediation
+# Remediation
 
 All socket bindings MUST specify a specific network interface or localhost
 (127.0.0.1/localhost for IPv4, ::1 for IPv6) unless the application is
@@ -52,11 +52,12 @@ s.bind(("127.0.0.1", 8080))
 s.listen()
 ```
 
-## See also
+# See also
 
-- [socket.create_server — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.create_server)
-- [socket.socket.bind — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.socket.bind)
-- [CWE-1327: Binding to an Unrestricted IP Address](https://cwe.mitre.org/data/definitions/1327.html)
+!!! info
+    - [socket.create_server — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.create_server)
+    - [socket.socket.bind — Low-level networking interface](https://docs.python.org/3/library/socket.html#socket.socket.bind)
+    - [CWE-1327: Binding to an Unrestricted IP Address](https://cwe.mitre.org/data/definitions/1327.html)
 
 _New in version 0.3.14_
 

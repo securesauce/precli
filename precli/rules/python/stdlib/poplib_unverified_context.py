@@ -14,7 +14,7 @@ opening your application up to a number of security risks, including:
 - Session hijacking
 - Data theft
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5" title="poplib_pop3_ssl_context_unset.py"
 import getpass
@@ -38,7 +38,7 @@ for i in range(numMessages):
     The 'poplib.POP3_SSL' function does not properly validate certificates when context is unset or None.
     ```
 
-## Remediation
+# Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
@@ -61,12 +61,13 @@ for i in range(numMessages):
         print(j)
 ```
 
-## See also
+# See also
 
-- [poplib.POP3_SSL — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3_SSL)
-- [poplib.POP3.stls — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3.stls)
-- [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
-- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
+!!! info
+    - [poplib.POP3_SSL — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3_SSL)
+    - [poplib.POP3.stls — POP3 protocol client](https://docs.python.org/3/library/poplib.html#poplib.POP3.stls)
+    - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
+    - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
 _New in version 0.3.14_
 

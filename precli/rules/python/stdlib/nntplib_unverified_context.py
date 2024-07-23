@@ -14,7 +14,7 @@ opening your application up to a number of security risks, including:
 - Session hijacking
 - Data theft
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="nntplib_nntp_ssl_context_unset.py"
 import nntplib
@@ -35,7 +35,7 @@ s.quit()
     The 'nntplib.NNTP_SSL' function does not properly validate certificates when context is unset or None.
     ```
 
-## Remediation
+# Remediation
 
 Set the value of the `context` keyword argument to
 `ssl.create_default_context()` to ensure the connection is fully verified.
@@ -55,12 +55,13 @@ s.post(f)
 s.quit()
 ```
 
-## See also
+# See also
 
-- [nntplib.NNTP_SSL — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP_SSL)
-- [nntplib.NNTP.starttls — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP.starttls)
-- [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
-- [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
+!!! info
+    - [nntplib.NNTP_SSL — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP_SSL)
+    - [nntplib.NNTP.starttls — NNTP protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP.starttls)
+    - [ssl — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/ssl.html#best-defaults)
+    - [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html)
 
 _New in version 0.3.14_
 

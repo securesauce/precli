@@ -58,7 +58,7 @@ vulnerabilities and weaknesses. Instead, it is advisable to use stronger,
 more secure cryptographic algorithms and adhere to industry best practices
 and regulatory requirements for encryption and security.
 
-## Example
+# Example
 
 ```java linenums="1" hl_lines="9" title="CipherDESCBC.java"
 import java.security.NoSuchAlgorithmException;
@@ -87,7 +87,7 @@ public class Example {
     Weak ciphers like 'DES' should be avoided due to their known vulnerabilities and weaknesses.
     ```
 
-## Remediation
+# Remediation
 
 It is advisable to use stronger, more secure cryptographic algorithms such as
 AES.
@@ -111,11 +111,12 @@ public class Example {
 }
 ```
 
-## See also
+# See also
 
-- [Cipher (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html#getInstance(java.lang.String))
-- [Java Security Standard Algorithm Names](https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms)
-- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
+!!! info
+    - [Cipher (Java SE & JDK)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html#getInstance(java.lang.String))
+    - [Java Security Standard Algorithm Names](https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms)
+    - [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
 
 _New in version 0.5.0_
 

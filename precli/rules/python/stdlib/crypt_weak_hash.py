@@ -19,7 +19,7 @@ cracked by attackers.
 If using the crypt module, it is recommended to use more secure methods such
 as `SHA256` and `SHA512`.
 
-## Examples
+# Examples
 
 === "crypt.crypt"
 
@@ -55,7 +55,7 @@ as `SHA256` and `SHA512`.
         Use of weak hash function 'crypt.METHOD_CRYPT' does not meet security expectations.
         ```
 
-## Remediation
+# Remediation
 
 The recommendation is to swap the insecure hashing method to one of the more
 secure alternatives, `SHA256` or `SHA512`.
@@ -78,7 +78,7 @@ secure alternatives, `SHA256` or `SHA512`.
     crypt.mksalt(crypt.METHOD_SHA512)
     ```
 
-## Alternatives to Crypt
+# Alternatives to Crypt
 
 There are a number of alternatives to weak hashing functions. These
 alternatives include `bcrypt`, `pbkdf2`, and `scrypt`.
@@ -97,9 +97,10 @@ alternatives include `bcrypt`, `pbkdf2`, and `scrypt`.
 
 ## See also
 
-- [crypt — Function to check Unix passwords](https://docs.python.org/3/library/crypt.html)
-- [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
-- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
+!!! info
+    - [crypt — Function to check Unix passwords](https://docs.python.org/3/library/crypt.html)
+    - [CWE-328: Use of Weak Hash](https://cwe.mitre.org/data/definitions/328.html)
+    - [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 
 _New in version 0.1.0_
 

@@ -20,7 +20,7 @@ production code, especially for input validation, error handling, or other
 security-sensitive operations, it's important to use proper error handling
 mechanisms and validations that do not get removed during optimization.
 
-## Examples
+# Examples
 
 ```python linenums="1" hl_lines="2" title="assert.py"
 def foobar(a: str = None):
@@ -38,7 +38,7 @@ foobar("World")
     Assert statements are disabled when optimizations are enabled.
     ```
 
-## Remediation
+# Remediation
 
 Use proper error handling mechanism appropriate for production code.
 
@@ -50,11 +50,12 @@ def foobar(a: str = None):
 foobar("World")
 ```
 
-## See also
+# See also
 
-- [Simple statements — Python documentation](https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement)
-- [CWE-617: Reachable Assertion](https://cwe.mitre.org/data/definitions/617.html)
-- [CWE-703: Improper Check or Handling of Exceptional Conditions](https://cwe.mitre.org/data/definitions/703.html)
+!!! info
+    - [Simple statements — Python documentation](https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement)
+    - [CWE-617: Reachable Assertion](https://cwe.mitre.org/data/definitions/617.html)
+    - [CWE-703: Improper Check or Handling of Exceptional Conditions](https://cwe.mitre.org/data/definitions/703.html)
 
 _New in version 0.3.8_
 

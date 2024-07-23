@@ -26,7 +26,7 @@ Here are some additional reasons why you should not use telnetlib:
 - It is not recommended by security experts. Security experts recommend
   using more secure protocols, such as SSH.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="2 9" title="telnetlib_telnet.py"
 import getpass
@@ -56,7 +56,7 @@ tn.write(b"exit\n")
     The 'telnetlib.Telnet' module transmits data in cleartext without encryption.
     ```
 
-## Remediation
+# Remediation
 
 If you need to access a remote system over a network, you should use a more
 secure protocol, such as SSH. SSH is a secure shell protocol that encrypts
@@ -82,7 +82,7 @@ channel = client.invoke_shell()
 client.close()
 ```
 
-## Alternatives to telnetlib
+# Alternatives to telnetlib
 
 There are a number of alternatives to ftplib that provide security features.
 These alternatives include:
@@ -95,12 +95,13 @@ These alternatives include:
    network protocols, including SSH. Twisted can be used to create secure
    SSH clients and servers.
 
-## See also
+# See also
 
-- [telnetlib — Telnet client](https://docs.python.org/3/library/telnetlib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
-- [Paramiko](https://www.paramiko.org/)
-- [Twisted](https://twisted.org/)
+!!! info
+    - [telnetlib — Telnet client](https://docs.python.org/3/library/telnetlib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+    - [Paramiko](https://www.paramiko.org/)
+    - [Twisted](https://twisted.org/)
 
 _New in version 0.1.0_
 

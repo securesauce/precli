@@ -11,7 +11,7 @@ to intercept and read this data.
 The Python module smtplib should only in a secure mannner to protect sensitive
 data when accessing SMTP servers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="24 25" title="smtplib_smtp_login.py"
 import smtplib
@@ -52,7 +52,7 @@ server.quit()
     The 'smtplib.SMTP.login' function will transmit authentication information such as a user, password in cleartext.
     ```
 
-## Remediation
+# Remediation
 
 If the SMTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `SMTP_SSL` class.
@@ -90,10 +90,11 @@ server.sendmail(fromaddr, toaddrs, msg)
 server.quit()
 ```
 
-## See also
+# See also
 
-- [smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+!!! info
+    - [smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
 _New in version 0.1.9_
 

@@ -9,7 +9,7 @@ threads attempt to create temporary files concurrently. These race conditions
 may lead to unintended behavior, data corruption, or security vulnerabilities
 in your code.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="4" title="tempfile_mktemp_args_with_open_args.py"
 import tempfile
@@ -30,7 +30,7 @@ with open(
     The function 'tempfile.mktemp' can allow insecure ways of creating temporary files and directories that can lead to race conditions.
     ```
 
-## Remediation
+# Remediation
 
 To ensure the reliability and security of your temporary file management,
 consider using NamedTemporaryFile. The tempfile.NamedTemporaryFile class
@@ -48,10 +48,11 @@ with open(
     f.write(b"Hello World!\n")
 ```
 
-## See also
+# See also
 
-- [tempfile — Generate temporary files and directories](https://docs.python.org/3/library/tempfile.html#tempfile.mktemp)
-- [CWE-377: Insecure Temporary File](https://cwe.mitre.org/data/definitions/377.html)
+!!! info
+    - [tempfile — Generate temporary files and directories](https://docs.python.org/3/library/tempfile.html#tempfile.mktemp)
+    - [CWE-377: Insecure Temporary File](https://cwe.mitre.org/data/definitions/377.html)
 
 _New in version 0.1.9_
 

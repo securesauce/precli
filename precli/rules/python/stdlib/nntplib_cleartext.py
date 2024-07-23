@@ -11,7 +11,7 @@ to intercept and read this data.
 The Python module nntplib should only in a secure mannner to protect sensitive
 data when accessing NNTP servers.
 
-## Example
+# Example
 
 ```python linenums="1" hl_lines="5" title="nntplib_nntp_context_mgr.py"
 import nntplib
@@ -30,7 +30,7 @@ with nntplib.NNTP("news.gmane.io") as n:
     The 'nntplib.NNTP.login' function will transmit authentication information such as a user, password  in cleartext.
     ```
 
-## Remediation
+# Remediation
 
 If the NNTP protocol must be used and sensitive data will be transferred, it
 is recommended to secure the connection using `NNTP_SSL` class.
@@ -45,10 +45,11 @@ with nntplib.NNTP_SSL('news.gmane.io') as n:
     n.group('gmane.comp.python.committers')
 ```
 
-## See also
+# See also
 
-- [nntplib — NNTP protocol client](https://docs.python.org/3/library/nntplib.html)
-- [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
+!!! info
+    - [nntplib — NNTP protocol client](https://docs.python.org/3/library/nntplib.html)
+    - [CWE-319: Cleartext Transmission of Sensitive Information](https://cwe.mitre.org/data/definitions/319.html)
 
 _New in version 0.1.9_
 

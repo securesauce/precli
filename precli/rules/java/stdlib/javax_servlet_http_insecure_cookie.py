@@ -16,7 +16,7 @@ transmitted over an insecure connection. To mitigate this risk, the Secure
 flag should be set on all cookies that are intended for HTTPS sites, ensuring
 they are only sent via secure connections.
 
-## Example
+# Example
 
 ```java linenums="1" hl_lines="7" title="CookieSecureFalse.java"
 import javax.servlet.http.Cookie;
@@ -38,7 +38,7 @@ public class SessionCookie {
     The cookie 'cookie' was found without the 'Secure' flag set.
     ```
 
-## Remediation
+# Remediation
 
 All cookies containing sensitive data or used in a secure context must have
 the Secure flag enabled. This practice ensures that the cookies are
@@ -57,10 +57,11 @@ public class SessionCookie {
 }
 ```
 
-## See also
+# See also
 
-- [Cookie (Java(TM) EE Specification APIs)](https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/Cookie.html)
-- [CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute (PRNG)](https://cwe.mitre.org/data/definitions/614.html)
+!!! info
+    - [Cookie (Java(TM) EE Specification APIs)](https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/Cookie.html)
+    - [CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute (PRNG)](https://cwe.mitre.org/data/definitions/614.html)
 
 _New in version 0.5.1_
 
