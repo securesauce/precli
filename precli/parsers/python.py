@@ -502,9 +502,16 @@ class Python(Parser):
                     # TODO: handle f-strings? (f"{a}")
                     value = nodetext
                 case tokens.INTEGER:
-                    # TODO: hex, octal, binary
+                    if nodetext.lower().startswith("0x"):
+                        base = 16
+                    elif nodetext.lower().startswith("0o"):
+                        base = 8
+                    elif nodetext.lower().startswith("0b"):
+                        base = 2
+                    else:
+                        base = 10
                     try:
-                        value = int(nodetext)
+                        value = int(nodetext, base)
                     except ValueError:
                         value = nodetext
                 case tokens.FLOAT:
