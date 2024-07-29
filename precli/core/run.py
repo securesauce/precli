@@ -30,7 +30,7 @@ from precli.rules import Rule
 
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
-parsers = loader.load_parsers()
+parsers = loader.load_extension(group="precli.parsers")
 
 
 def parse_file(
