@@ -20,12 +20,9 @@ from rich.progress import Progress
 from rich.progress import TextColumn
 
 import precli
+from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.run import Run
-from precli.renderers.detailed import Detailed
-from precli.renderers.json import Json
-from precli.renderers.markdown import Markdown
-from precli.renderers.plain import Plain
 
 
 BUSL_URL = "https://spdx.org/licenses/BUSL-1.1.html"
@@ -76,22 +73,29 @@ def setup_arg_parser():
         type=str,
         help="comma-separated list of rule IDs or names to disable",
     )
-    parser.add_argument(
+    render_grp = parser.add_mutually_exclusive_group()
+    render_grp.add_argument(
         "--json",
-        dest="json",
-        action="store_true",
+        dest="renderer",
+        action="store_const",
+        const="json",
+        default="detailed",
         help="render the output as formatted JSON",
     )
-    parser.add_argument(
+    render_grp.add_argument(
         "--plain",
-        dest="plain",
-        action="store_true",
+        dest="renderer",
+        action="store_const",
+        const="plain",
+        default="detailed",
         help="render the output in plain, tabular text",
     )
-    parser.add_argument(
+    render_grp.add_argument(
         "--markdown",
-        dest="markdown",
-        action="store_true",
+        dest="renderer",
+        action="store_const",
+        const="markdown",
+        default="detailed",
         help="render the output in markdown format",
     )
     parser.add_argument(
@@ -351,22 +355,12 @@ def main():
     run = Run(enabled, disabled, artifacts, console, debug)
     run.invoke()
 
-    if args.json is True:
-        renderer = "json"
-        json = Json(console)
-        json.render(run)
-    elif args.plain is True:
-        renderer = "plain"
-        plain = Plain(console)
-        plain.render(run)
-    elif args.markdown is True:
-        renderer = "markdown"
-        markdown = Markdown(console)
-        markdown.render(run)
-    else:
-        renderer = "detailed"
-        detailed = Detailed(console)
-        detailed.render(run)
+    # Render the results
+    render_ext = loader.load_extension(
+        group="precli.renderers", name=args.renderer
+    )
+    renderer = render_ext(console)
+    renderer.render(run)
 
     if file.name != sys.stdout.name:
         console.print(f"Output written to file: {file.name}")
