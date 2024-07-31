@@ -1,10 +1,10 @@
 # Copyright 2024 Secure Sauce LLC
-import warnings
+import importlib
 from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points
 
-import tree_sitter_languages
+import tree_sitter
 from tree_sitter import Node
 
 from precli.core.artifact import Artifact
@@ -28,16 +28,9 @@ class Parser(ABC):
     def __init__(self, lang: str):
         """Initialize a new parser."""
         self._lexer = lang
-
-        # Suppress the following warning from tree-sitter
-        # FutureWarning: Language(path, name) is deprecated. Use
-        # Language(ptr, name) instead.
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", FutureWarning)
-            self.tree_sitter_language = tree_sitter_languages.get_language(
-                lang
-            )
-            self.tree_sitter_parser = tree_sitter_languages.get_parser(lang)
+        tree_sitter_lang = importlib.import_module(f"tree_sitter_{lang}")
+        language = tree_sitter.Language(tree_sitter_lang.language())
+        self.tree_sitter_parser = tree_sitter.Parser(language)
         self.rules = {}
         self.wildcards = {}
 
