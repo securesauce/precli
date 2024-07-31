@@ -1,8 +1,10 @@
 Pygments==2.18.0
 rich==13.7.1
-tree-sitter==0.21.3
-tree-sitter-languages==1.10.2
+tree-sitter==0.22.3
 ignorelib==0.3.0
 requests==2.32.3
 sarif-om==1.0.4
 jschema-to-python==1.2.3
+git+https://github.com/tree-sitter/tree-sitter-go@v0.21.0
+git+https://github.com/tree-sitter/tree-sitter-java@v0.21.0
+git+https://github.com/tree-sitter/tree-sitter-python@v0.21.0
