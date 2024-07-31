@@ -9,6 +9,12 @@ To install precli:
 pip install precli
 ```
 
+Note: If using arm based macOS, you'll also need to install this package:
+
+```
+pip install git+https://github.com/tree-sitter/tree-sitter-python@v0.21.0
+```
+
 ## Usage
 
 Run precli on a single test example:
