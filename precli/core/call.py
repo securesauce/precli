@@ -1,4 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
+from typing import Optional
+
 from tree_sitter import Node
 
 from precli.core.argument import Argument
@@ -11,12 +13,12 @@ class Call:
         node: Node,
         name: str,
         name_qual: str,
-        func_node: Node = None,
-        var_node: Node = None,
-        ident_node: Node = None,
-        arg_list_node: Node = None,
-        args: list = None,
-        kwargs: dict = None,
+        func_node: Optional[Node] = None,
+        var_node: Optional[Node] = None,
+        ident_node: Optional[Node] = None,
+        arg_list_node: Optional[Node] = None,
+        args: Optional[list] = None,
+        kwargs: Optional[dict] = None,
     ):
         self._node = node
         self._name = name
@@ -34,7 +36,7 @@ class Call:
         return self._node
 
     @property
-    def var_node(self) -> Node:
+    def var_node(self) -> Optional[Node]:
         """
         The node representing the variable part of a function call.
 
@@ -45,7 +47,7 @@ class Call:
         return self._var_node
 
     @property
-    def function_node(self) -> Node:
+    def function_node(self) -> Optional[Node]:
         """
         The node representing the entire function of the call.
 
@@ -56,7 +58,7 @@ class Call:
         return self._func_node
 
     @property
-    def identifier_node(self) -> Node:
+    def identifier_node(self) -> Optional[Node]:
         """
         The node representing just the identifier of the function.
 
@@ -77,7 +79,7 @@ class Call:
         return self._name_qual
 
     @property
-    def arg_list_node(self) -> Node:
+    def arg_list_node(self) -> Optional[Node]:
         return self._arg_list_node
 
     def get_argument(

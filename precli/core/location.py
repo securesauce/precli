@@ -1,11 +1,13 @@
 # Copyright 2024 Secure Sauce LLC
+from typing import Optional
+
 from tree_sitter import Node
 
 
 class Location:
     def __init__(
         self,
-        node: Node = None,
+        node: Optional[Node] = None,
         start_line: int = 0,
         end_line: int = -1,
         start_column: int = 1,

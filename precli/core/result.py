@@ -1,4 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
+from typing import Optional
+
 from precli.core.artifact import Artifact
 from precli.core.fix import Fix
 from precli.core.kind import Kind
@@ -14,13 +16,13 @@ class Result:
         self,
         rule_id: str,
         location: Location,
-        artifact: Artifact = None,
+        artifact: Optional[Artifact] = None,
         kind: Kind = Kind.FAIL,
-        level: Level = None,
-        message: str = None,
-        fixes: list[Fix] = None,
-        suppression: Suppression = None,
-        snippet: str = None,
+        level: Optional[Level] = None,
+        message: Optional[str] = None,
+        fixes: Optional[list[Fix]] = None,
+        suppression: Optional[Suppression] = None,
+        snippet: Optional[str] = None,
     ):
         self._rule_id = rule_id
         self._artifact = artifact
@@ -70,7 +72,7 @@ class Result:
         return self._rule_id
 
     @property
-    def artifact(self) -> Artifact:
+    def artifact(self) -> Optional[Artifact]:
         """Artifact, typically the file."""
         return self._artifact
 
@@ -133,7 +135,7 @@ class Result:
         return self._fixes if self._suppression is None else []
 
     @property
-    def suppression(self) -> Suppression:
+    def suppression(self) -> Optional[Suppression]:
         """Possible suppressions of the result."""
         return self._suppression
 

@@ -1,4 +1,6 @@
 # Copyright 2023 Secure Sauce LLC
+from typing import Optional
+
 from precli.core.location import Location
 from precli.core.status import Status
 
@@ -10,7 +12,7 @@ class Suppression:
         rules: set[str],
         kind: str = "inSource",
         status: Status = Status.ACCEPTED,
-        justification: str = None,
+        justification: Optional[str] = None,
     ):
         self._location = location
         self._rules = rules
@@ -43,6 +45,6 @@ class Suppression:
         return self._status
 
     @property
-    def justification(self) -> str:
+    def justification(self) -> Optional[str]:
         """User-supplied string that explains why the result was suppressed."""
         return self._justification

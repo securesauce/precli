@@ -3,6 +3,7 @@ import importlib
 from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points
+from typing import Optional
 
 import tree_sitter
 from tree_sitter import Node
@@ -91,8 +92,8 @@ class Parser(ABC):
     def parse(
         self,
         artifact: Artifact,
-        enabled: list[str] = None,
-        disabled: list[str] = None,
+        enabled: Optional[list[str]] = None,
+        disabled: Optional[list[str]] = None,
     ) -> list[Result]:
         """File extension of files this parser can handle."""
         if enabled is not None:
