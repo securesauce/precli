@@ -1,4 +1,6 @@
 # Copyright 2023 Secure Sauce LLC
+from typing import Optional
+
 from precli.core.location import Location
 
 
@@ -7,7 +9,7 @@ class Fix:
         self,
         description: str,
         deleted_location: Location,
-        inserted_content: str = None,
+        inserted_content: Optional[str] = None,
     ):
         self._description = description
         self._deleted_location = deleted_location
@@ -24,6 +26,6 @@ class Fix:
         return self._deleted_location
 
     @property
-    def inserted_content(self) -> str:
+    def inserted_content(self) -> Optional[str]:
         """Content to insert at location specified by deleted_location."""
         return self._inserted_content

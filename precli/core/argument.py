@@ -1,4 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
+from typing import Optional
+
 from tree_sitter import Node
 
 from precli.core import utils
@@ -10,7 +12,7 @@ class Argument:
         self,
         node: Node,
         value,
-        name: str = None,
+        name: Optional[str] = None,
         position: int = -1,
     ):
         self._node = node

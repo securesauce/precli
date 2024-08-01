@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 from abc import ABC
+from typing import Optional
 
 from precli.core.config import Config
 from precli.core.cwe import Cwe
@@ -17,9 +18,9 @@ class Rule(ABC):
         description: str,
         cwe_id: int,
         message: str,
-        wildcards: dict[str, list[str]] = None,
-        config: Config = None,
-        help_url: str = None,
+        wildcards: Optional[dict[str, list[str]]] = None,
+        config: Optional[Config] = None,
+        help_url: Optional[str] = None,
     ):
         self._id = id
         self._name = name
@@ -113,7 +114,7 @@ class Rule(ABC):
         return self._message
 
     @property
-    def wildcards(self) -> dict[str, list[str]]:
+    def wildcards(self) -> Optional[dict[str, list[str]]]:
         """
         Mapping of wildcard imports to concrete modules.
 

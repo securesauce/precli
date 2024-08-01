@@ -1,8 +1,9 @@
 # Copyright 2024 Secure Sauce LLC
+from typing import Optional
 
 
 class Artifact:
-    def __init__(self, file_name: str, uri: str = None):
+    def __init__(self, file_name: str, uri: Optional[str] = None):
         self._file_name = file_name
         # TODO: if uri is None, use file:///
         self._uri = uri
@@ -21,7 +22,7 @@ class Artifact:
         self._file_name = file_name
 
     @property
-    def uri(self) -> str:
+    def uri(self) -> Optional[str]:
         """The URI of the artifact."""
         return self._uri
 
