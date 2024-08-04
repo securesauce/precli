@@ -17,7 +17,7 @@ class Artifact:
         return self._file_name
 
     @file_name.setter
-    def file_name(self, file_name):
+    def file_name(self, file_name: str):
         """Set the file name"""
         self._file_name = file_name
 
@@ -27,7 +27,7 @@ class Artifact:
         return self._uri
 
     @uri.setter
-    def uri(self, uri):
+    def uri(self, uri: str):
         """Set the artifact URI."""
         self._uri = uri
 
@@ -37,26 +37,26 @@ class Artifact:
         return self._encoding
 
     @encoding.setter
-    def encoding(self, encoding):
+    def encoding(self, encoding: str):
         """Set the encoding of the file."""
         self._encoding = encoding
 
     @property
-    def contents(self) -> str | None:
+    def contents(self) -> Optional[str]:
         """The contents of the artifact."""
         return self._contents
 
     @contents.setter
-    def contents(self, contents):
+    def contents(self, contents: str):
         """Set the contents (for typically the file)."""
         self._contents = contents
 
     @property
-    def language(self) -> str | None:
+    def language(self) -> Optional[str]:
         """The programming language for this artifact."""
         return self._language
 
     @language.setter
-    def language(self, language):
+    def language(self, language: str):
         """Set the programming language."""
         self._language = language
