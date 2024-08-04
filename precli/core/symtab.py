@@ -5,7 +5,7 @@ from precli.core.call import Call
 
 
 class SymbolTable:
-    def __init__(self, name, parent=None):
+    def __init__(self, name: str, parent=None):
         self._name = name
         self._parent = parent
         self._symbols = {}
@@ -46,7 +46,7 @@ class SymbolTable:
 
 
 class Symbol:
-    def __init__(self, name, type, value):
+    def __init__(self, name: str, type: str, value: str):
         self._name = name
         self._type = type
         self._value = value

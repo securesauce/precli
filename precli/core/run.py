@@ -79,8 +79,8 @@ def parse_file(
             Result(
                 f"{parser.rule_prefix()}000" if parser else "NO_RULE",
                 location=Location(
-                    start_line=e.lineno,
-                    end_line=e.lineno,
+                    start_line=e.lineno if e.lineno else 0,
+                    end_line=e.lineno if e.lineno else 0,
                 ),
                 artifact=artifact,
                 level=Level.ERROR,

@@ -19,7 +19,7 @@ class Config:
         return self._enabled
 
     @enabled.setter
-    def enabled(self, enabled):
+    def enabled(self, enabled: bool):
         """Set whether the rule is enabled"""
         self._enabled = enabled
 
