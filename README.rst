@@ -47,3 +47,9 @@ Example result:
       17
     ❱ 18 print(hmac.compare_digest(digest, received_digest))
       19
+
+Repo Activity
+-------------
+
+.. image:: https://repobeats.axiom.co/api/embed/e7b91dc06cef0f5076264bc799a37fc4b7eed186.svg
+    :alt: Repobeats analytics image
