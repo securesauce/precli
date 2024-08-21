@@ -59,9 +59,3 @@ Example result:
 
 .. image:: https://raw.githubusercontent.com/securesauce/precli/main/images/example.gif
     :alt: Example output
-
-Repo Activity
--------------
-
-.. image:: https://repobeats.axiom.co/api/embed/e7b91dc06cef0f5076264bc799a37fc4b7eed186.svg
-    :alt: Repobeats analytics image
