@@ -1,11 +1,11 @@
 .. image:: https://raw.githubusercontent.com/securesauce/precli/main/images/logo.png
     :alt: Precaution CLI
 
-======
-
 .. image:: https://github.com/securesauce/precli/actions/workflows/unit-test.yml/badge.svg?branch=main
     :target: https://github.com/securesauce/precli/actions/workflows/unit-test.yml
     :alt: Build and Test
+
+======
 
 Precli is the core of the Precaution GitHub App and Action. It also serves as a command line interface to demonstate its functionality. It is designed to do static code analysis of source code with a number of rules covering the standard library for the corresponding programming language.
 
