@@ -65,6 +65,8 @@ class Cwe:
                 )
             case 703:
                 return "Improper Check or Handling of Exceptional Conditions"
+            case 732:
+                return "Incorrect Permission Assignment for Critical Resource"
             case 1327:
                 return "Binding to an Unrestricted IP Address"
             case 1333:
