@@ -7,7 +7,7 @@
 
 ======
 
-Precli is the core of the Precaution GitHub App and Action. It also serves as a command line interface to demonstate its functionality. It is designed to do static code analysis of source code with a number of rules covering the standard library for the corresponding programming language.
+Precli is the core of the `Precaution GitHub App <https://github.com/marketplace/precaution>`_ and `Action <https://github.com/marketplace/actions/precaution-action>`_. It also serves as a command line interface to demonstate its functionality. It is designed to do static code analysis of source code with a number of rules covering the standard library for the corresponding programming language.
 
 If your needs go beyond the analysis of just the standard library, consider upgrading to Precaution Professional to get access to finding and fixing security vulnerabilities in third-party libraries. See https://www.securesauce.dev/ for more details.
 
