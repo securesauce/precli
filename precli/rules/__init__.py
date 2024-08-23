@@ -6,6 +6,7 @@ from precli.core.config import Config
 from precli.core.cwe import Cwe
 from precli.core.fix import Fix
 from precli.core.location import Location
+from precli.parsers import tokens
 
 
 class Rule(ABC):
@@ -40,7 +41,7 @@ class Rule(ABC):
         self._full_descr = description[start:]
         self._cwe = Cwe(cwe_id)
         self._message = message
-        self._wildcards = wildcards
+        self._wildcards = wildcards if wildcards else {}
         self._config = Config() if not config else config
         self._enabled = self._config.enabled
         self._help_url = f"https://docs.securesauce.dev/rules/{id}"
@@ -114,7 +115,7 @@ class Rule(ABC):
         return self._message
 
     @property
-    def wildcards(self) -> Optional[dict[str, list[str]]]:
+    def wildcards(self) -> dict[str, list[str]]:
         """
         Mapping of wildcard imports to concrete modules.
 
@@ -125,6 +126,18 @@ class Rule(ABC):
         for rule matching.
         """
         return self._wildcards
+
+    def analyze_wildcard_import(self, context: dict, from_module: str) -> None:
+        # FIXME(ericwb): some modules like Cryptodome permit
+        # wildcard imports at various package levels like
+        # from Cryptodome import *
+        # from Cryptodome.Hash import *
+        if f"{from_module}.*" in self._wildcards:
+            for wc in self._wildcards[f"{from_module}.*"]:
+                full_qual = [from_module, wc]
+                context["symtab"].put(
+                    wc, tokens.IMPORT, ".".join(filter(None, full_qual))
+                )
 
     @staticmethod
     def get_fixes(

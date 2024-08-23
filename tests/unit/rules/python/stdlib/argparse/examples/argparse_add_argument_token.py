@@ -3,10 +3,10 @@
 # end_line: 18
 # start_column: 0
 # end_column: 1
-import argparse
+from argparse import *
 
 
-parser = argparse.ArgumentParser(
+parser = ArgumentParser(
     prog="ProgramName",
     description="What the program does",
 )
