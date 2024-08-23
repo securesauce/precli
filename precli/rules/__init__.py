@@ -6,7 +6,6 @@ from precli.core.config import Config
 from precli.core.cwe import Cwe
 from precli.core.fix import Fix
 from precli.core.location import Location
-from precli.parsers import tokens
 
 
 class Rule(ABC):
@@ -127,16 +126,15 @@ class Rule(ABC):
         """
         return self._wildcards
 
-    def analyze_wildcard_import(self, context: dict, from_module: str) -> None:
+    def analyze_wildcard_import(self, context: dict, package: str) -> None:
         # FIXME(ericwb): some modules like Cryptodome permit
         # wildcard imports at various package levels like
         # from Cryptodome import *
         # from Cryptodome.Hash import *
-        if f"{from_module}.*" in self._wildcards:
-            for wc in self._wildcards[f"{from_module}.*"]:
-                full_qual = [from_module, wc]
+        if f"{package}.*" in self._wildcards:
+            for wc in self._wildcards[f"{package}.*"]:
                 context["symtab"].put(
-                    wc, tokens.IMPORT, ".".join(filter(None, full_qual))
+                    wc, "import", ".".join(filter(None, [package, wc]))
                 )
 
     @staticmethod

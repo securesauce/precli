@@ -349,9 +349,7 @@ class Python(Parser):
 
         if nodes[2].type == tokens.IMPORT:
             if nodes[3].type == tokens.WILDCARD_IMPORT:
-                self.analyze_node(
-                    tokens.WILDCARD_IMPORT, from_module=from_module
-                )
+                self.analyze_node(tokens.WILDCARD_IMPORT, package=from_module)
             else:
                 result = self.import_statement(nodes[3:])
                 for key, value in result.items():
