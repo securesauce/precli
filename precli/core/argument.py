@@ -4,7 +4,7 @@ from typing import Optional
 from tree_sitter import Node
 
 from precli.core import utils
-from precli.parsers import tokens
+from precli.parsers.node_types import NodeTypes
 
 
 class Argument:
@@ -28,11 +28,11 @@ class Argument:
         if node is None:
             return None
         # TODO(ericwb): does this function fail with nested calls?
-        if node.type == tokens.CALL:
+        if node.type == NodeTypes.CALL:
             return Argument._get_func_ident(node.named_children[0])
-        if node.type in [tokens.ATTRIBUTE, tokens.SELECTOR_EXPRESSION]:
+        if node.type in [NodeTypes.ATTRIBUTE, NodeTypes.SELECTOR_EXPRESSION]:
             return Argument._get_func_ident(node.named_children[1])
-        if node.type in [tokens.IDENTIFIER, tokens.FIELD_IDENTIFIER]:
+        if node.type in [NodeTypes.IDENTIFIER, NodeTypes.FIELD_IDENTIFIER]:
             return node
 
     @property

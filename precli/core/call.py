@@ -4,7 +4,7 @@ from typing import Optional
 from tree_sitter import Node
 
 from precli.core.argument import Argument
-from precli.parsers import tokens
+from precli.parsers.node_types import NodeTypes
 
 
 class Call:
@@ -87,7 +87,7 @@ class Call:
     ) -> Argument:
         if position >= 0:
             for i, child in enumerate(self._arg_list_node.named_children):
-                if child.type == tokens.KEYWORD_ARGUMENT:
+                if child.type == NodeTypes.KEYWORD_ARGUMENT:
                     break
                 if i == position:
                     return Argument(
@@ -97,7 +97,7 @@ class Call:
                     )
         if name is not None:
             for child in self._arg_list_node.named_children:
-                if child.type == tokens.KEYWORD_ARGUMENT:
+                if child.type == NodeTypes.KEYWORD_ARGUMENT:
                     keyword = child.named_children[0].text.decode()
                     if keyword == name:
                         return Argument(
