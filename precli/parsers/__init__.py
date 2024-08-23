@@ -33,18 +33,10 @@ class Parser(ABC):
         language = tree_sitter.Language(tree_sitter_lang.language())
         self.tree_sitter_parser = tree_sitter.Parser(language)
         self.rules = {}
-        self.wildcards = {}
 
         discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
-
-            if self.rules[rule.name].wildcards:
-                for k, v in self.rules[rule.name].wildcards.items():
-                    if k in self.wildcards:
-                        self.wildcards[k] += v
-                    else:
-                        self.wildcards[k] = v
 
         def child_by_type(self, type: str) -> Node | None:
             # Return first child with type as specified
