@@ -2,6 +2,37 @@
 
 
 class Cwe:
+    _cwe_names = {
+        79: (
+            "Improper Neutralization of Input During Web Page Generation "
+            "('Cross-site Scripting')"
+        ),
+        94: "Improper Control of Generation of Code ('Code Injection')",
+        208: "Observable Timing Discrepancy",
+        214: "Invocation of Process Using Visible Sensitive Information",
+        215: "Insertion of Sensitive Information Into Debugging Code",
+        295: "Improper Certificate Validation",
+        319: "Cleartext Transmission of Sensitive Information",
+        326: "Inadequate Encryption Strength",
+        306: "Missing Authentication for Critical Function",
+        327: "Use of a Broken or Risky Cryptographic Algorithm",
+        328: "Use of Weak Hash",
+        330: "Use of Insufficiently Random Values",
+        338: (
+            "Use of Cryptographically Weak Pseudo-Random Number Generator "
+            "(PRNG)"
+        ),
+        347: "Improper Verification of Cryptographic Signature",
+        377: "Insecure Temporary File",
+        502: "Deserialization of Untrusted Data",
+        598: "Use of GET Request Method With Sensitive Query Strings",
+        614: "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+        703: "Improper Check or Handling of Exceptional Conditions",
+        732: "Incorrect Permission Assignment for Critical Resource",
+        1327: "Binding to an Unrestricted IP Address",
+        1333: "Inefficient Regular Expression Complexity",
+    }
+
     def __init__(self, id: int):
         self._id = id
 
@@ -13,67 +44,9 @@ class Cwe:
     @property
     def name(self) -> str:
         """Name of the CWE."""
-        match self._id:
-            case 79:
-                return (
-                    "Improper Neutralization of Input During Web Page"
-                    "Generation ('Cross-site Scripting')"
-                )
-            case 94:
-                return (
-                    "Improper Control of Generation of Code ('Code Injection')"
-                )
-            case 208:
-                return "Observable Timing Discrepancy"
-            case 214:
-                return (
-                    "Invocation of Process Using Visible Sensitive Information"
-                )
-            case 215:
-                return "Insertion of Sensitive Information Into Debugging Code"
-            case 295:
-                return "Improper Certificate Validation"
-            case 319:
-                return "Cleartext Transmission of Sensitive Information"
-            case 326:
-                return "Inadequate Encryption Strength"
-            case 306:
-                return "Missing Authentication for Critical Function"
-            case 327:
-                return "Use of a Broken or Risky Cryptographic Algorithm"
-            case 328:
-                return "Use of Weak Hash"
-            case 330:
-                return "Use of Insufficiently Random Values"
-            case 338:
-                return (
-                    "Use of Cryptographically Weak Pseudo-Random Number "
-                    "Generator (PRNG)"
-                )
-            case 347:
-                return "Improper Verification of Cryptographic Signature"
-            case 377:
-                return "Insecure Temporary File"
-            case 502:
-                return "Deserialization of Untrusted Data"
-            case 598:
-                return "Use of GET Request Method With Sensitive Query Strings"
-            case 614:
-                return (
-                    "Sensitive Cookie in HTTPS Session Without 'Secure' "
-                    "Attribute"
-                )
-            case 703:
-                return "Improper Check or Handling of Exceptional Conditions"
-            case 732:
-                return "Incorrect Permission Assignment for Critical Resource"
-            case 1327:
-                return "Binding to an Unrestricted IP Address"
-            case 1333:
-                return "Inefficient Regular Expression Complexity"
+        return self._cwe_names.get(self._id, str(self._id))
 
-        return str(self._id)
-
+    @property
     def url(self) -> str:
         """URL of the CWE."""
         return f"https://cwe.mitre.org/data/definitions/{self._id}.html"
