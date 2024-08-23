@@ -349,14 +349,9 @@ class Python(Parser):
 
         if nodes[2].type == tokens.IMPORT:
             if nodes[3].type == tokens.WILDCARD_IMPORT:
-                # FIXME(ericwb): some modules like Cryptodome permit
-                # wildcard imports at various package levels like
-                # from Cryptodome import *
-                # from Cryptodome.Hash import *
-                if f"{from_module}.*" in self.wildcards:
-                    for wc in self.wildcards[f"{from_module}.*"]:
-                        full_qual = [from_module, wc]
-                        imports[wc] = ".".join(filter(None, full_qual))
+                self.analyze_node(
+                    tokens.WILDCARD_IMPORT, from_module=from_module
+                )
             else:
                 result = self.import_statement(nodes[3:])
                 for key, value in result.items():
