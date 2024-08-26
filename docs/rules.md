@@ -58,4 +58,5 @@
 | PY033 | [re — denial of service](rules/python/stdlib/re-denial-of-service.md) | Inefficient Regular Expression Complexity in `re` Module |
 | PY034 | [hmac — weak key](rules/python/stdlib/hmac-weak-key.md) | Insufficient `hmac` Key Size |
 | PY035 | [hashlib — improper prng](rules/python/stdlib/hashlib-improper-prng.md) | Improper Randomness for Cryptographic `hashlib` Functions |
-| PY036 | [hashlib — improper prng](rules/python/stdlib/os-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `os` Module |
+| PY036 | [os — incorrect permission](rules/python/stdlib/os-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `os` Module |
+| PY037 | [pathlib — incorrect permission](rules/python/stdlib/pathlib-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `pathlib` Module |
