@@ -153,8 +153,8 @@ class OsLooseFilePermissions(Rule):
 
         if argument.node is not None:
             location = Location(node=argument.node)
-            message = self.message.format(oct(mode))
-        else:
+            message = self.message
+        elif call.name_qualified in ("os.mkdir", "os.open", "os.mkfifo"):
             if call.name_qualified in ("os.mkdir", "os.open"):
                 mode = 0o777
             elif call.name_qualified == "os.mkfifo":
@@ -170,5 +170,5 @@ class OsLooseFilePermissions(Rule):
                 rule_id=self.id,
                 location=location,
                 level=Level.ERROR if mode & stat.S_IWOTH else Level.WARNING,
-                message=message,
+                message=message.format(oct(mode)),
             )
