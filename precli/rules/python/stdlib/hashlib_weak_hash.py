@@ -108,16 +108,6 @@ class HashlibWeakHash(Rule):
             cwe_id=328,
             message="The hash function '{0}' is vulnerable to collision and "
             "pre-image attacks.",
-            wildcards={
-                "hashlib.*": [
-                    "md4",
-                    "md5",
-                    "ripemd160",
-                    "sha",
-                    "sha1",
-                    "pbkdf2_hmac",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

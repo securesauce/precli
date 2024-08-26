@@ -123,11 +123,6 @@ class TelnetlibCleartext(Rule):
             cwe_id=319,
             message="The '{0}' module transmits data in cleartext without "
             "encryption.",
-            wildcards={
-                "telnetlib.*": [
-                    "Telnet",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

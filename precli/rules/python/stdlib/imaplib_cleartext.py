@@ -85,11 +85,6 @@ class ImapCleartext(Rule):
             cwe_id=319,
             message="The IMAP protocol can transmit data in cleartext without "
             "encryption.",
-            wildcards={
-                "imaplib.*": [
-                    "IMAP4",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

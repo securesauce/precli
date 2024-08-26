@@ -94,11 +94,6 @@ class ArgparseSensitiveInfo(Rule):
             cwe_id=214,
             message="{0} in CLI arguments are leaked to command history, "
             "logs, ps output, etc.",
-            wildcards={
-                "argparse.*": [
-                    "ArgumentParser",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

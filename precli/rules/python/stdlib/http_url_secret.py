@@ -81,12 +81,6 @@ class HttpUrlSecret(Rule):
             description=__doc__,
             cwe_id=598,
             message="Secrets in URLs are vulnerable to unauthorized access.",
-            wildcards={
-                "http.client.*": [
-                    "HTTPConnection",
-                    "HTTPSConnection",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

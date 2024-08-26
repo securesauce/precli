@@ -118,29 +118,6 @@ class HmacWeakKey(Rule):
             cwe_id=326,
             message="The given key is only '{0}' bytes which is insufficient "
             "for the '{2}' algorithm.",
-            wildcards={
-                "hashlib.*": [
-                    "blake2s",
-                    "blake2b",
-                    "sha224",
-                    "sha256",
-                    "sha384",
-                    "sha512",
-                    "sha3_224",
-                    "sha3_256",
-                    "sha3_384",
-                    "sha3_512",
-                    "sha512_224",
-                    "sha512_256",
-                    "shake_128",
-                    "shake_256",
-                    "sm3",
-                ],
-                "hmac.*": [
-                    "new",
-                    "digest",
-                ],
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

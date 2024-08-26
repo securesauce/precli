@@ -1,6 +1,7 @@
 # Copyright 2024 Secure Sauce LLC
 import builtins
 import codecs
+import importlib
 import re
 import warnings
 from collections import namedtuple
@@ -56,11 +57,17 @@ class Python(Parser):
         imps = self.import_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, NodeTypes.IMPORT, value)
+            self.analyze_node(
+                self.context["node"].type, package=value, alias=key
+            )
 
     def visit_import_from_statement(self, nodes: list[Node]):
         imps = self.import_from_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, NodeTypes.IMPORT, value)
+            self.analyze_node(
+                self.context["node"].type, package=value, alias=key
+            )
 
     def visit_class_definition(self, nodes: list[Node]):
         class_id = self.context["node"].child_by_type(NodeTypes.IDENTIFIER)
@@ -131,6 +138,7 @@ class Python(Parser):
             NodeTypes.IDENTIFIER,
             NodeTypes.DICTIONARY,
             NodeTypes.TUPLE,
+            NodeTypes.BINARY_OPERATOR,
             NodeTypes.STRING,
             NodeTypes.INTEGER,
             NodeTypes.FLOAT,
@@ -343,25 +351,36 @@ class Python(Parser):
     def import_from_statement(self, nodes: list[Node]) -> dict:
         imports = {}
 
-        from_module = None
-        module = nodes[1]
-        if module.type == NodeTypes.DOTTED_NAME:
-            from_module = module.string
-        elif module.type == NodeTypes.RELATIVE_IMPORT:
+        package = None
+        if nodes[1].type == NodeTypes.DOTTED_NAME:
+            package = nodes[1].string
+        elif nodes[1].type == NodeTypes.RELATIVE_IMPORT:
             # No known way to resolve the relative to absolute
             # However, shouldn't matter much since most rules
             # won't check for local modules.
-            from_module = ""
+            package = ""
 
         if nodes[2].type == NodeTypes.IMPORT:
             if nodes[3].type == NodeTypes.WILDCARD_IMPORT:
-                self.analyze_node(
-                    NodeTypes.WILDCARD_IMPORT, package=from_module
-                )
+                try:
+                    module = importlib.import_module(package)
+                    for symbol in dir(module):
+                        if not symbol.startswith("_"):
+                            full_qual = [package, symbol]
+                            imports[symbol] = ".".join(filter(None, full_qual))
+                except (ModuleNotFoundError, ValueError):
+                    # FIXME(ericwb): some modules like Cryptodome permit
+                    # wildcard imports at various package levels like
+                    # from Cryptodome import *
+                    # from Cryptodome.Hash import *
+                    if f"{package}.*" in self.wildcards:
+                        for module in self.wildcards[f"{package}.*"]:
+                            full_qual = [package, module]
+                            imports[module] = ".".join(filter(None, full_qual))
             else:
                 result = self.import_statement(nodes[3:])
                 for key, value in result.items():
-                    full_qual = [from_module, value]
+                    full_qual = [package, value]
                     imports[key] = ".".join(filter(None, full_qual))
 
         return imports
@@ -499,6 +518,16 @@ class Python(Parser):
                     value = ()
                     for child in node.named_children:
                         value += (self.resolve(child),)
+                case NodeTypes.BINARY_OPERATOR:
+                    # binary_operator | attribute
+                    left = self.resolve(node.children[0])
+                    right = self.resolve(node.children[2])
+
+                    if isinstance(left, int) and isinstance(right, int):
+                        if node.children[1].string == "|":
+                            value = left | right
+                        if node.children[1].string == "&":
+                            value = left & right
                 case NodeTypes.STRING:
                     # TODO: handle f-strings? (f"{a}")
                     value = nodetext

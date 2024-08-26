@@ -69,7 +69,6 @@ class SecretsWeakToken(Rule):
             cwe_id=326,
             message="A token size of '{0}' is less than the recommended "
             "'{1}' bytes, which can be vulnerable to brute-force attacks.",
-            wildcards={},
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

@@ -116,11 +116,6 @@ class SmtpCleartext(Rule):
             cwe_id=319,
             message="The POP protocol can transmit data in cleartext without "
             "encryption.",
-            wildcards={
-                "smtplib.*": [
-                    "SMTP",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

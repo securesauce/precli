@@ -72,13 +72,6 @@ class PickleLoad(Rule):
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",
-            wildcards={
-                "pickle.*": [
-                    "load",
-                    "loads",
-                    "Unpickler",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

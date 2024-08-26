@@ -67,11 +67,6 @@ class InsecureListenConfig(Rule):
             cwe_id=94,
             message="Using '{0}' with unset 'verify' vulnerable to code "
             "injection.",
-            wildcards={
-                "logging.config.*": [
-                    "listen",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

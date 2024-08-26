@@ -126,12 +126,6 @@ class CryptWeakHash(Rule):
             cwe_id=328,
             message="Use of weak hash function '{0}' does not meet security "
             "expectations.",
-            wildcards={
-                "crypt.*": [
-                    "crypt",
-                    "mksalt",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

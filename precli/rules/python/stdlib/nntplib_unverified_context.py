@@ -84,12 +84,6 @@ class NntplibUnverifiedContext(Rule):
             cwe_id=295,
             message="The '{0}' function does not properly validate "
             "certificates when context is unset or None.",
-            wildcards={
-                "nntplib.*": [
-                    "NNTP",
-                    "NNTP_SSL",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

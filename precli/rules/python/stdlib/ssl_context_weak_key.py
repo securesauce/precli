@@ -76,7 +76,6 @@ class SslContextWeakKey(Rule):
             cwe_id=326,
             message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",
-            wildcards={},
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

@@ -103,15 +103,6 @@ class HmacTimingAttack(Rule):
             cwe_id=208,
             message="Comparing digests with the '{0}' operator is vulnerable "
             "to timing attacks.",
-            wildcards={
-                "hmac.*": [
-                    "new",
-                    "digest",
-                    "HMAC",
-                    "HMAC.digest",
-                    "HMAC.hexdigest",
-                ]
-            },
             config=Config(level=Level.ERROR),
         )
 

@@ -59,12 +59,6 @@ class ShelveOpen(Rule):
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",
-            wildcards={
-                "shelve.*": [
-                    "open",
-                    "DbfilenameShelf",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:

@@ -56,12 +56,6 @@ class JsonLoad(Rule):
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",
-            wildcards={
-                "json.*": [
-                    "load",
-                    "loads",
-                ]
-            },
             config=Config(enabled=False),
         )
 

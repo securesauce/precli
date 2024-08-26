@@ -100,11 +100,6 @@ class FtpCleartext(Rule):
             cwe_id=319,
             message="The FTP protocol can transmit data in cleartext without "
             "encryption.",
-            wildcards={
-                "ftplib.*": [
-                    "FTP",
-                ]
-            },
         )
 
     def analyze_call(self, context: dict, call: Call) -> Result | None:
