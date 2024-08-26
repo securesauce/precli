@@ -38,7 +38,7 @@ file_path.chmod(
     ```
     > precli tests/unit/rules/python/stdlib/pathlib/examples/pathlib_chmod_o755_binop_stat.py
     ⚠️  Warning on line 8 in tests/unit/rules/python/stdlib/pathlib/examples/pathlib_chmod_o755_binop_stat.py
-    PY036: Incorrect Permission Assignment for Critical Resource
+    PY037: Incorrect Permission Assignment for Critical Resource
     Mode '0o755' grants excessive permissions, potentially allowing unauthorized access or modification.
     ```
 
