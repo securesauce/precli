@@ -24,7 +24,7 @@ class Java(Parser):
     def rule_prefix(self) -> str:
         return "JAV"
 
-    def get_file_encoding(self, file_path: str) -> str:
+    def get_file_encoding(self, file_contents: str) -> str:
         return "utf-8"
 
     def visit_program(self, nodes: list[Node]):

@@ -120,10 +120,10 @@ class Parser(ABC):
 
         self.results = []
         self.context = {"artifact": artifact}
-        artifact.encoding = self.get_file_encoding(artifact.file_name)
         if artifact.contents is None:
             with open(artifact.file_name, "rb") as fdata:
                 artifact.contents = fdata.read()
+        artifact.encoding = self.get_file_encoding(artifact.contents)
         tree = self.tree_sitter_parser.parse(artifact.contents)
 
         @property
