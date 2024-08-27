@@ -60,8 +60,9 @@ def parse_file(
         if parser:
             LOG.debug(f"Working on file: {artifact.file_name}")
             artifact.language = parser.lexer
-            with open(artifact.file_name, "rb") as f:
-                artifact.contents = f.read()
+            if artifact.contents is None:
+                with open(artifact.file_name, "rb") as f:
+                    artifact.contents = f.read()
             return parser.parse(artifact, enabled, disabled)
     except OSError as e:
         results.append(
