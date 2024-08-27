@@ -32,19 +32,23 @@ class Python(Parser):
     def rule_prefix(self) -> str:
         return "PY"
 
-    def get_file_encoding(self, file_path: str) -> str:
-        with open(file_path, "rb") as f:
-            first_two_lines = f.readline() + f.readline()
+    def get_file_encoding(self, file_contents: str) -> str:
+        lines = file_contents.splitlines(keepends=True)
+        if len(lines) < 2:
+            return "utf-8"
+
+        first_two_lines = lines[0] + lines[1]
 
         encoding_match = re.search(rb"coding[:=]\s*([-\w.]+)", first_two_lines)
-        if encoding_match:
-            encoding = encoding_match.group(1).decode("ascii")
-            try:
-                codecs.lookup(encoding)
-            except LookupError:
-                encoding = "utf-8"
-        else:
+        if not encoding_match:
+            return "utf-8"
+
+        encoding = encoding_match.group(1).decode("ascii")
+        try:
+            codecs.lookup(encoding)
+        except LookupError:
             encoding = "utf-8"
+
         return encoding
 
     def visit_module(self, nodes: list[Node]):

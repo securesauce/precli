@@ -25,7 +25,7 @@ class Go(Parser):
     def rule_prefix(self) -> str:
         return "GO"
 
-    def get_file_encoding(self, file_path: str) -> str:
+    def get_file_encoding(self, file_contents: str) -> str:
         return "utf-8"
 
     def visit_source_file(self, nodes: list[Node]):
