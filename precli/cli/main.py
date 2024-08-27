@@ -352,7 +352,7 @@ def main():
     )
 
     # Invoke the run
-    run = Run(enabled, disabled, artifacts, console, debug)
+    run = Run(enabled, disabled, artifacts, debug)
     run.invoke()
 
     # Render the results

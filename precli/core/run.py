@@ -9,7 +9,6 @@ from functools import partial
 from multiprocessing import Pool
 
 from pygments import lexers
-from rich.console import Console
 from rich.progress import BarColumn
 from rich.progress import MofNCompleteColumn
 from rich.progress import Progress
@@ -116,13 +115,11 @@ class Run:
         enabled: list[str],
         disabled: list[str],
         artifacts: list[Artifact],
-        console: Console,
         debug: int,
     ):
         self._enabled = enabled
         self._disabled = disabled
         self._artifacts = artifacts
-        self._console = console
         self._init_logger(debug)
         self._start_time = None
         self._end_time = None
