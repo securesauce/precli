@@ -5,7 +5,7 @@ ignorelib==0.3.0
 requests==2.32.3
 sarif-om==1.0.4
 jschema-to-python==1.2.3
-tree-sitter-go==0.21.2
+tree-sitter-go==0.23.0
 tree-sitter-java==0.21.0
 tree-sitter-python==0.21.0; sys_platform != "darwin" and platform_machine != "arm64"
 git+https://github.com/tree-sitter/tree-sitter-python@v0.21.0; sys_platform == "darwin" and platform_machine == "arm64"
