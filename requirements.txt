@@ -1,5 +1,5 @@
 Pygments==2.18.0
-rich==13.7.1
+rich==13.8.0
 tree-sitter==0.22.3
 ignorelib==0.3.0
 requests==2.32.3
