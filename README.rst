@@ -20,12 +20,6 @@ To install precli (requires Python 3.12):
 
     pip install precli
 
-Note: If using arm based macOS, you'll also need to install this package:
-
-.. code-block:: console
-
-    pip install git+https://github.com/tree-sitter/tree-sitter-python@v0.21.0
-
 Run precli on a single test example:
 
 .. code-block:: console
