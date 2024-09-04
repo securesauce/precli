@@ -42,6 +42,8 @@ class TestOsLooseFilePermissions(test_case.TestCase):
         [
             "os_chmod_IXOTH.py",
             "os_chmod_o111_binop_wildcard.py",
+            "os_chmod_o555_augmented.py",
+            "os_chmod_o555_binop.py",
             "os_chmod_o644.py",
             "os_chmod_o7.py",
             "os_chmod_o755_binop_stat.py",

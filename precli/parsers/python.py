@@ -121,6 +121,35 @@ class Python(Parser):
         else:
             self.visit(nodes)
 
+    def visit_augmented_assignment(self, nodes: list[Node]):
+        left_hand = nodes[0].string
+        symbol = self.current_symtab.get(left_hand)
+        if symbol is not None:
+            if nodes[0].type == NodeTypes.IDENTIFIER and nodes[2].type in (
+                NodeTypes.PARENTHESIZED_EXPRESSION,
+                NodeTypes.ATTRIBUTE,
+                NodeTypes.IDENTIFIER,
+                NodeTypes.BINARY_OPERATOR,
+                NodeTypes.UNARY_OPERATOR,
+                NodeTypes.INTEGER,
+                NodeTypes.TRUE,
+                NodeTypes.FALSE,
+            ):
+                right_hand = self.resolve(nodes[2], default=nodes[2])
+                if isinstance(right_hand, int):
+                    if nodes[1].string == "&=":
+                        value = symbol.value & right_hand
+                        self.current_symtab.put(
+                            left_hand, NodeTypes.IDENTIFIER, value
+                        )
+                    elif nodes[1].string == "|=":
+                        value = symbol.value | right_hand
+                        self.current_symtab.put(
+                            left_hand, NodeTypes.IDENTIFIER, value
+                        )
+
+        self.visit(nodes)
+
     def visit_assignment(self, nodes: list[Node]):
         # pattern_list = expression_list (i.e. HOST, PORT = "", 9999)
         if (
@@ -137,12 +166,14 @@ class Python(Parser):
                     ]
                 )
         elif nodes[0].type == NodeTypes.IDENTIFIER and nodes[2].type in (
+            NodeTypes.PARENTHESIZED_EXPRESSION,
             NodeTypes.CALL,
             NodeTypes.ATTRIBUTE,
             NodeTypes.IDENTIFIER,
             NodeTypes.DICTIONARY,
             NodeTypes.TUPLE,
             NodeTypes.BINARY_OPERATOR,
+            NodeTypes.UNARY_OPERATOR,
             NodeTypes.STRING,
             NodeTypes.INTEGER,
             NodeTypes.FLOAT,
@@ -467,6 +498,9 @@ class Python(Parser):
 
         try:
             match node.type:
+                case NodeTypes.PARENTHESIZED_EXPRESSION:
+                    if len(node.named_children) == 1:
+                        value = self.resolve(node.named_children[0])
                 case NodeTypes.CALL:
                     nodetext = node.children[0].string
                     symbol = self.get_qual_name(node.children[0])
@@ -522,15 +556,25 @@ class Python(Parser):
                     value = ()
                     for child in node.named_children:
                         value += (self.resolve(child),)
+                case NodeTypes.UNARY_OPERATOR:
+                    # unary_operator: (+, -, ~) attribute
+                    old_value = self.resolve(node.children[1])
+                    if isinstance(old_value, int):
+                        if node.children[0].string == "+":
+                            value = +old_value
+                        elif node.children[0].string == "-":
+                            value = -old_value
+                        elif node.children[0].string == "~":
+                            value = ~old_value
                 case NodeTypes.BINARY_OPERATOR:
-                    # binary_operator | attribute
+                    # binary_operator (|, &) attribute
                     left = self.resolve(node.children[0])
                     right = self.resolve(node.children[2])
 
                     if isinstance(left, int) and isinstance(right, int):
                         if node.children[1].string == "|":
                             value = left | right
-                        if node.children[1].string == "&":
+                        elif node.children[1].string == "&":
                             value = left & right
                 case NodeTypes.STRING:
                     # TODO: handle f-strings? (f"{a}")
