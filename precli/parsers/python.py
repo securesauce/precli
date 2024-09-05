@@ -124,7 +124,7 @@ class Python(Parser):
     def visit_augmented_assignment(self, nodes: list[Node]):
         left_hand = nodes[0].string
         symbol = self.current_symtab.get(left_hand)
-        if symbol is not None:
+        if symbol is not None and isinstance(symbol.value, int):
             if nodes[0].type == NodeTypes.IDENTIFIER and nodes[2].type in (
                 NodeTypes.PARENTHESIZED_EXPRESSION,
                 NodeTypes.ATTRIBUTE,
