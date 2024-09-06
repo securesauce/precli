@@ -41,6 +41,6 @@ jobs:
           dist/*.tar.gz
 
     - name: Attest Build Provenance
-      uses: actions/attest-build-provenance@6149ea5740be74af77f260b9db67e633f6b0a9a1
+      uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c
       with:
         subject-path: 'dist/precli-*'
