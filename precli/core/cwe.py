@@ -11,6 +11,7 @@ class Cwe:
         208: "Observable Timing Discrepancy",
         214: "Invocation of Process Using Visible Sensitive Information",
         215: "Insertion of Sensitive Information Into Debugging Code",
+        250: "Execution with Unnecessary Privileges",
         295: "Improper Certificate Validation",
         319: "Cleartext Transmission of Sensitive Information",
         326: "Inadequate Encryption Strength",

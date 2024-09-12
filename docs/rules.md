@@ -60,3 +60,4 @@
 | PY035 | [hashlib — improper prng](rules/python/stdlib/hashlib-improper-prng.md) | Improper Randomness for Cryptographic `hashlib` Functions |
 | PY036 | [os — incorrect permission](rules/python/stdlib/os-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `os` Module |
 | PY037 | [pathlib — incorrect permission](rules/python/stdlib/pathlib-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `pathlib` Module |
+| PY038 | [os — unnecessary privileges](rules/python/stdlib/os-setuid-root.md) | Execution with Unnecessary Privileges using `os` Module |
