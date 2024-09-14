@@ -138,7 +138,6 @@ class WeakCipher(Rule):
             cwe_id=327,
             message="Weak ciphers like '{0}' should be avoided due to their "
             "known vulnerabilities and weaknesses.",
-            wildcards={},
             config=Config(level=Level.ERROR),
         )
 
