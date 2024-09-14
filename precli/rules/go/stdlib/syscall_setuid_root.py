@@ -40,19 +40,19 @@ func main() {
     > precli tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
     ⛔️ Error on line 16 in tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
     GO004: Execution with Unnecessary Privileges
-    The function 'os.setuid(0)' escalates the process to run with root (superuser) privileges.
+    The function 'syscall.Setuid(0)' escalates the process to run with root (superuser) privileges.
     ```
 
 ## Remediation
 
- - Avoid using setuid(0) unless absolutely necessary: Review whether running
+ - Avoid using Setuid(0) unless absolutely necessary: Review whether running
    as the root user is required for the task at hand. It is safer to operate
    with the least privileges necessary.
  - Drop privileges as soon as possible: If elevated privileges are required
    temporarily, ensure that the process drops those privileges immediately
    after performing the necessary tasks.
  - Validate input to avoid malicious manipulation: If input parameters control
-   the user ID passed to setuid(), ensure they are securely validated and not
+   the user ID passed to Setuid(), ensure they are securely validated and not
    influenced by untrusted sources.
  - Use alternatives to running as root: If feasible, design your application
    to avoid needing root privileges entirely. Consider utilizing a dedicated
