@@ -1,9 +1,9 @@
 # Copyright 2024 Secure Sauce LLC
 r"""
-# Execution with Unnecessary Privileges using `os` Module
+# Execution with Unnecessary Privileges using `syscall` Package
 
-The Python function os.setuid() is used to set the user ID of the current
-process. Passing a user ID of 0 to setuid() changes the process’s user to the
+The Golang function Setuid() is used to set the user ID of the current
+process. Passing a user ID of 0 to Setuid() changes the process’s user to the
 root user (superuser). This can lead to privilege escalation, allowing the
 current process to execute with root-level permissions, which could be
 exploited by malicious actors to gain control over the system.
@@ -16,18 +16,30 @@ necessary and to ensure such usage is thoroughly reviewed and justified.
 
 ## Examples
 
-```python linenums="1" hl_lines="4" title="os_setuid_0.py"
-import os
+```go linenums="1" hl_lines="9" title="syscall_setuid_0.go"
+package main
 
+import (
+    "fmt"
+    "log"
+    "os"
+    "syscall"
+)
 
-os.setuid(0)
+func main() {
+    if err := syscall.Setuid(0); err != nil {
+        log.Fatalf("Failed to set UID: %v", err)
+    }
+
+    fmt.Printf("Running as UID: %d\n", os.Getuid())
+}
 ```
 
 ??? example "Example Output"
     ```
-    > precli tests/unit/rules/python/stdlib/os/examples/os_setuid_0.py
-    ⛔️ Error on line 9 in tests/unit/rules/python/stdlib/os/examples/os_setuid_0.py
-    PY038: Execution with Unnecessary Privileges
+    > precli tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
+    ⛔️ Error on line 16 in tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
+    GO004: Execution with Unnecessary Privileges
     The function 'os.setuid(0)' escalates the process to run with root (superuser) privileges.
     ```
 
@@ -46,17 +58,29 @@ os.setuid(0)
    to avoid needing root privileges entirely. Consider utilizing a dedicated
    service or capability that performs the task in a secure, controlled manner.
 
-```python linenums="1" hl_lines="4" title="os_setuid_0.py"
-import os
+```go linenums="1" hl_lines="9" title="syscall_setuid_0.go"
+package main
 
+import (
+    "fmt"
+    "log"
+    "os"
+    "syscall"
+)
 
-os.setuid(1000)
+func main() {
+    if err := syscall.Setuid(500); err != nil {
+        log.Fatalf("Failed to set UID: %v", err)
+    }
+
+    fmt.Printf("Running as UID: %d\n", os.Getuid())
+}
 ```
 
 ## See also
 
 !!! info
-    - [os — Miscellaneous operating system interfaces — Python documentation](https://docs.python.org/3/library/os.html#os.setuid)
+    - [syscall package - syscall - Go Packages](https://pkg.go.dev/syscall#Setuid)
     - [Principle of Least Privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege)
     - [CWE-250: Execution with Unnecessary Privileges](https://cwe.mitre.org/data/definitions/250.html)
 
@@ -71,7 +95,7 @@ from precli.core.result import Result
 from precli.rules import Rule
 
 
-class OsSetuidRoot(Rule):
+class SyscallSetuidRoot(Rule):
     def __init__(self, id: str):
         super().__init__(
             id=id,
@@ -83,8 +107,10 @@ class OsSetuidRoot(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
-        if call.name_qualified != "os.setuid":
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Result | None:
+        if call.name_qualified != "syscall.Setuid":
             return
 
         argument = call.get_argument(position=0, name="uid")
