@@ -7,6 +7,7 @@
 | GO001 | [crypto — weak cipher](rules/go/stdlib/crypto-weak-cipher.md) | Use of a Broken or Risky Cryptographic Algorithm in `crypto` Package |
 | GO002 | [crypto — weak hash](rules/go/stdlib/crypto-weak-hash.md) | Reversible One Way Hash in `crypto` Package |
 | GO003 | [crypto — weak key](rules/go/stdlib/crypto-weak-key.md) | Inadequate Encryption Strength Using Weak Keys in `crypto` Package |
+| GO004 | [syscall — unnecessary privileges](rules/go/stdlib/syscall-setuid-root.md) | Execution with Unnecessary Privileges using `syscall` Package |
 
 ## Java Standard Library
 
