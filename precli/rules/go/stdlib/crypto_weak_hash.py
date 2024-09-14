@@ -89,7 +89,6 @@ class WeakHash(Rule):
             cwe_id=328,
             message="Use of weak hash function '{0}' does not meet security "
             "expectations.",
-            wildcards={},
             config=Config(level=Level.ERROR),
         )
 

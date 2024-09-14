@@ -144,7 +144,6 @@ class WeakKey(Rule):
             cwe_id=326,
             message="Using '{0}' key sizes less than '{1}' bits is considered "
             "vulnerable to attacks.",
-            wildcards={},
         )
 
     def analyze_call_expression(
