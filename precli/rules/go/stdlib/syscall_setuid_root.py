@@ -16,7 +16,7 @@ necessary and to ensure such usage is thoroughly reviewed and justified.
 
 ## Examples
 
-```go linenums="1" hl_lines="9" title="syscall_setuid_0.go"
+```go linenums="1" hl_lines="11" title="syscall_setuid_0.go"
 package main
 
 import (
@@ -58,7 +58,7 @@ func main() {
    to avoid needing root privileges entirely. Consider utilizing a dedicated
    service or capability that performs the task in a secure, controlled manner.
 
-```go linenums="1" hl_lines="9" title="syscall_setuid_0.go"
+```go linenums="1" hl_lines="11" title="syscall_setuid_0.go"
 package main
 
 import (
