@@ -13,7 +13,7 @@ vulnerabilities.
 
     Install `precli` with `pip` and get up and running in minutes
 
-    [:octicons-arrow-right-24: Getting started](getting-started)
+    [:octicons-arrow-right-24: Getting started](getting-started.md)
 
 -   :material-console:{ .lg .middle } __CLI Reference__
 
@@ -21,7 +21,7 @@ vulnerabilities.
 
     Guide on usage of the command line
 
-    [:octicons-arrow-right-24: CLI Reference](man/precli)
+    [:octicons-arrow-right-24: CLI Reference](man/precli.md)
 
 -   :material-ruler:{ .lg .middle } __Explore Rules__
 
@@ -29,7 +29,7 @@ vulnerabilities.
 
     Explore the various rules used in the detection of vulnerabilities
 
-    [:octicons-arrow-right-24: Rules](rules)
+    [:octicons-arrow-right-24: Rules](rules.md)
 
 -   :material-scale-balance:{ .lg .middle } __Open Source, BSL__
 
