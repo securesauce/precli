@@ -37,8 +37,8 @@ func main() {
 
 ??? example "Example Output"
     ```
-    > precli tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
-    ⛔️ Error on line 16 in tests/unit/rules/go/stdlib/os/examples/syscall_setuid_0.go
+    > precli tests/unit/rules/go/stdlib/syscall/examples/syscall_setuid_0.go
+    ⛔️ Error on line 16 in tests/unit/rules/go/stdlib/syscall/examples/syscall_setuid_0.go
     GO004: Execution with Unnecessary Privileges
     The function 'syscall.Setuid(0)' escalates the process to run with root (superuser) privileges.
     ```
