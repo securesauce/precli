@@ -30,6 +30,7 @@ class Cwe:
         614: "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
         703: "Improper Check or Handling of Exceptional Conditions",
         732: "Incorrect Permission Assignment for Critical Resource",
+        1088: "Synchronous Access of Remote Resource without Timeout",
         1327: "Binding to an Unrestricted IP Address",
         1333: "Inefficient Regular Expression Complexity",
     }
