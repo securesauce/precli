@@ -62,3 +62,4 @@
 | PY036 | [os — incorrect permission](rules/python/stdlib/os-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `os` Module |
 | PY037 | [pathlib — incorrect permission](rules/python/stdlib/pathlib-loose-file-perm.md) | Incorrect Permission Assignment for Critical Resource using `pathlib` Module |
 | PY038 | [os — unnecessary privileges](rules/python/stdlib/os-setuid-root.md) | Execution with Unnecessary Privileges using `os` Module |
+| PY039 | [socket — no timeout](rules/python/stdlib/socket-no-timeout.md) | Synchronous Access of `socket` without Timeout |
