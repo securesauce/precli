@@ -97,6 +97,12 @@ class SocketNoTimeout(Rule):
             fix_node = argument.node
             result_node = argument.node
             content = "5"
+        elif (
+            isinstance(timeout, int) or isinstance(timeout, float)
+        ) and timeout <= 0:
+            fix_node = argument.node
+            result_node = argument.node
+            content = "5"
         else:
             return
 
