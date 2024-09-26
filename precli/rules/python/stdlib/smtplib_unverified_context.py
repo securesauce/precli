@@ -135,10 +135,7 @@ class SmtplibUnverifiedContext(Rule):
         ]:
             return
 
-        if call.name_qualified == "smtplib.SMTP_SSL":
-            ssl_context = call.get_argument(name="context")
-        else:
-            ssl_context = call.get_argument(position=0, name="context")
+        ssl_context = call.get_argument(name="context")
         if ssl_context.value is not None:
             return
 
