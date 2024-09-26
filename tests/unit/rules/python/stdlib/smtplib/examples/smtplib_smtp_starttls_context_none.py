@@ -1,8 +1,8 @@
 # level: WARNING
 # start_line: 31
 # end_line: 31
-# start_column: 16
-# end_column: 20
+# start_column: 24
+# end_column: 28
 import smtplib
 
 
@@ -28,7 +28,7 @@ while True:
 print("Message length is", len(msg))
 
 server = smtplib.SMTP("localhost", timeout=5)
-server.starttls(None)
+server.starttls(context=None)
 server.login("user", "password")
 server.set_debuglevel(1)
 server.sendmail(fromaddr, toaddrs, msg)
