@@ -27,7 +27,7 @@ while True:
 
 print("Message length is", len(msg))
 
-server = smtplib.SMTP("localhost")
+server = smtplib.SMTP("localhost", timeout=5)
 authobject = object()
 server.auth("LOGIN", authobject)
 server.set_debuglevel(1)

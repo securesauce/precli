@@ -2,11 +2,11 @@
 r"""
 # Synchronous Access of `socket` without Timeout
 
-The function socket.create_connection() in Python establishes a TCP connection
-to a remote host. By default, this function operates synchronously, meaning it
-will block indefinitely if no timeout is specified. This behavior can lead to
-resource exhaustion or unresponsive applications if the remote host is slow
-or unresponsive, creating the risk of a Denial of Service (DoS).
+The function `socket.create_connection()` in Python establishes a TCP
+connection to a remote host. By default, this function operates synchronously,
+meaning it will block indefinitely if no timeout is specified. This behavior
+can lead to resource exhaustion or unresponsive applications if the remote
+host is slow or unresponsive, creating the risk of a Denial of Service (DoS).
 
 This rule ensures that a timeout is always specified when using
 `socket.create_connection()` to prevent indefinite blocking and resource
@@ -82,6 +82,14 @@ class SocketNoTimeout(Rule):
     def analyze_call(self, context: dict, call: Call) -> Result | None:
         if call.name_qualified not in ("socket.create_connection",):
             return
+
+        # create_connection(
+        #    address,
+        #    timeout=GLOBAL_TIMEOUT,
+        #    source_address=None,
+        #    *,
+        #    all_errors=False
+        # )
 
         argument = call.get_argument(position=1, name="timeout")
         timeout = argument.value
