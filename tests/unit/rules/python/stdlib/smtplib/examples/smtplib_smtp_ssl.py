@@ -24,7 +24,7 @@ while True:
 
 print("Message length is", len(msg))
 
-server = smtplib.SMTP_SSL("localhost", context=ssl.create_default_context())
+server = smtplib.SMTP_SSL("localhost", context=ssl.create_default_context(), timeout=5)
 server.login("user", "password")
 server.set_debuglevel(1)
 server.sendmail(fromaddr, toaddrs, msg)
