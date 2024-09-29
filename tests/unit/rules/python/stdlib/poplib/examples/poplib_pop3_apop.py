@@ -7,7 +7,7 @@ import getpass
 import poplib
 
 
-M = poplib.POP3("localhost")
+M = poplib.POP3("localhost", 110, 5)
 secret = getpass.getpass()
 M.apop(getpass.getuser(), secret)
 numMessages = len(M.list()[1])

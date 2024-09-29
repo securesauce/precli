@@ -4,7 +4,7 @@ import poplib
 import ssl
 
 
-M = poplib.POP3_SSL("localhost", context=ssl.create_default_context())
+M = poplib.POP3_SSL("localhost", context=ssl.create_default_context(), timeout=5)
 M.user(getpass.getuser())
 M.pass_(getpass.getpass())
 numMessages = len(M.list()[1])
