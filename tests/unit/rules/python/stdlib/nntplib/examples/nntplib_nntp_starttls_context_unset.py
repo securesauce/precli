@@ -6,7 +6,7 @@
 import nntplib
 
 
-s = nntplib.NNTP("news.gmane.io")
+s = nntplib.NNTP("news.gmane.io", timeout=5)
 s.starttls()
 s.login("user", "password")
 f = open("article.txt", "rb")

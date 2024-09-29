@@ -94,7 +94,7 @@ class NntplibUnverifiedContext(Rule):
             return
 
         if call.name_qualified == "nntplib.NNTP_SSL":
-            ssl_context = call.get_argument(name="context")
+            ssl_context = call.get_argument(name="ssl_context")
         else:
             ssl_context = call.get_argument(position=0, name="context")
         if ssl_context.value is not None:
