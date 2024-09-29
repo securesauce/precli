@@ -27,7 +27,7 @@ import ssl
 
 
 server = smtplib.SMTP("smtp.example.com", 587)
-server.starttls(ssl.create_default_context())
+server.starttls(context=ssl.create_default_context())
 ```
 
 ??? example "Example Output"
@@ -51,7 +51,7 @@ import ssl
 
 
 server = smtplib.SMTP("smtp.example.com", 587, timeout=10)
-server.starttls(ssl.create_default_context())
+server.starttls(context=ssl.create_default_context())
 ```
 
 # See also

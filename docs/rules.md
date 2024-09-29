@@ -64,3 +64,4 @@
 | PY038 | [os — unnecessary privileges](rules/python/stdlib/os-setuid-root.md) | Execution with Unnecessary Privileges using `os` Module |
 | PY039 | [socket — no timeout](rules/python/stdlib/socket-no-timeout.md) | Synchronous Access of `socket` without Timeout |
 | PY040 | [smtplib — no timeout](rules/python/stdlib/smtplib-no-timeout.md) | Synchronous Access of `SMTP` without Timeout |
+| PY041 | [imaplib — no timeout](rules/python/stdlib/imaplib-no-timeout.md) | Synchronous Access of `IMAP4` without Timeout |
