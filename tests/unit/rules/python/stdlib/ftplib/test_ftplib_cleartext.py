@@ -52,7 +52,7 @@ class TestFtpCleartext(test_case.TestCase):
         ],
     )
     def test(self, filename):
-        self.check(filename)
+        self.check(filename, enabled=[self.rule_id])
 
     def test_ftp_login(self):
         artifact = Artifact(os.path.join(self.base_path, "ftp_login.py"))

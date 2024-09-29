@@ -68,3 +68,4 @@
 | PY042 | [nntplib — no timeout](rules/python/stdlib/nntplib-no-timeout.md) | Synchronous Access of `NNTP` without Timeout |
 | PY043 | [poplib — no timeout](rules/python/stdlib/poplib-no-timeout.md) | Synchronous Access of `POP3` without Timeout |
 | PY044 | [telnetlib — no timeout](rules/python/stdlib/telnetlib-no-timeout.md) | Synchronous Access of `Telnet` without Timeout |
+| PY045 | [ftplib — no timeout](rules/python/stdlib/ftplib-no-timeout.md) | Synchronous Access of `FTP` without Timeout |
