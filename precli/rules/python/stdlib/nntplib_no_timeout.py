@@ -34,7 +34,7 @@ nntp.starttls(ssl.create_default_context())
     ```
     > precli tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_no_timeout.py
     ⚠️  Warning on line 10 in tests/unit/rules/python/stdlib/nntplib/examples/nntplib_nntp_no_timeout.py
-    PY041: Synchronous Access of Remote Resource without Timeout
+    PY042: Synchronous Access of Remote Resource without Timeout
     The class 'nntplib.NNTP' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond.
     ```
 

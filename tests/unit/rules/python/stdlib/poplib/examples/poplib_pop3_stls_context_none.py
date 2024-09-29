@@ -7,7 +7,7 @@ import getpass
 import poplib
 
 
-M = poplib.POP3("localhost")
+M = poplib.POP3("localhost", timeout=5)
 M.stls(context=None)
 M.user(getpass.getuser())
 M.pass_(getpass.getpass())
