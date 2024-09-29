@@ -66,3 +66,5 @@
 | PY040 | [smtplib — no timeout](rules/python/stdlib/smtplib-no-timeout.md) | Synchronous Access of `SMTP` without Timeout |
 | PY041 | [imaplib — no timeout](rules/python/stdlib/imaplib-no-timeout.md) | Synchronous Access of `IMAP4` without Timeout |
 | PY042 | [nntplib — no timeout](rules/python/stdlib/nntplib-no-timeout.md) | Synchronous Access of `NNTP` without Timeout |
+| PY043 | [poplib — no timeout](rules/python/stdlib/poplib-no-timeout.md) | Synchronous Access of `POP3` without Timeout |
+| PY044 | [telnetlib — no timeout](rules/python/stdlib/telnetlib-no-timeout.md) | Synchronous Access of `Telnet` without Timeout |
