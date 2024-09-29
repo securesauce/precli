@@ -11,7 +11,7 @@ HOST = "localhost"
 user = input("Enter your remote account: ")
 password = getpass.getpass()
 
-tn = Telnet(HOST)
+tn = Telnet(HOST, timeout=5)
 
 tn.read_until(b"login: ")
 tn.write(user.encode("ascii") + b"\n")
