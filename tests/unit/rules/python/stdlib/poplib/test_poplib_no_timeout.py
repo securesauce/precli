@@ -41,6 +41,7 @@ class TestPoplibNoTimeout(test_case.TestCase):
         "filename",
         [
             "poplib_pop3_no_timeout.py",
+            "poplib_pop3_timeout_global.py",
             "poplib_pop3_timeout_none.py",
         ],
     )

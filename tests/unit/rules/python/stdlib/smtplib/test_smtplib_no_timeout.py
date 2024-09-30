@@ -44,6 +44,7 @@ class TestSmtplibNoTimeout(test_case.TestCase):
             "smtplib_smtp_no_timeout.py",
             "smtplib_smtp_ssl_no_timeout.py",
             "smtplib_smtp_timeout_5.py",
+            "smtplib_smtp_timeout_global.py",
         ],
     )
     def test(self, filename):

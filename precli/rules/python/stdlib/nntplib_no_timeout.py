@@ -45,6 +45,10 @@ Always provide a timeout parameter when using `nntplib.NNTP` or
 unresponsive, the connection attempt will fail after a set period, preventing
 indefinite blocking and resource exhaustion.
 
+Alternatively, the global default timeout can be set via
+`socket.setdefaulttimeout()`. This is a good option to enforce a consistent
+timeout for any network library that uses sockets, including `nntplib`.
+
 ```python linenums="1" hl_lines="5" title="nntplib_nntp_no_timeout.py"
 import nntplib
 import ssl
@@ -59,6 +63,7 @@ nntp.starttls(ssl.create_default_context())
 !!! info
     - [nntplib.NNTP — nntplib — IMAP4 protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP)
     - [nntplib.NNTP_SSL — nntplib — IMAP4 protocol client](https://docs.python.org/3/library/nntplib.html#nntplib.NNTP_SSL)
+    - [socket.setdefaulttimeout — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/socket.html#socket.setdefaulttimeout)
     - [CWE-1088: Synchronous Access of Remote Resource without Timeout](https://cwe.mitre.org/data/definitions/1088.html)
 
 _New in version 0.6.7_
@@ -87,6 +92,10 @@ class NntplibNoTimeout(Rule):
             "nntplib.NNTP",
             "nntplib.NNTP_SSL",
         ):
+            return
+
+        symbol = context["global_symtab"].get("GLOBAL_DEFAULT_TIMEOUT")
+        if symbol is not None and symbol.value > 0:
             return
 
         if call.name_qualified == "nntplib.NNTP":

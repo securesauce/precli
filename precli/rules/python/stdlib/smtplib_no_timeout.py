@@ -45,6 +45,11 @@ Always provide a timeout parameter when using `smtplib.SMTP`,
 is unreachable or unresponsive, the connection attempt will fail after a set
 period, preventing indefinite blocking and resource exhaustion.
 
+Alternatively, the global default timeout can be set via
+`socket.setdefaulttimeout()`. This is a good option to enforce a consistent
+timeout for any network library that uses sockets, including `smtplib`.
+
+
 ```python linenums="1" hl_lines="5" title="smtplib_smtp_no_timeout.py"
 import smtplib
 import ssl
@@ -60,6 +65,7 @@ server.starttls(context=ssl.create_default_context())
     - [smtplib.SMTP — smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP)
     - [smtplib.SMTP_SSL — smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL)
     - [smtplib.LMTP — smtplib — SMTP protocol client](https://docs.python.org/3/library/smtplib.html#smtplib.LMTP)
+    - [socket.setdefaulttimeout — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/socket.html#socket.setdefaulttimeout)
     - [CWE-1088: Synchronous Access of Remote Resource without Timeout](https://cwe.mitre.org/data/definitions/1088.html)
 
 _New in version 0.6.7_
@@ -89,6 +95,10 @@ class SmtplibNoTimeout(Rule):
             "smtplib.SMTP_SSL",
             "smtplib.LMTP",
         ):
+            return
+
+        symbol = context["global_symtab"].get("GLOBAL_DEFAULT_TIMEOUT")
+        if symbol is not None and symbol.value > 0:
             return
 
         if call.name_qualified == "smtplib.SMTP":

@@ -235,6 +235,8 @@ class Parser(ABC):
             if hasattr(rule, fn) and rule.enabled:
                 context = self.context
                 context["symtab"] = self.current_symtab
+                if "global_symtab" in vars(self):
+                    context["global_symtab"] = self.global_symtab
 
                 analyze_fn = getattr(rule, fn)
                 result = analyze_fn(self.context, **kwargs)

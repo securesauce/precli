@@ -53,8 +53,10 @@ class Python(Parser):
 
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
+        self.global_symtab = SymbolTable("global")
         self.current_symtab = SymbolTable("<module>")
         self.visit(nodes)
+        self.global_symtab = None
         self.current_symtab = self.current_symtab.parent()
 
     def visit_import_statement(self, nodes: list[Node]):
@@ -267,6 +269,14 @@ class Python(Parser):
                 identifier = left_hand.string
                 self.current_symtab.remove(identifier)
                 self.current_symtab.put(identifier, NodeTypes.IMPORT, module)
+        elif call.name_qualified == "socket.setdefaulttimeout":
+            # Keep track of the global timeout in case it has been set. If
+            # it has a postive value, the timeout related rules should not
+            # return a result.
+            timeout = call.get_argument(position=0, name="timeout").value
+            self.global_symtab.put(
+                "GLOBAL_DEFAULT_TIMEOUT", NodeTypes.IDENTIFIER, timeout
+            )
 
         # Suppress re module FutureWarnings. Usually a result of scanning
         # test cases in cpython repo.

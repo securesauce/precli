@@ -42,6 +42,7 @@ class TestNntplibNoTimeout(test_case.TestCase):
         [
             "nntplib_nntp_ssl_no_timeout.py",
             "nntplib_nntp_ssl_timeout_5.py",
+            "nntplib_nntp_timeout_global.py",
             "nntplib_nntp_timeout_none.py",
         ],
     )
