@@ -43,6 +43,7 @@ class TestTelnetlibNoTimeout(test_case.TestCase):
             "telnetlib_telnet_no_timeout.py",
             "telnetlib_telnet_open_timeout_none.py",
             "telnetlib_telnet_timeout_5.py",
+            "telnetlib_telnet_timeout_global.py",
         ],
     )
     def test(self, filename):

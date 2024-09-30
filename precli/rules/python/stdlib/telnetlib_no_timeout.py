@@ -42,6 +42,10 @@ Always provide a timeout parameter when using `telnetlib.Telnet` or
 or unresponsive, the connection attempt will fail after a set period,
 preventing indefinite blocking and resource exhaustion.
 
+Alternatively, the global default timeout can be set via
+`socket.setdefaulttimeout()`. This is a good option to enforce a consistent
+timeout for any network library that uses sockets, including `telnetlib`.
+
 ```python linenums="1" hl_lines="4" title="telnetlib_telnet_no_timeout.py"
 import telnetlib
 
@@ -54,6 +58,7 @@ telnet = telnetlib.Telnet("example.com", 23, timeout=5)
 !!! info
     - [telnetlib.Telnet — telnetlib — Telnet client](https://docs.python.org/3/library/telnetlib.html#telnetlib.Telnet)
     - [telnetlib.Telnet.open — telnetlib — Telnet client](https://docs.python.org/3/library/telnetlib.html#telnetlib.Telnet.open)
+    - [socket.setdefaulttimeout — TLS_SSL wrapper for socket objects](https://docs.python.org/3/library/socket.html#socket.setdefaulttimeout)
     - [CWE-1088: Synchronous Access of Remote Resource without Timeout](https://cwe.mitre.org/data/definitions/1088.html)
 
 _New in version 0.6.7_
@@ -82,6 +87,10 @@ class TelnetlibNoTimeout(Rule):
             "telnetlib.Telnet",
             "telnetlib.Telnet.open",
         ):
+            return
+
+        symbol = context["global_symtab"].get("GLOBAL_DEFAULT_TIMEOUT")
+        if symbol is not None and symbol.value > 0:
             return
 
         if (

@@ -42,6 +42,7 @@ class TestSslNoTimeout(test_case.TestCase):
         [
             "get_server_certificate_no_timeout.py",
             "get_server_certificate_timeout_5.py",
+            "get_server_certificate_timeout_global.py",
             "get_server_certificate_timeout_none.py",
         ],
     )

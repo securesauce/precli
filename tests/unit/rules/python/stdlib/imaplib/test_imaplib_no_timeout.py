@@ -43,6 +43,7 @@ class TestImaplibNoTimeout(test_case.TestCase):
             "imaplib_imap4_no_timeout.py",
             "imaplib_imap4_ssl_timeout_none.py",
             "imaplib_imap4_timeout_5.py",
+            "imaplib_imap4_timeout_global.py",
         ],
     )
     def test(self, filename):

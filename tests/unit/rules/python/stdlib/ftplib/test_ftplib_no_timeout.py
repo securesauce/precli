@@ -42,6 +42,7 @@ class TestFtplibNoTimeout(test_case.TestCase):
         [
             "ftplib_ftp_connect_timeout_none.py",
             "ftplib_ftp_no_timeout.py",
+            "ftplib_ftp_timeout_global.py",
             "ftplib_ftp_tls_no_timeout.py",
         ],
     )

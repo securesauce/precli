@@ -42,6 +42,7 @@ class TestSocketNoTimeout(test_case.TestCase):
         [
             "socket_create_connection.py",
             "socket_create_connection_timeout_5.py",
+            "socket_create_connection_timeout_global.py",
             "socket_create_connection_timeout_none.py",
         ],
     )
