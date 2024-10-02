@@ -281,7 +281,7 @@ def discover_files(targets: list[str], recursive: bool):
                         artifact = Artifact(os.path.join(target, file))
                         artifacts.append(artifact)
         else:
-            if pathlib.Path(target).suffix in FILE_EXTS:
+            if pathlib.Path(target).suffix in FILE_EXTS or target == "-":
                 artifact = Artifact(target)
                 artifacts.append(artifact)
 

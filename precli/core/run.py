@@ -8,7 +8,6 @@ import sys
 from functools import partial
 from multiprocessing import Pool
 
-from pygments import lexers
 from rich.progress import BarColumn
 from rich.progress import MofNCompleteColumn
 from rich.progress import Progress
@@ -43,9 +42,12 @@ def parse_file(
             fdata = io.BytesIO(open_fd.read())
             artifact.file_name = "<stdin>"
             artifact.contents = fdata.read()
-            lxr = lexers.guess_lexer(artifact.contents)
-            artifact.language = lxr.aliases[0] if lxr.aliases else lxr.name
-            parser = parsers.get(artifact.language)
+
+            for p in parsers.values():
+                if p.is_valid_code(artifact.contents):
+                    artifact.language = p.lexer
+                    parser = p
+                    break
         else:
             file_extension = pathlib.Path(artifact.file_name).suffix
             parser = next(
