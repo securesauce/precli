@@ -6,6 +6,7 @@ import pathlib
 import sys
 import tempfile
 import zipfile
+from datetime import datetime
 from importlib import metadata
 from urllib.parse import urljoin
 from urllib.parse import urlparse
@@ -136,7 +137,7 @@ def setup_arg_parser():
         action="version",
         version=f"precli {precli.__version__}\n"
         f"{extensions}"
-        f"Copyright 2024 Secure Sauce LLC\n"
+        f"Copyright {datetime.now():%Y} Secure Sauce LLC\n"
         f"License BUSL-1.1: Business Source License 1.1 <{BUSL_URL}>\n"
         f"  Python {python_ver}",
     )
