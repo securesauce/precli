@@ -37,6 +37,7 @@ certificate validation, and more.
 ## FILES
 
 .preignore
+
   file that specifies which files and directories can be ignored
 
 ## ENVIRONMENT VARIABLES
@@ -51,12 +52,12 @@ GITHUB_TOKEN
 
 ## EXAMPLES
 
-Example usage across a code tree::
+Example usage across a code tree:
 
     precli -r ~/your-repos/project
 
 Precli supports passing lines of code to scan using standard input. To
-run Precli with standard input::
+run Precli with standard input:
 
     cat examples/imports.py | precli -
 
