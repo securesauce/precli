@@ -163,6 +163,7 @@ class Run:
     def invoke(self):
         """Invokes a run"""
         self._start_time = datetime.datetime.now(datetime.UTC)
+        LOG.debug(f"Run started at {self._start_time}")
         results = []
         lines = 0
 
@@ -215,6 +216,7 @@ class Run:
         )
         self._results = results
         self._end_time = datetime.datetime.now(datetime.UTC)
+        LOG.debug(f"Run ended at {self._end_time}")
 
     @property
     def start_time(self):
