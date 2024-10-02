@@ -70,6 +70,12 @@ class Parser(ABC):
     def get_file_encoding(self, file_path: str) -> str:
         """The prefix for the rule ID"""
 
+    def is_valid_code(self, code: str) -> bool:
+        """Check whether the give code matches the language of this parser."""
+        tree = self.tree_sitter_parser.parse(code)
+        if not tree.root_node.has_error:
+            return True
+
     @staticmethod
     def _expand_rule_list(rule_list: list[str]) -> list[str]:
         """Expand rule range if exists in the rule list"""
