@@ -64,14 +64,12 @@ precli -h
 ## Version control integration
 
 Use [pre-commit](https://pre-commit.com/). Once you have it installed, add
-this to the `.pre-commit-config.yaml` in your repository
-(be sure to update `rev` to point to a real git tag/revision!):
-
+this to the `.pre-commit-config.yaml` in your repository:
 
 ```
 repos:
 - repo: https://github.com/securesauce/precli
-  rev: '' # Update me!
+  rev: '{{ git.short_tag }}'
   hooks:
   - id: precli
 ```

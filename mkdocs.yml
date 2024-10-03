@@ -19,6 +19,7 @@ theme:
 plugins:
   - mkdocstrings
   - search
+  - macros
 
 nav:
   - Home: index.md
