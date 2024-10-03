@@ -91,6 +91,15 @@ from precli.parsers.node_types import NodeTypes
 from precli.rules import Rule
 
 
+DEFAULT_MODE = {
+    "os.mkdir": 0o777,
+    "os.open": 0o777,
+    "os.mkfifo": 0o666,
+    "os.mknod": 0o600,
+}
+UMASK = 0o022
+
+
 class OsLooseFilePermissions(Rule):
     def __init__(self, id: str):
         super().__init__(
@@ -138,10 +147,9 @@ class OsLooseFilePermissions(Rule):
             "os.fchmod",
             "os.chmod",
             "os.lchmod",
-            "os.mkdir",  # default mode=0o777
-            "os.mkfifo",  # default mode=0o666
-            "os.mknod",  # default mode=0o600
-            "os.open",  # default mode=0o777
+            "os.mkdir",
+            "os.open",
+            "os.mkfifo",
         ):
             return
 
@@ -151,20 +159,32 @@ class OsLooseFilePermissions(Rule):
         )
         mode = argument.value
 
-        if argument.node is not None:
+        if call.name_qualified in ("os.fchmod", "os.chmod", "os.lchmod"):
             location = Location(node=argument.node)
             message = self.message
         elif call.name_qualified in ("os.mkdir", "os.open", "os.mkfifo"):
-            if call.name_qualified in ("os.mkdir", "os.open"):
-                mode = 0o777
-            elif call.name_qualified == "os.mkfifo":
-                mode = 0o666
-            location = Location(node=call.arg_list_node)
-            message = (
-                f"The default mode value of '{oct(mode)}' is overly "
-                "permissive, potentially allowing unauthorized access or "
-                "modification."
-            )
+            if argument.node is not None and isinstance(mode, int):
+                # mode argument passed
+                location = Location(node=argument.node)
+                desired_mode = mode
+                mode = desired_mode & (~UMASK & 0o777)
+                message = (
+                    f"The effective mode of '{oct(mode)}' (given value "
+                    f"'{oct(desired_mode)}' and umask '{oct(UMASK)}') is "
+                    f"overly permissive, potentially allowing unauthorized "
+                    f"access or modification."
+                )
+            else:
+                # mode argument no passed
+                location = Location(node=call.arg_list_node)
+                default_mode = DEFAULT_MODE[call.name_qualified]
+                mode = default_mode & (~UMASK & 0o777)
+                message = (
+                    f"The effective mode of '{oct(mode)}' (function default "
+                    f"'{oct(default_mode)}' and umask '{oct(UMASK)}') is "
+                    f"overly permissive, potentially allowing unauthorized "
+                    f"access or modification."
+                )
 
         if isinstance(mode, int) and self._risky_mode(mode):
             return Result(
