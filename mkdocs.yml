@@ -27,6 +27,64 @@ nav:
   - 'CLI Reference': man/precli.md
   - Rules: rules.md
 
+not_in_nav: |
+  rules/go/stdlib/crypto-weak-cipher.md
+  rules/go/stdlib/crypto-weak-hash.md
+  rules/go/stdlib/crypto-weak-key.md
+  rules/go/stdlib/syscall-setuid-root.md
+  rules/java/stdlib/java-net-insecure-cookie.md
+  rules/java/stdlib/java-security-weak-hash.md
+  rules/java/stdlib/java-security-weak-key.md
+  rules/java/stdlib/java-security-weak-random.md
+  rules/java/stdlib/javax-crypto-weak-cipher.md
+  rules/java/stdlib/javax-servlet-http-insecure-cookie.md
+  rules/python/stdlib/argparse-sensitive-info.md
+  rules/python/stdlib/assert.md
+  rules/python/stdlib/crypt-weak-hash.md
+  rules/python/stdlib/ftplib-cleartext.md
+  rules/python/stdlib/ftplib-no-timeout.md
+  rules/python/stdlib/ftplib-unverified-context.md
+  rules/python/stdlib/hashlib-improper-prng.md
+  rules/python/stdlib/hashlib-weak-hash.md
+  rules/python/stdlib/hmac-timing-attack.md
+  rules/python/stdlib/hmac-weak-hash.md
+  rules/python/stdlib/hmac-weak-key.md
+  rules/python/stdlib/http-server-unrestricted-bind.md
+  rules/python/stdlib/http-url-secret.md
+  rules/python/stdlib/imaplib-cleartext.md
+  rules/python/stdlib/imaplib-no-timeout.md
+  rules/python/stdlib/imaplib-unverified-context.md
+  rules/python/stdlib/json-load.md
+  rules/python/stdlib/logging-insecure-listen-config.md
+  rules/python/stdlib/marshal-load.md
+  rules/python/stdlib/nntplib-cleartext.md
+  rules/python/stdlib/nntplib-no-timeout.md
+  rules/python/stdlib/nntplib-unverified-context.md
+  rules/python/stdlib/os-loose-file-perm.md
+  rules/python/stdlib/os-setuid-root.md
+  rules/python/stdlib/pathlib-loose-file-perm.md
+  rules/python/stdlib/pickle-load.md
+  rules/python/stdlib/poplib-cleartext.md
+  rules/python/stdlib/poplib-no-timeout.md
+  rules/python/stdlib/poplib-unverified-context.md
+  rules/python/stdlib/re-denial-of-service.md
+  rules/python/stdlib/secrets-weak-token.md
+  rules/python/stdlib/shelve-open.md
+  rules/python/stdlib/smtplib-cleartext.md
+  rules/python/stdlib/smtplib-no-timeout.md
+  rules/python/stdlib/smtplib-unverified-context.md
+  rules/python/stdlib/socket-no-timeout.md
+  rules/python/stdlib/socket-unrestricted-bind.md
+  rules/python/stdlib/socketserver-unrestricted-bind.md
+  rules/python/stdlib/ssl-context-weak-key.md
+  rules/python/stdlib/ssl-create-unverified-context.md
+  rules/python/stdlib/ssl-insecure-tls-version.md
+  rules/python/stdlib/ssl-no-timeout.md
+  rules/python/stdlib/telnetlib-cleartext.md
+  rules/python/stdlib/telnetlib-no-timeout.md
+  rules/python/stdlib/tempfile-mktemp-race-condition.md
+  rules/python/stdlib/xmlrpc-server-unrestricted-bind.md
+
 markdown_extensions:
   - admonition
   - attr_list
