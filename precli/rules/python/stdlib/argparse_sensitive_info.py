@@ -2,8 +2,6 @@
 r"""
 # Invocation of Process Using Visible Sensitive Information in `argparse`
 
----
-
 Do not read secrets directly from command line arguments. When a command
 accepts a secret like via a `--password` argument or `--api-key`, the argument
 value will leak the secret into ps output and shell history. This also
