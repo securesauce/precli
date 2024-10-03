@@ -75,3 +75,6 @@ repos:
 ```
 
 Then run `pre-commit install` and you're ready to go.
+
+
+_Last updated on {{ git.date.strftime("%b %d, %Y") }}_

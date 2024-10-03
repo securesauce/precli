@@ -40,3 +40,5 @@ vulnerabilities.
     [:octicons-arrow-right-24: License](https://github.com/securesauce/precli/blob/main/LICENSE)
 
 </div>
+
+_Last updated on {{ git.date.strftime("%b %d, %Y") }}_
