@@ -1,8 +1,4 @@
-# level: ERROR
-# start_line: 12
-# end_line: 12
-# start_column: 25
-# end_column: 29
+# level: NONE
 import os
 import stat
 

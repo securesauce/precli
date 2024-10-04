@@ -1,4 +1,4 @@
-# level: ERROR
+# level: WARNING
 # start_line: 10
 # end_line: 10
 # start_column: 8

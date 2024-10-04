@@ -1,8 +1,4 @@
-# level: ERROR
-# start_line: 10
-# end_line: 10
-# start_column: 15
-# end_column: 17
+# level: NONE
 from pathlib import *
 
 
