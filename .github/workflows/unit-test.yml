@@ -71,6 +71,7 @@ jobs:
     strategy:
       matrix:
         python-version: [
+          ["3.11", "311"],
           ["3.12", "312"],
           ["3.13", "313"],
         ]
