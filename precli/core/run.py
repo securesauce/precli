@@ -162,7 +162,10 @@ class Run:
 
     def invoke(self):
         """Invokes a run"""
-        self._start_time = datetime.datetime.now(datetime.UTC)
+        if sys.version_info >= (3, 11):
+            self._start_time = datetime.datetime.now(datetime.UTC)
+        else:
+            self._start_time = datetime.datetime.utcnow()
         LOG.debug(f"Run started at {self._start_time}")
         results = []
         lines = 0
@@ -215,7 +218,11 @@ class Run:
             notes=sum(result.level == Level.NOTE for result in results),
         )
         self._results = results
-        self._end_time = datetime.datetime.now(datetime.UTC)
+
+        if sys.version_info >= (3, 11):
+            self._end_time = datetime.datetime.now(datetime.UTC)
+        else:
+            self._end_time = datetime.datetime.utcnow()
         LOG.debug(f"Run ended at {self._end_time}")
 
     @property

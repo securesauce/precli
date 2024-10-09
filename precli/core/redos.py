@@ -4,13 +4,11 @@ import collections
 import itertools
 import sys
 
-try:
+if sys.version_info >= (3, 11):
     from re import _constants as constants
-except ImportError:
-    import sre_constants as constants
-try:
     from re import _parser as parser
-except ImportError:
+else:
+    import sre_constants as constants
     import sre_parse as parser
 
 
