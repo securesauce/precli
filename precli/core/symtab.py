@@ -1,5 +1,8 @@
-# Copyright 2023 Secure Sauce LLC
-from typing import Self
+# Copyright 2024 Secure Sauce LLC
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 from precli.core.call import Call
 
