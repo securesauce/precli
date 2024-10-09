@@ -31,7 +31,7 @@ vulnerabilities.
 
     [:octicons-arrow-right-24: Rules](rules.md)
 
--   :material-scale-balance:{ .lg .middle } __Open Source, BSL__
+-   :material-scale-balance:{ .lg .middle } __Source Available, BSL__
 
     ---
 
