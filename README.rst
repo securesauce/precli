@@ -26,7 +26,7 @@ If your needs go beyond the analysis of just the standard library, consider upgr
 Quick Start
 -----------
 
-To install precli (requires Python 3.12):
+To install precli (requires Python 3.10+):
 
 .. code-block:: console
 
