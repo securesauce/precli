@@ -1,5 +1,5 @@
 rich==13.9.2
-tree-sitter==0.23.0
+tree-sitter==0.23.1
 ignorelib==0.3.0
 requests==2.32.3
 sarif-om==1.0.4
