@@ -3,8 +3,15 @@
 import collections
 import itertools
 import sys
-from re import _constants as constants
-from re import _parser as parser
+
+try:
+    from re import _constants as constants
+except ImportError:
+    import sre_constants as constants
+try:
+    from re import _parser as parser
+except ImportError:
+    import sre_parse as parser
 
 
 CR = collections.namedtuple("CR", ["cr_min", "cr_max"])
