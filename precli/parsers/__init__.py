@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 import importlib
+import sys
 from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points
@@ -35,7 +36,11 @@ class Parser(ABC):
         self.rules = {}
         self.wildcards = {}
 
-        discovered_rules = entry_points(group=f"precli.rules.{lang}")
+        if sys.version_info >= (3, 10):
+            discovered_rules = entry_points(group=f"precli.rules.{lang}")
+        else:
+            eps = entry_points()
+            discovered_rules = eps[f"precli.rules.{lang}"]
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
 
@@ -46,7 +51,7 @@ class Parser(ABC):
                     else:
                         self.wildcards[k] = v
 
-        def child_by_type(self, type: str) -> Node | None:
+        def child_by_type(self, type: str) -> Optional[Node]:
             # Return first child with type as specified
             child = list(filter(lambda x: x.type == type, self.named_children))
             return child[0] if child else None
@@ -217,7 +222,7 @@ class Parser(ABC):
             ),
         )
 
-    def child_by_type(self, node: Node, type: str) -> Node | None:
+    def child_by_type(self, node: Node, type: str) -> Optional[Node]:
         # Return first child with type as specified
         child = list(filter(lambda x: x.type == type, node.named_children))
         return child[0] if child else None

@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 import sys
+from typing import Optional
 
 if sys.version_info >= (3, 11):
     from typing import Self
@@ -18,7 +19,7 @@ class SymbolTable:
     def name(self) -> str:
         return self._name
 
-    def parent(self) -> Self | None:
+    def parent(self) -> Optional[Self]:
         return self._parent
 
     def put(self, name: str, type: str, value: str) -> None:

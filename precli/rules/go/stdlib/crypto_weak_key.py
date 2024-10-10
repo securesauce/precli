@@ -128,6 +128,8 @@ func main() {
 _New in version 0.2.1_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
@@ -148,7 +150,7 @@ class WeakKey(Rule):
 
     def analyze_call_expression(
         self, context: dict, call: Call
-    ) -> Result | None:
+    ) -> Optional[Result]:
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
             argument = call.get_argument(position=2)
             sizes = argument.value

@@ -72,6 +72,8 @@ for i in range(numMessages):
 _New in version 0.3.14_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -92,7 +94,7 @@ class PoplibUnverifiedContext(Rule):
             "certificates when context is unset or None.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "poplib.POP3_SSL",
             "poplib.POP3.stls",

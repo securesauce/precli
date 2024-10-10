@@ -59,6 +59,7 @@ response = conn.getresponse()
 _New in version 0.3.4_
 
 """  # noqa: E501
+from typing import Optional
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 
@@ -84,7 +85,7 @@ class HttpUrlSecret(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "http.client.HTTPConnection.request",
             "http.client.HTTPSConnection.request",

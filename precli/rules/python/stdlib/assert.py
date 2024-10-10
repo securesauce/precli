@@ -60,6 +60,8 @@ foobar("World")
 _New in version 0.3.8_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -76,7 +78,7 @@ class Assert(Rule):
             "enabled.",
         )
 
-    def analyze_assert(self, context: dict) -> Result:
+    def analyze_assert(self, context: dict) -> Optional[Result]:
         return Result(
             rule_id=self.id,
             artifact=context["artifact"],

@@ -106,6 +106,8 @@ These alternatives include:
 _New in version 0.1.0_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
@@ -126,7 +128,7 @@ class TelnetlibCleartext(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified in ["telnetlib.Telnet"]:
             return Result(
                 rule_id=self.id,

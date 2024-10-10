@@ -14,15 +14,12 @@ class Plain(Renderer):
 
             style = ""
             if self.console.no_color is False:
-                match result.level:
-                    case Level.ERROR:
-                        style = "red"
-
-                    case Level.WARNING:
-                        style = "yellow"
-
-                    case Level.NOTE:
-                        style = "blue"
+                if result.level == Level.ERROR:
+                    style = "red"
+                elif result.level == Level.WARNING:
+                    style = "yellow"
+                elif result.level == Level.NOTE:
+                    style = "blue"
 
             if result.artifact.uri is not None:
                 file_name = result.artifact.uri

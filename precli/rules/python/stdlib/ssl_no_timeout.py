@@ -61,6 +61,8 @@ cert = ssl.get_server_certificate(("example.com", 443), timeout=5)
 _New in version 0.6.7_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -79,7 +81,7 @@ class SslNoTimeout(Rule):
             "does not respond.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in ("ssl.get_server_certificate",):
             return
 

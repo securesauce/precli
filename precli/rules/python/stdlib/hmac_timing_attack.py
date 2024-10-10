@@ -77,6 +77,8 @@ print(hmac.compare_digest(digest, received_digest))
 _New in version 0.1.4_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.comparison import Comparison
 from precli.core.config import Config
 from precli.core.level import Level
@@ -108,7 +110,7 @@ class HmacTimingAttack(Rule):
 
     def analyze_comparison_operator(
         self, context: dict, comparison: Comparison
-    ) -> Result | None:
+    ) -> Optional[Result]:
         if comparison.operator == "==" and (
             comparison.left_hand in TIMING_VULNERABLE
             or comparison.right_hand in TIMING_VULNERABLE

@@ -69,6 +69,8 @@ imap.starttls(ssl.create_default_context())
 _New in version 0.6.7_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -87,7 +89,7 @@ class ImaplibNoTimeout(Rule):
             "does not respond.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "imaplib.IMAP4",
             "imaplib.IMAP4_SSL",

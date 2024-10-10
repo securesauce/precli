@@ -67,6 +67,8 @@ ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2)
 _New in version 0.1.0_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.argument import Argument
 from precli.core.call import Call
 from precli.core.config import Config
@@ -95,7 +97,7 @@ class InsecureTlsVersion(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified in ["ssl.get_server_certificate"]:
             # get_server_certificate(
             #     addr,

@@ -13,18 +13,15 @@ from precli.rules import Rule
 class Detailed(Renderer):
     def render(self, run: Run):
         for result in run.results:
-            match result.level:
-                case Level.ERROR:
-                    emoji = ":no_entry-emoji:"
-                    style = "red"
-
-                case Level.WARNING:
-                    emoji = ":warning-emoji: "
-                    style = "yellow"
-
-                case Level.NOTE:
-                    emoji = ":information-emoji: "
-                    style = "blue"
+            if result.level == Level.ERROR:
+                emoji = ":no_entry-emoji:"
+                style = "red"
+            elif result.level == Level.WARNING:
+                emoji = ":warning-emoji: "
+                style = "yellow"
+            elif result.level == Level.NOTE:
+                emoji = ":information-emoji: "
+                style = "blue"
 
             if result.artifact.uri is not None:
                 if result.location.start_line != result.location.end_line:

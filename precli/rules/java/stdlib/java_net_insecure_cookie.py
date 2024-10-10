@@ -68,6 +68,8 @@ public class HttpCookieSecureFalse {
 _New in version 0.5.1_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -92,7 +94,7 @@ class InsecureCookie(Rule):
 
     def analyze_method_invocation(
         self, context: dict, call: Call
-    ) -> Result | None:
+    ) -> Optional[Result]:
         if call.name_qualified not in [
             "java.net.HttpCookie.setSecure",
         ]:

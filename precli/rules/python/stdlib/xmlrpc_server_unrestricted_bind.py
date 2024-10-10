@@ -72,6 +72,8 @@ if __name__ == "__main__":
 _New in version 0.3.14_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core import utils
 from precli.core.call import Call
 from precli.core.location import Location
@@ -94,7 +96,7 @@ class XmlrpcServerUnrestrictedBind(Rule):
             "interfaces, increasing the risk of unauthorized access.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "xmlrpc.server.DocXMLRPCServer",
             "xmlrpc.server.SimpleXMLRPCServer",

@@ -80,6 +80,8 @@ _New in version 0.1.0_
 _Changed in version 0.4.1: Added md5-sha1_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.argument import Argument
 from precli.core.call import Call
 from precli.core.config import Config
@@ -111,7 +113,7 @@ class HashlibWeakHash(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified in HASHLIB_WEAK_HASHES:
             used_for_security = call.get_argument(
                 name="usedforsecurity", default=Argument(None, True)

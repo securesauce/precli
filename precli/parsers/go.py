@@ -1,6 +1,7 @@
 # Copyright 2024 Secure Sauce LLC
 import ast
 import re
+from typing import Optional
 
 from tree_sitter import Node
 
@@ -53,33 +54,32 @@ class Go(Parser):
     def import_spec(self, nodes: list[Node]):
         imports = {}
 
-        match nodes[0].type:
-            case NodeTypes.INTERPRETED_STRING_LITERAL:
-                # import "fmt"
-                package = ast.literal_eval(nodes[0].string)
-                default_package = package.split("/")[-1]
-                imports[default_package] = package
+        if nodes[0].type == NodeTypes.INTERPRETED_STRING_LITERAL:
+            # import "fmt"
+            package = ast.literal_eval(nodes[0].string)
+            default_package = package.split("/")[-1]
+            imports[default_package] = package
 
-            case NodeTypes.PACKAGE_IDENTIFIER:
-                # import fm "fmt"
-                # Can use fm.Println instead of fmt.Println
-                if nodes[1].type == NodeTypes.INTERPRETED_STRING_LITERAL:
-                    alias = nodes[0].string
-                    package = ast.literal_eval(nodes[1].string)
-                    imports[alias] = package
+        elif nodes[0].type == NodeTypes.PACKAGE_IDENTIFIER:
+            # import fm "fmt"
+            # Can use fm.Println instead of fmt.Println
+            if nodes[1].type == NodeTypes.INTERPRETED_STRING_LITERAL:
+                alias = nodes[0].string
+                package = ast.literal_eval(nodes[1].string)
+                imports[alias] = package
 
-            case NodeTypes.DOT:
-                # import . "fmt"
-                # Can just call Println instead of fmt.Println
-                # TODO: similar to Python wildcard imports
-                pass
+        elif nodes[0].type == NodeTypes.DOT:
+            # import . "fmt"
+            # Can just call Println instead of fmt.Println
+            # TODO: similar to Python wildcard imports
+            pass
 
-            case NodeTypes.BLANK_IDENTIFIER:
-                # import _ "some/driver"
-                # The driver package is imported, and its init function is
-                # executed, but no access any of its other functions or
-                # variables directly.
-                pass
+        elif nodes[0].type == NodeTypes.BLANK_IDENTIFIER:
+            # import _ "some/driver"
+            # The driver package is imported, and its init function is
+            # executed, but no access any of its other functions or
+            # variables directly.
+            pass
 
         return imports
 
@@ -90,7 +90,7 @@ class Go(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
-    def _get_var_node(self, node: Node) -> Node | None:
+    def _get_var_node(self, node: Node) -> Optional[Node]:
         if (
             len(node.named_children) >= 2
             and node.named_children[0].type
@@ -101,7 +101,7 @@ class Go(Parser):
         elif node.type == NodeTypes.ATTRIBUTE:
             return self._get_var_node(node.named_children[0])
 
-    def _get_func_ident(self, node: Node) -> Node | None:
+    def _get_func_ident(self, node: Node) -> Optional[Node]:
         # TODO(ericwb): does this function fail with nested calls?
         if node.type == NodeTypes.ATTRIBUTE:
             return self._get_func_ident(node.named_children[1])
@@ -152,7 +152,7 @@ class Go(Parser):
 
         return args
 
-    def get_qual_name(self, node: Node) -> Symbol | None:
+    def get_qual_name(self, node: Node) -> Optional[Symbol]:
         nodetext = node.string
         symbol = self.current_symtab.get(nodetext)
 
@@ -181,36 +181,35 @@ class Go(Parser):
             default = default.string
 
         try:
-            match node.type:
-                case NodeTypes.SELECTOR_EXPRESSION:
-                    nodetext = node.string
-                    symbol = self.get_qual_name(node)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.IDENTIFIER:
-                    symbol = self.get_qual_name(node)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.INTERPRETED_STRING_LITERAL:
-                    # TODO: don't use ast
-                    value = ast.literal_eval(nodetext)
-                case NodeTypes.INT_LITERAL:
-                    # TODO: hex, octal, binary
-                    try:
-                        value = int(nodetext)
-                    except ValueError:
-                        value = nodetext
-                case NodeTypes.FLOAT_LITERAL:
-                    try:
-                        value = float(nodetext)
-                    except ValueError:
-                        value = nodetext
-                case NodeTypes.TRUE:
-                    value = True
-                case NodeTypes.FALSE:
-                    value = False
-                case NodeTypes.NIL:
-                    value = None
+            if node.type == NodeTypes.SELECTOR_EXPRESSION:
+                nodetext = node.string
+                symbol = self.get_qual_name(node)
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.IDENTIFIER:
+                symbol = self.get_qual_name(node)
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.INTERPRETED_STRING_LITERAL:
+                # TODO: don't use ast
+                value = ast.literal_eval(nodetext)
+            elif node.type == NodeTypes.INT_LITERAL:
+                # TODO: hex, octal, binary
+                try:
+                    value = int(nodetext)
+                except ValueError:
+                    value = nodetext
+            elif node.type == NodeTypes.FLOAT_LITERAL:
+                try:
+                    value = float(nodetext)
+                except ValueError:
+                    value = nodetext
+            elif node.type == NodeTypes.TRUE:
+                value = True
+            elif node.type == NodeTypes.FALSE:
+                value = False
+            elif node.type == NodeTypes.NIL:
+                value = None
         except ValueError:
             value = None
 

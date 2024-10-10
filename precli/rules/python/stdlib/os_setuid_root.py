@@ -63,6 +63,8 @@ os.setuid(1000)
 _New in version 0.6.6_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
@@ -83,7 +85,7 @@ class OsSetuidRoot(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified != "os.setuid":
             return
 

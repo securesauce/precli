@@ -84,6 +84,8 @@ These alternatives include:
 _New in version 0.1.0_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
@@ -102,7 +104,7 @@ class FtpCleartext(Rule):
             "encryption.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified in ["ftplib.FTP"]:
             fixes = Rule.get_fixes(
                 context=context,
