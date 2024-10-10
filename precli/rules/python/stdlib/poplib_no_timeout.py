@@ -69,6 +69,8 @@ pop.stls(ssl.create_default_context())
 _New in version 0.6.7_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -87,7 +89,7 @@ class PoplibNoTimeout(Rule):
             "does not respond.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "poplib.POP3",
             "poplib.POP3_SSL",

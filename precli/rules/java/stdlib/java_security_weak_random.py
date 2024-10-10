@@ -70,6 +70,8 @@ public class StrongRNG {
 _New in version 0.5.0_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -94,7 +96,7 @@ class SecureRandomWeakRandom(Rule):
 
     def analyze_method_invocation(
         self, context: dict, call: Call
-    ) -> Result | None:
+    ) -> Optional[Result]:
         if call.name_qualified not in [
             "java.security.SecureRandom.getInstance",
         ]:

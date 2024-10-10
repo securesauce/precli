@@ -28,13 +28,12 @@ class Markdown(Renderer):
             except UnicodeDecodeError:
                 pass
 
-            match result.level:
-                case Level.ERROR:
-                    alert = "CAUTION"
-                case Level.WARNING:
-                    alert = "WARNING"
-                case Level.NOTE:
-                    alert = "NOTE"
+            if result.level == Level.ERROR:
+                alert = "CAUTION"
+            elif result.level == Level.WARNING:
+                alert = "WARNING"
+            elif result.level == Level.NOTE:
+                alert = "NOTE"
 
             if result.artifact.uri is not None:
                 if result.location.start_line != result.location.end_line:

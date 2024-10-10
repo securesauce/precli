@@ -67,6 +67,8 @@ ftp_server = ftplib.FTP("ftp.example.com", timeout=5)
 _New in version 0.6.7_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -85,7 +87,7 @@ class FtplibNoTimeout(Rule):
             "does not respond.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "ftplib.FTP",
             "ftplib.FTP.connect",

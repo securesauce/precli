@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 import re
+from typing import Optional
 
 from tree_sitter import Node
 
@@ -103,7 +104,7 @@ class Java(Parser):
         self.visit(nodes)
         self.current_symtab = self.current_symtab.parent()
 
-    def _get_var_node(self, node: Node) -> Node | None:
+    def _get_var_node(self, node: Node) -> Optional[Node]:
         if (
             len(node.named_children) >= 2
             and node.named_children[0].type
@@ -114,7 +115,7 @@ class Java(Parser):
         elif node.type == NodeTypes.ATTRIBUTE:
             return self._get_var_node(node.named_children[0])
 
-    def _get_func_ident(self, node: Node) -> Node | None:
+    def _get_func_ident(self, node: Node) -> Optional[Node]:
         # TODO(ericwb): does this function fail with nested calls?
         if node.type == NodeTypes.ATTRIBUTE:
             return self._get_func_ident(node.named_children[1])
@@ -276,7 +277,7 @@ class Java(Parser):
 
         return args
 
-    def get_qual_name(self, node: Node) -> Symbol | None:
+    def get_qual_name(self, node: Node) -> Optional[Symbol]:
         nodetext = node.string
         symbol = self.current_symtab.get(nodetext)
 
@@ -294,79 +295,78 @@ class Java(Parser):
             default = default.string
 
         try:
-            match node.type:
-                case NodeTypes.OBJECT_CREATION_EXPRESSION:
-                    # "new" (type_identifier | scoped_type_identifier)
-                    # argument_list
-                    if node.children[0].type == "new" and node.children[
-                        1
-                    ].type in (
-                        NodeTypes.TYPE_IDENTIFIER,
-                        NodeTypes.SCOPED_TYPE_IDENTIFIER,
-                    ):
-                        nodetext = node.children[1].string
-                        if (
-                            node.children[1].type
-                            == NodeTypes.SCOPED_TYPE_IDENTIFIER
-                        ):
-                            symbol = Symbol(
-                                nodetext, NodeTypes.IDENTIFIER, nodetext
-                            )
-                        else:
-                            symbol = self.get_qual_name(node.children[1])
-                        if symbol is not None:
-                            value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.METHOD_INVOCATION:
+            if node.type == NodeTypes.OBJECT_CREATION_EXPRESSION:
+                # "new" (type_identifier | scoped_type_identifier)
+                # argument_list
+                if node.children[0].type == "new" and node.children[
+                    1
+                ].type in (
+                    NodeTypes.TYPE_IDENTIFIER,
+                    NodeTypes.SCOPED_TYPE_IDENTIFIER,
+                ):
+                    nodetext = node.children[1].string
                     if (
-                        node.children[1].type == "."
-                        and node.children[2].type == NodeTypes.IDENTIFIER
+                        node.children[1].type
+                        == NodeTypes.SCOPED_TYPE_IDENTIFIER
                     ):
-                        # (field_access | identifier) "." identifier
-                        # argument_list
-                        part1 = node.children[0].string
-                        part2 = node.children[2].string
-                        nodetext = ".".join([part1, part2])
+                        symbol = Symbol(
+                            nodetext, NodeTypes.IDENTIFIER, nodetext
+                        )
                     else:
-                        # identifier argument_list
-                        nodetext = node.children[0].string
-                    symbol = self.get_qual_name(node.children[0])
+                        symbol = self.get_qual_name(node.children[1])
                     if symbol is not None:
                         value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.FIELD_ACCESS:
-                    symbol = Symbol(nodetext, NodeTypes.IDENTIFIER, nodetext)
+            elif node.type == NodeTypes.METHOD_INVOCATION:
+                if (
+                    node.children[1].type == "."
+                    and node.children[2].type == NodeTypes.IDENTIFIER
+                ):
+                    # (field_access | identifier) "." identifier
+                    # argument_list
+                    part1 = node.children[0].string
+                    part2 = node.children[2].string
+                    nodetext = ".".join([part1, part2])
+                else:
+                    # identifier argument_list
+                    nodetext = node.children[0].string
+                symbol = self.get_qual_name(node.children[0])
+                if symbol is not None:
                     value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.IDENTIFIER:
-                    symbol = self.get_qual_name(node)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.STRING_LITERAL:
+            elif node.type == NodeTypes.FIELD_ACCESS:
+                symbol = Symbol(nodetext, NodeTypes.IDENTIFIER, nodetext)
+                value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.IDENTIFIER:
+                symbol = self.get_qual_name(node)
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.STRING_LITERAL:
+                value = nodetext
+            elif node.type == NodeTypes.CHARACTER_LITERAL:
+                # TODO
+                pass
+            elif node.type == NodeTypes.DECIMAL_INTEGER_LITERAL:
+                try:
+                    value = int(nodetext)
+                except ValueError:
                     value = nodetext
-                case NodeTypes.CHARACTER_LITERAL:
-                    # TODO
-                    pass
-                case NodeTypes.DECIMAL_INTEGER_LITERAL:
-                    try:
-                        value = int(nodetext)
-                    except ValueError:
-                        value = nodetext
-                case NodeTypes.HEX_INTEGER_LITERAL:
-                    # TODO
-                    pass
-                case NodeTypes.OCTAL_INTEGER_LITERAL:
-                    # TODO
-                    pass
-                case NodeTypes.DECIMAL_FLOATING_POINT_LITERAL:
-                    # TODO
-                    pass
-                case NodeTypes.BINARY_INTEGER_LITERAL:
-                    # TODO
-                    pass
-                case NodeTypes.TRUE:
-                    value = True
-                case NodeTypes.FALSE:
-                    value = False
-                case NodeTypes.NULL_LITERAL:
-                    value = None
+            elif node.type == NodeTypes.HEX_INTEGER_LITERAL:
+                # TODO
+                pass
+            elif node.type == NodeTypes.OCTAL_INTEGER_LITERAL:
+                # TODO
+                pass
+            elif node.type == NodeTypes.DECIMAL_FLOATING_POINT_LITERAL:
+                # TODO
+                pass
+            elif node.type == NodeTypes.BINARY_INTEGER_LITERAL:
+                # TODO
+                pass
+            elif node.type == NodeTypes.TRUE:
+                value = True
+            elif node.type == NodeTypes.FALSE:
+                value = False
+            elif node.type == NodeTypes.NULL_LITERAL:
+                value = None
         except ValueError:
             value = None
 

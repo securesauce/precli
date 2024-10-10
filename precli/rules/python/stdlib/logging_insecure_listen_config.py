@@ -52,6 +52,8 @@ thread = logging.config.listen(verify=validate)
 _New in version 0.1.0_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -69,7 +71,7 @@ class InsecureListenConfig(Rule):
             "injection.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in ["logging.config.listen"]:
             return
 

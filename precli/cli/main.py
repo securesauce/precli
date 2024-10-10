@@ -128,9 +128,10 @@ def setup_arg_parser():
         help="quiet mode, display less output",
     )
     extensions = ""
-    for dist in metadata.distributions():
-        if dist.name.startswith("precli-"):
-            extensions += f"  {dist.name} {dist.version}\n"
+    if sys.version_info >= (3, 10):
+        for dist in metadata.distributions():
+            if dist.name.startswith("precli-"):
+                extensions += f"  {dist.name} {dist.version}\n"
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
@@ -289,15 +290,14 @@ def discover_files(targets: list[str], recursive: bool):
 
 
 def create_gist(file, renderer: str):
-    match renderer:
-        case "json":
-            filename = "results.json"
-        case "plain":
-            filename = "results.txt"
-        case "markdown":
-            filename = "results.md"
-        case "detailed":
-            filename = "results.txt"
+    if renderer == "json":
+        filename = "results.json"
+    elif renderer == "plain":
+        filename = "results.txt"
+    elif renderer == "markdown":
+        filename = "results.md"
+    elif renderer == "detailed":
+        filename = "results.txt"
 
     with open(file.name, encoding="utf-8") as f:
         file_content = f.read()

@@ -64,6 +64,8 @@ telnet = telnetlib.Telnet("example.com", 23, timeout=5)
 _New in version 0.6.7_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -82,7 +84,7 @@ class TelnetlibNoTimeout(Rule):
             "does not respond.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "telnetlib.Telnet",
             "telnetlib.Telnet.open",

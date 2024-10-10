@@ -68,6 +68,8 @@ M.logout()
 _New in version 0.1.9_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
@@ -88,7 +90,7 @@ class ImapCleartext(Rule):
             config=Config(level=Level.ERROR),
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "imaplib.IMAP4.authenticate",
             "imaplib.IMAP4.login",

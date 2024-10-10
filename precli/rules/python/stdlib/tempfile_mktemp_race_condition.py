@@ -57,6 +57,8 @@ with open(
 _New in version 0.1.9_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.fix import Fix
 from precli.core.location import Location
@@ -76,7 +78,7 @@ class MktempRaceCondition(Rule):
             "conditions.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified in ["open"]:
             file_arg = call.get_argument(position=0, name="file")
 

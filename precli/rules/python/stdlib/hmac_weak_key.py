@@ -66,6 +66,8 @@ hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 _New in version 0.4.3_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
@@ -120,7 +122,7 @@ class HmacWeakKey(Rule):
             "for the '{2}' algorithm.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in ("hmac.new", "hmac.digest"):
             return
 

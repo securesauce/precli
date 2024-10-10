@@ -87,6 +87,8 @@ func main() {
 _New in version 0.6.6_
 
 """  # noqa: E501
+from typing import Optional
+
 from precli.core.call import Call
 from precli.core.config import Config
 from precli.core.level import Level
@@ -109,7 +111,7 @@ class SyscallSetuidRoot(Rule):
 
     def analyze_call_expression(
         self, context: dict, call: Call
-    ) -> Result | None:
+    ) -> Optional[Result]:
         if call.name_qualified != "syscall.Setuid":
             return
 

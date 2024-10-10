@@ -5,6 +5,7 @@ import importlib
 import re
 import warnings
 from collections import namedtuple
+from typing import Optional
 
 from tree_sitter import Node
 
@@ -218,7 +219,7 @@ class Python(Parser):
 
         self.visit(nodes)
 
-    def _get_var_node(self, node: Node) -> Node | None:
+    def _get_var_node(self, node: Node) -> Optional[Node]:
         if (
             len(node.named_children) >= 2
             and node.named_children[0].type
@@ -229,7 +230,7 @@ class Python(Parser):
         elif node.type == NodeTypes.ATTRIBUTE:
             return self._get_var_node(node.named_children[0])
 
-    def _get_func_ident(self, node: Node) -> Node | None:
+    def _get_func_ident(self, node: Node) -> Optional[Node]:
         # TODO(ericwb): does this function fail with nested calls?
         if node.type == NodeTypes.ATTRIBUTE:
             return self._get_func_ident(node.named_children[1])
@@ -453,7 +454,7 @@ class Python(Parser):
                 modules.append(imp.module)
         return f"from {package} import {', '.join(modules)}"
 
-    def importlib_import_module(self, call: Call) -> str | None:
+    def importlib_import_module(self, call: Call) -> Optional[str]:
         name = call.get_argument(position=0, name="name").value_str
         if name is None:
             return None
@@ -477,7 +478,7 @@ class Python(Parser):
                 args.append(self.resolve(child, default=child))
         return args, kwargs
 
-    def get_qual_name(self, node: Node) -> Symbol | None:
+    def get_qual_name(self, node: Node) -> Optional[Symbol]:
         nodetext = node.string
         symbol = self.current_symtab.get(nodetext)
         if symbol is not None:
@@ -507,112 +508,107 @@ class Python(Parser):
             default = default.string
 
         try:
-            match node.type:
-                case NodeTypes.PARENTHESIZED_EXPRESSION:
-                    if len(node.named_children) == 1:
-                        value = self.resolve(node.named_children[0])
-                case NodeTypes.CALL:
-                    nodetext = node.children[0].string
-                    symbol = self.get_qual_name(node.children[0])
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.ATTRIBUTE:
-                    result = []
-                    self.unchain(node, result)
-                    nodetext = ".".join(result)
-                    symbol = self.get_qual_name(node)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.IDENTIFIER:
-                    symbol = self.get_qual_name(node)
-                    if symbol is not None:
-                        value = self.join_symbol(nodetext, symbol)
-                case NodeTypes.KEYWORD_ARGUMENT:
-                    keyword = node.named_children[0].string
-                    kwvalue = node.named_children[1]
-                    value = {keyword: self.resolve(kwvalue, default=kwvalue)}
-                case NodeTypes.DICTIONARY:
-                    value = {}
-                    for child in node.named_children:
-                        if child.type == NodeTypes.PAIR:
-                            keyword = utils.to_str(
-                                child.named_children[0].string
-                            )
-                            kwvalue = child.named_children[1]
-                            value[keyword] = self.resolve(
-                                kwvalue, default=kwvalue
-                            )
-                case NodeTypes.SUBSCRIPT:
-                    # TODO: fix other subscript usage like list, slice, etc?
-                    var = self.resolve(node.named_children[0])
-                    if (
-                        var is not None
-                        and isinstance(var, dict)
-                        or isinstance(var, tuple)
-                    ):
-                        key = node.named_children[1]
-                        try:
-                            if key.type == NodeTypes.STRING:
-                                value = var[utils.to_str(self.resolve(key))]
-                            elif key.type == NodeTypes.INTEGER:
-                                value = var[self.resolve(key)]
-                        except KeyError:
-                            pass
-                case NodeTypes.LIST:
-                    # TODO: don't use ast.literal_eval
-                    # value = ast.literal_eval(nodetext)
-                    pass
-                case NodeTypes.TUPLE:
-                    value = ()
-                    for child in node.named_children:
-                        value += (self.resolve(child),)
-                case NodeTypes.UNARY_OPERATOR:
-                    # unary_operator: (+, -, ~) attribute
-                    old_value = self.resolve(node.children[1])
-                    if isinstance(old_value, int):
-                        if node.children[0].string == "+":
-                            value = +old_value
-                        elif node.children[0].string == "-":
-                            value = -old_value
-                        elif node.children[0].string == "~":
-                            value = ~old_value
-                case NodeTypes.BINARY_OPERATOR:
-                    # binary_operator (|, &) attribute
-                    left = self.resolve(node.children[0])
-                    right = self.resolve(node.children[2])
+            if node.type == NodeTypes.PARENTHESIZED_EXPRESSION:
+                if len(node.named_children) == 1:
+                    value = self.resolve(node.named_children[0])
+            elif node.type == NodeTypes.CALL:
+                nodetext = node.children[0].string
+                symbol = self.get_qual_name(node.children[0])
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.ATTRIBUTE:
+                result = []
+                self.unchain(node, result)
+                nodetext = ".".join(result)
+                symbol = self.get_qual_name(node)
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.IDENTIFIER:
+                symbol = self.get_qual_name(node)
+                if symbol is not None:
+                    value = self.join_symbol(nodetext, symbol)
+            elif node.type == NodeTypes.KEYWORD_ARGUMENT:
+                keyword = node.named_children[0].string
+                kwvalue = node.named_children[1]
+                value = {keyword: self.resolve(kwvalue, default=kwvalue)}
+            elif node.type == NodeTypes.DICTIONARY:
+                value = {}
+                for child in node.named_children:
+                    if child.type == NodeTypes.PAIR:
+                        keyword = utils.to_str(child.named_children[0].string)
+                        kwvalue = child.named_children[1]
+                        value[keyword] = self.resolve(kwvalue, default=kwvalue)
+            elif node.type == NodeTypes.SUBSCRIPT:
+                # TODO: fix other subscript usage like list, slice, etc?
+                var = self.resolve(node.named_children[0])
+                if (
+                    var is not None
+                    and isinstance(var, dict)
+                    or isinstance(var, tuple)
+                ):
+                    key = node.named_children[1]
+                    try:
+                        if key.type == NodeTypes.STRING:
+                            value = var[utils.to_str(self.resolve(key))]
+                        elif key.type == NodeTypes.INTEGER:
+                            value = var[self.resolve(key)]
+                    except KeyError:
+                        pass
+            elif node.type == NodeTypes.LIST:
+                # TODO: don't use ast.literal_eval
+                # value = ast.literal_eval(nodetext)
+                pass
+            elif node.type == NodeTypes.TUPLE:
+                value = ()
+                for child in node.named_children:
+                    value += (self.resolve(child),)
+            elif node.type == NodeTypes.UNARY_OPERATOR:
+                # unary_operator: (+, -, ~) attribute
+                old_value = self.resolve(node.children[1])
+                if isinstance(old_value, int):
+                    if node.children[0].string == "+":
+                        value = +old_value
+                    elif node.children[0].string == "-":
+                        value = -old_value
+                    elif node.children[0].string == "~":
+                        value = ~old_value
+            elif node.type == NodeTypes.BINARY_OPERATOR:
+                # binary_operator (|, &) attribute
+                left = self.resolve(node.children[0])
+                right = self.resolve(node.children[2])
 
-                    if isinstance(left, int) and isinstance(right, int):
-                        if node.children[1].string == "|":
-                            value = left | right
-                        elif node.children[1].string == "&":
-                            value = left & right
-                case NodeTypes.STRING:
-                    # TODO: handle f-strings? (f"{a}")
+                if isinstance(left, int) and isinstance(right, int):
+                    if node.children[1].string == "|":
+                        value = left | right
+                    elif node.children[1].string == "&":
+                        value = left & right
+            elif node.type == NodeTypes.STRING:
+                # TODO: handle f-strings? (f"{a}")
+                value = nodetext
+            elif node.type == NodeTypes.INTEGER:
+                if nodetext.lower().startswith("0x"):
+                    base = 16
+                elif nodetext.lower().startswith("0o"):
+                    base = 8
+                elif nodetext.lower().startswith("0b"):
+                    base = 2
+                else:
+                    base = 10
+                try:
+                    value = int(nodetext, base)
+                except ValueError:
                     value = nodetext
-                case NodeTypes.INTEGER:
-                    if nodetext.lower().startswith("0x"):
-                        base = 16
-                    elif nodetext.lower().startswith("0o"):
-                        base = 8
-                    elif nodetext.lower().startswith("0b"):
-                        base = 2
-                    else:
-                        base = 10
-                    try:
-                        value = int(nodetext, base)
-                    except ValueError:
-                        value = nodetext
-                case NodeTypes.FLOAT:
-                    try:
-                        value = float(nodetext)
-                    except ValueError:
-                        value = nodetext
-                case NodeTypes.TRUE:
-                    value = True
-                case NodeTypes.FALSE:
-                    value = False
-                case NodeTypes.NONE:
-                    value = None
+            elif node.type == NodeTypes.FLOAT:
+                try:
+                    value = float(nodetext)
+                except ValueError:
+                    value = nodetext
+            elif node.type == NodeTypes.TRUE:
+                value = True
+            elif node.type == NodeTypes.FALSE:
+                value = False
+            elif node.type == NodeTypes.NONE:
+                value = None
         except ValueError:
             value = None
 

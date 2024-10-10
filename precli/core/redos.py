@@ -130,18 +130,17 @@ class CharacterRange:
     def _parse_in_nodes(nodes: tuple):
         results = []
         for node_type, args in nodes:
-            match node_type:
-                case constants.LITERAL:
-                    results.append(CR(cr_min=args, cr_max=args))
-                case constants.RANGE:
-                    results.append(CR(cr_min=args[0], cr_max=args[1]))
-                case constants.CATEGORY:
-                    for c, r in CATEGORY_TO_RANGE.items():
-                        if args is c:
-                            results.extend(
-                                CR(cr_min=r_min, cr_max=r_max)
-                                for r_min, r_max in r
-                            )
+            if node_type == constants.LITERAL:
+                results.append(CR(cr_min=args, cr_max=args))
+            elif node_type == constants.RANGE:
+                results.append(CR(cr_min=args[0], cr_max=args[1]))
+            elif node_type == constants.CATEGORY:
+                for c, r in CATEGORY_TO_RANGE.items():
+                    if args is c:
+                        results.extend(
+                            CR(cr_min=r_min, cr_max=r_max)
+                            for r_min, r_max in r
+                        )
 
         return results
 
@@ -160,18 +159,17 @@ class CharacterRange:
 
     @classmethod
     def from_op_node(cls, node: OpNode):
-        match node.op:
-            case constants.ANY:
-                return cls.from_any(node.args)
-            case constants.LITERAL:
-                return cls.from_literal(node.args)
-            case constants.NOT_LITERAL:
-                return cls.from_not_literal(node.args)
-            case constants.IN:
-                if node.args and node.args[0] == (constants.NEGATE, None):
-                    return cls.from_not_in(node.args)
-                else:
-                    return cls.from_in(node.args)
+        if node.op == constants.ANY:
+            return cls.from_any(node.args)
+        elif node.op == constants.LITERAL:
+            return cls.from_literal(node.args)
+        elif node.op == constants.NOT_LITERAL:
+            return cls.from_not_literal(node.args)
+        elif node.op == constants.IN:
+            if node.args and node.args[0] == (constants.NEGATE, None):
+                return cls.from_not_in(node.args)
+            else:
+                return cls.from_in(node.args)
 
         # Unsupported OpNode
         return None

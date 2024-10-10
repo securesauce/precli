@@ -59,6 +59,7 @@ _New in version 0.2.3_
 
 """  # noqa: E501
 import re
+from typing import Optional
 
 from precli.core.call import Call
 from precli.core.level import Level
@@ -78,7 +79,7 @@ class SslContextWeakKey(Rule):
             "vulnerable to attacks.",
         )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "ssl.SSLContext.set_ecdh_curve",
             "ssl.create_default_context.set_ecdh_curve",

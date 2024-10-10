@@ -82,6 +82,7 @@ _New in version 0.6.2_
 
 """  # noqa: E501
 import stat
+from typing import Optional
 
 from precli.core.call import Call
 from precli.core.level import Level
@@ -142,7 +143,7 @@ class OsLooseFilePermissions(Rule):
                 getattr(stat, constant),
             )
 
-    def analyze_call(self, context: dict, call: Call) -> Result | None:
+    def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "os.fchmod",
             "os.chmod",
