@@ -41,6 +41,7 @@ class TestAssert(test_case.TestCase):
         "filename",
         [
             "assert.py",
+            "assert_test_func.py",
         ],
     )
     def test(self, filename):
