@@ -28,6 +28,16 @@ class Java(Parser):
     def get_file_encoding(self, file_contents: str) -> str:
         return "utf-8"
 
+    def is_test_code(self) -> bool:
+        """
+        Determine if analyzing test code.
+
+        This function determines if the current position of the analysis
+        is within unit test code. The purpose of which is to potentially
+        ignore rules in test code.
+        """
+        return False
+
     def visit_program(self, nodes: list[Node]):
         self.suppressions = {}
         self.current_symtab = SymbolTable("<program>")

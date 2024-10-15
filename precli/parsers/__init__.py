@@ -35,6 +35,7 @@ class Parser(ABC):
         self.tree_sitter_parser = tree_sitter.Parser(language)
         self.rules = {}
         self.wildcards = {}
+        self.skip_tests = True
 
         if sys.version_info >= (3, 10):
             discovered_rules = entry_points(group=f"precli.rules.{lang}")
@@ -234,13 +235,26 @@ class Parser(ABC):
             value = symbol.value
         return value
 
-    def analyze_node(self, node_type: str, **kwargs: dict) -> list[Result]:
+    @abstractmethod
+    def is_test_code(self) -> bool:
+        """
+        Determine if analyzing test code.
+
+        This function determines if the current position of the analysis
+        is within unit test code. The purpose of which is to potentially
+        ignore rules in test code.
+        """
+
+    def analyze_node(self, node_type: str, **kwargs: dict) -> None:
         """
         Process the rules based on node_type.
 
         This function will iterate through all rules that are designed to
         handle the given node type (node_type).
         """
+        if self.skip_tests and self.is_test_code():
+            return
+
         fn = f"analyze_{node_type}"
         for rule in self.rules.values():
             if hasattr(rule, fn) and rule.enabled:

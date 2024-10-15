@@ -2,6 +2,7 @@
 import builtins
 import codecs
 import importlib
+import pathlib
 import re
 import warnings
 from collections import namedtuple
@@ -22,10 +23,13 @@ Import = namedtuple("Import", "module alias")
 
 
 class Python(Parser):
-    def __init__(self):
+    def __init__(self, **config):
         super().__init__("python")
         self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
+
+        if "skip_tests" in config:
+            self.skip_tests = config["skip_tests"]
 
     def file_extensions(self) -> list[str]:
         return [".py", ".pyw"]
@@ -51,6 +55,23 @@ class Python(Parser):
             encoding = "utf-8"
 
         return encoding
+
+    def is_test_code(self) -> bool:
+        """
+        Determine if analyzing test code.
+
+        This function determines if the current position of the analysis
+        is within unit test code. The purpose of which is to potentially
+        ignore rules in test code.
+        """
+
+        # TODO: move these constants into configuration options
+        if self.current_symtab.name().startswith("test_"):
+            return True
+
+        path = pathlib.Path(self.context["artifact"].file_name)
+
+        return "tests" in path.parts or path.name.startswith("test_")
 
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
