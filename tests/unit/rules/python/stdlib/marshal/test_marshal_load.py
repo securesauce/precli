@@ -13,7 +13,7 @@ class TestMarshalLoad(test_case.TestCase):
     @classmethod
     def setup_class(cls):
         cls.rule_id = "PY011"
-        cls.parser = python.Python()
+        cls.parser = python.Python(skip_tests=False)
         cls.base_path = os.path.join(
             "tests",
             "unit",

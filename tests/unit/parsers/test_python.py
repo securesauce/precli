@@ -11,7 +11,7 @@ from precli.parsers import python
 class TestPython:
     @classmethod
     def setup_class(cls):
-        cls.parser = python.Python()
+        cls.parser = python.Python(skip_tests=False)
         cls.base_path = os.path.join(
             "tests",
             "unit",

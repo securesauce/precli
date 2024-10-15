@@ -79,9 +79,8 @@ class Assert(Rule):
         )
 
     def analyze_assert(self, context: dict) -> Optional[Result]:
-        if not context["symtab"].name().startswith("test_"):
-            return Result(
-                rule_id=self.id,
-                artifact=context["artifact"],
-                location=Location(context["node"]),
-            )
+        return Result(
+            rule_id=self.id,
+            artifact=context["artifact"],
+            location=Location(context["node"]),
+        )
