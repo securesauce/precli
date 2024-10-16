@@ -26,7 +26,7 @@ If your needs go beyond the analysis of just the standard library, consider upgr
 Quick Start
 -----------
 
-To install precli:
+To install:
 
 .. code-block:: console
 
