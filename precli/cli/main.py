@@ -118,6 +118,7 @@ def setup_arg_parser():
         "--no-color",
         dest="no_color",
         action="store_true",
+        default=os.getenv("NO_COLOR"),
         help="do not display color in output",
     )
     parser.add_argument(
@@ -348,7 +349,7 @@ def main():
 
     console = Console(
         file=file,
-        no_color=file.name != sys.stdout.name,
+        no_color=args.no_color or file.name != sys.stdout.name,
         highlight=False,
     )
 
