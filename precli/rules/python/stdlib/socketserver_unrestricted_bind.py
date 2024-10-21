@@ -1,4 +1,5 @@
 # Copyright 2024 Secure Sauce LLC
+# SPDX-License-Identifier: BUSL-1.1
 r"""
 # Binding to an Unrestricted IP Address in `socketserver` Module
 

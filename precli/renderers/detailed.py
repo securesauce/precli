@@ -1,4 +1,5 @@
 # Copyright 2024 Secure Sauce LLC
+# SPDX-License-Identifier: BUSL-1.1
 from rich import box
 from rich import syntax
 from rich.table import Table
