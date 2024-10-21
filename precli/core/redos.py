@@ -1,5 +1,6 @@
 # Copyright 2024 Secure Sauce LLC
 # Copyright 2019 Duo Security
+# SPDX-License-Identifier: BUSL-1.1
 import collections
 import itertools
 import sys
