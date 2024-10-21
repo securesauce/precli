@@ -265,11 +265,13 @@ def discover_files(targets: list[str], recursive: bool):
                             not preignore_mgr.is_ignored(file_path)
                             and pathlib.Path(path).suffix in FILE_EXTS
                         ):
-                            artifact = Artifact(path)
                             if repo:
-                                artifact.uri = file_to_url(
+                                uri = file_to_url(
                                     owner, repo, branch, target, root, file
                                 )
+                                artifact = Artifact(path, uri)
+                            else:
+                                artifact = Artifact(path)
                             artifacts.append(artifact)
             else:
                 files = os.listdir(path=target)
