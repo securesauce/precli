@@ -1,5 +1,8 @@
 # Copyright 2024 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
+import os
+from datetime import datetime
+from datetime import timezone
 from typing import Optional
 
 
@@ -11,6 +14,12 @@ class Artifact:
         self._contents = None
         self._encoding = "utf-8"
         self._language = None
+
+        if file_name != "-" or not uri:
+            modified_time = os.path.getmtime(file_name)
+            self._last_modified = datetime.fromtimestamp(
+                modified_time, tz=timezone.utc
+            )
 
     @property
     def file_name(self) -> str:
@@ -61,3 +70,8 @@ class Artifact:
     def language(self, language: str):
         """Set the programming language."""
         self._language = language
+
+    @property
+    def last_modified(self) -> datetime:
+        """The last modified time in UTC for this artifact."""
+        return self._last_modified
