@@ -67,12 +67,13 @@ class Python(Parser):
         """
 
         # TODO: move these constants into configuration options
-        if self.current_symtab.name().startswith("test_"):
-            return True
-
         path = pathlib.Path(self.context["artifact"].file_name)
 
-        return "tests" in path.parts or path.name.startswith("test_")
+        return all(
+            "tests" in path.parts,
+            path.name.startswith("test_"),
+            self.current_symtab.name().startswith("test_"),
+        )
 
     def visit_module(self, nodes: list[Node]):
         self.suppressions = {}
