@@ -51,6 +51,13 @@ def foobar(a: str = None):
 foobar("World")
 ```
 
+# Default Configuration
+
+```toml
+enabled = false
+level = "warning"
+```
+
 # See also
 
 !!! info
@@ -63,7 +70,6 @@ _New in version 0.3.8_
 """  # noqa: E501
 from typing import Optional
 
-from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -78,7 +84,6 @@ class Assert(Rule):
             cwe_id=703,
             message="Assert statements are disabled when optimizations are "
             "enabled.",
-            config=Config(enabled=False),
         )
 
     def analyze_assert(self, context: dict) -> Optional[Result]:

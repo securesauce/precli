@@ -67,6 +67,13 @@ with socketserver.UDPServer((HOST, PORT), MyUDPHandler) as server:
     server.serve_forever()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

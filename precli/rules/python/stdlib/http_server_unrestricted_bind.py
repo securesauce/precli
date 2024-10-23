@@ -63,6 +63,13 @@ if __name__ == "__main__":
     run(HTTPServer)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

@@ -59,6 +59,13 @@ public class StrongRNG {
 }
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

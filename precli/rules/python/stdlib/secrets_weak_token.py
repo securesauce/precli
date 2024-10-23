@@ -45,6 +45,15 @@ import secrets
 token = secrets.token_bytes()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+parameters.warning_token_size = 32
+parameters.error_token_size = 16
+```
+
 # See also
 
 !!! info
@@ -82,10 +91,13 @@ class SecretsWeakToken(Rule):
         ]:
             return
 
-        arg = call.get_argument(position=0, name="nbytes")
-        nbytes = int(arg.value) if isinstance(arg.value, int) else 32
+        WARN_SIZE = self.config.parameters.get("warning_token_size")
+        ERR_SIZE = self.config.parameters.get("error_token_size")
 
-        if nbytes < 32:
+        arg = call.get_argument(position=0, name="nbytes")
+        nbytes = int(arg.value) if isinstance(arg.value, int) else WARN_SIZE
+
+        if nbytes < WARN_SIZE:
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
@@ -97,7 +109,7 @@ class SecretsWeakToken(Rule):
             return Result(
                 rule_id=self.id,
                 location=Location(node=arg.node),
-                level=Level.ERROR if nbytes < 16 else Level.WARNING,
-                message=self.message.format(nbytes, 32),
+                level=Level.ERROR if nbytes < ERR_SIZE else Level.WARNING,
+                message=self.message.format(nbytes, WARN_SIZE),
                 fixes=fixes,
             )

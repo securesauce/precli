@@ -72,6 +72,14 @@ os.chmod(
 )
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+parameters.umask = 0o022
+```
+
 ## See also
 
 !!! info
@@ -99,7 +107,6 @@ DEFAULT_MODE = {
     "os.mkfifo": 0o666,
     "os.mknod": 0o600,
 }
-UMASK = 0o022
 
 
 class OsLooseFilePermissions(Rule):
@@ -165,6 +172,8 @@ class OsLooseFilePermissions(Rule):
             location = Location(node=argument.node)
             message = self.message
         elif call.name_qualified in ("os.mkdir", "os.open", "os.mkfifo"):
+            UMASK = self.config.parameters.get("umask")
+
             if argument.node is not None and isinstance(mode, int):
                 # mode argument passed
                 location = Location(node=argument.node)

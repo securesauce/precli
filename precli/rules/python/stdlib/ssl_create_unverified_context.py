@@ -46,6 +46,13 @@ import ssl
 context = ssl.create_default_context()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

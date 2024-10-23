@@ -59,6 +59,13 @@ imap = imaplib.IMAP4("imap.example.com", timeout=5)
 imap.starttls(ssl.create_default_context())
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

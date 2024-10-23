@@ -74,6 +74,13 @@ These alternatives include:
    network protocols, including SSH. Twisted can be used to create secure
    SFTP clients and servers.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 ## See also
 
 !!! info

@@ -50,6 +50,13 @@ reg = re.compile(IPv6address)
 reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -64,8 +71,6 @@ from typing import Optional
 
 from precli.core import redos
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -81,7 +86,6 @@ class ReDenialOfService(Rule):
             message="The call to '{0}'' with regex pattern '{1}'' is "
             "susceptible to catastrophic backtracking and may cause "
             "performance degradation.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

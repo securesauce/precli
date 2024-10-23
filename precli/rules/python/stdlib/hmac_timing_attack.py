@@ -69,6 +69,13 @@ digest = hmac.digest(key, password, digest="sha224")
 print(hmac.compare_digest(digest, received_digest))
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -81,8 +88,6 @@ _New in version 0.1.4_
 from typing import Optional
 
 from precli.core.comparison import Comparison
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -106,7 +111,6 @@ class HmacTimingAttack(Rule):
             cwe_id=208,
             message="Comparing digests with the '{0}' operator is vulnerable "
             "to timing attacks.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_comparison_operator(

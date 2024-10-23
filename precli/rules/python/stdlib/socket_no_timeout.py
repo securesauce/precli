@@ -57,6 +57,13 @@ s.recv(1024)
 s.close()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

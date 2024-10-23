@@ -78,6 +78,13 @@ func main() {
 }
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 ## See also
 
 !!! info
@@ -91,8 +98,6 @@ _New in version 0.6.6_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -107,7 +112,6 @@ class SyscallSetuidRoot(Rule):
             cwe_id=250,
             message="The function '{0}(0)' escalates the process to run with "
             "root (superuser) privileges.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call_expression(

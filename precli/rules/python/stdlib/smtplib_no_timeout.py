@@ -60,6 +60,13 @@ server = smtplib.SMTP("smtp.example.com", 587, timeout=10)
 server.starttls(context=ssl.create_default_context())
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

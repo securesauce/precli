@@ -69,6 +69,13 @@ hash = hashlib.md5(b"Non-security related text", usedforsecurity=False)
 hash.hexdigest()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -85,8 +92,6 @@ from typing import Optional
 
 from precli.core.argument import Argument
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -111,7 +116,6 @@ class HashlibWeakHash(Rule):
             cwe_id=328,
             message="The hash function '{0}' is vulnerable to collision and "
             "pre-image attacks.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

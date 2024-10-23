@@ -36,6 +36,13 @@ with data from trusted sources. If you are using the shelve module with
 data from an untrusted source, you should first sanitize the data to remove
 any potential malicious code.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

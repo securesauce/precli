@@ -29,7 +29,7 @@ class Result:
         self._artifact = artifact
         self._kind = kind
         rule = Rule.get_by_id(self._rule_id)
-        default_config = rule.default_config if rule else None
+        default_config = rule.config if rule else None
         self._rank = default_config.rank if default_config else -1.0
         if level:
             self._level = level

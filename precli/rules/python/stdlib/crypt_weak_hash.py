@@ -96,6 +96,13 @@ alternatives include `bcrypt`, `pbkdf2`, and `scrypt`.
    algorithm. Scrypt is designed to be more secure than bcrypt, and it is also
    more resistant to GPU-based attacks.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 ## See also
 
 !!! info

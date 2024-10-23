@@ -56,6 +56,13 @@ s.post(f)
 s.quit()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

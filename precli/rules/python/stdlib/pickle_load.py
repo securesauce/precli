@@ -48,6 +48,13 @@ Alternatively if you need to serialize sensitive data, you could use a
 secure serialization format, such as JSON or XML. These formats are designed
 to be secure and cannot be used to execute malicious code.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info
