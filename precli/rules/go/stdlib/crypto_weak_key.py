@@ -124,8 +124,10 @@ func main() {
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_key_size = 2048
-parameters.error_key_size = 1024
+parameters.warning_dsa_key_size = 2048
+parameters.error_dsa_key_size = 1024
+parameters.warning_rsa_key_size = 2048
+parameters.error_rsa_key_size = 1024
 ```
 
 # See also
@@ -161,10 +163,10 @@ class WeakKey(Rule):
     def analyze_call_expression(
         self, context: dict, call: Call
     ) -> Optional[Result]:
-        WARN_SIZE = self.config.parameters.get("warning_key_size")
-        ERR_SIZE = self.config.parameters.get("error_key_size")
-
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
+            WARN_SIZE = self.config.parameters.get("warning_dsa_key_size")
+            ERR_SIZE = self.config.parameters.get("error_dsa_key_size")
+
             argument = call.get_argument(position=2)
             sizes = argument.value
 
@@ -185,6 +187,9 @@ class WeakKey(Rule):
                     fixes=fixes,
                 )
         elif call.name_qualified in ["crypto/rsa.GenerateKey"]:
+            WARN_SIZE = self.config.parameters.get("warning_rsa_key_size")
+            ERR_SIZE = self.config.parameters.get("error_rsa_key_size")
+
             argument = call.get_argument(position=1)
             bits = argument.value
 
