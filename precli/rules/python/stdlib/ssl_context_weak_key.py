@@ -54,8 +54,8 @@ context.set_ecdh_curve("prime256v1")
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_key_size = 224
-parameters.error_key_size = 160
+parameters.warning_ec_key_size = 224
+parameters.error_ec_key_size = 160
 ```
 
 # See also
@@ -97,8 +97,8 @@ class SslContextWeakKey(Rule):
         ]:
             return
 
-        WARN_SIZE = self.config.parameters.get("warning_key_size")
-        ERR_SIZE = self.config.parameters.get("error_key_size")
+        WARN_SIZE = self.config.parameters.get("warning_ec_key_size")
+        ERR_SIZE = self.config.parameters.get("error_ec_key_size")
 
         arg = call.get_argument(position=0, name="curve_name")
         curve_name = arg.value
