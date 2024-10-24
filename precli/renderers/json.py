@@ -73,8 +73,8 @@ class Json(Renderer):
                 text=rule.short_description
             ),
             default_configuration=sarif_om.ReportingConfiguration(
-                enabled=rule.default_config.enabled,
-                level=rule.default_config.level.name.lower(),
+                enabled=rule.config.enabled,
+                level=rule.config.level.name.lower(),
             ),
             help=sarif_om.MultiformatMessageString(
                 text=rule.full_description, markdown=rule.full_description
@@ -87,7 +87,7 @@ class Json(Renderer):
                     "security",
                     f"external/cwe/cwe-{rule.cwe.id}",
                 ],
-                "security-severity": (rule.default_config.level.to_severity()),
+                "security-severity": (rule.config.level.to_severity()),
             },
         )
 

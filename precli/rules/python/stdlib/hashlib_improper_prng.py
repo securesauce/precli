@@ -56,6 +56,13 @@ salt = os.urandom(16)
 hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

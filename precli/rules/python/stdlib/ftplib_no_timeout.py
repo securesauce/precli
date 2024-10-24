@@ -56,6 +56,13 @@ import ftplib
 ftp_server = ftplib.FTP("ftp.example.com", timeout=5)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

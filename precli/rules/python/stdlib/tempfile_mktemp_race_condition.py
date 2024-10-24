@@ -49,6 +49,13 @@ with open(
     f.write(b"Hello World!\n")
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

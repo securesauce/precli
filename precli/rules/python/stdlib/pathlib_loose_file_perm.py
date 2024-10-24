@@ -72,6 +72,14 @@ file_path.chmod(
 )
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+parameters.umask = 0o022
+```
+
 ## See also
 
 !!! info
@@ -97,7 +105,6 @@ DEFAULT_MODE = {
     "pathlib.Path.mkdir": 0o777,
     "pathlib.Path.touch": 0o666,
 }
-UMASK = 0o022
 
 
 class PathlibLooseFilePermissions(Rule):
@@ -164,6 +171,8 @@ class PathlibLooseFilePermissions(Rule):
             "pathlib.Path.mkdir",
             "pathlib.Path.touch",
         ):
+            UMASK = self.config.parameters.get("umask")
+
             if argument.node is not None and isinstance(mode, int):
                 # mode argument passed
                 location = Location(node=argument.node)

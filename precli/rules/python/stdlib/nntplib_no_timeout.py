@@ -59,6 +59,13 @@ nntp = nntplib.NNTP("nntp.example.com", timeout=5)
 nntp.starttls(ssl.create_default_context())
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

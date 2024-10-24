@@ -62,6 +62,13 @@ for i in range(numMessages):
         print(j)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

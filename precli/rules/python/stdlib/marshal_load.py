@@ -37,6 +37,13 @@ To avoid this vulnerability, it is important to only deserialize data from
 trusted sources. If you are deserializing data from an untrusted source,
 you should first sanitize the data to remove any potential malicious code.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

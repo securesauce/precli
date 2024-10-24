@@ -50,6 +50,20 @@ conn.request("GET", "/path?otherParam=123", headers=headers)
 response = conn.getresponse()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+parameters.sensitive_params = [
+  "apiKey",
+  "pass",
+  "password",
+  "user",
+  "username",
+]
+```
+
 # See also
 
 !!! info
@@ -65,14 +79,9 @@ from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
-
-
-SENSITIVE_PARAMS = ("apiKey", "pass", "password", "user", "username")
 
 
 class HttpUrlSecret(Rule):
@@ -83,7 +92,6 @@ class HttpUrlSecret(Rule):
             description=__doc__,
             cwe_id=598,
             message="Secrets in URLs are vulnerable to unauthorized access.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -103,7 +111,8 @@ class HttpUrlSecret(Rule):
         params = parse_qs(query)
 
         if split_url.username or any(
-            key in params for key in SENSITIVE_PARAMS
+            key in params
+            for key in self.config.parameters.get("sensitive_params")
         ):
             return Result(
                 rule_id=self.id,

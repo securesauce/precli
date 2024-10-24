@@ -44,6 +44,13 @@ def validate(recv: bytes):
 thread = logging.config.listen(verify=validate)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

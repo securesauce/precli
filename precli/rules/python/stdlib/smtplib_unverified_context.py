@@ -98,6 +98,13 @@ server.sendmail(fromaddr, toaddrs, msg)
 server.quit()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

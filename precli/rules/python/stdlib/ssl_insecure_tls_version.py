@@ -59,6 +59,13 @@ import ssl
 ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1_2)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -72,8 +79,6 @@ from typing import Optional
 
 from precli.core.argument import Argument
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -95,7 +100,6 @@ class InsecureTlsVersion(Rule):
             description=__doc__,
             cwe_id=326,
             message="The '{0}' protocol has insufficient encryption strength.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

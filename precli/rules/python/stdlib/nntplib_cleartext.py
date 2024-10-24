@@ -46,6 +46,13 @@ with nntplib.NNTP_SSL('news.gmane.io') as n:
     n.group('gmane.comp.python.committers')
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -58,8 +65,6 @@ _New in version 0.1.9_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -74,7 +79,6 @@ class NntpCleartext(Rule):
             cwe_id=319,
             message="The NNTP protocol can transmit data in cleartext without "
             "encryption.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

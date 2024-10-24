@@ -60,6 +60,13 @@ message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod="sha256")
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -75,8 +82,6 @@ _Changed in version 0.4.1: Added md5-sha1_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -101,7 +106,6 @@ class HmacWeakHash(Rule):
             cwe_id=328,
             message="The hash function '{0}' is vulnerable to collision and "
             "pre-image attacks.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

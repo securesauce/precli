@@ -57,6 +57,13 @@ message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod=hashlib.sha3_384)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

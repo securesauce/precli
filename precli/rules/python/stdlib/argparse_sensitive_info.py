@@ -65,6 +65,18 @@ parser.add_argument(
 )
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+parameters.sensitive_arguments = [
+  "--api-key",
+  "--password",
+  "--token"
+]
+```
+
 # See also
 
 !!! info
@@ -79,8 +91,6 @@ _Changed in version 0.4.1: --api-key also checked_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -95,7 +105,6 @@ class ArgparseSensitiveInfo(Rule):
             cwe_id=214,
             message="{0} in CLI arguments are leaked to command history, "
             "logs, ps output, etc.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -111,10 +120,9 @@ class ArgparseSensitiveInfo(Rule):
         arg1 = call.get_argument(position=1)
         action = call.get_argument(name="action")
 
-        if (
-            "--password" in [arg0.value_str, arg1.value_str]
-            or "--api-key" in [arg0.value_str, arg1.value_str]
-            or "--token" in [arg0.value_str, arg1.value_str]
+        if any(
+            arg in [arg0.value_str, arg1.value_str]
+            for arg in self.config.parameters.get("sensitive_arguments")
         ) and (action.value is None or action.value_str == "store"):
             return Result(
                 rule_id=self.id,

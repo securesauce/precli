@@ -58,6 +58,20 @@ public class MessageDigestSHA256 {
 }
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+parameters.weak_hashes = [
+  "MD2",
+  "MD5",
+  "SHA",
+  "SHA1",
+  "SHA-1",
+]
+```
+
 # See also
 
 !!! info
@@ -71,14 +85,9 @@ _New in version 0.5.0_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
-
-
-WEAK_HASHES = ("MD2", "MD5", "SHA", "SHA1", "SHA-1")
 
 
 class MessageDigestWeakHash(Rule):
@@ -95,7 +104,6 @@ class MessageDigestWeakHash(Rule):
                     "MessageDigest",
                 ],
             },
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_method_invocation(
@@ -109,7 +117,11 @@ class MessageDigestWeakHash(Rule):
         argument = call.get_argument(position=0)
         algorithm = argument.value_str
 
-        if algorithm is None or algorithm.upper() not in WEAK_HASHES:
+        if (
+            algorithm is None
+            or algorithm.upper()
+            not in self.config.parameters.get("weak_hashes")
+        ):
             return
 
         fixes = Rule.get_fixes(

@@ -59,6 +59,13 @@ pop = poplib.POP3("mail.my-mail-server.com", timeout=5)
 pop.stls(ssl.create_default_context())
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

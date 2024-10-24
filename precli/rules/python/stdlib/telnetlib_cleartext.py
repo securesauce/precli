@@ -96,6 +96,13 @@ These alternatives include:
    network protocols, including SSH. Twisted can be used to create secure
    SSH clients and servers.
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "error"
+```
+
 # See also
 
 !!! info
@@ -110,8 +117,6 @@ _New in version 0.1.0_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
-from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -126,7 +131,6 @@ class TelnetlibCleartext(Rule):
             cwe_id=319,
             message="The '{0}' module transmits data in cleartext without "
             "encryption.",
-            config=Config(level=Level.ERROR),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

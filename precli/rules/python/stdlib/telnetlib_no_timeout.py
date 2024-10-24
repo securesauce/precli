@@ -54,6 +54,13 @@ import telnetlib
 telnet = telnetlib.Telnet("example.com", 23, timeout=5)
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

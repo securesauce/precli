@@ -32,6 +32,13 @@ To avoid this vulnerability, it is important to only parse JSON data from
 trusted sources. If you are parsing JSON data from an untrusted source, you
 should first sanitize the data to remove any potential malicious code.
 
+# Default Configuration
+
+```toml
+enabled = false
+level = "warning"
+```
+
 # See also
 
 !!! info
@@ -44,7 +51,6 @@ _New in version 0.1.0_
 from typing import Optional
 
 from precli.core.call import Call
-from precli.core.config import Config
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.rules import Rule
@@ -59,7 +65,6 @@ class JsonLoad(Rule):
             cwe_id=502,
             message="Potential unsafe usage of '{0}' that can allow "
             "instantiation of arbitrary objects.",
-            config=Config(enabled=False),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

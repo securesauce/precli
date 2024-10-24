@@ -56,6 +56,13 @@ with ftplib.FTP_TLS(
     ftp.retrlines("LIST")
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

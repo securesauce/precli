@@ -33,9 +33,9 @@ class TestAssert(test_case.TestCase):
             rule.help_url
             == f"https://docs.securesauce.dev/rules/{self.rule_id}"
         )
-        assert rule.default_config.enabled is False
-        assert rule.default_config.level == Level.WARNING
-        assert rule.default_config.rank == -1.0
+        assert rule.config.enabled is False
+        assert rule.config.level == Level.WARNING
+        assert rule.config.rank == -1.0
         assert rule.cwe.id == 703
 
     @pytest.mark.parametrize(

@@ -66,6 +66,13 @@ imap4.close()
 imap4.logout()
 ```
 
+# Default Configuration
+
+```toml
+enabled = true
+level = "warning"
+```
+
 # See also
 
 !!! info

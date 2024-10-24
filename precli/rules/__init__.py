@@ -1,10 +1,18 @@
 # Copyright 2024 Secure Sauce LLC
+import re
+import sys
 from abc import ABC
 from typing import Optional
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 from precli.core.config import Config
 from precli.core.cwe import Cwe
 from precli.core.fix import Fix
+from precli.core.level import Level
 from precli.core.location import Location
 
 
@@ -41,7 +49,21 @@ class Rule(ABC):
         self._cwe = Cwe(cwe_id)
         self._message = message
         self._wildcards = wildcards if wildcards else {}
-        self._config = Config() if not config else config
+
+        match = re.search(r"```toml(.*?)```", description, re.DOTALL)
+        if match:
+            toml_content = match.group(1).strip()
+            try:
+                metadata = tomllib.loads(toml_content)
+                self._config = Config()
+                self._config.enabled = metadata.get("enabled")
+                self._config.level = Level(metadata.get("level"))
+                self._config.parameters = metadata.get("parameters")
+            except tomllib.TOMLDecodeError as err:
+                print(err)
+                print("Invalid config in documentation")
+        else:
+            self._config = Config() if not config else config
         self._enabled = self._config.enabled
         self._help_url = f"https://docs.securesauce.dev/rules/{id}"
         Rule._rules[id] = self
@@ -89,7 +111,7 @@ class Rule(ABC):
         return self._help_url
 
     @property
-    def default_config(self) -> Config:
+    def config(self) -> Config:
         """Default configuration for this rule."""
         return self._config
 
