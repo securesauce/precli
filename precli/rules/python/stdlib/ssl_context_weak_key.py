@@ -54,8 +54,8 @@ context.set_ecdh_curve("prime256v1")
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_ec_key_size = 224
-parameters.error_ec_key_size = 160
+warning_ec_key_size = 224
+error_ec_key_size = 160
 ```
 
 # See also

@@ -58,7 +58,10 @@ class Rule(ABC):
                 self._config = Config()
                 self._config.enabled = metadata.get("enabled")
                 self._config.level = Level(metadata.get("level"))
-                self._config.parameters = metadata.get("parameters")
+                self._config.parameters = {}
+                for parameter, value in metadata.items():
+                    if parameter not in ("enabled", "level"):
+                        self._config.parameters[parameter] = value
             except tomllib.TOMLDecodeError as err:
                 print(err)
                 print("Invalid config in documentation")

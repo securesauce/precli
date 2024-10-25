@@ -124,10 +124,10 @@ func main() {
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_dsa_key_size = 2048
-parameters.error_dsa_key_size = 1024
-parameters.warning_rsa_key_size = 2048
-parameters.error_rsa_key_size = 1024
+warning_dsa_key_size = 2048
+error_dsa_key_size = 1024
+warning_rsa_key_size = 2048
+error_rsa_key_size = 1024
 ```
 
 # See also

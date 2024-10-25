@@ -50,8 +50,8 @@ token = secrets.token_bytes()
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_token_size = 32
-parameters.error_token_size = 16
+warning_token_size = 32
+error_token_size = 16
 ```
 
 # See also

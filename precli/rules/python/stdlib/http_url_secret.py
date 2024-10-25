@@ -55,7 +55,7 @@ response = conn.getresponse()
 ```toml
 enabled = true
 level = "error"
-parameters.sensitive_params = [
+sensitive_params = [
   "apiKey",
   "pass",
   "password",

@@ -70,7 +70,7 @@ parser.add_argument(
 ```toml
 enabled = true
 level = "error"
-parameters.sensitive_arguments = [
+sensitive_arguments = [
   "--api-key",
   "--password",
   "--token"

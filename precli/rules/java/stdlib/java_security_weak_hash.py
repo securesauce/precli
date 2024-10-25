@@ -63,7 +63,7 @@ public class MessageDigestSHA256 {
 ```toml
 enabled = true
 level = "error"
-parameters.weak_hashes = [
+weak_hashes = [
   "MD2",
   "MD5",
   "SHA",
