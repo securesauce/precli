@@ -82,8 +82,8 @@ public class KeyPairGeneratorRSA {
 ```toml
 enabled = true
 level = "warning"
-parameters.warning_key_size = 2048
-parameters.error_key_size = 1024
+warning_key_size = 2048
+error_key_size = 1024
 ```
 
 # See also

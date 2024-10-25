@@ -77,7 +77,7 @@ file_path.chmod(
 ```toml
 enabled = true
 level = "warning"
-parameters.umask = 0o022
+umask = 0o022
 ```
 
 ## See also

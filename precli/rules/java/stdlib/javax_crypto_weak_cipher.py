@@ -117,7 +117,7 @@ public class Example {
 ```toml
 enabled = true
 level = "error"
-parameters.weak_ciphers = [
+weak_ciphers = [
   "ARCFOUR",
   "Blowfish",
   "DES",
