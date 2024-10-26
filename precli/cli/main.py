@@ -166,12 +166,12 @@ def setup_arg_parser():
     return args
 
 
-def load_config(args) -> dict:
-    if args.config:
-        return tomllib.load(args.config)
+def load_config(config: dict, targets: list[str]) -> dict:
+    if config:
+        return tomllib.load(config)
     else:
         default_confs = (".precli.toml", "precli.toml", "pyproject.toml")
-        for target in filter(os.path.isdir, args.targets):
+        for target in filter(os.path.isdir, targets):
             for conf in default_confs:
                 path = pathlib.Path(target) / conf
                 if path.exists():
@@ -367,7 +367,7 @@ def main():
     args = setup_arg_parser()
 
     # Load optional configuration file
-    config = load_config(args)
+    config = load_config(args.config, args.targets)
 
     # CLI enabled/disabled override any config in files
     config["enabled"] = (
