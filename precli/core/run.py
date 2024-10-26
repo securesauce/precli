@@ -32,9 +32,7 @@ PROGRESS_THRESHOLD = 50
 parsers = loader.load_extension(group="precli.parsers")
 
 
-def parse_file(
-    artifact: Artifact, enabled: list[str], disabled: list[str]
-) -> list[Result]:
+def parse_file(artifact: Artifact, config: dict) -> list[Result]:
     parser = None
     results = []
     try:
@@ -66,7 +64,7 @@ def parse_file(
             if artifact.contents is None:
                 with open(artifact.file_name, "rb") as f:
                     artifact.contents = f.read()
-            return parser.parse(artifact, enabled, disabled)
+            return parser.parse(artifact, config)
     except OSError as e:
         results.append(
             Result(
@@ -116,13 +114,11 @@ def parse_file(
 class Run:
     def __init__(
         self,
-        enabled: list[str],
-        disabled: list[str],
+        config: dict,
         artifacts: list[Artifact],
         debug: int,
     ):
-        self._enabled = enabled
-        self._disabled = disabled
+        self._config = config
         self._artifacts = artifacts
         self._init_logger(debug)
         self._start_time = None
@@ -175,9 +171,7 @@ class Run:
             len(self._artifacts) > PROGRESS_THRESHOLD
             and LOG.getEffectiveLevel() <= logging.INFO
         ):
-            parse_artifact = partial(
-                parse_file, enabled=self._enabled, disabled=self._disabled
-            )
+            parse_artifact = partial(parse_file, config=self._config)
 
             progress = Progress(
                 TextColumn("[progress.description]{task.description}"),
@@ -205,9 +199,7 @@ class Run:
                     with open(artifact.file_name, "rb") as f:
                         lines += sum(1 for _ in f)
                 try:
-                    results += parse_file(
-                        artifact, self._enabled, self._disabled
-                    )
+                    results += parse_file(artifact, self._config)
                 except KeyboardInterrupt:
                     sys.exit(2)
 
