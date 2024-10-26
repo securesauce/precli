@@ -54,8 +54,8 @@ context.set_ecdh_curve("prime256v1")
 ```toml
 enabled = true
 level = "warning"
-warning_ec_key_size = 224
-error_ec_key_size = 160
+ec_key_size_warning = 224
+ec_key_size_error = 160
 ```
 
 # See also
@@ -97,8 +97,8 @@ class SslContextWeakKey(Rule):
         ]:
             return
 
-        WARN_SIZE = self.config.parameters.get("warning_ec_key_size")
-        ERR_SIZE = self.config.parameters.get("error_ec_key_size")
+        SIZE_WARN = self.config.parameters.get("ec_key_size_warning")
+        SIZE_ERR = self.config.parameters.get("ec_key_size_error")
 
         arg = call.get_argument(position=0, name="curve_name")
         curve_name = arg.value
@@ -110,13 +110,13 @@ class SslContextWeakKey(Rule):
             result = re.search(r"brainpoolP(\d{3})r[1|2|3]", curve_name)
         if not result:
             result = re.search(r"brainpoolP(\d{3})r1tls13", curve_name)
-        key_size = int(result.group(1)) if result else WARN_SIZE
+        key_size = int(result.group(1)) if result else SIZE_WARN
 
-        if key_size < WARN_SIZE:
+        if key_size < SIZE_WARN:
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=f"Use a curve with a minimum size of {WARN_SIZE} "
+                description=f"Use a curve with a minimum size of {SIZE_WARN} "
                 "bits.",
                 inserted_content='"secp256k1"',
             )
@@ -124,7 +124,7 @@ class SslContextWeakKey(Rule):
             return Result(
                 rule_id=self.id,
                 location=Location(node=arg.node),
-                level=Level.ERROR if key_size < ERR_SIZE else Level.WARNING,
-                message=self.message.format("EC", WARN_SIZE),
+                level=Level.ERROR if key_size < SIZE_ERR else Level.WARNING,
+                message=self.message.format("EC", SIZE_WARN),
                 fixes=fixes,
             )

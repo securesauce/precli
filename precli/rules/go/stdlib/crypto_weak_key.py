@@ -124,10 +124,9 @@ func main() {
 ```toml
 enabled = true
 level = "warning"
-warning_dsa_key_size = 2048
-error_dsa_key_size = 1024
-warning_rsa_key_size = 2048
-error_rsa_key_size = 1024
+dsa_key_size_error = 1024
+rsa_key_size_warning = 2048
+rsa_key_size_error = 1024
 ```
 
 # See also
@@ -164,8 +163,7 @@ class WeakKey(Rule):
         self, context: dict, call: Call
     ) -> Optional[Result]:
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
-            WARN_SIZE = self.config.parameters.get("warning_dsa_key_size")
-            ERR_SIZE = self.config.parameters.get("error_dsa_key_size")
+            SIZE_ERR = self.config.parameters.get("dsa_key_size_error")
 
             argument = call.get_argument(position=2)
             sizes = argument.value
@@ -174,7 +172,7 @@ class WeakKey(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
-                    description=f"Use a minimum key size of {WARN_SIZE} for "
+                    description=f"Use a minimum key size of {SIZE_ERR} for "
                     "DSA keys.",
                     inserted_content="L2048N224",
                 )
@@ -183,29 +181,29 @@ class WeakKey(Rule):
                     rule_id=self.id,
                     location=Location(node=argument.identifier_node),
                     level=Level.ERROR,
-                    message=self.message.format("DSA", WARN_SIZE),
+                    message=self.message.format("DSA", SIZE_ERR),
                     fixes=fixes,
                 )
         elif call.name_qualified in ["crypto/rsa.GenerateKey"]:
-            WARN_SIZE = self.config.parameters.get("warning_rsa_key_size")
-            ERR_SIZE = self.config.parameters.get("error_rsa_key_size")
+            SIZE_WARN = self.config.parameters.get("rsa_key_size_warning")
+            SIZE_ERR = self.config.parameters.get("rsa_key_size_error")
 
             argument = call.get_argument(position=1)
             bits = argument.value
 
-            if isinstance(bits, int) and bits < WARN_SIZE:
+            if isinstance(bits, int) and bits < SIZE_WARN:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description=f"Use a minimum key size of {WARN_SIZE} for "
+                    description=f"Use a minimum key size of {SIZE_WARN} for "
                     "RSA keys.",
-                    inserted_content=f"{WARN_SIZE}",
+                    inserted_content=f"{SIZE_WARN}",
                 )
 
                 return Result(
                     rule_id=self.id,
                     location=Location(node=argument.node),
-                    level=Level.ERROR if bits <= ERR_SIZE else Level.WARNING,
-                    message=self.message.format("RSA", WARN_SIZE),
+                    level=Level.ERROR if bits <= SIZE_ERR else Level.WARNING,
+                    message=self.message.format("RSA", SIZE_WARN),
                     fixes=fixes,
                 )
