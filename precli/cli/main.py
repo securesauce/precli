@@ -12,6 +12,11 @@ from importlib import metadata
 from urllib.parse import urljoin
 from urllib.parse import urlparse
 
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
+
 import requests
 from ignorelib import IgnoreFilterManager
 from rich.console import Console
@@ -43,6 +48,14 @@ def setup_arg_parser():
         dest="debug",
         action="store_true",
         help="turn on debug mode",
+    )
+    parser.add_argument(
+        "-c",
+        "--config",
+        dest="config",
+        action="store",
+        type=argparse.FileType("rb"),
+        help="configuration file",
     )
     parser.add_argument(
         "targets",
@@ -151,6 +164,20 @@ def setup_arg_parser():
         sys.exit(2)
 
     return args
+
+
+def load_config(args) -> dict:
+    if args.config:
+        return tomllib.load(args.config)
+    else:
+        default_confs = (".precli.toml", "precli.toml", "pyproject.toml")
+        for target in filter(os.path.isdir, args.targets):
+            for conf in default_confs:
+                path = pathlib.Path(target) / conf
+                if path.exists():
+                    with open(path, "rb") as f:
+                        return tomllib.load(f)
+    return {}
 
 
 def get_owner_repo(repo_url: str):
@@ -339,8 +366,16 @@ def main():
     # Setup the command line arguments
     args = setup_arg_parser()
 
-    enabled = args.enable.split(",") if args.enable else None
-    disabled = args.disable.split(",") if args.disable else None
+    # Load optional configuration file
+    config = load_config(args)
+
+    # CLI enabled/disabled override any config in files
+    config["enabled"] = (
+        args.enable.split(",") if args.enable else config.get("enabled")
+    )
+    config["disabled"] = (
+        args.disable.split(",") if args.disable else config.get("disabled")
+    )
 
     # Compile a list of the targets
     artifacts = discover_files(args.targets, args.recursive)
@@ -357,7 +392,7 @@ def main():
     )
 
     # Invoke the run
-    run = Run(enabled, disabled, artifacts, debug)
+    run = Run(config["enabled"], config["disabled"], artifacts, debug)
     run.invoke()
 
     # Render the results
