@@ -10,6 +10,7 @@ import tree_sitter
 from tree_sitter import Node
 
 from precli.core.artifact import Artifact
+from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
 from precli.core.suppression import Suppression
@@ -104,14 +105,19 @@ class Parser(ABC):
     def parse(
         self,
         artifact: Artifact,
-        enabled: Optional[list[str]] = None,
-        disabled: Optional[list[str]] = None,
+        config: Optional[dict] = None,
     ) -> list[Result]:
         """File extension of files this parser can handle."""
+        config = {} if config is None else config
+        enabled = config.get("enabled")
+        disabled = config.get("disabled")
+
         if enabled is not None:
             enabled = Parser._expand_rule_list(enabled)
         if disabled is not None:
             disabled = Parser._expand_rule_list(disabled)
+
+        rule_conf = config["rule"] if "rule" in config else {}
 
         for rule in self.rules.values():
             if enabled is not None:
@@ -129,6 +135,14 @@ class Parser(ABC):
                 or rule.name in disabled
             ):
                 rule.enabled = False
+
+            # Override the level and parameters if given in config
+            if rule.id in rule_conf:
+                if "level" in rule_conf[rule.id]:
+                    rule.config.level = Level(rule_conf[rule.id].get("level"))
+                for parameter, value in rule_conf[rule.id].items():
+                    if parameter not in ("enabled", "level"):
+                        rule.config.parameters[parameter] = value
 
         self.results = []
         self.context = {"artifact": artifact}

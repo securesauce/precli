@@ -43,7 +43,11 @@ class TestCase:
             end_column,
         ) = self.expected(filename)
         artifact = Artifact(os.path.join(self.base_path, filename))
-        results = self.parser.parse(artifact, enabled, disabled)
+        config = {
+            "enabled": enabled,
+            "disabled": disabled,
+        }
+        results = self.parser.parse(artifact, config)
         if level == Level.NONE:
             assert len(results) == 0
         else:
