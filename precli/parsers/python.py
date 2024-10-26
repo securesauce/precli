@@ -70,9 +70,11 @@ class Python(Parser):
         path = pathlib.Path(self.context["artifact"].file_name)
 
         return all(
-            "tests" in path.parts,
-            path.name.startswith("test_"),
-            self.current_symtab.name().startswith("test_"),
+            [
+                "tests" in path.parts,
+                path.name.startswith("test_"),
+                self.current_symtab.name().startswith("test_"),
+            ]
         )
 
     def visit_module(self, nodes: list[Node]):
