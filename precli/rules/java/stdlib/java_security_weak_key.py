@@ -82,8 +82,8 @@ public class KeyPairGeneratorRSA {
 ```toml
 enabled = true
 level = "warning"
-warning_key_size = 2048
-error_key_size = 1024
+key_size_warning = 2048
+key_size_error = 1024
 ```
 
 # See also
@@ -128,8 +128,8 @@ class KeyPairGeneratorWeakKey(Rule):
         ]:
             return
 
-        WARN_SIZE = self.config.parameters.get("warning_key_size")
-        ERR_SIZE = self.config.parameters.get("error_key_size")
+        SIZE_WARN = self.config.parameters.get("key_size_warning")
+        SIZE_ERR = self.config.parameters.get("key_size_error")
 
         argument = call.get_argument(position=0)
         keysize = argument.value
@@ -145,19 +145,19 @@ class KeyPairGeneratorWeakKey(Rule):
         if algorithm is None or algorithm.upper() not in ("DSA", "RSA"):
             return
 
-        if isinstance(keysize, int) and keysize < WARN_SIZE:
+        if isinstance(keysize, int) and keysize < SIZE_WARN:
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=argument.node),
-                description=f"Use a minimum key size of {WARN_SIZE} for RSA "
+                description=f"Use a minimum key size of {SIZE_WARN} for RSA "
                 "keys.",
-                inserted_content=f"{WARN_SIZE}",
+                inserted_content=f"{SIZE_WARN}",
             )
 
             return Result(
                 rule_id=self.id,
                 location=Location(node=argument.node),
-                level=Level.ERROR if keysize <= ERR_SIZE else Level.WARNING,
-                message=self.message.format("RSA", WARN_SIZE),
+                level=Level.ERROR if keysize <= SIZE_ERR else Level.WARNING,
+                message=self.message.format("RSA", SIZE_WARN),
                 fixes=fixes,
             )
