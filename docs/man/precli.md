@@ -3,8 +3,8 @@
 ## SYNOPSIS
 
 ```
-precli [-h] [-d] [-r] [--enable ENABLE | --disable DISABLE] [--json | --plain | --markdown]
-       [--gist] [-o OUTPUT] [--no-color] [-q] [--version]
+precli [-h] [-d] [-c CONFIG] [-r] [--enable ENABLE | --disable DISABLE] [--json | --plain |
+       --markdown] [--gist] [-o OUTPUT] [--no-color] [-q] [--version]
        [targets ...]
 ```
 
@@ -20,6 +20,7 @@ certificate validation, and more.
 ```
   -h, --help            show this help message and exit
   -d, --debug           turn on debug mode
+  -c, --config CONFIG   configuration file
   -r, --recursive       find and process files in subdirectories
   --enable ENABLE       comma-separated list of rule IDs or names to enable
   --disable DISABLE     comma-separated list of rule IDs or names to disable
@@ -27,8 +28,7 @@ certificate validation, and more.
   --plain               render the output in plain, tabular text
   --markdown            render the output in markdown format
   --gist                output the results to Gist
-  -o OUTPUT, --output OUTPUT
-                        output the results to a file
+  -o,--output OUTPUT    output the results to a file
   --no-color            do not display color in output
   -q, --quiet           quiet mode, display less output
   --version             show program's version number and exit
