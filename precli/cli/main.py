@@ -7,6 +7,7 @@ import pathlib
 import sys
 import tempfile
 import zipfile
+from argparse import ArgumentParser
 from datetime import datetime
 from importlib import metadata
 from urllib.parse import urljoin
@@ -37,7 +38,7 @@ GITHUB_URL = "https://github.com"
 
 
 def setup_arg_parser():
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description="precli - a static analysis security tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -163,20 +164,32 @@ def setup_arg_parser():
         parser.print_usage()
         sys.exit(2)
 
-    return args
+    return parser, args
 
 
-def load_config(config: dict, targets: list[str]) -> dict:
+def load_config(
+    parser: ArgumentParser, config: dict, targets: list[str]
+) -> dict:
     if config:
-        return tomllib.load(config)
+        try:
+            return tomllib.load(config)
+        except tomllib.TOMLDecodeError as err:
+            parser.error(
+                f"argument -c/--config: can't load '{config.name}': {err}"
+            )
     else:
         default_confs = (".precli.toml", "precli.toml", "pyproject.toml")
         for target in filter(os.path.isdir, targets):
             for conf in default_confs:
                 path = pathlib.Path(target) / conf
-                if path.exists():
-                    with open(path, "rb") as f:
-                        return tomllib.load(f)
+                try:
+                    if path.exists():
+                        with open(path, "rb") as f:
+                            return tomllib.load(f)
+                except tomllib.TOMLDecodeError:
+                    # TODO: Log but don't exit
+                    pass
+
     return {}
 
 
@@ -364,10 +377,10 @@ def main():
     logging.getLogger("urllib3").setLevel(debug)
 
     # Setup the command line arguments
-    args = setup_arg_parser()
+    parser, args = setup_arg_parser()
 
     # Load optional configuration file
-    config = load_config(args.config, args.targets)
+    config = load_config(parser, args.config, args.targets)
 
     # CLI enabled/disabled override any config in files
     config["enabled"] = (
