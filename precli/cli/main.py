@@ -168,11 +168,21 @@ def setup_arg_parser():
                 f"argument -c/--config: can't load '{args.config.name}': {err}"
             )
 
+    if args.output:
+        path = pathlib.Path(args.output.name)
+        if path.exists():
+            overwrite = input(
+                f"The file '{path}' already exists. Overwrite? (y/N): "
+            )
+            if overwrite.lower() != "y":
+                print("Operation cancelled.")
+                sys.exit(1)
+
     if not args.targets:
         parser.print_usage()
         sys.exit(2)
 
-    return args, args.config
+    return args
 
 
 def find_config(targets: list[str]) -> dict:
@@ -376,11 +386,13 @@ def main():
     logging.getLogger("urllib3").setLevel(debug)
 
     # Setup the command line arguments
-    args, config = setup_arg_parser()
+    args = setup_arg_parser()
 
     # Attempt to find config files if one not provided
-    if not config:
+    if not args.config:
         config = find_config(args.targets)
+    else:
+        config = args.config
 
     # CLI enabled/disabled override any config in files
     config["enabled"] = (

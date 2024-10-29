@@ -45,3 +45,21 @@ class TestMain:
         with pytest.raises(SystemExit) as excinfo:
             main.main()
         assert str(excinfo.value) == "2"
+
+    @mock.patch("sys.argv", ["precli", "-o", "../does/not/exists"])
+    def test_main_invalid_output(self):
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert str(excinfo.value) == "2"
+
+    @mock.patch("sys.argv", ["precli", "-o", "output.txt"])
+    @mock.patch("builtins.input", lambda _: "no")
+    def test_main_output_already_exists(self):
+        temp_dir = tempfile.mkdtemp()
+        os.chdir(temp_dir)
+        with open("output.txt", "w") as fd:
+            fd.write("This file already exists. Do not overwrite.")
+
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert str(excinfo.value) == "1"
