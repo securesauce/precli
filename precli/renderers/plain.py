@@ -56,9 +56,10 @@ class Plain(Renderer):
             )
             self.console.print(f"{result.message}")
             self.console.print()
-        self.console.print(
-            f"Found {run.metrics.errors} errors, {run.metrics.warnings} "
-            f"warnings, and {run.metrics.notes} notes in "
-            f"{run.metrics.files} files and {run.metrics.lines} lines of "
-            f"code."
-        )
+        if not self.quiet:
+            self.console.print(
+                f"Found {run.metrics.errors} errors, {run.metrics.warnings} "
+                f"warnings, and {run.metrics.notes} notes in "
+                f"{run.metrics.files} files and {run.metrics.lines} lines of "
+                f"code."
+            )

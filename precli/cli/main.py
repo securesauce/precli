@@ -424,7 +424,7 @@ def main():
     render_ext = loader.load_extension(
         group="precli.renderers", name=args.renderer
     )
-    renderer = render_ext(console)
+    renderer = render_ext(console, args.quiet)
     renderer.render(run)
 
     if file.name != sys.stdout.name:

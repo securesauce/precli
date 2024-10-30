@@ -8,8 +8,9 @@ from precli.core.run import Run
 
 
 class Renderer(ABC):
-    def __init__(self, console: Console):
+    def __init__(self, console: Console, quiet: bool):
         self.console = console
+        self.quiet = quiet
 
     @abstractmethod
     def render(self, run: Run):

@@ -126,35 +126,36 @@ class Detailed(Renderer):
             self.console.print()
 
         # Print the summary
-        table = Table(
-            box=box.HEAVY,
-            min_width=60,
-            show_header=False,
-        )
-        table.add_column(justify="left")
-        table.add_column(justify="right")
-        table.add_column(justify="left")
-        table.add_column(justify="right")
-        table.add_row(
-            "Files analyzed",
-            f"{run.metrics.files:,}",
-            "Lines analyzed",
-            f"{run.metrics.lines:,}",
-            end_section=True,
-        )
-        table.add_row(
-            "Errors",
-            f"{run.metrics.errors:,}",
-            style="red" if run.metrics.errors else "",
-        )
-        table.add_row(
-            "Warnings",
-            f"{run.metrics.warnings:,}",
-            style="yellow" if run.metrics.warnings else "",
-        )
-        table.add_row(
-            "Notes",
-            f"{run.metrics.notes:,}",
-            style="blue" if run.metrics.notes else "",
-        )
-        self.console.print(table)
+        if not self.quiet:
+            table = Table(
+                box=box.HEAVY,
+                min_width=60,
+                show_header=False,
+            )
+            table.add_column(justify="left")
+            table.add_column(justify="right")
+            table.add_column(justify="left")
+            table.add_column(justify="right")
+            table.add_row(
+                "Files analyzed",
+                f"{run.metrics.files:,}",
+                "Lines analyzed",
+                f"{run.metrics.lines:,}",
+                end_section=True,
+            )
+            table.add_row(
+                "Errors",
+                f"{run.metrics.errors:,}",
+                style="red" if run.metrics.errors else "",
+            )
+            table.add_row(
+                "Warnings",
+                f"{run.metrics.warnings:,}",
+                style="yellow" if run.metrics.warnings else "",
+            )
+            table.add_row(
+                "Notes",
+                f"{run.metrics.notes:,}",
+                style="blue" if run.metrics.notes else "",
+            )
+            self.console.print(table)
