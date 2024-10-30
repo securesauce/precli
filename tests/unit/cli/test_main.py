@@ -3,10 +3,12 @@
 import json
 import os
 import tempfile
+from io import StringIO
 from unittest import mock
 
 import pytest
 
+import precli
 from precli.cli import main
 
 
@@ -25,15 +27,14 @@ class TestMain:
     def teardown_class(cls):
         os.chdir(cls.current_dir)
 
-
-    @mock.patch("sys.argv", ["precli", "-c", "missing_file.toml"])
-    def test_main_config_not_found(self):
+    def test_main_config_not_found(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["precli", "-c", "missing_file.toml"])
         with pytest.raises(SystemExit) as excinfo:
             main.main()
-        assert str(excinfo.value) == "2"
+        assert excinfo.value.code == 2
 
-    @mock.patch("sys.argv", ["precli", "-c", "not_toml.json", "."])
-    def test_main_invalid_config(self):
+    def test_main_invalid_config(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["precli", "-c", "not_toml.json", "."])
         temp_dir = tempfile.mkdtemp()
         os.chdir(temp_dir)
         config = {
@@ -44,17 +45,17 @@ class TestMain:
 
         with pytest.raises(SystemExit) as excinfo:
             main.main()
-        assert str(excinfo.value) == "2"
+        assert excinfo.value.code == 2
 
-    @mock.patch("sys.argv", ["precli", "-o", "../does/not/exists"])
-    def test_main_invalid_output(self):
+    def test_main_invalid_output(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["precli", "-o", "../does/not/exists"])
         with pytest.raises(SystemExit) as excinfo:
             main.main()
-        assert str(excinfo.value) == "2"
+        assert excinfo.value.code == 2
 
-    @mock.patch("sys.argv", ["precli", "-o", "output.txt"])
     @mock.patch("builtins.input", lambda _: "no")
-    def test_main_output_already_exists(self):
+    def test_main_output_already_exists(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["precli", "-o", "output.txt"])
         temp_dir = tempfile.mkdtemp()
         os.chdir(temp_dir)
         with open("output.txt", "w") as fd:
@@ -62,4 +63,12 @@ class TestMain:
 
         with pytest.raises(SystemExit) as excinfo:
             main.main()
-        assert str(excinfo.value) == "1"
+        assert excinfo.value.code == 1
+
+    def test_main_version(self, monkeypatch, capsys):
+        monkeypatch.setattr("sys.argv", ["precli", "--version"])
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 0
+        captured = capsys.readouterr()
+        assert f"precli {precli.__version__}" in captured.out
