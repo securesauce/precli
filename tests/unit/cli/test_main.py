@@ -21,6 +21,12 @@ class TestMain:
     def teardown_class(cls):
         os.chdir(cls.current_dir)
 
+    def test_main_target_not_found(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["precli", "missing_file.py"])
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 2
+
     def test_main_config_not_found(self, monkeypatch):
         monkeypatch.setattr("sys.argv", ["precli", "-c", "missing_file.toml"])
         with pytest.raises(SystemExit) as excinfo:
