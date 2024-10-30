@@ -63,7 +63,7 @@ def setup_arg_parser():
         metavar="targets",
         type=str,
         nargs="*",
-        help="source file(s) or directory(s) to be tested",
+        help="source file(s) or directory(s) to be analyzed",
     )
     parser.add_argument(
         "-r",
