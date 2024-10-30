@@ -25,11 +25,23 @@ def setup_arg_parser() -> Namespace:
         "--output",
         dest="output",
         action="store",
+        type=argparse.FileType("w", encoding="utf-8"),
         default=".precli.toml",
         help="output the config to given file",
     )
+    args = parser.parse_args()
 
-    return parser.parse_args()
+    if args.output:
+        path = pathlib.Path(args.output.name)
+        if path.exists():
+            overwrite = input(
+                f"The file '{path}' already exists. Overwrite? (y/N): "
+            )
+            if overwrite.lower() != "y":
+                print("Operation cancelled.")
+                sys.exit(1)
+
+    return args
 
 
 def get_config() -> dict:
@@ -68,15 +80,6 @@ def main():
     # Write to the given file
     try:
         path = pathlib.Path(args.output)
-
-        # Check if the file already exists and prompt for overwrite
-        if path.exists():
-            overwrite = input(
-                f"The file '{args.output}' already exists. Overwrite? (y/N): "
-            )
-            if overwrite.lower() != "y":
-                print("Operation cancelled.")
-                return 1
 
         # Check if the target file is pyproject.toml and prepare the structure
         if path.name == "pyproject.toml":
