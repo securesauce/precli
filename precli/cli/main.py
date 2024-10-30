@@ -182,6 +182,13 @@ def setup_arg_parser():
         parser.print_usage()
         sys.exit(2)
 
+    for target in args.targets:
+        if target != "-" and not pathlib.Path(target).exists():
+            parser.error(
+                f"argument targets: can't open '{target}': [Errno 2] No such "
+                f"file or directory: '{target}'"
+            )
+
     return args
 
 
