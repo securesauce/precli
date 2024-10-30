@@ -15,12 +15,6 @@ from precli.cli import main
 class TestMain:
     @classmethod
     def setup_class(cls):
-        cls.base_path = os.path.join(
-            "tests",
-            "unit",
-            "cli",
-            "examples",
-        )
         cls.current_dir = os.getcwd()
 
     @classmethod
