@@ -65,6 +65,14 @@ class TestMain:
             main.main()
         assert excinfo.value.code == 1
 
+    def test_main_more_than_one_renderer(self, monkeypatch, capsys):
+        monkeypatch.setattr("sys.argv", ["precli", "--json", "--markdown"])
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "not allowed with argument" in captured.err
+
     def test_main_version(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "--version"])
         with pytest.raises(SystemExit) as excinfo:
