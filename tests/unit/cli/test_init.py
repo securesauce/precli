@@ -26,7 +26,7 @@ class TestInit:
         assert excinfo.value.code == 2
 
     @mock.patch("builtins.input", lambda _: "no")
-    def test_main_output_already_exists(self, monkeypatch):
+    def test_main_output_already_exists(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli-init", "-o", "output.txt"])
         temp_dir = tempfile.mkdtemp()
         os.chdir(temp_dir)
@@ -35,4 +35,6 @@ class TestInit:
 
         with pytest.raises(SystemExit) as excinfo:
             init.main()
-        assert excinfo.value.code == 1
+        assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "[Errno 17] File exists" in captured.err

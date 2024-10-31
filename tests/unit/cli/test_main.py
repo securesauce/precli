@@ -65,7 +65,7 @@ class TestMain:
         assert excinfo.value.code == 2
 
     @mock.patch("builtins.input", lambda _: "no")
-    def test_main_output_already_exists(self, monkeypatch):
+    def test_main_output_already_exists(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "-o", "output.txt"])
         temp_dir = tempfile.mkdtemp()
         os.chdir(temp_dir)
@@ -74,7 +74,9 @@ class TestMain:
 
         with pytest.raises(SystemExit) as excinfo:
             main.main()
-        assert excinfo.value.code == 1
+        assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "[Errno 17] File exists" in captured.err
 
     def test_main_more_than_one_renderer(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "--json", "--markdown"])
