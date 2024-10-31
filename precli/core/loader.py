@@ -1,9 +1,11 @@
 # Copyright 2024 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import sys
+from functools import cache
 from importlib.metadata import entry_points
 
 
+@cache
 def load_extension(group: str, name: str = ""):
     if not name:
         extensions = {}
