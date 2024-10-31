@@ -27,6 +27,17 @@ class TestMain:
             main.main()
         assert excinfo.value.code == 2
 
+    def test_main_enable_and_disable(self, monkeypatch, capsys):
+        monkeypatch.setattr(
+            "sys.argv",
+            ["precli", "--enable", "PY001", "--disable", "PY004"],
+        )
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "not allowed with argument" in captured.err
+
     def test_main_config_not_found(self, monkeypatch):
         monkeypatch.setattr("sys.argv", ["precli", "-c", "missing_file.toml"])
         with pytest.raises(SystemExit) as excinfo:
