@@ -116,7 +116,7 @@ def setup_arg_parser():
         "--output",
         dest="output",
         action="store",
-        type=argparse.FileType("w", encoding="utf-8"),
+        type=argparse.FileType("x", encoding="utf-8"),
         default=sys.stdout,
         help="output the results to a file",
     )
@@ -158,16 +158,6 @@ def setup_arg_parser():
             parser.error(
                 f"argument -c/--config: can't load '{args.config.name}': {err}"
             )
-
-    if args.output:
-        path = pathlib.Path(args.output.name)
-        if path.exists():
-            overwrite = input(
-                f"The file '{path}' already exists. Overwrite? (y/N): "
-            )
-            if overwrite.lower() != "y":
-                print("Operation cancelled.")
-                sys.exit(1)
 
     if not args.targets:
         parser.print_usage()
