@@ -97,6 +97,13 @@ class TestMain:
             main.main()
         assert excinfo.value.code == 0
 
+    def test_main_exit_code_0(self, monkeypatch):
+        temp_dir = tempfile.mkdtemp()
+        monkeypatch.setattr("sys.argv", ["precli", temp_dir])
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 0
+
     def test_main_version(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "--version"])
         with pytest.raises(SystemExit) as excinfo:
