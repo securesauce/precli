@@ -204,17 +204,11 @@ def discover_files(targets: list[str], recursive: bool) -> list[Artifact]:
     artifacts = []
 
     for target in targets:
-        if target.startswith(GITHUB_URL):
-            target_ext = loader.load_extension(
-                group="precli.targets", name="github"
-            )
-            targeter = target_ext()
-        else:
-            target_ext = loader.load_extension(
-                group="precli.targets", name="file"
-            )
-            targeter = target_ext()
-
+        ext_name = "github" if target.startswith(GITHUB_URL) else "file"
+        target_ext = loader.load_extension(
+            group="precli.targets", name=ext_name
+        )
+        targeter = target_ext()
         artifacts.extend(targeter.discover(target, recursive))
 
     return artifacts
