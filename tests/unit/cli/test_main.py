@@ -13,14 +13,6 @@ from precli.cli import main
 
 
 class TestMain:
-    @classmethod
-    def setup_class(cls):
-        cls.current_dir = os.getcwd()
-
-    @classmethod
-    def teardown_class(cls):
-        os.chdir(cls.current_dir)
-
     def test_main_target_not_found(self, monkeypatch):
         monkeypatch.setattr("sys.argv", ["precli", "missing_file.py"])
         with pytest.raises(SystemExit) as excinfo:
@@ -44,19 +36,19 @@ class TestMain:
             main.main()
         assert excinfo.value.code == 2
 
-    def test_main_invalid_config(self, monkeypatch):
-        monkeypatch.setattr("sys.argv", ["precli", "-c", "not_toml.json", "."])
+    def test_main_invalid_config(self, monkeypatch, capsys):
         temp_dir = tempfile.mkdtemp()
-        os.chdir(temp_dir)
-        config = {
-            "enable": ["PY001"]
-        }
-        with open("not_toml.json", "w") as fd:
+        config_path = os.path.join(temp_dir, "not_toml.toml")
+        config = { "enable": ["PY001"] }
+        with open(config_path, "w") as fd:
             json.dump(config, fd)
 
+        monkeypatch.setattr("sys.argv", ["precli", "-c", config_path, "."])
         with pytest.raises(SystemExit) as excinfo:
             main.main()
         assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "argument -c/--config: can't load" in captured.err
 
     def test_main_invalid_output(self, monkeypatch):
         monkeypatch.setattr("sys.argv", ["precli", "-o", "../does/not/exists"])
@@ -66,12 +58,12 @@ class TestMain:
 
     @mock.patch("builtins.input", lambda _: "no")
     def test_main_output_already_exists(self, monkeypatch, capsys):
-        monkeypatch.setattr("sys.argv", ["precli", "-o", "output.txt"])
         temp_dir = tempfile.mkdtemp()
-        os.chdir(temp_dir)
-        with open("output.txt", "w") as fd:
+        output_path = os.path.join(temp_dir, "output.txt")
+        with open(output_path, "w") as fd:
             fd.write("This file already exists. Do not overwrite.")
 
+        monkeypatch.setattr("sys.argv", ["precli", ".", "-o", output_path])
         with pytest.raises(SystemExit) as excinfo:
             main.main()
         assert excinfo.value.code == 2
@@ -93,6 +85,18 @@ class TestMain:
         assert excinfo.value.code == 2
         captured = capsys.readouterr()
         assert "environment variable GITHUB_TOKEN undefined" in captured.err
+
+    def test_recursive_flag(self, monkeypatch):
+        temp_dir = tempfile.mkdtemp()
+        nested_dir = os.path.join(temp_dir, "nested")
+        os.makedirs(nested_dir)
+        with open(os.path.join(nested_dir, "test_file.py"), "w") as f:
+            f.write("print('test')")
+
+        monkeypatch.setattr("sys.argv", ["precli", "--recursive", temp_dir])
+        with pytest.raises(SystemExit)  as excinfo:
+            main.main()
+        assert excinfo.value.code == 0
 
     def test_main_version(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "--version"])
