@@ -22,6 +22,7 @@ import precli
 from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.run import Run
+from precli.renderers import Renderer
 
 
 BUSL_URL = "https://spdx.org/licenses/BUSL-1.1.html"
@@ -174,6 +175,11 @@ def setup_arg_parser():
                 f"file or directory: '{target}'"
             )
 
+    if args.gist and not os.getenv("GITHUB_TOKEN"):
+        parser.error(
+            "argument --gist: environment variable GITHUB_TOKEN undefined"
+        )
+
     return args
 
 
@@ -214,15 +220,8 @@ def discover_files(targets: list[str], recursive: bool) -> list[Artifact]:
     return artifacts
 
 
-def create_gist(file, renderer: str):
-    if renderer == "json":
-        filename = "results.json"
-    elif renderer == "plain":
-        filename = "results.txt"
-    elif renderer == "markdown":
-        filename = "results.md"
-    elif renderer == "detailed":
-        filename = "results.txt"
+def create_gist(file, renderer: Renderer):
+    filename = f"results.{renderer.file_extension()}"
 
     with open(file.name, encoding="utf-8") as f:
         file_content = f.read()

@@ -86,6 +86,14 @@ class TestMain:
         captured = capsys.readouterr()
         assert "not allowed with argument" in captured.err
 
+    def test_main_gist_no_github_token(self, monkeypatch, capsys):
+        monkeypatch.setattr("sys.argv", ["precli", ".", "--gist"])
+        with pytest.raises(SystemExit) as excinfo:
+            main.main()
+        assert excinfo.value.code == 2
+        captured = capsys.readouterr()
+        assert "environment variable GITHUB_TOKEN undefined" in captured.err
+
     def test_main_version(self, monkeypatch, capsys):
         monkeypatch.setattr("sys.argv", ["precli", "--version"])
         with pytest.raises(SystemExit) as excinfo:

@@ -131,6 +131,9 @@ class Json(Renderer):
                 )
         return precli_exts
 
+    def file_extension(self) -> str:
+        return ".json"
+
     def render(self, run: Run):
         log = sarif_om.SarifLog(
             schema_uri=SCHEMA_URI,
