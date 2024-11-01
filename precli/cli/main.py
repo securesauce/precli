@@ -232,7 +232,7 @@ def create_gist(file, renderer: Renderer):
     }
     response = requests.post(url, json=data, headers=headers, timeout=5)
 
-    if response.status_code == 201:
+    if response.ok:
         print(f"Gist created successfully: {response.json()['html_url']}")
     else:
         print(f"Failed to create gist: {response.status_code}")
