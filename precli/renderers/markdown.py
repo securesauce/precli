@@ -16,6 +16,9 @@ logging.getLogger("markdown_it").setLevel(logging.INFO)
 
 
 class Markdown(Renderer):
+    def file_extension(self) -> str:
+        return ".md"
+
     def render(self, run: Run):
         output = ""
         for result in run.results:

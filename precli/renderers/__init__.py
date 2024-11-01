@@ -13,5 +13,9 @@ class Renderer(ABC):
         self.quiet = quiet
 
     @abstractmethod
+    def file_extension(self) -> str:
+        pass
+
+    @abstractmethod
     def render(self, run: Run):
         pass

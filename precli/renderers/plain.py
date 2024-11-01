@@ -9,6 +9,9 @@ from precli.rules import Rule
 
 
 class Plain(Renderer):
+    def file_extension(self) -> str:
+        return ".txt"
+
     def render(self, run: Run):
         for result in run.results:
             rule = Rule.get_by_id(result.rule_id)

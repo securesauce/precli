@@ -12,6 +12,9 @@ from precli.rules import Rule
 
 
 class Detailed(Renderer):
+    def file_extension(self) -> str:
+        return ".txt"
+
     def render(self, run: Run):
         for result in run.results:
             if result.level == Level.ERROR:
