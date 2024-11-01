@@ -86,7 +86,7 @@ class TestMain:
         captured = capsys.readouterr()
         assert "environment variable GITHUB_TOKEN undefined" in captured.err
 
-    def test_recursive_flag(self, monkeypatch):
+    def test_main_recursive_flag(self, monkeypatch):
         temp_dir = tempfile.mkdtemp()
         nested_dir = os.path.join(temp_dir, "nested")
         os.makedirs(nested_dir)
