@@ -298,6 +298,8 @@ def main():
     if args.gist is True:
         create_gist(file, renderer)
 
+    sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
