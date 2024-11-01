@@ -51,12 +51,11 @@ class TestMain:
         assert "argument -c/--config: can't load" in captured.err
 
     def test_main_invalid_output(self, monkeypatch):
-        monkeypatch.setattr("sys.argv", ["precli", "-o", "../does/not/exists"])
+        monkeypatch.setattr("sys.argv", ["precli", "-o", "../does/not/exist"])
         with pytest.raises(SystemExit) as excinfo:
             main.main()
         assert excinfo.value.code == 2
 
-    @mock.patch("builtins.input", lambda _: "no")
     def test_main_output_already_exists(self, monkeypatch, capsys):
         temp_dir = tempfile.mkdtemp()
         output_path = os.path.join(temp_dir, "output.txt")
