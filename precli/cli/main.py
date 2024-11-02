@@ -27,6 +27,7 @@ from precli.renderers import Renderer
 
 BUSL_URL = "https://spdx.org/licenses/BUSL-1.1.html"
 GITHUB_URL = "https://github.com"
+PYPI_URL = "https://pypi.org"
 
 
 def setup_arg_parser():
@@ -204,7 +205,12 @@ def discover_files(targets: list[str], recursive: bool) -> list[Artifact]:
     artifacts = []
 
     for target in targets:
-        ext_name = "github" if target.startswith(GITHUB_URL) else "file"
+        if target.startswith(GITHUB_URL):
+            ext_name = "github"
+        elif target.startswith(PYPI_URL):
+            ext_name = "pypi"
+        else:
+            ext_name = "file"
         target_ext = loader.load_extension(
             group="precli.targets", name=ext_name
         )
