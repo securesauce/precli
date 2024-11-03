@@ -41,6 +41,12 @@ Run precli against all the python test examples:
 precli -r tests/unit/rules/python/
 ```
 
+Run precli against an entire PyPI repository:
+
+```
+precli -r https://pypi.org/project/precli/
+```
+
 Run precli against an entire GitHub repository:
 
 ```
