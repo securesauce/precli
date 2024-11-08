@@ -36,9 +36,21 @@ certificate validation, and more.
 
 ## FILES
 
-.preignore
+`.preignore`
 
   file that specifies which files and directories can be ignored
+
+`.precli.toml`
+
+  file that specifies custom configuration
+
+`precli.toml`
+
+  same as `.precli.toml`
+
+`pyproject.toml`
+
+  standard Python configuration file where precli can read configuration
 
 ## ENVIRONMENT VARIABLES
 
