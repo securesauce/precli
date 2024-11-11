@@ -70,5 +70,3 @@
 | PY044 | [telnetlib — no timeout](rules/python/stdlib/telnetlib-no-timeout.md) | Synchronous Access of `Telnet` without Timeout |
 | PY045 | [ftplib — no timeout](rules/python/stdlib/ftplib-no-timeout.md) | Synchronous Access of `FTP` without Timeout |
 | PY046 | [ssl — no timeout](rules/python/stdlib/ssl-no-timeout.md) | Synchronous Access of `ssl` without Timeout |
-
-_Last updated on {{ git.date.strftime("%b %d, %Y") }}_
