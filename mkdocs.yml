@@ -22,6 +22,7 @@ plugins:
   - mkdocstrings
   - search
   - macros
+  - git-revision-date-localized
 
 nav:
   - Home: index.md
