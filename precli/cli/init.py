@@ -25,11 +25,19 @@ def setup_arg_parser() -> Namespace:
         "--output",
         dest="output",
         action="store",
-        type=argparse.FileType("x", encoding="utf-8"),
+        type=str,
         default=".precli.toml",
-        help="output the config to given file",
+        help="output the config to given file (default: .precli.toml)",
     )
     args = parser.parse_args()
+
+    # Prevent overwriting output files except appending to pyproject.toml
+    path = pathlib.Path(args.output)
+    if path.exists() and path.name != "pyproject.toml":
+        parser.error(
+            f"argument -o/--output: can't open '{args.output}': [Errno 17] "
+            f"File exists: '{args.output}'"
+        )
 
     return args
 
