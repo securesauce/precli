@@ -3,8 +3,6 @@
 import json
 import os
 import tempfile
-from io import StringIO
-from unittest import mock
 
 import pytest
 
