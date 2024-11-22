@@ -33,11 +33,20 @@ def setup_arg_parser() -> Namespace:
 
     # Prevent overwriting output files except appending to pyproject.toml
     path = pathlib.Path(args.output)
-    if path.exists() and path.name != "pyproject.toml":
-        parser.error(
-            f"argument -o/--output: can't open '{args.output}': [Errno 17] "
-            f"File exists: '{args.output}'"
-        )
+    if path.exists():
+        if path.name == "pyproject.toml":
+            with open(path, "rb") as f:
+                doc = tomllib.load(f)
+            if "tool" in doc and "precli" in doc.get("tool"):
+                parser.error(
+                    f"argument -o/--output: can't write '{args.output}': "
+                    f"[Errno 17] Configuration already exist: '[tool.precli]'"
+                )
+        else:
+            parser.error(
+                f"argument -o/--output: can't write '{args.output}': "
+                f"[Errno 17] File exists: '{args.output}'"
+            )
 
     return args
 
