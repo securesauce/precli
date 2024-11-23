@@ -90,19 +90,12 @@ def main():
 
         # Check if the target file is pyproject.toml and prepare the structure
         if path.name == "pyproject.toml":
-            if path.exists():
-                with open(path, "rb") as f:
-                    doc = tomllib.load(f)
-                doc.setdefault("tool", {}).setdefault("precli", {}).update(
-                    config
-                )
-            else:
-                doc = {"tool": {"precli": config}}
+            doc = {"tool": {"precli": config}}
         else:
             doc = config
 
         # Write the configuration to the specified file
-        with open(path, "wb") as f:
+        with open(path, "ab") as f:
             tomli_w.dump(doc, f)
 
     except OSError:
