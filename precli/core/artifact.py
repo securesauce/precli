@@ -15,7 +15,7 @@ class Artifact:
         self._encoding = "utf-8"
         self._language = None
 
-        if file_name != "-" or not uri:
+        if file_name != "-" and not uri:
             modified_time = os.path.getmtime(file_name)
             self._last_modified = datetime.fromtimestamp(
                 modified_time, tz=timezone.utc
