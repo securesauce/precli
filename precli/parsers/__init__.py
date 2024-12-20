@@ -74,7 +74,7 @@ class Parser(ABC):
         """The prefix for the rule ID"""
 
     @abstractmethod
-    def get_file_encoding(self, file_path: str) -> str:
+    def get_file_encoding(self, file_contents: str) -> str:
         """The prefix for the rule ID"""
 
     def is_valid_code(self, code: str) -> bool:
