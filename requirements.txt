@@ -9,6 +9,6 @@ ignorelib==0.3.0
 requests==2.32.3
 sarif-om==1.0.4
 jschema-to-python==1.2.3
-tree-sitter-go==0.23.3
+tree-sitter-go==0.23.4
 tree-sitter-java==0.23.4
 tree-sitter-python==0.23.4
