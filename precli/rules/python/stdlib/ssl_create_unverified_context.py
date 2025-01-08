@@ -82,37 +82,6 @@ class CreateUnverifiedContext(Rule):
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
-        """
-        _create_unverified_context(
-            protocol=None,
-            *,
-            cert_reqs=<VerifyMode.CERT_NONE: 0>,
-            check_hostname=False,
-            purpose=<Purpose.SERVER_AUTH: _ASN1Object(
-                nid=129,
-                shortname='serverAuth',
-                longname='TLS Web Server Authentication',
-                oid='1.3.6.1.5.5.7.3.1'
-            )>,
-            certfile=None,
-            keyfile=None,
-            cafile=None,
-            capath=None,
-            cadata=None
-        )
-        create_default_context(
-            purpose=<Purpose.SERVER_AUTH: _ASN1Object(
-                nid=129,
-                shortname='serverAuth',
-                longname='TLS Web Server Authentication',
-                oid='1.3.6.1.5.5.7.3.1'
-            )>,
-            *,
-            cafile=None,
-            capath=None,
-            cadata=None
-        )
-        """
         if call.name_qualified in ["ssl._create_unverified_context"]:
             fixes = Rule.get_fixes(
                 context=context,
