@@ -11,7 +11,7 @@ legitimate server and fool your application into connecting to it.
 If you use `poplib.POP3_SSL` or `stls` without a context set, you are
 opening your application up to a number of security risks, including:
 
-- Man-in-the-middle attacks
+- Machine-in-the-middle attacks
 - Session hijacking
 - Data theft
 

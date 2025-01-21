@@ -7,7 +7,7 @@ This rule identifies and flags any instance where cookies in Java web
 applications are created or set without the Secure flag. The absence of this
 flag allows the cookie to be transmitted over non-HTTPS connections, which
 poses a risk of interception by an attacker, especially through
-man-in-the-middle (MITM) attacks.
+machine-in-the-middle (MITM) attacks.
 
 Cookies are often used to store sensitive information such as session
 identifiers and personal data. When a cookie is set without the Secure flag,
