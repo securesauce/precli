@@ -11,7 +11,7 @@ connecting to it.
 If you use `ssl._create_unverified_context`, you are opening your application
 up to a number of security risks, including:
 
-- Man-in-the-middle attacks
+- Machine-in-the-middle attacks
 - Session hijacking
 - Data theft
 
