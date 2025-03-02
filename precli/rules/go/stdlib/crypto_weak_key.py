@@ -145,6 +145,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -155,8 +156,10 @@ class WeakKey(Rule):
             name="inadequate_encryption_strength",
             description=__doc__,
             cwe_id=326,
-            message="Using '{0}' key sizes less than '{1}' bits is considered "
-            "vulnerable to attacks.",
+            message=_(
+                "Using '{0}' key sizes less than '{1}' bits is considered "
+                "vulnerable to attacks."
+            ),
         )
 
     def analyze_call_expression(
@@ -172,8 +175,10 @@ class WeakKey(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
-                    description=f"Use a minimum key size of {SIZE_ERR} for "
-                    "DSA keys.",
+                    description=_(
+                        f"Use a minimum key size of {SIZE_ERR} for "
+                        "DSA keys."
+                    ),
                     inserted_content="L2048N224",
                 )
 
@@ -195,8 +200,10 @@ class WeakKey(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description=f"Use a minimum key size of {SIZE_WARN} for "
-                    "RSA keys.",
+                    description=_(
+                        f"Use a minimum key size of {SIZE_WARN} for "
+                        "RSA keys."
+                    ),
                     inserted_content=f"{SIZE_WARN}",
                 )
 

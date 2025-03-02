@@ -70,6 +70,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -80,8 +81,10 @@ class PickleLoad(Rule):
             name="deserialization_of_untrusted_data",
             description=__doc__,
             cwe_id=502,
-            message="Potential unsafe usage of '{0}' that can allow "
-            "instantiation of arbitrary objects.",
+            message=_(
+                "Potential unsafe usage of '{0}' that can allow "
+                "instantiation of arbitrary objects."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

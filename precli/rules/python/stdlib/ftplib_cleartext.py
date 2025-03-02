@@ -98,6 +98,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -108,8 +109,10 @@ class FtpCleartext(Rule):
             name="cleartext_transmission",
             description=__doc__,
             cwe_id=319,
-            message="The FTP protocol can transmit data in cleartext without "
-            "encryption.",
+            message=_(
+                "The FTP protocol can transmit data in cleartext without"
+                " encryption."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -117,8 +120,9 @@ class FtpCleartext(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.identifier_node),
-                description="Use the 'FTP_TLS' module to secure the "
-                "connection.",
+                description=_(
+                    "Use the 'FTP_TLS' module to secure the " "connection."
+                ),
                 inserted_content="FTP_TLS",
             )
 
@@ -134,8 +138,10 @@ class FtpCleartext(Rule):
                     rule_id=self.id,
                     location=Location(node=call.function_node),
                     level=Level.ERROR,
-                    message=f"The '{call.name_qualified}' module will "
-                    f"transmit the password argument in cleartext.",
+                    message=_(
+                        f"The '{call.name_qualified}' module will "
+                        f"transmit the password argument in cleartext."
+                    ),
                     fixes=fixes,
                 )
             else:
@@ -151,6 +157,8 @@ class FtpCleartext(Rule):
                     rule_id=self.id,
                     location=Location(node=call.identifier_node),
                     level=Level.ERROR,
-                    message=f"The '{call.name_qualified}' function will "
-                    f"transmit the password argument in cleartext.",
+                    message=_(
+                        f"The '{call.name_qualified}' function will "
+                        f"transmit the password argument in cleartext."
+                    ),
                 )

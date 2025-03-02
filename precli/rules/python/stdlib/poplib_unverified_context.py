@@ -85,6 +85,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -98,8 +99,10 @@ class PoplibUnverifiedContext(Rule):
             name="improper_certificate_validation",
             description=__doc__,
             cwe_id=295,
-            message="The '{0}' function does not properly validate "
-            "certificates when context is unset or None.",
+            message=_(
+                "The '{0}' function does not properly validate "
+                "certificates when context is unset or None."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -133,7 +136,9 @@ class PoplibUnverifiedContext(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=fix_node),
-            description=f"Pass {CONTEXT_FIX} to safely validate certificates.",
+            description=_(
+                f"Pass {CONTEXT_FIX} to safely validate certificates."
+            ),
             inserted_content=content,
         )
         return Result(

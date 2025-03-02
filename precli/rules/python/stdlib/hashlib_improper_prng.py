@@ -79,6 +79,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -89,8 +90,10 @@ class HashlibImproperPrng(Rule):
             name="improper_random",
             description=__doc__,
             cwe_id=330,
-            message="The '{0}' pseudo-random generator should not be used for "
-            "security purposes.",
+            message=_(
+                "The '{0}' pseudo-random generator should not be used for "
+                "security purposes."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -134,8 +137,10 @@ class HashlibImproperPrng(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=argument.node),
-            description="The salt should be 16 or more bytes from a proper "
-            "pseudo-random source such as `os.urandom()`.",
+            description=_(
+                "The salt should be 16 or more bytes from a proper "
+                "pseudo-random source such as `os.urandom()`."
+            ),
             inserted_content="os.urandom(16)",
         )
 

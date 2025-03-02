@@ -73,6 +73,7 @@ from precli.core import redos
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -83,9 +84,11 @@ class ReDenialOfService(Rule):
             name="regex_denial_of_service",
             description=__doc__,
             cwe_id=1333,
-            message="The call to '{0}'' with regex pattern '{1}'' is "
-            "susceptible to catastrophic backtracking and may cause "
-            "performance degradation.",
+            message=_(
+                "The call to '{0}'' with regex pattern '{1}'' is "
+                "susceptible to catastrophic backtracking and may cause "
+                "performance degradation."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

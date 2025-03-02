@@ -79,6 +79,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -126,8 +127,10 @@ class HmacWeakKey(Rule):
             name="insufficient_key_size",
             description=__doc__,
             cwe_id=326,
-            message="The given key is only '{0}' bytes which is insufficient "
-            "for the '{2}' algorithm.",
+            message=_(
+                "The given key is only '{0}' bytes which is insufficient "
+                "for the '{2}' algorithm."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

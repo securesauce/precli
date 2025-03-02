@@ -71,6 +71,7 @@ from precli.core.call import Call
 from precli.core.fix import Fix
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -81,9 +82,11 @@ class MktempRaceCondition(Rule):
             name="insecure_temporary_file",
             description=__doc__,
             cwe_id=377,
-            message="The function '{0}' can allow insecure ways of creating "
-            "temporary files and directories that can lead to race "
-            "conditions.",
+            message=_(
+                "The function '{0}' can allow insecure ways of creating "
+                "temporary files and directories that can lead to race "
+                "conditions."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -137,16 +140,20 @@ class MktempRaceCondition(Rule):
 
                 fixes = [
                     Fix(
-                        description="Use the 'NamedTemporaryFile' class to "
-                        "generate a unique filename, do proper file closure, "
-                        "and cleanup.",
+                        description=_(
+                            "Use the 'NamedTemporaryFile' class to "
+                            "generate a unique filename, do proper file "
+                            "closure, and cleanup."
+                        ),
                         deleted_location=Location(node=init_call.node.parent),
                         inserted_content="",
                     ),
                     Fix(
-                        description="Use the 'NamedTemporaryFile' class to "
-                        "generate a unique filename, do proper file closure, "
-                        "and cleanup.",
+                        description=_(
+                            "Use the 'NamedTemporaryFile' class to "
+                            "generate a unique filename, do proper file "
+                            "closure, and cleanup."
+                        ),
                         deleted_location=Location(node=call.node),
                         inserted_content=(
                             f"tempfile.NamedTemporaryFile({arg_str})"

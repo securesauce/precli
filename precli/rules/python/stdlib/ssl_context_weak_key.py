@@ -75,6 +75,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -85,8 +86,10 @@ class SslContextWeakKey(Rule):
             name="inadequate_encryption_strength",
             description=__doc__,
             cwe_id=326,
-            message="Using '{0}' key sizes less than '{1}' bits is considered "
-            "vulnerable to attacks.",
+            message=_(
+                "Using '{0}' key sizes less than '{1}' bits is considered "
+                "vulnerable to attacks."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -116,8 +119,9 @@ class SslContextWeakKey(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=f"Use a curve with a minimum size of {SIZE_WARN} "
-                "bits.",
+                description=_(
+                    f"Use a curve with a minimum size of {SIZE_WARN} " "bits."
+                ),
                 inserted_content='"secp256k1"',
             )
 

@@ -7,4 +7,4 @@ import os
 
 
 mode = 0o227
-os.lchmod('/etc/passwd', mode=mode)
+os.lchmod("/etc/passwd", mode=mode)

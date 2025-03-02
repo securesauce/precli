@@ -6,6 +6,6 @@
 import os
 
 
-filename = '/etc/passwd'
-mode = 0x1ff
+filename = "/etc/passwd"
+mode = 0x1FF
 os.chmod(filename, mode)

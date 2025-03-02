@@ -76,6 +76,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -86,8 +87,10 @@ class PopCleartext(Rule):
             name="cleartext_transmission",
             description=__doc__,
             cwe_id=319,
-            message="The POP protocol can transmit data in cleartext without "
-            "encryption.",
+            message=_(
+                "The POP protocol can transmit data in cleartext without "
+                "encryption."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -109,16 +112,19 @@ class PopCleartext(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=init_call.identifier_node),
-            description="Use the 'POP3_SSL' module to secure the "
-            "connection.",
+            description=_(
+                "Use the 'POP3_SSL' module to secure the " "connection."
+            ),
             inserted_content="POP3_SSL",
         )
 
         return Result(
             rule_id=self.id,
             location=Location(node=call.identifier_node),
-            message=f"The '{call.name_qualified}' function will "
-            f"transmit authentication information such as a user, "
-            "password in cleartext.",
+            message=_(
+                f"The '{call.name_qualified}' function will "
+                f"transmit authentication information such as a user, "
+                "password in cleartext."
+            ),
             fixes=fixes,
         )
