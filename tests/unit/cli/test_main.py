@@ -37,7 +37,7 @@ class TestMain:
     def test_main_invalid_config(self, monkeypatch, capsys):
         temp_dir = tempfile.mkdtemp()
         config_path = os.path.join(temp_dir, "not_toml.toml")
-        config = { "enable": ["PY001"] }
+        config = {"enable": ["PY001"]}
         with open(config_path, "w") as fd:
             json.dump(config, fd)
 
@@ -91,7 +91,7 @@ class TestMain:
             f.write("print('test')")
 
         monkeypatch.setattr("sys.argv", ["precli", "--recursive", temp_dir])
-        with pytest.raises(SystemExit)  as excinfo:
+        with pytest.raises(SystemExit) as excinfo:
             main.main()
         assert excinfo.value.code == 0
 

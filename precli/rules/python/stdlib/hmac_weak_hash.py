@@ -84,6 +84,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -104,8 +105,10 @@ class HmacWeakHash(Rule):
             name="reversible_one_way_hash",
             description=__doc__,
             cwe_id=328,
-            message="The hash function '{0}' is vulnerable to collision and "
-            "pre-image attacks.",
+            message=_(
+                "The hash function '{0}' is vulnerable to collision and "
+                "pre-image attacks."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -117,8 +120,10 @@ class HmacWeakHash(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description="For cryptographic purposes, use a hash length"
-                    " of at least 256-bits with hashes such as SHA-256.",
+                    description=_(
+                        "For cryptographic purposes, use a hash length"
+                        " of at least 256-bits with hashes such as SHA-256."
+                    ),
                     inserted_content='"sha256"',
                 )
                 return Result(
@@ -131,8 +136,10 @@ class HmacWeakHash(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description="For cryptographic purposes, use a hash length"
-                    " of at least 256-bits with hashes such as SHA-256.",
+                    description=_(
+                        "For cryptographic purposes, use a hash length"
+                        " of at least 256-bits with hashes such as SHA-256."
+                    ),
                     inserted_content="hashlib.sha256",
                 )
                 return Result(
@@ -149,8 +156,10 @@ class HmacWeakHash(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description="For cryptographic purposes, use a hash length"
-                    " of at least 256-bits with hashes such as SHA-256.",
+                    description=_(
+                        "For cryptographic purposes, use a hash length"
+                        " of at least 256-bits with hashes such as SHA-256."
+                    ),
                     inserted_content='"sha256"',
                 )
                 return Result(
@@ -163,8 +172,10 @@ class HmacWeakHash(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
-                    description="For cryptographic purposes, use a hash length"
-                    " of at least 256-bits with hashes such as SHA-256.",
+                    description=_(
+                        "For cryptographic purposes, use a hash length"
+                        " of at least 256-bits with hashes such as SHA-256."
+                    ),
                     inserted_content="hashlib.sha256",
                 )
                 return Result(

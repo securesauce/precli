@@ -86,6 +86,7 @@ from precli.core import utils
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -100,8 +101,10 @@ class XmlrpcServerUnrestrictedBind(Rule):
             name="unrestricted_bind",
             description=__doc__,
             cwe_id=1327,
-            message="Binding to '{0}' exposes the application on all network "
-            "interfaces, increasing the risk of unauthorized access.",
+            message=_(
+                "Binding to '{0}' exposes the application on all network "
+                "interfaces, increasing the risk of unauthorized access."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -121,7 +124,9 @@ class XmlrpcServerUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description="Use the localhost address to restrict binding.",
+                description=_(
+                    "Use the localhost address to restrict binding."
+                ),
                 inserted_content=str(("127.0.0.1",) + addr[1:]),
             )
             return Result(
@@ -134,7 +139,9 @@ class XmlrpcServerUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description="Use the localhost address to restrict binding.",
+                description=_(
+                    "Use the localhost address to restrict binding."
+                ),
                 inserted_content=str(("::1",) + addr[1:]),
             )
             return Result(

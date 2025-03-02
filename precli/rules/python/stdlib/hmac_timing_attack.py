@@ -90,6 +90,7 @@ from typing import Optional
 from precli.core.comparison import Comparison
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -109,8 +110,10 @@ class HmacTimingAttack(Rule):
             name="observable_timing_discrepancy",
             description=__doc__,
             cwe_id=208,
-            message="Comparing digests with the '{0}' operator is vulnerable "
-            "to timing attacks.",
+            message=_(
+                "Comparing digests with the '{0}' operator is vulnerable "
+                "to timing attacks."
+            ),
         )
 
     def analyze_comparison_operator(
@@ -123,9 +126,11 @@ class HmacTimingAttack(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=comparison.node),
-                description="Use the 'hmac.compare_digest' function instead "
-                "of the '==' operator to reduce the vulnerability to timing "
-                "attacks.",
+                description=_(
+                    "Use the 'hmac.compare_digest' function instead "
+                    "of the '==' operator to reduce the vulnerability to "
+                    "timing attacks."
+                ),
                 inserted_content=f"hmac.compare_digest("
                 f"{comparison.left_node.text.decode()}, "
                 f"{comparison.right_node.text.decode()})",

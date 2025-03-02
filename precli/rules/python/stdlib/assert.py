@@ -72,6 +72,7 @@ from typing import Optional
 
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -82,8 +83,10 @@ class Assert(Rule):
             name="improper_check",
             description=__doc__,
             cwe_id=703,
-            message="Assert statements are disabled when optimizations are "
-            "enabled.",
+            message=_(
+                "Assert statements are disabled when optimizations are "
+                "enabled."
+            ),
         )
 
     def analyze_assert(self, context: dict) -> Optional[Result]:

@@ -79,6 +79,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -89,8 +90,9 @@ class InsecureCookie(Rule):
             name="insecure_cookie",
             description=__doc__,
             cwe_id=614,
-            message="The cookie '{0}' was found without the 'Secure' flag "
-            "set.",
+            message=_(
+                "The cookie '{0}' was found without the 'Secure' flag " "set."
+            ),
             wildcards={
                 "javax.servlet.http.*": [
                     "Cookie",
@@ -115,7 +117,7 @@ class InsecureCookie(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=argument.node),
-            description="Set the 'Secure' flag to True on all cookies.",
+            description=_("Set the 'Secure' flag to True on all cookies."),
             inserted_content="true",
         )
         return Result(

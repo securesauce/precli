@@ -97,6 +97,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.parsers.node_types import NodeTypes
 from precli.rules import Rule
 
@@ -114,8 +115,10 @@ class PathlibLooseFilePermissions(Rule):
             name="incorrect_permission",
             description=__doc__,
             cwe_id=732,
-            message="Mode '{0}' grants excessive permissions, potentially "
-            "allowing unauthorized access or modification.",
+            message=_(
+                "Mode '{0}' grants excessive permissions, potentially "
+                "allowing unauthorized access or modification."
+            ),
         )
 
     def _risky_mode(self, mode):
@@ -178,7 +181,7 @@ class PathlibLooseFilePermissions(Rule):
                 location = Location(node=argument.node)
                 desired_mode = mode
                 mode = desired_mode & (~UMASK & 0o777)
-                message = (
+                message = _(
                     f"The effective mode of '{oct(mode)}' (given value "
                     f"'{oct(desired_mode)}' and umask '{oct(UMASK)}') is "
                     f"overly permissive, potentially allowing unauthorized "
@@ -189,7 +192,7 @@ class PathlibLooseFilePermissions(Rule):
                 location = Location(node=call.arg_list_node)
                 default_mode = DEFAULT_MODE[call.name_qualified]
                 mode = default_mode & (~UMASK & 0o777)
-                message = (
+                message = _(
                     f"The effective mode of '{oct(mode)}' (function default "
                     f"'{oct(default_mode)}' and umask '{oct(UMASK)}') is "
                     f"overly permissive, potentially allowing unauthorized "

@@ -81,6 +81,7 @@ from urllib.parse import urlsplit
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -91,7 +92,9 @@ class HttpUrlSecret(Rule):
             name="sensitive_query_strings",
             description=__doc__,
             cwe_id=598,
-            message="Secrets in URLs are vulnerable to unauthorized access.",
+            message=_(
+                "Secrets in URLs are vulnerable to unauthorized access."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

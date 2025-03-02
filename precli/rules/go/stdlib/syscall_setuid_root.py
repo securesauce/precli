@@ -100,6 +100,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -110,8 +111,10 @@ class SyscallSetuidRoot(Rule):
             name="unnecessary_privileges",
             description=__doc__,
             cwe_id=250,
-            message="The function '{0}(0)' escalates the process to run with "
-            "root (superuser) privileges.",
+            message=_(
+                "The function '{0}(0)' escalates the process to run with "
+                "root (superuser) privileges."
+            ),
         )
 
     def analyze_call_expression(

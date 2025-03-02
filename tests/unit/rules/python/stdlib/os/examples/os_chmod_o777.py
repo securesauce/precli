@@ -6,6 +6,6 @@
 import os
 
 
-filename = '/etc/passwd'
+filename = "/etc/passwd"
 mode = 0o777
 os.chmod(filename, mode)
