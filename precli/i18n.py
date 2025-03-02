@@ -6,14 +6,12 @@ import locale
 LOCALE_DIR = "locale"
 
 
-def default(text: str) -> str:
-    return text
-
-
-def set_language() -> None:
+def set_language(lang_code: str = None) -> None:
     global _
     system_locale, _ = locale.getdefaultlocale()
-    lang_code = system_locale.split("_")[0] if system_locale else "en"
+    lang_code = (
+        lang_code or system_locale.split("_")[0] if system_locale else "en"
+    )
 
     try:
         lang = gettext.translation(
@@ -25,7 +23,11 @@ def set_language() -> None:
         lang.install()
         _ = lang.gettext
     except FileNotFoundError:
-        _ = default
+
+        def translate(text: str) -> str:
+            return text
+
+        _ = translate
 
 
 set_language()
