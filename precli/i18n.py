@@ -1,9 +1,11 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import gettext
 import locale
+import os
 
-LOCALE_DIR = "locale"
+
+LOCALE_DIR = os.path.join("precli", "locale")
 
 
 def set_language(lang_code: str = None) -> None:
