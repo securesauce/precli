@@ -1,373 +1,120 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
 "POT-Creation-Date: 2025-03-01 22:46-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Korean\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: precli/rules/go/stdlib/crypto_weak_cipher.py:149
-#: precli/rules/java/stdlib/javax_crypto_weak_cipher.py:158
-#, python-brace-format
-msgid ""
-"Weak ciphers like '{0}' should be avoided due to their known vulnerabilities "
-"and weaknesses."
-msgstr ""
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "'{0}'와 같은 약한 암호화 알고리즘은 알려진 취약점과 약점 때문에 사용을 피해야 합니다."
 
-#: precli/rules/go/stdlib/crypto_weak_cipher.py:166
-#: precli/rules/java/stdlib/javax_crypto_weak_cipher.py:192
-msgid ""
-"It is advisable to use a stronger, more secure cryptographic algorithm like "
-"AES."
-msgstr ""
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "더 강력하고 안전한 AES와 같은 암호화 알고리즘을 사용하는 것이 좋습니다."
 
-#: precli/rules/go/stdlib/crypto_weak_key.py:160
-#: precli/rules/python/stdlib/ssl_context_weak_key.py:90
-#: precli/rules/java/stdlib/java_security_weak_key.py:116
-#, python-brace-format
-msgid ""
-"Using '{0}' key sizes less than '{1}' bits is considered vulnerable to "
-"attacks."
-msgstr ""
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "'{0}' 키 크기가 '{1}' 비트보다 작으면 공격에 취약한 것으로 간주됩니다."
 
-#: precli/rules/go/stdlib/crypto_weak_key.py:180
 msgid "DSA keys."
-msgstr ""
+msgstr "DSA 키."
 
-#: precli/rules/go/stdlib/crypto_weak_key.py:205
 msgid "RSA keys."
-msgstr ""
+msgstr "RSA 키."
 
-#: precli/rules/go/stdlib/syscall_setuid_root.py:115
-#: precli/rules/python/stdlib/os_setuid_root.py:91
-#, python-brace-format
-msgid ""
-"The function '{0}(0)' escalates the process to run with root (superuser) "
-"privileges."
-msgstr ""
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "함수 '{0}(0)'는 프로세스를 루트(최고 권한)로 실행하도록 상승시킵니다."
 
-#: precli/rules/go/stdlib/crypto_weak_hash.py:100
-#: precli/rules/python/stdlib/crypt_weak_hash.py:139
-#, python-brace-format
 msgid "Use of weak hash function '{0}' does not meet security expectations."
-msgstr ""
+msgstr "약한 해시 함수 '{0}'의 사용은 보안 요구 사항을 충족하지 않습니다."
 
-#: precli/rules/go/stdlib/crypto_weak_hash.py:116
-#: precli/rules/go/stdlib/crypto_weak_hash.py:134
 msgid "Use a more secure hashing algorithm like sha256."
-msgstr ""
+msgstr "SHA-256과 같은 더 안전한 해싱 알고리즘을 사용하세요."
 
-#: precli/rules/python/stdlib/ftplib_no_timeout.py:95
-#: precli/rules/python/stdlib/imaplib_no_timeout.py:97
-#: precli/rules/python/stdlib/telnetlib_no_timeout.py:92
-#: precli/rules/python/stdlib/smtplib_no_timeout.py:99
-#: precli/rules/python/stdlib/nntplib_no_timeout.py:97
-#: precli/rules/python/stdlib/poplib_no_timeout.py:97
-#, python-brace-format
-msgid ""
-"The class '{0}' is used without a timeout, which may cause the application "
-"to block indefinitely if the remote server does not respond."
-msgstr ""
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "'{0}' 클래스가 타임아웃 없이 사용되었으며, 원격 서버가 응답하지 않으면 애플리케이션이 무기한 멈출 수 있습니다."
 
-#: precli/rules/python/stdlib/ftplib_no_timeout.py:181
-#: precli/rules/python/stdlib/ssl_no_timeout.py:134
-#: precli/rules/python/stdlib/socket_no_timeout.py:139
-#: precli/rules/python/stdlib/imaplib_no_timeout.py:145
-#: precli/rules/python/stdlib/telnetlib_no_timeout.py:142
-#: precli/rules/python/stdlib/smtplib_no_timeout.py:171
-#: precli/rules/python/stdlib/nntplib_no_timeout.py:162
-#: precli/rules/python/stdlib/poplib_no_timeout.py:151
 msgid "Set timeout parameter to a small number of seconds."
-msgstr ""
+msgstr "타임아웃 매개변수를 몇 초 정도로 설정하세요."
 
-#: precli/rules/python/stdlib/hmac_weak_hash.py:109
-#: precli/rules/python/stdlib/hashlib_weak_hash.py:119
-#: precli/rules/java/stdlib/java_security_weak_hash.py:102
-#, python-brace-format
-msgid ""
-"The hash function '{0}' is vulnerable to collision and pre-image attacks."
-msgstr ""
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "해시 함수 '{0}'는 충돌 및 선이미지(pre-image) 공격에 취약합니다."
 
-#: precli/rules/python/stdlib/hmac_weak_hash.py:124
-#: precli/rules/python/stdlib/hmac_weak_hash.py:140
-#: precli/rules/python/stdlib/hmac_weak_hash.py:160
-#: precli/rules/python/stdlib/hmac_weak_hash.py:176
-#: precli/rules/python/stdlib/hashlib_weak_hash.py:135
-#: precli/rules/python/stdlib/hashlib_weak_hash.py:155
-#: precli/rules/python/stdlib/hashlib_weak_hash.py:181
-#: precli/rules/java/stdlib/java_security_weak_hash.py:134
-msgid ""
-"For cryptographic purposes, use a hash length of at least 256-bits with "
-"hashes such as SHA-256."
-msgstr ""
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "암호화 목적으로는 SHA-256과 같은 최소 256비트 길이의 해시를 사용하세요."
 
-#: precli/rules/python/stdlib/json_load.py:68
-#: precli/rules/python/stdlib/marshal_load.py:73
-#: precli/rules/python/stdlib/shelve_open.py:72
-#: precli/rules/python/stdlib/pickle_load.py:85
-#, python-brace-format
-msgid ""
-"Potential unsafe usage of '{0}' that can allow instantiation of arbitrary "
-"objects."
-msgstr ""
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "'{0}'의 사용이 잠재적으로 안전하지 않으며 임의의 객체를 인스턴스화할 수 있습니다."
 
-#: precli/rules/python/stdlib/smtplib_cleartext.py:127
-#: precli/rules/python/stdlib/poplib_cleartext.py:91
 msgid "The POP protocol can transmit data in cleartext without encryption."
-msgstr ""
+msgstr "POP 프로토콜은 암호화 없이 데이터를 평문으로 전송할 수 있습니다."
 
-#: precli/rules/python/stdlib/smtplib_cleartext.py:150
 msgid "Use the 'SMTP_SSL' module to secure the connection."
-msgstr ""
+msgstr "'SMTP_SSL' 모듈을 사용하여 연결을 보호하세요."
 
-#: precli/rules/python/stdlib/smtplib_cleartext.py:160
-#: precli/rules/python/stdlib/poplib_cleartext.py:126
-#: precli/rules/python/stdlib/imaplib_cleartext.py:130
-#: precli/rules/python/stdlib/nntplib_cleartext.py:112
-msgid ""
-"transmit authentication information such as a user, password in cleartext."
-msgstr ""
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "사용자, 비밀번호 등의 인증 정보를 평문으로 전송합니다."
 
-#: precli/rules/python/stdlib/ssl_no_timeout.py:89
-#: precli/rules/python/stdlib/socket_no_timeout.py:94
-#, python-brace-format
-msgid ""
-"The function '{0}' is used without a timeout, which may cause the "
-"application to block indefinitely if the remote server does not respond."
-msgstr ""
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "'{0}' 의사 난수 생성기는 보안 목적으로 사용해서는 안 됩니다."
 
-#: precli/rules/python/stdlib/hashlib_improper_prng.py:94
-#, python-brace-format
-msgid ""
-"The '{0}' pseudo-random generator should not be used for security purposes."
-msgstr ""
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "솔트는 `os.urandom()`과 같은 적절한 의사 난수 소스에서 최소 16바이트 이상이어야 합니다."
 
-#: precli/rules/python/stdlib/hashlib_improper_prng.py:141
-msgid ""
-"The salt should be 16 or more bytes from a proper pseudo-random source such "
-"as `os.urandom()`."
-msgstr ""
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "'{0}' 함수는 컨텍스트가 설정되지 않았거나 None일 때 인증서를 올바르게 검증하지 않습니다."
 
-#: precli/rules/python/stdlib/smtplib_unverified_context.py:139
-#: precli/rules/python/stdlib/imaplib_unverified_context.py:107
-#: precli/rules/python/stdlib/poplib_unverified_context.py:103
-#: precli/rules/python/stdlib/nntplib_unverified_context.py:97
-#: precli/rules/python/stdlib/ftplib_unverified_context.py:96
-#, python-brace-format
-msgid ""
-"The '{0}' function does not properly validate certificates when context is "
-"unset or None."
-msgstr ""
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "주어진 키는 '{0}' 바이트로, '{2}' 알고리즘에는 불충분합니다."
 
-#: precli/rules/python/stdlib/hmac_weak_key.py:131
-#, python-brace-format
-msgid ""
-"The given key is only '{0}' bytes which is insufficient for the '{2}' "
-"algorithm."
-msgstr ""
-
-#: precli/rules/python/stdlib/poplib_cleartext.py:116
 msgid "Use the 'POP3_SSL' module to secure the connection."
-msgstr ""
+msgstr "'POP3_SSL' 모듈을 사용하여 연결을 보호하세요."
 
-#: precli/rules/python/stdlib/argparse_sensitive_info.py:108
-#, python-brace-format
-msgid ""
-"{0} in CLI arguments are leaked to command history, logs, ps output, etc."
-msgstr ""
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "CLI 인수에 포함된 {0}이 명령어 기록, 로그, ps 출력 등에 노출될 수 있습니다."
 
-#: precli/rules/python/stdlib/secrets_weak_token.py:84
-#, python-brace-format
-msgid ""
-"A token size of '{0}' is less than the recommended '{1}' bytes, which can be "
-"vulnerable to brute-force attacks."
-msgstr ""
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "'{0}' 바이트 크기의 토큰은 권장 크기인 '{1}' 바이트보다 작아, 무차별 대입 공격에 취약할 수 있습니다."
 
-#: precli/rules/python/stdlib/secrets_weak_token.py:108
 msgid "Pass None or no parameter to use the default entropy."
-msgstr ""
+msgstr "기본 엔트로피를 사용하려면 None 또는 매개변수를 전달하지 마세요."
 
-#: precli/rules/python/stdlib/socketserver_unrestricted_bind.py:113
-#: precli/rules/python/stdlib/xmlrpc_server_unrestricted_bind.py:105
-#: precli/rules/python/stdlib/http_server_unrestricted_bind.py:105
-#: precli/rules/python/stdlib/socket_unrestricted_bind.py:95
-#, python-brace-format
-msgid ""
-"Binding to '{0}' exposes the application on all network interfaces, "
-"increasing the risk of unauthorized access."
-msgstr ""
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "'{0}'에 바인딩하면 애플리케이션이 모든 네트워크 인터페이스에 노출되어 무단 액세스 위험이 증가합니다."
 
-#: precli/rules/python/stdlib/socketserver_unrestricted_bind.py:140
-#: precli/rules/python/stdlib/socketserver_unrestricted_bind.py:155
-#: precli/rules/python/stdlib/xmlrpc_server_unrestricted_bind.py:128
-#: precli/rules/python/stdlib/xmlrpc_server_unrestricted_bind.py:143
-#: precli/rules/python/stdlib/http_server_unrestricted_bind.py:128
-#: precli/rules/python/stdlib/http_server_unrestricted_bind.py:143
-#: precli/rules/python/stdlib/socket_unrestricted_bind.py:118
-#: precli/rules/python/stdlib/socket_unrestricted_bind.py:133
 msgid "Use the localhost address to restrict binding."
-msgstr ""
+msgstr "바인딩을 제한하려면 localhost 주소를 사용하세요."
 
-#: precli/rules/python/stdlib/imaplib_cleartext.py:96
-msgid "The IMAP protocol can transmit data in cleartext without encryption."
-msgstr ""
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "'{0}' 연산자로 다이제스트를 비교하면 타이밍 공격에 취약할 수 있습니다."
 
-#: precli/rules/python/stdlib/imaplib_cleartext.py:120
-msgid "Use the 'IMAP4_SSL' module to secure the connection."
-msgstr ""
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "'==' 연산자 대신 'hmac.compare_digest' 함수를 사용하여 타이밍 공격 취약성을 줄이세요."
 
-#: precli/rules/python/stdlib/re_denial_of_service.py:88
-#, python-brace-format
-msgid ""
-"The call to '{0}'' with regex pattern '{1}'' is susceptible to catastrophic "
-"backtracking and may cause performance degradation."
-msgstr ""
-
-#: precli/rules/python/stdlib/assert.py:87
-msgid "Assert statements are disabled when optimizations are enabled."
-msgstr ""
-
-#: precli/rules/python/stdlib/telnetlib_cleartext.py:134
-#, python-brace-format
-msgid "The '{0}' module transmits data in cleartext without encryption."
-msgstr ""
-
-#: precli/rules/python/stdlib/ssl_insecure_tls_version.py:104
-#, python-brace-format
-msgid "The '{0}' protocol has insufficient encryption strength."
-msgstr ""
-
-#: precli/rules/python/stdlib/ssl_insecure_tls_version.py:124
-msgid ""
-"Use 'PROTOCOL_TLS_CLIENT' to auto-negotiate the highest protocol version "
-"that both the client and server support."
-msgstr ""
-
-#: precli/rules/python/stdlib/ssl_insecure_tls_version.py:163
-#: precli/rules/python/stdlib/ssl_insecure_tls_version.py:185
-msgid ""
-"Use 'PROTOCOL_TLS' to auto-negotiate the highest protocol version that both "
-"the client and server support."
-msgstr ""
-
-#: precli/rules/python/stdlib/hmac_timing_attack.py:114
-#, python-brace-format
-msgid ""
-"Comparing digests with the '{0}' operator is vulnerable to timing attacks."
-msgstr ""
-
-#: precli/rules/python/stdlib/hmac_timing_attack.py:130
-msgid ""
-"Use the 'hmac.compare_digest' function instead of the '==' operator to "
-"reduce the vulnerability to timing attacks."
-msgstr ""
-
-#: precli/rules/python/stdlib/ssl_create_unverified_context.py:82
-#, python-brace-format
 msgid "The '{0}' function does not properly validate certificates."
-msgstr ""
+msgstr "'{0}' 함수는 인증서를 올바르게 검증하지 않습니다."
 
-#: precli/rules/python/stdlib/ssl_create_unverified_context.py:93
 msgid "Use 'create_default_context' to safely validate certificates."
-msgstr ""
+msgstr "'create_default_context'를 사용하여 안전하게 인증서를 검증하세요."
 
-#: precli/rules/python/stdlib/ssl_context_weak_key.py:123
-msgid "bits."
-msgstr ""
-
-#: precli/rules/python/stdlib/logging_insecure_listen_config.py:80
-#, python-brace-format
-msgid "Using '{0}' with unset 'verify' vulnerable to code injection."
-msgstr ""
-
-#: precli/rules/python/stdlib/tempfile_mktemp_race_condition.py:86
-#, python-brace-format
-msgid ""
-"The function '{0}' can allow insecure ways of creating temporary files and "
-"directories that can lead to race conditions."
-msgstr ""
-
-#: precli/rules/python/stdlib/tempfile_mktemp_race_condition.py:144
-#: precli/rules/python/stdlib/tempfile_mktemp_race_condition.py:153
-msgid ""
-"Use the 'NamedTemporaryFile' class to generate a unique filename, do proper "
-"file closure, and cleanup."
-msgstr ""
-
-#: precli/rules/python/stdlib/ftplib_cleartext.py:113
-msgid "The FTP protocol can transmit data in cleartext without encryption."
-msgstr ""
-
-#: precli/rules/python/stdlib/ftplib_cleartext.py:124
-msgid "Use the 'FTP_TLS' module to secure the connection."
-msgstr ""
-
-#: precli/rules/python/stdlib/ftplib_cleartext.py:143
-#: precli/rules/python/stdlib/ftplib_cleartext.py:162
-msgid "transmit the password argument in cleartext."
-msgstr ""
-
-#: precli/rules/python/stdlib/nntplib_cleartext.py:82
-msgid "The NNTP protocol can transmit data in cleartext without encryption."
-msgstr ""
-
-#: precli/rules/python/stdlib/nntplib_cleartext.py:102
-msgid "Use the 'NNTP_SSL' module to secure the connection."
-msgstr ""
-
-#: precli/rules/python/stdlib/os_loose_file_perm.py:121
-#: precli/rules/python/stdlib/pathlib_loose_file_perm.py:119
-#, python-brace-format
-msgid ""
-"Mode '{0}' grants excessive permissions, potentially allowing unauthorized "
-"access or modification."
-msgstr ""
-
-#: precli/rules/python/stdlib/os_loose_file_perm.py:188
-#: precli/rules/python/stdlib/os_loose_file_perm.py:199
-#: precli/rules/python/stdlib/pathlib_loose_file_perm.py:187
-#: precli/rules/python/stdlib/pathlib_loose_file_perm.py:198
-msgid ""
-"overly permissive, potentially allowing unauthorized access or modification."
-msgstr ""
-
-#: precli/rules/python/stdlib/http_url_secret.py:96
 msgid "Secrets in URLs are vulnerable to unauthorized access."
-msgstr ""
+msgstr "URL에 포함된 비밀 정보는 무단 액세스에 취약합니다."
 
-#: precli/rules/java/stdlib/java_security_weak_random.py:98
-#, python-brace-format
-msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
-msgstr ""
-
-#: precli/rules/java/stdlib/java_security_weak_random.py:126
-msgid ""
-"Use SecureRandom without specifying an algorithm, allowing the Java runtime "
-"to select the strongest available algorithm."
-msgstr ""
-
-#: precli/rules/java/stdlib/java_net_insecure_cookie.py:96
-#: precli/rules/java/stdlib/javax_servlet_http_insecure_cookie.py:94
-#, python-brace-format
-msgid "The cookie '{0}' was found without the 'Secure' flag set."
-msgstr ""
-
-#: precli/rules/java/stdlib/java_net_insecure_cookie.py:122
-#: precli/rules/java/stdlib/javax_servlet_http_insecure_cookie.py:120
 msgid "Set the 'Secure' flag to True on all cookies."
-msgstr ""
+msgstr "모든 쿠키의 'Secure' 플래그를 True로 설정하세요."
 
-#: precli/rules/java/stdlib/java_security_weak_key.py:156
-msgid "keys."
-msgstr ""
+msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
+msgstr "SecureRandom 알고리즘 '{0}'이 충분한 엔트로피를 제공하지 않을 수 있습니다."
+
+msgid "Use SecureRandom without specifying an algorithm, allowing the Java runtime to select the strongest available algorithm."
+msgstr "알고리즘을 지정하지 않고 SecureRandom을 사용하면 Java 런타임이 가장 강력한 알고리즘을 선택할 수 있습니다."
