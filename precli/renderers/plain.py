@@ -4,6 +4,7 @@ from rich.padding import Padding
 
 from precli.core.level import Level
 from precli.core.run import Run
+from precli.i18n import _
 from precli.renderers import Renderer
 from precli.rules import Rule
 
@@ -37,8 +38,10 @@ class Plain(Renderer):
 
             # TODO(ericwb): replace hardcoded <module> with actual scope
             self.console.print(
-                f'  File "{file_name}", line '
-                f"{result.location.start_line}, in <module>",
+                _(
+                    f'  File "{file_name}", line '
+                    f"{result.location.start_line}, in <module>",
+                )
             )
             if result.snippet:
                 lines = result.snippet.splitlines(keepends=True)
@@ -61,8 +64,10 @@ class Plain(Renderer):
             self.console.print()
         if not self.quiet:
             self.console.print(
-                f"Found {run.metrics.errors} errors, {run.metrics.warnings} "
-                f"warnings, and {run.metrics.notes} notes in "
-                f"{run.metrics.files} files and {run.metrics.lines} lines of "
-                f"code."
+                _(
+                    f"Found {run.metrics.errors} errors, "
+                    f"{run.metrics.warnings} warnings, and {run.metrics.notes}"
+                    f" notes in {run.metrics.files} files and "
+                    f"{run.metrics.lines} lines of code."
+                )
             )

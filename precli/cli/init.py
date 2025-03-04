@@ -11,6 +11,7 @@ else:
     import tomli as tomllib
 import tomli_w
 
+from precli.i18n import _
 from precli.core import loader
 
 
@@ -99,10 +100,10 @@ def main():
             tomli_w.dump(doc, f)
 
     except OSError:
-        print(f"Error writing to file: {args.output}")
+        print(_(f"Error writing to file: {args.output}"))
         return 1
     else:
-        print(f"Default config written to file: {args.output}")
+        print(_(f"Default config written to file: {args.output}"))
 
     return 0
 

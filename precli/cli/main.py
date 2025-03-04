@@ -19,6 +19,7 @@ import requests
 from rich.console import Console
 
 import precli
+from precli.i18n import _
 from precli.core import loader
 from precli.core.artifact import Artifact
 from precli.core.run import Run
@@ -239,9 +240,9 @@ def create_gist(file, renderer: Renderer):
     response = requests.post(url, json=data, headers=headers, timeout=5)
 
     if response.ok:
-        print(f"Gist created successfully: {response.json()['html_url']}")
+        print(_(f"Gist created successfully: {response.json()['html_url']}"))
     else:
-        print(f"Failed to create gist: {response.status_code}")
+        print(_(f"Failed to create gist: {response.status_code}"))
 
     file.close()
 
@@ -299,7 +300,7 @@ def main():
     renderer.render(run)
 
     if file.name != sys.stdout.name:
-        console.print(f"Output written to file: {file.name}")
+        console.print(_(f"Output written to file: {file.name}"))
 
     if args.gist is True:
         create_gist(file, renderer)
