@@ -28,6 +28,7 @@ jobs:
 
     - name: Build a binary wheel and a source tarball
       run: |
+        sh -c 'for lang in de en_GB es fr it ja ko pt_BR ru zh_CN zh_TW; do msgfmt -o precli/locale/$lang/LC_MESSAGES/messages.mo precli/locale/$lang/LC_MESSAGES/messages.po; done'
         python setup.py sdist bdist_wheel
 
     - name: Publish distribution to Test PyPI
