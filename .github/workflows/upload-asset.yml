@@ -26,7 +26,9 @@ jobs:
         python-version: 3.12
 
     - name: Install dependencies
-      run: pip install setuptools wheel
+      run: |
+        sudo apt-get install gettext
+        pip install setuptools wheel
 
     - name: Build a binary wheel and a source tarball
       run: |
