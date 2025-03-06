@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Code Injection in Logging Config
@@ -77,8 +77,7 @@ class InsecureListenConfig(Rule):
             description=__doc__,
             cwe_id=94,
             message=_(
-                "Using '{0}' with unset 'verify' vulnerable to code "
-                "injection."
+                "Using '{0}' with unset 'verify' vulnerable to code injection."
             ),
         )
 

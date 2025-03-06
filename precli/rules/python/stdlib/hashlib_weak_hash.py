@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Reversible One Way Hash in `hashlib` Module
@@ -178,9 +178,8 @@ class HashlibWeakHash(Rule):
                         context=context,
                         deleted_location=Location(node=argument.node),
                         description=_(
-                            "For cryptographic purposes, use a hash "
-                            "length of at least 256-bits with hashes such as "
-                            "SHA-256."
+                            "For cryptographic purposes, use a hash length of"
+                            " at least 256-bits with hashes such as SHA-256."
                         ),
                         inserted_content='"sha256"',
                     )

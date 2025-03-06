@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Deserialization of Untrusted Data in the `marshal` Module
@@ -70,8 +70,8 @@ class MarshalLoad(Rule):
             description=__doc__,
             cwe_id=502,
             message=_(
-                "Potential unsafe usage of '{0}' that can allow "
-                "instantiation of arbitrary objects."
+                "Potential unsafe usage of '{0}' that can allow instantiation"
+                " of arbitrary objects."
             ),
         )
 

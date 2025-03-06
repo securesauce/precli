@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Sensitive Cookie in HTTPS Session Without 'Secure' Attribute
@@ -91,7 +91,7 @@ class InsecureCookie(Rule):
             description=__doc__,
             cwe_id=614,
             message=_(
-                "The cookie '{0}' was found without the 'Secure' flag " "set."
+                "The cookie '{0}' was found without the 'Secure' flag set."
             ),
             wildcards={
                 "javax.servlet.http.*": [

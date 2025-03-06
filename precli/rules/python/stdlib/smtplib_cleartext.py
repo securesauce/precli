@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Cleartext Transmission of Sensitive Information in the `smtplib` Module
@@ -147,7 +147,7 @@ class SmtpCleartext(Rule):
             context=context,
             deleted_location=Location(node=init_call.identifier_node),
             description=_(
-                "Use the 'SMTP_SSL' module to secure the " "connection."
+                "Use the 'SMTP_SSL' module to secure the connection."
             ),
             inserted_content="SMTP_SSL",
         )
@@ -156,9 +156,9 @@ class SmtpCleartext(Rule):
             rule_id=self.id,
             location=Location(node=call.identifier_node),
             message=_(
-                f"The '{call.name_qualified}' function will "
-                f"transmit authentication information such as a user, "
-                "password in cleartext."
+                f"The '{call.name_qualified}' function will transmit "
+                "authentication information such as a user, password in "
+                "cleartext."
             ),
             fixes=fixes,
         )
