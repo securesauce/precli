@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Inadequate Encryption Strength Using Weak Keys in `java.security` Package
@@ -153,7 +153,7 @@ class KeyPairGeneratorWeakKey(Rule):
                 context=context,
                 deleted_location=Location(node=argument.node),
                 description=_(
-                    f"Use a minimum key size of {SIZE_WARN} for RSA " "keys."
+                    f"Use a minimum key size of {SIZE_WARN} for RSA keys."
                 ),
                 inserted_content=f"{SIZE_WARN}",
             )

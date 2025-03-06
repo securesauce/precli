@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Improper Certificate Validation Using `nntplib`
@@ -94,8 +94,8 @@ class NntplibUnverifiedContext(Rule):
             description=__doc__,
             cwe_id=295,
             message=_(
-                "The '{0}' function does not properly validate "
-                "certificates when context is unset or None."
+                "The '{0}' function does not properly validate certificates "
+                "when context is unset or None."
             ),
         )
 

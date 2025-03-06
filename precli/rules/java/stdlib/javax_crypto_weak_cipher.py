@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Use of a Broken or Risky Cryptographic Algorithm in `javax.crypto` Package
@@ -189,8 +189,8 @@ class WeakCipher(Rule):
             context=context,
             deleted_location=Location(node=argument.node),
             description=_(
-                "It is advisable to use a stronger, more "
-                "secure cryptographic algorithm like AES."
+                "It is advisable to use a stronger, more secure cryptographic"
+                " algorithm like AES."
             ),
             inserted_content=f'"{content}"',
         )

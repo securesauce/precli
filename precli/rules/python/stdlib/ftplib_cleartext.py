@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Cleartext Transmission of Sensitive Information in the `ftplib` Module
@@ -121,7 +121,7 @@ class FtpCleartext(Rule):
                 context=context,
                 deleted_location=Location(node=call.identifier_node),
                 description=_(
-                    "Use the 'FTP_TLS' module to secure the " "connection."
+                    "Use the 'FTP_TLS' module to secure the connection."
                 ),
                 inserted_content="FTP_TLS",
             )

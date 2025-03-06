@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Inadequate Encryption Strength Using Weak SSL Protocols
@@ -121,9 +121,9 @@ class InsecureTlsVersion(Rule):
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
                     description=_(
-                        "Use 'PROTOCOL_TLS_CLIENT' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support."
+                        "Use 'PROTOCOL_TLS_CLIENT' to auto-negotiate the "
+                        "highest protocol version that both the client and "
+                        "server support."
                     ),
                     inserted_content="PROTOCOL_TLS_CLIENT",
                 )
@@ -160,9 +160,9 @@ class InsecureTlsVersion(Rule):
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
                     description=_(
-                        "Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support."
+                        "Use 'PROTOCOL_TLS' to auto-negotiate the highest "
+                        "protocol version that both the client and server "
+                        "support."
                     ),
                     inserted_content=content,
                 )
@@ -182,9 +182,9 @@ class InsecureTlsVersion(Rule):
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
                     description=_(
-                        "Use 'PROTOCOL_TLS' to "
-                        "auto-negotiate the highest protocol version that "
-                        "both the client and server support."
+                        "Use 'PROTOCOL_TLS' to auto-negotiate the highest "
+                        "protocol version that both the client and server "
+                        "support."
                     ),
                     inserted_content="PROTOCOL_TLS",
                 )

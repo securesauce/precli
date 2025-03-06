@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Insufficient Token Length
@@ -105,7 +105,7 @@ class SecretsWeakToken(Rule):
                 context=context,
                 deleted_location=Location(node=arg.node),
                 description=_(
-                    "Pass None or no parameter to use the default " "entropy."
+                    "Pass None or no parameter to use the default entropy."
                 ),
                 inserted_content="None",
             )

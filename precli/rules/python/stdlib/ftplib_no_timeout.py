@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Synchronous Access of `FTP` without Timeout
@@ -178,7 +178,7 @@ class FtplibNoTimeout(Rule):
             context=context,
             deleted_location=Location(fix_node),
             description=_(
-                "Set timeout parameter to a small number of " "seconds."
+                "Set timeout parameter to a small number of seconds."
             ),
             inserted_content=content,
         )

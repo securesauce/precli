@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Improper Certificate Validation Using `ssl._create_unverified_context`
@@ -79,8 +79,7 @@ class CreateUnverifiedContext(Rule):
             description=__doc__,
             cwe_id=295,
             message=_(
-                "The '{0}' function does not properly validate "
-                "certificates."
+                "The '{0}' function does not properly validate certificates."
             ),
         )
 
