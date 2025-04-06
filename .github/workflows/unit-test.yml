@@ -1,9 +1,6 @@
 name: Build and Test
 
-on:
-  pull_request:
-    paths-ignore:
-      - 'README.rst'
+on: [push, pull_request]
 
 jobs:
   format:
