@@ -138,10 +138,9 @@ def setup_arg_parser():
         help="quiet mode, display less output",
     )
     extensions = ""
-    if sys.version_info >= (3, 10):
-        for dist in metadata.distributions():
-            if dist.name.startswith("precli-"):
-                extensions += f"  {dist.name} {dist.version}\n"
+    for dist in metadata.distributions():
+        if dist.name.startswith("precli-"):
+            extensions += f"  {dist.name} {dist.version}\n"
     python_ver = sys.version.replace("\n", "")
     parser.add_argument(
         "--version",
