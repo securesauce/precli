@@ -93,6 +93,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -103,8 +104,10 @@ class ArgparseSensitiveInfo(Rule):
             name="visible_sensitive_information",
             description=__doc__,
             cwe_id=214,
-            message="{0} in CLI arguments are leaked to command history, "
-            "logs, ps output, etc.",
+            message=_(
+                "{0} in CLI arguments are leaked to command history, "
+                "logs, ps output, etc."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

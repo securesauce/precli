@@ -85,6 +85,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -95,8 +96,10 @@ class WeakHash(Rule):
             name="reversible_one_way_hash",
             description=__doc__,
             cwe_id=328,
-            message="Use of weak hash function '{0}' does not meet security "
-            "expectations.",
+            message=_(
+                "Use of weak hash function '{0}' does not meet security "
+                "expectations."
+            ),
         )
 
     def analyze_call_expression(
@@ -109,7 +112,9 @@ class WeakHash(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.function_node),
-                description="Use a more secure hashing algorithm like sha256.",
+                description=_(
+                    "Use a more secure hashing algorithm like sha256."
+                ),
                 inserted_content="sha256.New",
             )
             return Result(
@@ -125,7 +130,9 @@ class WeakHash(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.function_node),
-                description="Use a more secure hashing algorithm like sha256.",
+                description=_(
+                    "Use a more secure hashing algorithm like sha256."
+                ),
                 inserted_content="sha256.Sum",
             )
             return Result(

@@ -83,6 +83,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -93,8 +94,10 @@ class SecureRandomWeakRandom(Rule):
             name="weak_prng",
             description=__doc__,
             cwe_id=338,
-            message="The SecureRandom algorithm '{0}' may not provide "
-            "sufficient entropy.",
+            message=_(
+                "The SecureRandom algorithm '{0}' may not provide "
+                "sufficient entropy."
+            ),
             wildcards={
                 "java.security.*": [
                     "SecureRandom",
@@ -119,9 +122,11 @@ class SecureRandomWeakRandom(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=argument.node),
-            description="Use SecureRandom without specifying an algorithm, "
-            "allowing the Java runtime to select the strongest available "
-            "algorithm.",
+            description=_(
+                "Use SecureRandom without specifying an algorithm, "
+                "allowing the Java runtime to select the strongest available "
+                "algorithm."
+            ),
             inserted_content='"DRBG"',
         )
         return Result(

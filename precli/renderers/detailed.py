@@ -7,6 +7,7 @@ from rich.table import Table
 from precli.core.level import Level
 from precli.core.linecache import LineCache
 from precli.core.run import Run
+from precli.i18n import _
 from precli.renderers import Renderer
 from precli.rules import Rule
 
@@ -73,7 +74,7 @@ class Detailed(Renderer):
 
             if result.fixes:
                 self.console.print(
-                    f"Suggested fix: {result.fixes[0].description}",
+                    _(f"Suggested fix: {result.fixes[0].description}"),
                     style=style,
                 )
 
@@ -115,7 +116,7 @@ class Detailed(Renderer):
                     + code[end_column:]
                 )
                 code = line_before + code + line_after
-                for _ in range(start_line - 1 - before):
+                for i in range(start_line - 1 - before):
                     code = "\n" + code
 
                 code = syntax.Syntax(
@@ -140,24 +141,24 @@ class Detailed(Renderer):
             table.add_column(justify="left")
             table.add_column(justify="right")
             table.add_row(
-                "Files analyzed",
+                _("Files analyzed"),
                 f"{run.metrics.files:,}",
-                "Lines analyzed",
+                _("Lines analyzed"),
                 f"{run.metrics.lines:,}",
                 end_section=True,
             )
             table.add_row(
-                "Errors",
+                _("Errors"),
                 f"{run.metrics.errors:,}",
                 style="red" if run.metrics.errors else "",
             )
             table.add_row(
-                "Warnings",
+                _("Warnings"),
                 f"{run.metrics.warnings:,}",
                 style="yellow" if run.metrics.warnings else "",
             )
             table.add_row(
-                "Notes",
+                _("Notes"),
                 f"{run.metrics.notes:,}",
                 style="blue" if run.metrics.notes else "",
             )

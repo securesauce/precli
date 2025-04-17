@@ -1,7 +1,6 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import pathlib
-import sys
 import urllib.parse as urlparse
 from importlib import metadata
 
@@ -113,9 +112,6 @@ class Json(Renderer):
         )
 
     def get_extensions(self) -> list:
-        if sys.version_info < (3, 10):
-            return []
-
         precli_exts = []
         for dist in metadata.distributions():
             if dist.name.startswith("precli-"):

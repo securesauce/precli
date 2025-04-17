@@ -1,16 +1,13 @@
 name: Build and Test
 
-on:
-  pull_request:
-    paths-ignore:
-      - 'README.rst'
+on: [push, pull_request]
 
 jobs:
   format:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.13"]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -29,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.13"]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -50,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.13"]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -67,15 +64,37 @@ jobs:
     - name: Run tox
       run: tox run -e docs
 
+  msgfmt:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gettext
+        python -m pip install --upgrade pip
+        pip install tox
+    - name: Run tox
+      run: tox run -e msgfmt
+
   tests:
     strategy:
       matrix:
         python-version: [
-          ["3.9", "39"],
           ["3.10", "310"],
           ["3.11", "311"],
           ["3.12", "312"],
           ["3.13", "313"],
+          ["3.14.0-alpha - 3.14", "314"],
         ]
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}

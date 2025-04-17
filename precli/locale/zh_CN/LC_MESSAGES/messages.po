@@ -1,0 +1,120 @@
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
+"POT-Creation-Date: 2025-03-01 22:46-0800\n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Chinese (China)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "应避免使用类似 '{0}' 的弱加密算法，因为它们存在已知的漏洞和缺陷。"
+
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "建议使用更强大、更安全的加密算法，如 AES。"
+
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "使用 '{0}' 密钥长度小于 '{1}' 位的情况被认为容易受到攻击。"
+
+msgid "DSA keys."
+msgstr "DSA 密钥。"
+
+msgid "RSA keys."
+msgstr "RSA 密钥。"
+
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "函数 '{0}(0)' 将进程提升为 root（超级用户）权限。"
+
+msgid "Use of weak hash function '{0}' does not meet security expectations."
+msgstr "使用弱哈希函数 '{0}' 不符合安全要求。"
+
+msgid "Use a more secure hashing algorithm like sha256."
+msgstr "请使用更安全的哈希算法，例如 SHA-256。"
+
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "类 '{0}' 在使用时未设置超时，如果远程服务器无响应，应用程序可能会无限期阻塞。"
+
+msgid "Set timeout parameter to a small number of seconds."
+msgstr "请将超时参数设置为几秒钟。"
+
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "哈希函数 '{0}' 容易受到碰撞攻击和原像攻击。"
+
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "出于加密目的，应使用至少 256 位的哈希值，如 SHA-256。"
+
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "可能存在不安全的 '{0}' 用法，可能允许实例化任意对象。"
+
+msgid "The POP protocol can transmit data in cleartext without encryption."
+msgstr "POP 协议可能会以明文方式传输数据，未加密。"
+
+msgid "Use the 'SMTP_SSL' module to secure the connection."
+msgstr "请使用 'SMTP_SSL' 模块来保护连接。"
+
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "以明文形式传输身份验证信息，如用户名、密码。"
+
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "'{0}' 伪随机数生成器不应用于安全目的。"
+
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "盐值应为 16 字节或更多，并来自适当的伪随机源，如 `os.urandom()`。"
+
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "如果上下文未设置或为 None，'{0}' 函数不会正确验证证书。"
+
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "提供的密钥仅有 '{0}' 字节，这对于 '{2}' 算法而言不足够。"
+
+msgid "Use the 'POP3_SSL' module to secure the connection."
+msgstr "请使用 'POP3_SSL' 模块来保护连接。"
+
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "命令行参数中的 {0} 可能会泄露到命令历史、日志、ps 输出等。"
+
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "令牌大小 '{0}' 小于推荐的 '{1}' 字节，可能容易受到暴力破解攻击。"
+
+msgid "Pass None or no parameter to use the default entropy."
+msgstr "传递 None 或不提供参数以使用默认熵值。"
+
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "绑定到 '{0}' 会使应用程序暴露在所有网络接口上，从而增加未经授权访问的风险。"
+
+msgid "Use the localhost address to restrict binding."
+msgstr "请使用本地主机地址来限制绑定。"
+
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "使用 '{0}' 运算符比较摘要容易受到时间攻击。"
+
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "请使用 'hmac.compare_digest' 函数替代 '==' 运算符，以降低时间攻击的风险。"
+
+msgid "The '{0}' function does not properly validate certificates."
+msgstr "'{0}' 函数未正确验证证书。"
+
+msgid "Use 'create_default_context' to safely validate certificates."
+msgstr "请使用 'create_default_context' 来安全验证证书。"
+
+msgid "Secrets in URLs are vulnerable to unauthorized access."
+msgstr "URL 中的敏感信息容易被未经授权访问。"
+
+msgid "Set the 'Secure' flag to True on all cookies."
+msgstr "请在所有 cookie 上设置 'Secure' 标志为 True。"
+
+msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
+msgstr "SecureRandom 算法 '{0}' 可能无法提供足够的熵值。"
+
+msgid "Use SecureRandom without specifying an algorithm, allowing the Java runtime to select the strongest available algorithm."
+msgstr "请在使用 SecureRandom 时不指定算法，以便 Java 运行时选择最强的可用算法。"

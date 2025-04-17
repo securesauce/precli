@@ -6,7 +6,7 @@
 from pathlib import Path
 
 
-filename = '/etc/passwd'
-mode = 0x1ff
+filename = "/etc/passwd"
+mode = 0x1FF
 file_path = Path(filename)
 file_path.chmod(mode)

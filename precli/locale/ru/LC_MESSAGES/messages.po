@@ -1,0 +1,120 @@
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
+"POT-Creation-Date: 2025-03-01 22:46-0800\n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "Слабые шифры, такие как '{0}', следует избегать из-за известных уязвимостей и недостатков."
+
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "Рекомендуется использовать более надежный и безопасный криптографический алгоритм, например AES."
+
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "Использование ключей '{0}' размером менее '{1}' бит считается уязвимым для атак."
+
+msgid "DSA keys."
+msgstr "Ключи DSA."
+
+msgid "RSA keys."
+msgstr "Ключи RSA."
+
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "Функция '{0}(0)' повышает привилегии процесса до root (суперпользователь)."
+
+msgid "Use of weak hash function '{0}' does not meet security expectations."
+msgstr "Использование слабой хеш-функции '{0}' не соответствует требованиям безопасности."
+
+msgid "Use a more secure hashing algorithm like sha256."
+msgstr "Используйте более безопасный алгоритм хеширования, например SHA-256."
+
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "Класс '{0}' используется без тайм-аута, что может привести к бесконечной блокировке приложения, если удаленный сервер не отвечает."
+
+msgid "Set timeout parameter to a small number of seconds."
+msgstr "Установите параметр тайм-аута в несколько секунд."
+
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "Хеш-функция '{0}' уязвима для атак коллизий и предобразов."
+
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "Для криптографических целей используйте длину хеша не менее 256 бит, например SHA-256."
+
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "Потенциально небезопасное использование '{0}', которое может привести к созданию произвольных объектов."
+
+msgid "The POP protocol can transmit data in cleartext without encryption."
+msgstr "Протокол POP может передавать данные в открытом виде без шифрования."
+
+msgid "Use the 'SMTP_SSL' module to secure the connection."
+msgstr "Используйте модуль 'SMTP_SSL' для защиты соединения."
+
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "передает учетные данные, такие как имя пользователя и пароль, в открытом виде."
+
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "Генератор псевдослучайных чисел '{0}' не следует использовать в целях безопасности."
+
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "Соль должна быть длиной не менее 16 байтов и генерироваться из надежного псевдослучайного источника, например `os.urandom()`."
+
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "Функция '{0}' не выполняет корректную проверку сертификатов, если контекст не установлен или равен None."
+
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "Предоставленный ключ имеет длину всего '{0}' байтов, что недостаточно для алгоритма '{2}'."
+
+msgid "Use the 'POP3_SSL' module to secure the connection."
+msgstr "Используйте модуль 'POP3_SSL' для защиты соединения."
+
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "{0} в аргументах командной строки могут попасть в историю команд, журналы, вывод ps и т. д."
+
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "Размер токена '{0}' меньше рекомендуемых '{1}' байтов, что делает его уязвимым для атак перебора."
+
+msgid "Pass None or no parameter to use the default entropy."
+msgstr "Передайте None или не указывайте параметр, чтобы использовать стандартную энтропию."
+
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "Привязка к '{0}' делает приложение доступным на всех сетевых интерфейсах, увеличивая риск несанкционированного доступа."
+
+msgid "Use the localhost address to restrict binding."
+msgstr "Используйте адрес localhost, чтобы ограничить привязку."
+
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "Сравнение дайджестов с помощью оператора '{0}' уязвимо для атак по времени выполнения."
+
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "Используйте функцию 'hmac.compare_digest' вместо оператора '==', чтобы уменьшить уязвимость к атакам по времени выполнения."
+
+msgid "The '{0}' function does not properly validate certificates."
+msgstr "Функция '{0}' не выполняет корректную проверку сертификатов."
+
+msgid "Use 'create_default_context' to safely validate certificates."
+msgstr "Используйте 'create_default_context' для безопасной проверки сертификатов."
+
+msgid "Secrets in URLs are vulnerable to unauthorized access."
+msgstr "Секретные данные в URL-адресах уязвимы для несанкционированного доступа."
+
+msgid "Set the 'Secure' flag to True on all cookies."
+msgstr "Установите флаг 'Secure' в True для всех файлов cookie."
+
+msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
+msgstr "Алгоритм SecureRandom '{0}' может не обеспечивать достаточную энтропию."
+
+msgid "Use SecureRandom without specifying an algorithm, allowing the Java runtime to select the strongest available algorithm."
+msgstr "Используйте SecureRandom без указания алгоритма, чтобы среда выполнения Java выбрала наиболее надежный доступный алгоритм."

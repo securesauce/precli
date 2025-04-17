@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Code Injection in Logging Config
@@ -65,6 +65,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -75,8 +76,9 @@ class InsecureListenConfig(Rule):
             name="code_injection",
             description=__doc__,
             cwe_id=94,
-            message="Using '{0}' with unset 'verify' vulnerable to code "
-            "injection.",
+            message=_(
+                "Using '{0}' with unset 'verify' vulnerable to code injection."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Insufficient Token Length
@@ -69,6 +69,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -79,8 +80,10 @@ class SecretsWeakToken(Rule):
             name="insufficient_token_length",
             description=__doc__,
             cwe_id=326,
-            message="A token size of '{0}' is less than the recommended "
-            "'{1}' bytes, which can be vulnerable to brute-force attacks.",
+            message=_(
+                "A token size of '{0}' is less than the recommended "
+                "'{1}' bytes, which can be vulnerable to brute-force attacks."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -101,8 +104,9 @@ class SecretsWeakToken(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description="Pass None or no parameter to use the default "
-                "entropy.",
+                description=_(
+                    "Pass None or no parameter to use the default entropy."
+                ),
                 inserted_content="None",
             )
 

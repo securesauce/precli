@@ -1,0 +1,105 @@
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
+"POT-Creation-Date: 2025-03-01 22:46-0800\n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "既知の脆弱性や弱点があるため、'{0}' のような弱い暗号は避けるべきです。"
+
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "AES のようなより強力で安全な暗号アルゴリズムを使用することを推奨します。"
+
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "'{0}' の鍵サイズが '{1}' ビット未満の場合、攻撃に対して脆弱と見なされます。"
+
+msgid "DSA keys."
+msgstr "DSAキー。"
+
+msgid "RSA keys."
+msgstr "RSAキー。"
+
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "関数 '{0}(0)' はプロセスを root (スーパーユーザー) 権限で実行するように昇格させます。"
+
+msgid "Use of weak hash function '{0}' does not meet security expectations."
+msgstr "弱いハッシュ関数 '{0}' の使用は、セキュリティ要件を満たしていません。"
+
+msgid "Use a more secure hashing algorithm like sha256."
+msgstr "より安全なハッシュアルゴリズム（例：sha256）を使用してください。"
+
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "クラス '{0}' はタイムアウトなしで使用されています。リモートサーバーが応答しない場合、アプリケーションが無期限にブロックされる可能性があります。"
+
+msgid "Set timeout parameter to a small number of seconds."
+msgstr "タイムアウトパラメータを数秒程度の小さな値に設定してください。"
+
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "ハッシュ関数 '{0}' は、衝突攻撃やプレイメージ攻撃に対して脆弱です。"
+
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "暗号目的では、SHA-256 などの 256 ビット以上のハッシュを使用してください。"
+
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "'{0}' の使用は安全でない可能性があり、任意のオブジェクトをインスタンス化する可能性があります。"
+
+msgid "The POP protocol can transmit data in cleartext without encryption."
+msgstr "POPプロトコルは、データを暗号化なしでクリアテキストで送信する可能性があります。"
+
+msgid "Use the 'SMTP_SSL' module to secure the connection."
+msgstr "'SMTP_SSL' モジュールを使用して接続を保護してください。"
+
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "ユーザー名やパスワードなどの認証情報がクリアテキストで送信されます。"
+
+msgid "The function '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "関数 '{0}' はタイムアウトなしで使用されており、リモートサーバーが応答しない場合にアプリケーションが無期限にブロックされる可能性があります。"
+
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "'{0}' 疑似乱数生成器は、セキュリティ目的には使用すべきではありません。"
+
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "ソルトは `os.urandom()` などの適切な疑似乱数ソースから 16 バイト以上にするべきです。"
+
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "関数 '{0}' は、コンテキストが未設定または None の場合に証明書を適切に検証しません。"
+
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "指定された鍵は '{0}' バイトのみであり、'{2}' アルゴリズムには不十分です。"
+
+msgid "Use the 'POP3_SSL' module to secure the connection."
+msgstr "'POP3_SSL' モジュールを使用して接続を保護してください。"
+
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "CLI 引数の {0} が、コマンド履歴、ログ、ps の出力などに漏洩する可能性があります。"
+
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "トークンサイズ '{0}' は、推奨される '{1}' バイト未満であり、ブルートフォース攻撃に対して脆弱です。"
+
+msgid "Pass None or no parameter to use the default entropy."
+msgstr "デフォルトのエントロピーを使用するには、None を渡すか、パラメータを指定しないでください。"
+
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "'{0}' へのバインドは、アプリケーションをすべてのネットワークインターフェイスに公開し、不正アクセスのリスクを高めます。"
+
+msgid "Use the localhost address to restrict binding."
+msgstr "ローカルホストアドレスを使用してバインドを制限してください。"
+
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "'{0}' 演算子を使用したダイジェスト比較は、タイミング攻撃に対して脆弱です。"
+
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "'==' 演算子の代わりに 'hmac.compare_digest' 関数を使用し、タイミング攻撃の脆弱性を軽減してください。"

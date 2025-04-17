@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Inadequate Encryption Strength Using Weak SSL Protocols
@@ -81,6 +81,7 @@ from precli.core.argument import Argument
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -99,7 +100,9 @@ class InsecureTlsVersion(Rule):
             name="inadequate_encryption_strength",
             description=__doc__,
             cwe_id=326,
-            message="The '{0}' protocol has insufficient encryption strength.",
+            message=_(
+                "The '{0}' protocol has insufficient encryption strength."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -117,9 +120,11 @@ class InsecureTlsVersion(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
-                    description="Use 'PROTOCOL_TLS_CLIENT' to "
-                    "auto-negotiate the highest protocol version that "
-                    "both the client and server support.",
+                    description=_(
+                        "Use 'PROTOCOL_TLS_CLIENT' to auto-negotiate the "
+                        "highest protocol version that both the client and "
+                        "server support."
+                    ),
                     inserted_content="PROTOCOL_TLS_CLIENT",
                 )
                 return Result(
@@ -154,9 +159,11 @@ class InsecureTlsVersion(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
-                    description="Use 'PROTOCOL_TLS' to "
-                    "auto-negotiate the highest protocol version that "
-                    "both the client and server support.",
+                    description=_(
+                        "Use 'PROTOCOL_TLS' to auto-negotiate the highest "
+                        "protocol version that both the client and server "
+                        "support."
+                    ),
                     inserted_content=content,
                 )
                 return Result(
@@ -174,9 +181,11 @@ class InsecureTlsVersion(Rule):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.identifier_node),
-                    description="Use 'PROTOCOL_TLS' to "
-                    "auto-negotiate the highest protocol version that "
-                    "both the client and server support.",
+                    description=_(
+                        "Use 'PROTOCOL_TLS' to auto-negotiate the highest "
+                        "protocol version that both the client and server "
+                        "support."
+                    ),
                     inserted_content="PROTOCOL_TLS",
                 )
                 return Result(

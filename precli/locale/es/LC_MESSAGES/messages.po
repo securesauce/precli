@@ -1,0 +1,123 @@
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
+"POT-Creation-Date: 2025-03-01 22:46-0800\n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "Se deben evitar cifrados débiles como '{0}' debido a sus vulnerabilidades y debilidades conocidas."
+
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "Se recomienda utilizar un algoritmo criptográfico más fuerte y seguro, como AES."
+
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "El uso de claves '{0}' con tamaños menores a '{1}' bits se considera vulnerable a ataques."
+
+msgid "DSA keys."
+msgstr "Claves DSA."
+
+msgid "RSA keys."
+msgstr "Claves RSA."
+
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "La función '{0}(0)' escala el proceso para ejecutarse con privilegios de root (superusuario)."
+
+msgid "Use of weak hash function '{0}' does not meet security expectations."
+msgstr "El uso de la función hash débil '{0}' no cumple con las expectativas de seguridad."
+
+msgid "Use a more secure hashing algorithm like sha256."
+msgstr "Utilice un algoritmo de hash más seguro, como SHA-256."
+
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "La clase '{0}' se usa sin un tiempo de espera, lo que puede hacer que la aplicación se bloquee indefinidamente si el servidor remoto no responde."
+
+msgid "Set timeout parameter to a small number of seconds."
+msgstr "Establezca el parámetro de tiempo de espera en un número pequeño de segundos."
+
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "La función hash '{0}' es vulnerable a ataques de colisión y preimagen."
+
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "Para fines criptográficos, utilice una longitud de hash de al menos 256 bits con hashes como SHA-256."
+
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "Uso potencialmente inseguro de '{0}', lo que puede permitir la instanciación de objetos arbitrarios."
+
+msgid "The POP protocol can transmit data in cleartext without encryption."
+msgstr "El protocolo POP puede transmitir datos en texto claro sin cifrado."
+
+msgid "Use the 'SMTP_SSL' module to secure the connection."
+msgstr "Utilice el módulo 'SMTP_SSL' para asegurar la conexión."
+
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "Transmite información de autenticación, como usuario y contraseña, en texto claro."
+
+msgid "The function '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "La función '{0}' se usa sin un tiempo de espera, lo que puede hacer que la aplicación se bloquee indefinidamente si el servidor remoto no responde."
+
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "El generador pseudoaleatorio '{0}' no debe utilizarse para fines de seguridad."
+
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "El salt debe tener 16 o más bytes de una fuente pseudoaleatoria adecuada, como `os.urandom()`."
+
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "La función '{0}' no valida correctamente los certificados cuando el contexto no está configurado o es None."
+
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "La clave proporcionada tiene solo '{0}' bytes, lo que es insuficiente para el algoritmo '{2}'."
+
+msgid "Use the 'POP3_SSL' module to secure the connection."
+msgstr "Utilice el módulo 'POP3_SSL' para asegurar la conexión."
+
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "{0} en los argumentos de CLI se filtra en el historial de comandos, registros, salida de ps, etc."
+
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "Un tamaño de token de '{0}' es menor que los '{1}' bytes recomendados, lo que lo hace vulnerable a ataques de fuerza bruta."
+
+msgid "Pass None or no parameter to use the default entropy."
+msgstr "Pase None o no proporcione un parámetro para usar la entropía predeterminada."
+
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "Vincularse a '{0}' expone la aplicación en todas las interfaces de red, aumentando el riesgo de acceso no autorizado."
+
+msgid "Use the localhost address to restrict binding."
+msgstr "Utilice la dirección localhost para restringir la vinculación."
+
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "Comparar los resúmenes con el operador '{0}' es vulnerable a ataques de tiempo."
+
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "Utilice la función 'hmac.compare_digest' en lugar del operador '==' para reducir la vulnerabilidad a ataques de tiempo."
+
+msgid "The '{0}' function does not properly validate certificates."
+msgstr "La función '{0}' no valida correctamente los certificados."
+
+msgid "Use 'create_default_context' to safely validate certificates."
+msgstr "Utilice 'create_default_context' para validar certificados de manera segura."
+
+msgid "Secrets in URLs are vulnerable to unauthorized access."
+msgstr "Los secretos en las URL son vulnerables al acceso no autorizado."
+
+msgid "Set the 'Secure' flag to True on all cookies."
+msgstr "Establezca el indicador 'Secure' en True en todas las cookies."
+
+msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
+msgstr "El algoritmo SecureRandom '{0}' puede no proporcionar suficiente entropía."
+
+msgid "Use SecureRandom without specifying an algorithm, allowing the Java runtime to select the strongest available algorithm."
+msgstr "Utilice SecureRandom sin especificar un algoritmo, permitiendo que el entorno de ejecución de Java seleccione el algoritmo más fuerte disponible."

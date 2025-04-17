@@ -1,0 +1,120 @@
+# Translations for precli
+# Copyright 2025 Secure Sauce LLC
+# This file is distributed under the same license as the precli package.
+# Eric Brown <eric.brown@securesauce.dev>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: precli VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/securesauce/precli/issues\n"
+"POT-Creation-Date: 2025-03-01 22:46-0800\n"
+"PO-Revision-Date: 2024-03-02 16:25-0800\n"
+"Last-Translator: Eric Brown <eric.brown@securesauce.dev>\n"
+"Language-Team: Korean\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Weak ciphers like '{0}' should be avoided due to their known vulnerabilities and weaknesses."
+msgstr "'{0}'와 같은 약한 암호화 알고리즘은 알려진 취약점과 약점 때문에 사용을 피해야 합니다."
+
+msgid "It is advisable to use a stronger, more secure cryptographic algorithm like AES."
+msgstr "더 강력하고 안전한 AES와 같은 암호화 알고리즘을 사용하는 것이 좋습니다."
+
+msgid "Using '{0}' key sizes less than '{1}' bits is considered vulnerable to attacks."
+msgstr "'{0}' 키 크기가 '{1}' 비트보다 작으면 공격에 취약한 것으로 간주됩니다."
+
+msgid "DSA keys."
+msgstr "DSA 키."
+
+msgid "RSA keys."
+msgstr "RSA 키."
+
+msgid "The function '{0}(0)' escalates the process to run with root (superuser) privileges."
+msgstr "함수 '{0}(0)'는 프로세스를 루트(최고 권한)로 실행하도록 상승시킵니다."
+
+msgid "Use of weak hash function '{0}' does not meet security expectations."
+msgstr "약한 해시 함수 '{0}'의 사용은 보안 요구 사항을 충족하지 않습니다."
+
+msgid "Use a more secure hashing algorithm like sha256."
+msgstr "SHA-256과 같은 더 안전한 해싱 알고리즘을 사용하세요."
+
+msgid "The class '{0}' is used without a timeout, which may cause the application to block indefinitely if the remote server does not respond."
+msgstr "'{0}' 클래스가 타임아웃 없이 사용되었으며, 원격 서버가 응답하지 않으면 애플리케이션이 무기한 멈출 수 있습니다."
+
+msgid "Set timeout parameter to a small number of seconds."
+msgstr "타임아웃 매개변수를 몇 초 정도로 설정하세요."
+
+msgid "The hash function '{0}' is vulnerable to collision and pre-image attacks."
+msgstr "해시 함수 '{0}'는 충돌 및 선이미지(pre-image) 공격에 취약합니다."
+
+msgid "For cryptographic purposes, use a hash length of at least 256-bits with hashes such as SHA-256."
+msgstr "암호화 목적으로는 SHA-256과 같은 최소 256비트 길이의 해시를 사용하세요."
+
+msgid "Potential unsafe usage of '{0}' that can allow instantiation of arbitrary objects."
+msgstr "'{0}'의 사용이 잠재적으로 안전하지 않으며 임의의 객체를 인스턴스화할 수 있습니다."
+
+msgid "The POP protocol can transmit data in cleartext without encryption."
+msgstr "POP 프로토콜은 암호화 없이 데이터를 평문으로 전송할 수 있습니다."
+
+msgid "Use the 'SMTP_SSL' module to secure the connection."
+msgstr "'SMTP_SSL' 모듈을 사용하여 연결을 보호하세요."
+
+msgid "transmit authentication information such as a user, password in cleartext."
+msgstr "사용자, 비밀번호 등의 인증 정보를 평문으로 전송합니다."
+
+msgid "The '{0}' pseudo-random generator should not be used for security purposes."
+msgstr "'{0}' 의사 난수 생성기는 보안 목적으로 사용해서는 안 됩니다."
+
+msgid "The salt should be 16 or more bytes from a proper pseudo-random source such as `os.urandom()`."
+msgstr "솔트는 `os.urandom()`과 같은 적절한 의사 난수 소스에서 최소 16바이트 이상이어야 합니다."
+
+msgid "The '{0}' function does not properly validate certificates when context is unset or None."
+msgstr "'{0}' 함수는 컨텍스트가 설정되지 않았거나 None일 때 인증서를 올바르게 검증하지 않습니다."
+
+msgid "The given key is only '{0}' bytes which is insufficient for the '{2}' algorithm."
+msgstr "주어진 키는 '{0}' 바이트로, '{2}' 알고리즘에는 불충분합니다."
+
+msgid "Use the 'POP3_SSL' module to secure the connection."
+msgstr "'POP3_SSL' 모듈을 사용하여 연결을 보호하세요."
+
+msgid "{0} in CLI arguments are leaked to command history, logs, ps output, etc."
+msgstr "CLI 인수에 포함된 {0}이 명령어 기록, 로그, ps 출력 등에 노출될 수 있습니다."
+
+msgid "A token size of '{0}' is less than the recommended '{1}' bytes, which can be vulnerable to brute-force attacks."
+msgstr "'{0}' 바이트 크기의 토큰은 권장 크기인 '{1}' 바이트보다 작아, 무차별 대입 공격에 취약할 수 있습니다."
+
+msgid "Pass None or no parameter to use the default entropy."
+msgstr "기본 엔트로피를 사용하려면 None 또는 매개변수를 전달하지 마세요."
+
+msgid "Binding to '{0}' exposes the application on all network interfaces, increasing the risk of unauthorized access."
+msgstr "'{0}'에 바인딩하면 애플리케이션이 모든 네트워크 인터페이스에 노출되어 무단 액세스 위험이 증가합니다."
+
+msgid "Use the localhost address to restrict binding."
+msgstr "바인딩을 제한하려면 localhost 주소를 사용하세요."
+
+msgid "Comparing digests with the '{0}' operator is vulnerable to timing attacks."
+msgstr "'{0}' 연산자로 다이제스트를 비교하면 타이밍 공격에 취약할 수 있습니다."
+
+msgid "Use the 'hmac.compare_digest' function instead of the '==' operator to reduce the vulnerability to timing attacks."
+msgstr "'==' 연산자 대신 'hmac.compare_digest' 함수를 사용하여 타이밍 공격 취약성을 줄이세요."
+
+msgid "The '{0}' function does not properly validate certificates."
+msgstr "'{0}' 함수는 인증서를 올바르게 검증하지 않습니다."
+
+msgid "Use 'create_default_context' to safely validate certificates."
+msgstr "'create_default_context'를 사용하여 안전하게 인증서를 검증하세요."
+
+msgid "Secrets in URLs are vulnerable to unauthorized access."
+msgstr "URL에 포함된 비밀 정보는 무단 액세스에 취약합니다."
+
+msgid "Set the 'Secure' flag to True on all cookies."
+msgstr "모든 쿠키의 'Secure' 플래그를 True로 설정하세요."
+
+msgid "The SecureRandom algorithm '{0}' may not provide sufficient entropy."
+msgstr "SecureRandom 알고리즘 '{0}'이 충분한 엔트로피를 제공하지 않을 수 있습니다."
+
+msgid "Use SecureRandom without specifying an algorithm, allowing the Java runtime to select the strongest available algorithm."
+msgstr "알고리즘을 지정하지 않고 SecureRandom을 사용하면 Java 런타임이 가장 강력한 알고리즘을 선택할 수 있습니다."

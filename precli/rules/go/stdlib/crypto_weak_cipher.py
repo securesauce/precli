@@ -134,6 +134,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -144,8 +145,10 @@ class WeakCipher(Rule):
             name="use_of_a_broken_or_risky_cryptographic_algorithm",
             description=__doc__,
             cwe_id=327,
-            message="Weak ciphers like '{0}' should be avoided due to their "
-            "known vulnerabilities and weaknesses.",
+            message=_(
+                "Weak ciphers like '{0}' should be avoided due to their "
+                "known vulnerabilities and weaknesses."
+            ),
         )
 
     def analyze_call_expression(
@@ -159,8 +162,10 @@ class WeakCipher(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.function_node),
-                description="It is advisable to use a stronger, more "
-                "secure cryptographic algorithm like AES.",
+                description=_(
+                    "It is advisable to use a stronger, more "
+                    "secure cryptographic algorithm like AES."
+                ),
                 inserted_content="aes.NewCipher",
             )
             return Result(

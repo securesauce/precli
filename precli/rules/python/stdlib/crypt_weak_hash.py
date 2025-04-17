@@ -118,6 +118,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -134,8 +135,10 @@ class CryptWeakHash(Rule):
             name="reversible_one_way_hash",
             description=__doc__,
             cwe_id=328,
-            message="Use of weak hash function '{0}' does not meet security "
-            "expectations.",
+            message=_(
+                "Use of weak hash function '{0}' does not meet security "
+                "expectations."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

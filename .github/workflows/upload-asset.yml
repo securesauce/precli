@@ -20,16 +20,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up Python 3.12
+    - name: Set up Python 3.13
       uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version: 3.13
 
     - name: Install dependencies
-      run: pip install setuptools wheel
+      run: |
+        sudo apt-get install gettext
+        pip install setuptools wheel
 
     - name: Build a binary wheel and a source tarball
       run: |
+        sh -c 'for lang in de en_GB es fr it ja ko pt_BR ru zh_CN zh_TW; do msgfmt -o precli/locale/$lang/LC_MESSAGES/messages.mo precli/locale/$lang/LC_MESSAGES/messages.po; done'
         python setup.py sdist bdist_wheel
 
     - name: Release
@@ -41,6 +44,6 @@ jobs:
           dist/*.tar.gz
 
     - name: Attest Build Provenance
-      uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4
+      uses: actions/attest-build-provenance@c074443f1aee8d4aeeae555aebba3282517141b2
       with:
         subject-path: 'dist/precli-*'

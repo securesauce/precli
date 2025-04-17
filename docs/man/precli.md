@@ -10,7 +10,7 @@ precli [-h] [-d] [-c CONFIG] [-r] [--enable ENABLE | --disable DISABLE]
 
 ## **COPYRIGHT**
 
-Copyright 2024 Secure Sauce LLC
+Copyright 2025 Secure Sauce LLC
 
 ## **DESCRIPTION**
 

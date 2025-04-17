@@ -119,6 +119,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -129,8 +130,10 @@ class TelnetlibCleartext(Rule):
             name="cleartext_transmission",
             description=__doc__,
             cwe_id=319,
-            message="The '{0}' module transmits data in cleartext without "
-            "encryption.",
+            message=_(
+                "The '{0}' module transmits data in cleartext without "
+                "encryption."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:

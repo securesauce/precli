@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 r"""
 # Inadequate Encryption Strength Using Weak Keys in `java.security` Package
@@ -101,6 +101,7 @@ from precli.core.call import Call
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -111,8 +112,10 @@ class KeyPairGeneratorWeakKey(Rule):
             name="inadequate_encryption_strength",
             description=__doc__,
             cwe_id=326,
-            message="Using '{0}' key sizes less than '{1}' bits is considered "
-            "vulnerable to attacks.",
+            message=_(
+                "Using '{0}' key sizes less than '{1}' bits is considered "
+                "vulnerable to attacks."
+            ),
             wildcards={
                 "java.security.*": [
                     "KeyPairGenerator",
@@ -149,8 +152,9 @@ class KeyPairGeneratorWeakKey(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=argument.node),
-                description=f"Use a minimum key size of {SIZE_WARN} for RSA "
-                "keys.",
+                description=_(
+                    f"Use a minimum key size of {SIZE_WARN} for RSA keys."
+                ),
                 inserted_content=f"{SIZE_WARN}",
             )
 

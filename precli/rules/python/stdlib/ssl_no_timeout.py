@@ -74,6 +74,7 @@ from typing import Optional
 from precli.core.call import Call
 from precli.core.location import Location
 from precli.core.result import Result
+from precli.i18n import _
 from precli.rules import Rule
 
 
@@ -84,9 +85,11 @@ class SslNoTimeout(Rule):
             name="no_timeout",
             description=__doc__,
             cwe_id=1088,
-            message="The function '{0}' is used without a timeout, which may "
-            "cause the application to block indefinitely if the remote server "
-            "does not respond.",
+            message=_(
+                "The function '{0}' is used without a timeout, which may "
+                "cause the application to block indefinitely if the remote "
+                "server does not respond."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -127,7 +130,9 @@ class SslNoTimeout(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(fix_node),
-            description="Set timeout parameter to a small number of seconds.",
+            description=_(
+                "Set timeout parameter to a small number of seconds."
+            ),
             inserted_content=content,
         )
         return Result(
