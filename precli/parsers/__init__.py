@@ -1,6 +1,5 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 import importlib
-import sys
 from abc import ABC
 from abc import abstractmethod
 from importlib.metadata import entry_points
@@ -38,11 +37,7 @@ class Parser(ABC):
         self.wildcards = {}
         self.skip_tests = True
 
-        if sys.version_info >= (3, 10):
-            discovered_rules = entry_points(group=f"precli.rules.{lang}")
-        else:
-            eps = entry_points()
-            discovered_rules = eps[f"precli.rules.{lang}"]
+        discovered_rules = entry_points(group=f"precli.rules.{lang}")
         for rule in discovered_rules:
             self.rules[rule.name] = rule.load()(rule.name)
 
