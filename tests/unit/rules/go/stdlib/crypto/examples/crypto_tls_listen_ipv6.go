@@ -22,7 +22,7 @@ func main() {
 
     ln, err := tls.Listen("tcp", "[::]:8443", config)
     if err != nil {
-        log.Fatalf("tls.Listen failed on %s: %v", addr, err)
+        log.Fatalf("tls.Listen failed on %s: %v", "[::]", err)
     }
     defer ln.Close()
 }
