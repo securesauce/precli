@@ -1,6 +1,6 @@
 ---
 id: GO007
-title: net — no timeout
+title: net/http — no timeout
 hide_title: true
 pagination_prev: null
 pagination_next: null
