@@ -10,6 +10,7 @@
 | GO004 | [syscall — unnecessary privileges](rules/go/stdlib/syscall-setuid-root.md) | Execution with Unnecessary Privileges using `syscall` Package |
 | GO005 | [crypto — unrestricted bind](rules/go/stdlib/crypto-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `crypto` Package |
 | GO006 | [net — unrestricted bind](rules/go/stdlib/net-unrestricted-bind.md) | Binding to an Unrestricted IP Address in `net` Package |
+| GO007 | [net — no timeout](rules/go/stdlib/net-http-no-timeout.md) | Resource Allocation Without Limits in `net/http` Package |
 
 ## Java Standard Library
 
