@@ -102,10 +102,10 @@ level = "warning"
 # See also
 
 !!! info
-    - [http package - net_http - Go Packages](https://pkg.go.dev/net/http#ListenAndServe)
-    - [http package - net_http - Go Packages](https://pkg.go.dev/net/http#ListenAndServeTLS)
-    - [http package - net_http - Go Packages](https://pkg.go.dev/net/http#Serve)
-    - [http package - net_http - Go Packages](https://pkg.go.dev/net/http#ServeTLS)
+    - [http package - net_http_ListenAndServe - Go Packages](https://pkg.go.dev/net/http#ListenAndServe)
+    - [http package - net_http_ListenAndServeTLS - Go Packages](https://pkg.go.dev/net/http#ListenAndServeTLS)
+    - [http package - net_http_Serve - Go Packages](https://pkg.go.dev/net/http#Serve)
+    - [http package - net_http_ServeTLS - Go Packages](https://pkg.go.dev/net/http#ServeTLS)
     - [CWE-770: Allocation of Resources Without Limits or Throttling](https://cwe.mitre.org/data/definitions/770.html)
 
 _New in version 0.8.1_
