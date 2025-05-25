@@ -65,6 +65,14 @@ hmac.new(key, msg=message, digestmod="sha256")
 ```toml
 enabled = true
 level = "error"
+weak_hashes = [
+  "md4",
+  "md5",
+  "md5-sha1",
+  "ripemd160",
+  "sha",
+  "sha1",
+]
 ```
 
 # See also
@@ -88,16 +96,6 @@ from precli.i18n import _
 from precli.rules import Rule
 
 
-WEAK_HASHES = ("md4", "md5", "md5-sha1", "ripemd160", "sha", "sha1")
-HASHLIB_WEAK_HASHES = (
-    "hashlib.md4",
-    "hashlib.md5",
-    "hashlib.ripemd160",
-    "hashlib.sha",
-    "hashlib.sha1",
-)
-
-
 class HmacWeakHash(Rule):
     def __init__(self, id: str):
         super().__init__(
@@ -116,7 +114,11 @@ class HmacWeakHash(Rule):
             # hmac.new(key, msg=None, digestmod='')
             argument = call.get_argument(position=2, name="digestmod")
 
-            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
+            if (
+                argument.is_str
+                and argument.value_str.lower()
+                in self.config.parameters.get("weak_hashes")
+            ):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
@@ -132,7 +134,10 @@ class HmacWeakHash(Rule):
                     message=self.message.format(argument.value_str),
                     fixes=fixes,
                 )
-            if argument.value in HASHLIB_WEAK_HASHES:
+            if argument.value in [
+                f"hashlib.{hash_name}"
+                for hash_name in self.config.parameters.get("weak_hashes")
+            ]:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
@@ -152,7 +157,11 @@ class HmacWeakHash(Rule):
             # hmac.digest(key, msg, digest)
             argument = call.get_argument(position=2, name="digest")
 
-            if argument.is_str and argument.value_str.lower() in WEAK_HASHES:
+            if (
+                argument.is_str
+                and argument.value_str.lower()
+                in self.config.parameters.get("weak_hashes")
+            ):
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
@@ -168,7 +177,10 @@ class HmacWeakHash(Rule):
                     message=self.message.format(argument.value_str),
                     fixes=fixes,
                 )
-            if argument.value in HASHLIB_WEAK_HASHES:
+            if argument.value in [
+                f"hashlib.{hash_name}"
+                for hash_name in self.config.parameters.get("weak_hashes")
+            ]:
                 fixes = Rule.get_fixes(
                     context=context,
                     deleted_location=Location(node=argument.node),
