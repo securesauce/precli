@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import datetime
 import io
@@ -8,6 +8,7 @@ import pathlib
 import sys
 from functools import partial
 from multiprocessing import Pool
+from typing import Optional
 
 from rich.progress import BarColumn
 from rich.progress import MofNCompleteColumn
@@ -19,6 +20,7 @@ from rich.progress import TimeRemainingColumn
 import precli
 from precli.core import loader
 from precli.core.artifact import Artifact
+from precli.core.config import Config
 from precli.core.level import Level
 from precli.core.location import Location
 from precli.core.metrics import Metrics
@@ -117,12 +119,33 @@ class Run:
         config: dict,
         artifacts: list[Artifact],
         debug: int,
+        custom_rules: Optional[list[dict]] = None,
     ):
         self._config = config
         self._artifacts = artifacts
         self._init_logger(debug)
         self._start_time = None
         self._end_time = None
+
+        if custom_rules:
+            for custom_rule in custom_rules:
+                parser = parsers[custom_rule["language"]]
+
+                default_config = Config()
+                default_config.level = Level(
+                    custom_rule.get("severity", Level.WARNING)
+                )
+                rule = Rule(
+                    id=custom_rule["id"],
+                    name=custom_rule["name"],
+                    description=custom_rule["description"],
+                    cwe_id=custom_rule["cwe"],
+                    message=custom_rule["message"],
+                    config=default_config,
+                    query=custom_rule["query"],
+                    location_node=custom_rule["location_node"],
+                )
+                parser.rules[rule.name] = rule
 
     def _init_logger(self, log_level=logging.INFO):
         """Initialize the logger.

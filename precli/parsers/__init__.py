@@ -31,8 +31,8 @@ class Parser(ABC):
         """Initialize a new parser."""
         self._lexer = lang
         tree_sitter_lang = importlib.import_module(f"tree_sitter_{lang}")
-        language = tree_sitter.Language(tree_sitter_lang.language())
-        self.tree_sitter_parser = tree_sitter.Parser(language)
+        self.language = tree_sitter.Language(tree_sitter_lang.language())
+        self.tree_sitter_parser = tree_sitter.Parser(self.language)
         self.rules = {}
         self.wildcards = {}
         self.skip_tests = True
@@ -154,6 +154,19 @@ class Parser(ABC):
         setattr(Node, "string", string)
 
         self.visit([tree.root_node])
+
+        # Run any custom queries if defined
+        custom_rules = [rule for rule in self.rules.values() if rule.query]
+        for rule in custom_rules:
+            query = self.language.query(rule.query)
+            captures = query.captures(tree.root_node)
+            for location in captures.get(rule.location_node, []):
+                result = Result(
+                    rule_id=rule.id,
+                    location=Location(node=location),
+                    message=rule.message,
+                )
+                self.results.append(result)
 
         for result in self.results:
             result.artifact = artifact

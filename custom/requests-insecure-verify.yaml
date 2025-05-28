@@ -1,0 +1,23 @@
+id: CU001
+name: requests-insecure-verify
+language: python
+description: >
+  The 'verify=False' option disables TLS certificate validation when using requests.
+  This can expose the application to man-in-the-middle (MITM) attacks by allowing
+  untrusted or malicious servers to masquerade as legitimate ones.
+cwe: 295
+severity: error
+message: "Setting 'verify=False' disables SSL certificate verification"
+query: |
+  (call
+    function: (attribute
+                object: (identifier) @module
+                attribute: (identifier) @method)
+    arguments: (argument_list
+      (keyword_argument
+        name: (identifier) @kw
+        value: (false) @vuln_val)))
+  (#eq? @module "requests")
+  (#any-of? @method "get" "post" "put" "delete" "head" "options")
+  (#eq? @kw "verify")
+location_node: vuln_val

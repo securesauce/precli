@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import argparse
 import logging
@@ -17,6 +17,7 @@ else:
 
 import requests
 from rich.console import Console
+import yaml
 
 import precli
 from precli.i18n import _
@@ -51,6 +52,13 @@ def setup_arg_parser():
         action="store",
         type=argparse.FileType("rb"),
         help="configuration file",
+    )
+    parser.add_argument(
+        "--custom-rules",
+        dest="custom_rules",
+        action="store",
+        type=str,
+        help="path to directory containing custom rules",
     )
     parser.add_argument(
         "targets",
@@ -160,6 +168,45 @@ def setup_arg_parser():
             parser.error(
                 f"argument -c/--config: can't load '{args.config.name}': {err}"
             )
+
+    if args.custom_rules:
+        rule_path = pathlib.Path(args.custom_rules)
+        if not rule_path.is_dir():
+            parser.error(
+                f"argument custom-rules: can't open '{args.custom_rules}': "
+                f"[Errno 2] No such directory: '{args.custom_rules}'"
+            )
+
+        args.custom_rules = []
+        for file in rule_path.glob("*.yaml"):
+            if not file.is_file():
+                continue
+            with open(file, encoding="utf-8") as f:
+                try:
+                    rule_yaml = yaml.safe_load(f)
+                except yaml.YAMLError:
+                    parser.error(
+                        f"argument custom-rules: failed to load '{file}'"
+                    )
+
+                # TODO: verify language in group of allowed languages
+                required_fields = {
+                    "id",
+                    "name",
+                    "language",
+                    "description",
+                    "cwe",
+                    "message",
+                    "query",
+                    "location_node",
+                }
+                missing = required_fields - rule_yaml.keys()
+                if missing:
+                    parser.error(
+                        f"argument custom-rules: '{file}' missing required "
+                        f"fields [{', '.join(missing)}]"
+                    )
+                args.custom_rules.append(rule_yaml)
 
     if not args.targets:
         parser.print_usage()
@@ -288,7 +335,7 @@ def main():
     )
 
     # Invoke the run
-    run = Run(config, artifacts, debug)
+    run = Run(config, artifacts, debug, args.custom_rules)
     run.invoke()
 
     # Render the results

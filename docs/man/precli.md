@@ -3,9 +3,10 @@
 ## **SYNOPSIS**
 
 ```
-precli [-h] [-d] [-c CONFIG] [-r] [--enable ENABLE | --disable DISABLE]
-       [--json | --plain | --markdown] [--gist] [-o OUTPUT] [--no-color] [-q]
-       [--version] [targets ...]
+precli [-h] [-d] [-c CONFIG] [--custom-rules CUSTOM_RULES] [-r] [--enable ENABLE |
+       --disable DISABLE] [--json | --plain | --markdown] [--gist] [-o OUTPUT] [--no-color]
+       [-q] [--version]
+       [targets ...]
 ```
 
 ## **COPYRIGHT**
@@ -25,6 +26,8 @@ certificate validation, and more.
   -h, --help            show this help message and exit
   -d, --debug           turn on debug mode
   -c, --config CONFIG   configuration file
+  --custom-rules CUSTOM_RULES
+                        path to directory containing custom rules
   -r, --recursive       find and process files in subdirectories
   --enable ENABLE       comma-separated list of rule IDs or names to enable
   --disable DISABLE     comma-separated list of rule IDs or names to disable
