@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 import re
 import sys
 from abc import ABC
@@ -29,6 +29,8 @@ class Rule(ABC):
         wildcards: Optional[dict[str, list[str]]] = None,
         config: Optional[Config] = None,
         help_url: Optional[str] = None,
+        query: Optional[str] = None,
+        location_node: Optional[str] = None,
     ):
         self._id = id
         self._name = name
@@ -69,6 +71,8 @@ class Rule(ABC):
             self._config = Config() if not config else config
         self._enabled = self._config.enabled
         self._help_url = f"https://docs.securesauce.dev/rules/{id}"
+        self._query = query
+        self._location_node = location_node
         Rule._rules[id] = self
 
     @property
@@ -150,6 +154,16 @@ class Rule(ABC):
         for rule matching.
         """
         return self._wildcards
+
+    @property
+    def query(self) -> str:
+        """Tree-sitter query for a custom rule."""
+        return self._query
+
+    @property
+    def location_node(self) -> str:
+        """Tree-sitter Node of the vulnerability location."""
+        return self._location_node
 
     @staticmethod
     def get_fixes(
