@@ -9,6 +9,7 @@ import tempfile
 from argparse import ArgumentParser
 from datetime import datetime
 from importlib import metadata
+from importlib import util
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -189,7 +190,6 @@ def setup_arg_parser():
                         f"argument custom-rules: failed to load '{file}'"
                     )
 
-                # TODO: verify language in group of allowed languages
                 required_fields = {
                     "id",
                     "name",
@@ -206,6 +206,16 @@ def setup_arg_parser():
                         f"argument custom-rules: '{file}' missing required "
                         f"fields [{', '.join(missing)}]"
                     )
+
+                # Verify a tree-sitter module is available to process the
+                # rule's query.
+                lang = rule_yaml["language"]
+                if not util.find_spec(f"tree_sitter_{lang}"):
+                    parser.error(
+                        f"argument custom-rules: tree_sitter_{lang} module "
+                        f"unavailable for custom rule '{file}'"
+                    )
+
                 args.custom_rules.append(rule_yaml)
 
     if not args.targets:
