@@ -1,0 +1,16 @@
+id: RB001C
+name: ruby-eval-usage
+language: ruby
+description: >
+  The `eval` method executes a string as Ruby code at runtime. If the string
+  includes or originates from user-controlled input, this creates a critical
+  code injection risk.
+cwe: 94
+severity: error
+message: "Avoid using `eval` with untrusted input"
+query: |
+  (call
+    method: (identifier) @method
+    arguments: (argument_list (_) @vuln_arg))
+  (#eq? @method "eval")
+location_node: vuln_arg
