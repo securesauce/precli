@@ -26,6 +26,7 @@ from precli.core.location import Location
 from precli.core.metrics import Metrics
 from precli.core.result import Result
 from precli.core.tool import Tool
+from precli.parsers.basic import Basic
 from precli.rules import Rule
 
 
@@ -129,6 +130,10 @@ class Run:
 
         if custom_rules:
             for custom_rule in custom_rules:
+                if custom_rule["language"] not in parsers:
+                    parsers[custom_rule["language"]] = Basic(
+                        custom_rule["language"]
+                    )
                 parser = parsers[custom_rule["language"]]
 
                 default_config = Config()

@@ -26,7 +26,7 @@ Import = namedtuple("Import", "module alias")
 class Python(Parser):
     def __init__(self, **config):
         super().__init__("python")
-        self.SUPPRESS_COMMENT = re.compile(r"# suppress:? (?P<rules>[^#]+)?#?")
+        self.SUPPRESS_COMMENT = re.compile(r"suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(PY\d\d\d|[a-z_]+),?)+")
 
         if "skip_tests" in config:

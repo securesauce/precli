@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import re
 from typing import Optional
@@ -15,9 +15,7 @@ from precli.parsers.node_types import NodeTypes
 class Java(Parser):
     def __init__(self):
         super().__init__("java")
-        self.SUPPRESS_COMMENT = re.compile(
-            r"// suppress:? (?P<rules>[^#]+)?#?"
-        )
+        self.SUPPRESS_COMMENT = re.compile(r"suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(JAV\d\d\d|[a-z_]+),?)+")
 
     def file_extensions(self) -> list[str]:

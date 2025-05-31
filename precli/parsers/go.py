@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import ast
 import re
@@ -16,9 +16,7 @@ from precli.parsers.node_types import NodeTypes
 class Go(Parser):
     def __init__(self):
         super().__init__("go")
-        self.SUPPRESS_COMMENT = re.compile(
-            r"// suppress:? (?P<rules>[^#]+)?#?"
-        )
+        self.SUPPRESS_COMMENT = re.compile(r"suppress:? (?P<rules>[^#]+)?#?")
         self.SUPPRESSED_RULES = re.compile(r"(?:(GO\d\d\d|[a-z_]+),?)+")
 
     def file_extensions(self) -> list[str]:
