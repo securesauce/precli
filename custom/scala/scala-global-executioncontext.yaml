@@ -1,0 +1,18 @@
+id: SC001C
+name: scala-global-executioncontext
+language: scala
+description: >
+  `ExecutionContext.global` is shared across the entire application and can
+  lead to thread pool contention, starvation, or security issues in isolated
+  or multi-tenant environments. Consider defining a custom `ExecutionContext`
+  for sensitive operations or parallelism isolation.
+cwe: 693
+severity: warning
+message: "Avoid using `ExecutionContext.global` in production-sensitive or security-isolated code."
+query: |
+  (field_expression
+    (identifier) @obj
+    (identifier) @field)
+  (#eq? @obj "ExecutionContext")
+  (#eq? @field "global")
+location_node: field

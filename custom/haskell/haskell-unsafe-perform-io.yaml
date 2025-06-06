@@ -1,0 +1,15 @@
+id: HS001
+name: haskell-unsafe-perform-io
+language: haskell
+description: >
+  The use of `unsafePerformIO` allows `IO` operations to be executed in what
+  appears to be pure code. This undermines referential transparency and can
+  result in serious bugs or security vulnerabilities, especially in concurrent
+  or multi-threaded environments.
+cwe: 676
+severity: error
+message: "Avoid using `unsafePerformIO` — it breaks purity and can cause unpredictable behavior."
+query: |
+  (variable) @vuln
+  (#eq? @vuln "unsafePerformIO")
+location_node: vuln

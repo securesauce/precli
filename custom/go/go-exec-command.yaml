@@ -1,0 +1,19 @@
+id: GO001C
+name: go-exec-command
+language: go
+description: >
+  The `os/exec` package allows arbitrary command execution. Passing user
+  input directly to `exec.Command` without validation or sanitization can
+  lead to remote command execution (RCE).
+cwe: 78
+severity: error
+message: "Avoid using `exec.Command(...)` with unsanitized input — may lead to command injection."
+query: |
+  (call_expression
+    function: (selector_expression
+                operand: (identifier) @pkg
+                field: (field_identifier) @method)
+    arguments: (argument_list (_) @cmd_arg .))
+  (#eq? @pkg "exec")
+  (#eq? @method "Command")
+location_node: method

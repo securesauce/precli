@@ -1,0 +1,16 @@
+id: CPP001C
+name: cpp-system-call
+language: cpp
+description: >
+  The `system()` function executes shell commands. Passing user-controlled or dynamically
+  constructed strings to it can lead to command injection vulnerabilities (CWE-78).
+  Instead, use safer alternatives or validate inputs rigorously.
+cwe: 78
+severity: error
+message: "Avoid calling `system()` with dynamic or untrusted input"
+query: |
+  (call_expression
+    function: (identifier) @func
+    arguments: (argument_list (_) @vuln_arg))
+  (#eq? @func "system")
+location_node: vuln_arg

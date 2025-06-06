@@ -1,15 +1,23 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 from precli.i18n import _
 
 
 class Cwe:
     _cwe_names = {
+        78: _(
+            "Improper Neutralization of Special Elements used in an OS "
+            "Command ('OS Command Injection')"
+        ),
         79: _(
             "Improper Neutralization of Input During Web Page Generation "
             "('Cross-site Scripting')"
         ),
         94: _("Improper Control of Generation of Code ('Code Injection')"),
+        95: _(
+            "Improper Neutralization of Directives in Dynamically Evaluated "
+            "Code ('Eval Injection')"
+        ),
         208: _("Observable Timing Discrepancy"),
         214: _("Invocation of Process Using Visible Sensitive Information"),
         215: _("Insertion of Sensitive Information Into Debugging Code"),
@@ -30,9 +38,12 @@ class Cwe:
         502: _("Deserialization of Untrusted Data"),
         598: _("Use of GET Request Method With Sensitive Query Strings"),
         614: _("Sensitive Cookie in HTTPS Session Without 'Secure' Attribute"),
+        676: _("Use of Potentially Dangerous Function"),
+        693: _("Protection Mechanism Failure"),
         703: _("Improper Check or Handling of Exceptional Conditions"),
         732: _("Incorrect Permission Assignment for Critical Resource"),
         770: _("Allocation of Resources Without Limits or Throttling"),
+        942: _("Permissive Cross-domain Policy with Untrusted Domains"),
         1088: _("Synchronous Access of Remote Resource without Timeout"),
         1327: _("Binding to an Unrestricted IP Address"),
         1333: _("Inefficient Regular Expression Complexity"),

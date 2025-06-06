@@ -1,0 +1,17 @@
+id: JS001C
+name: js-eval-usage
+language: javascript
+description: >
+  The `eval()` function executes a string of JavaScript code. If the string
+  includes or is built from user-controlled input, this leads to remote code
+  execution vulnerabilities. Use safer alternatives such as JSON.parse,
+  Function constructors, or DOM APIs.
+cwe: 95
+severity: error
+message: "Avoid using `eval()` with dynamic input"
+query: |
+  (call_expression
+    function: (identifier) @func
+    arguments: (arguments (_) @vuln_arg))
+  (#eq? @func "eval")
+location_node: vuln_arg
