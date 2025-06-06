@@ -1,0 +1,18 @@
+id: JAV001C
+name: java-runtime-exec
+language: java
+description: >
+  Calling `Runtime.getRuntime().exec()` allows Java code to execute
+  system-level commands, which opens the door for OS command injection if
+  any input is attacker-controlled.
+cwe: 78
+severity: error
+message: "Avoid using `Runtime.getRuntime().exec()` — can lead to command injection if inputs are not sanitized."
+query: |
+  (method_invocation
+    object: (method_invocation
+              name: (identifier) @runtime_getter)
+    name: (identifier) @exec_method)
+  (#eq? @runtime_getter "getRuntime")
+  (#eq? @exec_method "exec")
+location_node: exec_method

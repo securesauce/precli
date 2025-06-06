@@ -5,25 +5,27 @@ import re
 from precli.parsers import Parser
 
 
-# Language map to [file extensions, rule prefix, comment]
+# Language map to [file extensions, rule prefix]
 LANG_MAP = {
-    "cpp": [
-        [".cpp", ".cc", ".cxx", ".hpp", ".h"],
-        "CPP",
-    ],
-    "c-sharp": [[".cs"], "CS"],
+    "c_sharp": [[".cs"], "CS"],
+    "cpp": [[".cpp", ".cc", ".cxx", ".hpp", ".h"], "CPP"],
     "css": [[".css"], "CSS"],
     "haskell": [[".hs", ".lhs"], "HS"],
     "javascript": [[".js"], "JS"],
-    "perl": [[".pl", ".pm", ".t"], "PL"],
-    "php": [[".php", ".phtml", ".php3", ".php4", ".php5"], "PHP"],
     "ruby": [[".rb"], "RB"],
-    "scala": [[".scala"], "SCA"],
-    "swift": [[".swift"], "SW"],
-    "typescript": [[".ts", ".tsx"], "TS"],
+    "scala": [[".scala"], "SC"],
     # Incompatible Language version 15. Must be between 13 and 14
+    # "bash": [[".sh"], "SH"],
     # "c": [[".c", ".h"], "C",],
     # "rust": [[".rs"], "RS"],
+    # module 'tree_sitter_typescript' has no attribute 'language'
+    # "php": [[".php", ".phtml", ".php3", ".php4", ".php5"], "PHP"],
+    # "typescript": [[".ts", ".tsx"], "TS"],
+    # Query returns nothing
+    # "objc": [[".m", ".mm", ".h"], "OB"],
+    # "perl": [[".pl", ".pm", ".t"], "PL"],
+    # "swift": [[".swift"], "SW"],
+    # "html": [[".html", ".htm"], "HTM"],
 }
 
 

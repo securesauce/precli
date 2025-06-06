@@ -1,0 +1,19 @@
+id: CS001C
+name: csharp-process-start-dynamic
+language: c_sharp
+description: >
+  Using `System.Diagnostics.Process.Start()` with strings influenced by
+  external input can allow command injection. Validate or sanitize arguments
+  before use, or use overloads that take filename and arguments separately.
+cwe: 78
+severity: error
+message: "Avoid calling `Process.Start()` with dynamic or untrusted input"
+query: |
+  (invocation_expression
+    function: (member_access_expression
+                expression: (identifier) @class
+                name: (identifier) @method)
+    (argument_list (_) @vuln_arg))
+  (#eq? @class "Process")
+  (#eq? @method "Start")
+location_node: vuln_arg

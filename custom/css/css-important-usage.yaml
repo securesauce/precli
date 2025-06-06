@@ -1,0 +1,15 @@
+id: CSS001C
+name: css-important-usage
+language: css
+description: >
+  Use of `!important` should be minimized or avoided. It breaks the natural
+  cascading of styles, and in security contexts, it can prevent overrides from
+  accessibility tools, user stylesheets, or dynamically applied CSP-driven
+  styling.
+cwe: 942
+severity: warning
+message: "Avoid using `!important` — it overrides normal CSS precedence and can weaken style isolation or security expectations."
+query: |
+  (declaration
+    (important) @vuln)
+location_node: vuln
