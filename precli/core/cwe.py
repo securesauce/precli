@@ -5,6 +5,10 @@ from precli.i18n import _
 
 class Cwe:
     _cwe_names = {
+        22: _(
+            "Improper Limitation of a Pathname to a Restricted Directory "
+            "('Path Traversal')"
+        ),
         78: _(
             "Improper Neutralization of Special Elements used in an OS "
             "Command ('OS Command Injection')"
