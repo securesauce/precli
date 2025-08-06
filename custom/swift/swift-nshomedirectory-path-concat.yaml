@@ -1,0 +1,16 @@
+id: SW001C
+name: swift-nshomedirectory-path-concat
+language: swift
+description: >
+  Directly using `NSHomeDirectory()` and string concatenation can result in
+  insecure path constructions. Use `FileManager` with `.documentDirectory`,
+  `.applicationSupportDirectory`, etc. for secure, platform-correct behavior.
+cwe: 22
+query: |
+  (call_expression
+    (simple_identifier) @func
+    (call_suffix (value_arguments)))
+  (#eq? @func "NSHomeDirectory")
+message: "Avoid using `NSHomeDirectory()` for sensitive file paths."
+severity: warning
+location_node: func

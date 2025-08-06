@@ -14,6 +14,7 @@ LANG_MAP = {
     "javascript": [[".js"], "JS"],
     "ruby": [[".rb"], "RB"],
     "scala": [[".scala"], "SC"],
+    "swift": [[".swift"], "SW"],
     # Incompatible Language version 15. Must be between 13 and 14
     # "bash": [[".sh"], "SH"],
     # "c": [[".c", ".h"], "C",],
@@ -24,7 +25,6 @@ LANG_MAP = {
     # Query returns nothing
     # "objc": [[".m", ".mm", ".h"], "OB"],
     # "perl": [[".pl", ".pm", ".t"], "PL"],
-    # "swift": [[".swift"], "SW"],
     # "html": [[".html", ".htm"], "HTM"],
 }
 
