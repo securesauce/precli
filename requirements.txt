@@ -6,7 +6,7 @@ tomli_w==1.2.0
 rich==14.1.0
 tree-sitter==0.25.1
 ignorelib==0.3.0
-requests==2.32.4
+requests==2.32.5
 sarif-om==1.0.4
 jschema-to-python==1.2.3
 tree-sitter-go==0.23.4
