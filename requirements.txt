@@ -12,4 +12,4 @@ jschema-to-python==1.2.3
 tree-sitter-go==0.25.0
 tree-sitter-java==0.23.5
 tree-sitter-python==0.25.0
-pyyaml==6.0.2
+pyyaml==6.0.3
