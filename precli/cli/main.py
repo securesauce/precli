@@ -38,6 +38,9 @@ def setup_arg_parser():
         description="precli - a static analysis security tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    if sys.version_info >= (3, 14):
+        parser.suggest_on_error = True
+        parser.color = False
 
     parser.add_argument(
         "-d",

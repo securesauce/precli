@@ -1,4 +1,4 @@
-# Copyright 2024 Secure Sauce LLC
+# Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 import argparse
 import pathlib
@@ -20,6 +20,9 @@ def setup_arg_parser() -> Namespace:
         description="precli-init - create default configuration file",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    if sys.version_info >= (3, 14):
+        parser.suggest_on_error = True
+        parser.color = False
 
     parser.add_argument(
         "-o",
