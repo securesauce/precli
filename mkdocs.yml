@@ -1,9 +1,9 @@
-# Copyright 2025 Secure Sauce LLC
+# Copyright 2026 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
 site_name: Precli Documentation
 repo_url: https://github.com/securesauce/precli/
 edit_uri: blob/main/docs/
-copyright: Copyright 2025 Secure Sauce LLC
+copyright: Copyright 2026 Secure Sauce LLC
 
 theme:
   name: "material"
