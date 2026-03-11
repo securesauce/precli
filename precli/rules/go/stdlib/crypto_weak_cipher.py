@@ -129,6 +129,7 @@ level = "error"
 _New in version 0.2.1_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call
