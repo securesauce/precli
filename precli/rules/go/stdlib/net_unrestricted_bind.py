@@ -95,7 +95,6 @@ from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
 
-
 INADDR_ANY = "0.0.0.0"
 IN6ADDR_ANY = "[::]"
 
