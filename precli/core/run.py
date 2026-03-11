@@ -29,7 +29,6 @@ from precli.core.tool import Tool
 from precli.parsers.basic import Basic
 from precli.rules import Rule
 
-
 LOG = logging.getLogger(__name__)
 PROGRESS_THRESHOLD = 50
 parsers = loader.load_extension(group="precli.parsers")
