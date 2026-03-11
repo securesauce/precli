@@ -84,7 +84,7 @@ class Parser(ABC):
         expanded_rules = []
         for rule in rule_list:
             if "-" in rule:
-                (rule_start, rule_end) = rule.split("-", maxsplit=1)
+                rule_start, rule_end = rule.split("-", maxsplit=1)
                 if rule_start[:-3] == rule_end[:-3]:
                     try:
                         start = int(rule_start[-3:])
