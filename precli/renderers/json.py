@@ -13,7 +13,6 @@ from precli.core.run import Run
 from precli.renderers import Renderer
 from precli.rules import Rule
 
-
 SCHEMA_URI = "https://json.schemastore.org/sarif-2.1.0.json"
 SCHEMA_VER = "2.1.0"
 TS_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
