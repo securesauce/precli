@@ -19,7 +19,6 @@ from precli.core.symtab import SymbolTable
 from precli.parsers import Parser
 from precli.parsers.node_types import NodeTypes
 
-
 Import = namedtuple("Import", "module alias")
 
 
