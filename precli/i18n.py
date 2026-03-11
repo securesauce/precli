@@ -4,7 +4,6 @@ import gettext
 import locale
 import os
 
-
 LOCALE_DIR = os.path.join("precli", "locale")
 
 
