@@ -67,6 +67,7 @@ level = "error"
 _New in version 0.3.14_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core import redos

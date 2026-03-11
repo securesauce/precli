@@ -74,6 +74,7 @@ level = "warning"
 _New in version 0.4.3_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call
@@ -81,7 +82,6 @@ from precli.core.location import Location
 from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
-
 
 HASH_NAME_SIZES = {
     "blake2s": 32,

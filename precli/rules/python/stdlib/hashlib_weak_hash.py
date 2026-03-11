@@ -96,6 +96,7 @@ _New in version 0.1.0_
 _Changed in version 0.4.1: Added md5-sha1_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.argument import Argument

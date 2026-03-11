@@ -85,6 +85,7 @@ level = "error"
 _New in version 0.1.4_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.comparison import Comparison
@@ -92,7 +93,6 @@ from precli.core.location import Location
 from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
-
 
 TIMING_VULNERABLE = (
     "hmac.digest",

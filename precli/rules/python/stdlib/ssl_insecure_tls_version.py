@@ -75,6 +75,7 @@ level = "error"
 _New in version 0.1.0_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.argument import Argument
@@ -83,7 +84,6 @@ from precli.core.location import Location
 from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
-
 
 INSECURE_VERSIONS = (
     "ssl.PROTOCOL_SSLv2",
