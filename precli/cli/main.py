@@ -27,7 +27,6 @@ from precli.core.artifact import Artifact
 from precli.core.run import Run
 from precli.renderers import Renderer
 
-
 BUSL_URL = "https://spdx.org/licenses/BUSL-1.1.html"
 GITHUB_URL = "https://github.com"
 PYPI_URL = "https://pypi.org"
