@@ -17,7 +17,6 @@ from rich.progress import TextColumn
 from precli.core.artifact import Artifact
 from precli.targets import Target
 
-
 GITHUB_API = "https://api.github.com"
 GITHUB_URL = "https://github.com"
 
