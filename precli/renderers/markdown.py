@@ -11,7 +11,6 @@ from precli.core.run import Run
 from precli.renderers import Renderer
 from precli.rules import Rule
 
-
 logging.getLogger("markdown_it").setLevel(logging.INFO)
 
 
