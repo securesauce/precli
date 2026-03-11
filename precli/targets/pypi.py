@@ -16,7 +16,6 @@ from rich.progress import TextColumn
 from precli.core.artifact import Artifact
 from precli.targets import Target
 
-
 PYPI_API = "https://pypi.org"
 
 
