@@ -116,6 +116,7 @@ level = "warning"
 _New in version 0.3.14_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call
@@ -123,7 +124,6 @@ from precli.core.location import Location
 from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
-
 
 CONTEXT_FIX = "ssl.create_default_context()"
 

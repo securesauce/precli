@@ -78,6 +78,7 @@ level = "warning"
 _New in version 0.5.0_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call

@@ -74,6 +74,7 @@ sensitive_params = [
 _New in version 0.3.4_
 
 """  # noqa: E501
+
 from typing import Optional
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit

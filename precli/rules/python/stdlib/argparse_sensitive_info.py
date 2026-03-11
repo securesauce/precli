@@ -88,6 +88,7 @@ _New in version 0.3.14_
 _Changed in version 0.4.1: --api-key also checked_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call

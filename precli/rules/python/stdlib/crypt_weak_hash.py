@@ -113,6 +113,7 @@ level = "warning"
 _New in version 0.1.0_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.call import Call
@@ -120,7 +121,6 @@ from precli.core.location import Location
 from precli.core.result import Result
 from precli.i18n import _
 from precli.rules import Rule
-
 
 WEAK_CRYPT_HASHES = (
     "crypt.METHOD_CRYPT",

@@ -68,6 +68,7 @@ ec_key_size_error = 160
 _New in version 0.2.3_
 
 """  # noqa: E501
+
 import re
 from typing import Optional
 

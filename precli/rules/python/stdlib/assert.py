@@ -68,6 +68,7 @@ level = "warning"
 _New in version 0.3.8_
 
 """  # noqa: E501
+
 from typing import Optional
 
 from precli.core.location import Location
