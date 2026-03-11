@@ -16,6 +16,7 @@ from precli.core.suppression import Suppression
 from precli.core.symtab import Symbol
 from precli.rules import Rule
 
+
 class Parser(ABC):
     """
     Base class of a language specific parser.
