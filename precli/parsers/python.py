@@ -216,7 +216,7 @@ class Python(Parser):
             )
 
             if nodes[2].type == NodeTypes.CALL:
-                (call_args, call_kwargs) = self.get_func_args(
+                call_args, call_kwargs = self.get_func_args(
                     nodes[2].children[1]
                 )
 
@@ -263,7 +263,7 @@ class Python(Parser):
 
     def visit_call(self, nodes: list[Node]):
         func_call_qual = self.resolve(nodes[0])
-        (func_call_args, func_call_kwargs) = self.get_func_args(nodes[1])
+        func_call_args, func_call_kwargs = self.get_func_args(nodes[1])
 
         if self.context["node"].children:
             # (attribute | identifier) argument_list
