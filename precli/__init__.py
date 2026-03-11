@@ -3,7 +3,6 @@
 from datetime import datetime
 from importlib import metadata
 
-
 __author__ = metadata.metadata("precli")["Author"]
 __summary__ = metadata.metadata("precli")["Summary"]
 __copyright__ = f"Copyright {datetime.now():%Y} Secure Sauce LLC"
