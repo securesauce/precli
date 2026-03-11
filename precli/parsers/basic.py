@@ -4,7 +4,6 @@ import re
 
 from precli.parsers import Parser
 
-
 # Language map to [file extensions, rule prefix]
 LANG_MAP = {
     "c_sharp": [[".cs"], "CS"],
