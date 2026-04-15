@@ -189,7 +189,7 @@ class Run:
         if sys.version_info >= (3, 11):
             self._start_time = datetime.datetime.now(datetime.UTC)
         else:
-            self._start_time = datetime.datetime.utcnow()
+            self._start_time = datetime.datetime.now(datetime.timezone.utc)
         LOG.debug(f"Run started at {self._start_time}")
         results = []
         lines = 0
@@ -242,7 +242,7 @@ class Run:
         if sys.version_info >= (3, 11):
             self._end_time = datetime.datetime.now(datetime.UTC)
         else:
-            self._end_time = datetime.datetime.utcnow()
+            self._end_time = datetime.datetime.now(datetime.timezone.utc)
         LOG.debug(f"Run ended at {self._end_time}")
 
     @property
