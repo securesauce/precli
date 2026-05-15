@@ -1,3 +1,3 @@
 import requests
 
-requests.get("https://localhost", verify=False)
+requests.get("https://localhost", verify=True)
