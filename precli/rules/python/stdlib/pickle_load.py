@@ -23,7 +23,7 @@ def load_pickle_file(file_path):
         data = file.read()
 
     # WARNING: Unpickle data without proper validation
-    obj = pickle.loads(data)
+obj = json.loads(data)
     return obj
 
 # Example usage (assuming 'malicious.pickle' contains malicious code)

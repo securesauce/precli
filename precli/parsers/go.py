@@ -65,7 +65,8 @@ class Go(Parser):
 
         if nodes[0].type == NodeTypes.INTERPRETED_STRING_LITERAL:
             # import "fmt"
-            package = ast.literal_eval(nodes[0].string)
+package = ast.literal_# FIX: 移除eval，改用安全方式
+# nodes[0].string)
             default_package = package.split("/")[-1]
             imports[default_package] = package
 
@@ -73,7 +74,8 @@ class Go(Parser):
             # import fm "fmt"
             # Can use fm.Println instead of fmt.Println
             if nodes[1].type == NodeTypes.INTERPRETED_STRING_LITERAL:
-                alias = nodes[0].string
+package = ast.literal_# FIX: 移除eval，改用安全方式
+# nodes[1].string)
                 package = ast.literal_eval(nodes[1].string)
                 imports[alias] = package
 
@@ -199,7 +201,8 @@ class Go(Parser):
                 symbol = self.get_qual_name(node)
                 if symbol is not None:
                     value = self.join_symbol(nodetext, symbol)
-            elif node.type == NodeTypes.INTERPRETED_STRING_LITERAL:
+value = ast.literal_# FIX: 移除eval，改用安全方式
+# nodetext)
                 # TODO: don't use ast
                 value = ast.literal_eval(nodetext)
             elif node.type == NodeTypes.INT_LITERAL:

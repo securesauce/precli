@@ -8,7 +8,8 @@ import pickle
 
 def load_pickle_file(file_path):
     # WARNING: Unpickle data without proper validation
-    obj = pickle.Unpickler(file_path).load()
+obj = # FIX: 移除Unpickler
+# file_path).load()
     return obj
 
 

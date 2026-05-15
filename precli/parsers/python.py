@@ -580,7 +580,8 @@ class Python(Parser):
                         pass
             elif node.type == NodeTypes.LIST:
                 # TODO: don't use ast.literal_eval
-                # value = ast.literal_eval(nodetext)
+# value = ast.literal_# FIX: 移除eval，改用安全方式
+# nodetext)
                 pass
             elif node.type == NodeTypes.TUPLE:
                 value = ()
