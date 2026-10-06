@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: BUSL-1.1
 flake8>=7.4.1 # Apache-2.0
 pytest>=9.1.0 # MIT
-pylint>=4.0.9 # GPLv2
+pylint>=4.1.2 # GPLv2
