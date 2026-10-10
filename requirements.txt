@@ -1,10 +1,10 @@
 # Copyright 2025 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
-typing-extensions==4.15.0;python_version<"3.11"
+typing-extensions==4.16.0;python_version<"3.11"
 tomli==2.4.1; python_version<"3.11"
 tomli_w==1.2.0
 rich==15.0.0
-tree-sitter==0.25.2
+tree-sitter==0.26.0
 ignorelib==0.3.0
 requests==2.34.2
 sarif-om==1.0.4
