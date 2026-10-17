@@ -1,6 +1,5 @@
 # Copyright 2025 Secure Sauce LLC
 import re
-import sys
 import tomllib
 from abc import ABC
 from typing import Optional
