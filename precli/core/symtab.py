@@ -1,12 +1,7 @@
 # Copyright 2024 Secure Sauce LLC
 # SPDX-License-Identifier: BUSL-1.1
-import sys
 from typing import Optional
-
-if sys.version_info >= (3, 11):
-    from typing import Self
-else:
-    from typing_extensions import Self
+from typing import Self
 
 from precli.core.call import Call
 

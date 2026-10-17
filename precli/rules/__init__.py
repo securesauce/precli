@@ -1,13 +1,8 @@
 # Copyright 2025 Secure Sauce LLC
 import re
-import sys
+import tomllib
 from abc import ABC
 from typing import Optional
-
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
 
 from precli.core.config import Config
 from precli.core.cwe import Cwe

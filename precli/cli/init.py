@@ -3,12 +3,9 @@
 import argparse
 import pathlib
 import sys
+import tomllib
 from argparse import Namespace
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
 import tomli_w
 
 from precli.i18n import _
