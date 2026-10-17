@@ -6,6 +6,7 @@
 import hashlib
 import hmac
 
+
 key = b"abcdefghijklmnop"
 message = b"Hello, world!"
 hmac.digest(key, message, digest=hashlib.sm3)

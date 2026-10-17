@@ -6,6 +6,7 @@
 import hashlib
 import hmac
 
+
 key = b"my-super-duper-secret"
 message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod=hashlib.sha3_224)

@@ -6,6 +6,7 @@
 import getpass
 import poplib
 
+
 context = None
 M = poplib.POP3_SSL("localhost", context=context, timeout=5)
 M.user(getpass.getuser())

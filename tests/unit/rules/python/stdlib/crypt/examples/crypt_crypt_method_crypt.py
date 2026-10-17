@@ -5,4 +5,5 @@
 # end_column: 11
 import crypt
 
+
 crypt.crypt("asdfasdfasdfasdf", salt=crypt.METHOD_CRYPT)

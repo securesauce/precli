@@ -6,6 +6,7 @@
 import os
 import stat
 
+
 # 0o755 for rwxr-xr-x
 os.chmod(
     "example.txt",

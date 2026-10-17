@@ -5,6 +5,7 @@
 # end_column: 10
 import nntplib
 
+
 s = nntplib.NNTP("news.gmane.io", timeout=5)
 s.starttls()
 s.login("user", "password")

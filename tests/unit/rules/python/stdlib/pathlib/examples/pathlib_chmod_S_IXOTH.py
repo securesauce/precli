@@ -6,5 +6,6 @@
 import pathlib
 from stat import S_IXOTH
 
+
 file_path = pathlib.Path("/etc/passwd")
 file_path.chmod(S_IXOTH)

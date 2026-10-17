@@ -5,6 +5,7 @@
 # end_column: 28
 import re
 
+
 IPv6address = r"([A-Fa-f0-9:]+:+)+[A-Fa-f0-9]+"
 reg = re.compile(IPv6address)
 reg.search("http://[:::::::::::::::::::::::::::::::::::::::]/path")

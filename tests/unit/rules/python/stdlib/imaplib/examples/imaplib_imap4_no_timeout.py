@@ -6,5 +6,6 @@
 import imaplib
 import ssl
 
+
 imap = imaplib.IMAP4("imap.example.com")
 imap.starttls(ssl.create_default_context())

@@ -1,6 +1,7 @@
 # level: NONE
 import argparse
 
+
 parser = argparse.ArgumentParser(
     prog="ProgramName",
     description="What the program does",

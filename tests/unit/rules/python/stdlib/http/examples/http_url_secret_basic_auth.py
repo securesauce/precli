@@ -5,6 +5,7 @@
 # end_column: 76
 import http.client
 
+
 host = "example.com"
 conn = http.client.HTTPSConnection(host)
 conn.request(

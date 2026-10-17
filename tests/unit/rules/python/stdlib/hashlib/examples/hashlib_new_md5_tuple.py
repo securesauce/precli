@@ -5,5 +5,6 @@
 # end_column: 23
 import hashlib
 
+
 test_tup = (0, None, "blah", "md5")
 hashlib.new(test_tup[3])

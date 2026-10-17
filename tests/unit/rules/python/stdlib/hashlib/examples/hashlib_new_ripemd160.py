@@ -5,4 +5,5 @@
 # end_column: 23
 import hashlib
 
+
 hashlib.new("ripemd160")

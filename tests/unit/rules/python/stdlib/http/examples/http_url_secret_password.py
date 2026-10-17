@@ -5,7 +5,10 @@
 # end_column: 49
 import http.client
 
+
 host = "example.com"
 conn = http.client.HTTPSConnection(host)
-conn.request("GET", "/path?password=abc123&otherParam=123", headers={"Host": host})
+conn.request(
+    "GET", "/path?password=abc123&otherParam=123", headers={"Host": host}
+)
 response = conn.getresponse()

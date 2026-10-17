@@ -6,5 +6,6 @@
 import smtplib
 import ssl
 
+
 server = smtplib.SMTP("smtp.example.com", 587)
 server.starttls(context=ssl.create_default_context())

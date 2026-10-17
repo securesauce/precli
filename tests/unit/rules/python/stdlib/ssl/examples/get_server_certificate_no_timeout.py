@@ -5,4 +5,5 @@
 # end_column: 55
 import ssl
 
+
 cert = ssl.get_server_certificate(("example.com", 443))

@@ -6,5 +6,6 @@
 import os
 from stat import *
 
+
 mode = S_IXUSR | S_IXGRP | S_IXOTH
 os.chmod("/etc/passwd", mode)

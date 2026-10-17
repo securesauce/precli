@@ -5,6 +5,7 @@
 # end_column: 11
 import nntplib
 
+
 with nntplib.NNTP("news.gmane.io", timeout=5) as n:
     n.login("user", "password")
     n.group("gmane.comp.python.committers")

@@ -5,6 +5,7 @@
 # end_column: 23
 import http.client
 
+
 host = "example.com"
 conn = http.client.HTTPSConnection(host)
 url = "https://user:pass@example.com:443/path/to/resource?query=value#section"

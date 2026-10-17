@@ -6,6 +6,7 @@
 import hmac
 from secrets import token_bytes
 
+
 key = token_bytes(nbytes=None)
 message = b"Hello, world!"
 hmac.digest(key, message, digest="sha512")

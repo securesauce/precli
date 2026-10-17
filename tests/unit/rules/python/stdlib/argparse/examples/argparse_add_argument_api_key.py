@@ -5,6 +5,7 @@
 # end_column: 1
 import argparse
 
+
 parser = argparse.ArgumentParser(
     prog="ProgramName",
     description="What the program does",

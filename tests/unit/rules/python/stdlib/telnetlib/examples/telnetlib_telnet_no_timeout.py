@@ -5,4 +5,5 @@
 # end_column: 44
 import telnetlib
 
+
 telnet = telnetlib.Telnet("example.com", 23)

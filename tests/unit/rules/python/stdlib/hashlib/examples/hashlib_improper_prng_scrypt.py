@@ -6,6 +6,7 @@
 import hashlib
 import random
 
+
 password = b"my_secure_password"
 salt = random.randbytes(16)
 hashed_password = hashlib.scrypt(password, salt=salt, n=16384, r=8, p=1)

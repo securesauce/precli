@@ -5,6 +5,7 @@
 # end_column: 14
 import smtplib
 
+
 with smtplib.SMTP("domain.org", timeout=5) as smtp:
     smtp.noop()
     smtp.login("user", "password")

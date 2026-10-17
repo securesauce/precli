@@ -5,6 +5,7 @@
 # end_column: 30
 import marshal
 
+
 data = {"name": "John Doe", "age": 30}
 
 with open("data.dat", "wb") as f:

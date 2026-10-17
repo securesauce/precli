@@ -14,13 +14,21 @@ class TestCase:
             level = getattr(Level, level)
             if level != Level.NONE:
                 start_line = f.readline().strip()
-                start_line = int(start_line.lstrip("/# ").removeprefix("start_line: "))
+                start_line = int(
+                    start_line.lstrip("/# ").removeprefix("start_line: ")
+                )
                 end_line = f.readline().strip()
-                end_line = int(end_line.lstrip("/# ").removeprefix("end_line: "))
+                end_line = int(
+                    end_line.lstrip("/# ").removeprefix("end_line: ")
+                )
                 start_col = f.readline().strip()
-                start_col = int(start_col.lstrip("/# ").removeprefix("start_column: "))
+                start_col = int(
+                    start_col.lstrip("/# ").removeprefix("start_column: ")
+                )
                 end_col = f.readline().strip()
-                end_col = int(end_col.lstrip("/# ").removeprefix("end_column: "))
+                end_col = int(
+                    end_col.lstrip("/# ").removeprefix("end_column: ")
+                )
             else:
                 start_line = end_line = start_col = end_col = -1
 

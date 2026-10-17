@@ -5,4 +5,5 @@
 # end_column: 21
 import secrets
 
+
 secrets.token_bytes(4)

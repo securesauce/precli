@@ -6,4 +6,7 @@
 import smtplib
 import ssl
 
-server = smtplib.SMTP_SSL("smtp.example.com", 587, context=ssl.create_default_context())
+
+server = smtplib.SMTP_SSL(
+    "smtp.example.com", 587, context=ssl.create_default_context()
+)

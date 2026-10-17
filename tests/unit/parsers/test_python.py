@@ -33,13 +33,17 @@ class TestPython:
 
     def test_expression_list_assignment_uneven(self):
         artifact = Artifact(
-            os.path.join(self.base_path, "expression_list_assignment_uneven.py")
+            os.path.join(
+                self.base_path, "expression_list_assignment_uneven.py"
+            )
         )
         results = self.parser.parse(artifact)
         assert len(results) == 0
 
     def test_importlib_import_module(self):
-        artifact = Artifact(os.path.join(self.base_path, "importlib_import_module.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "importlib_import_module.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 0
 
@@ -62,7 +66,9 @@ class TestPython:
         assert result.rank == -1.0
 
     def test_suppress_lowercase_rule(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_lowercase_rule.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_lowercase_rule.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -76,7 +82,9 @@ class TestPython:
 
     def test_suppress_multiline(self):
         # TODO: not testing multiline
-        artifact = Artifact(os.path.join(self.base_path, "suppress_multiline.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_multiline.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -104,7 +112,9 @@ class TestPython:
         assert result.rank == -1.0
 
     def test_suppress_multiple_rules(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_multiple_rules.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_multiple_rules.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -117,7 +127,9 @@ class TestPython:
         assert result.rank == -1.0
 
     def test_suppress_preceding(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_preceding.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_preceding.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -130,7 +142,9 @@ class TestPython:
         assert result.rank == -1.0
 
     def test_suppress_spaced_rules(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_spaced_rules.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_spaced_rules.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -143,7 +157,9 @@ class TestPython:
         assert result.rank == -1.0
 
     def test_suppress_wrong_rule(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_wrong_rule.py"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_wrong_rule.py")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]

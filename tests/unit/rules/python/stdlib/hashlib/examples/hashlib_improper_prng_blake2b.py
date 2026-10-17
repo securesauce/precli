@@ -6,6 +6,7 @@
 import hashlib
 import ssl
 
+
 data = b"super-secret-data"
 salt = ssl.RAND_bytes(16)
 hashlib.blake2b(data, salt=salt)

@@ -5,5 +5,6 @@
 # end_column: 8
 from ftplib import FTP
 
+
 with FTP("ftp.us.debian.org"):
     print("FTP protocol available")

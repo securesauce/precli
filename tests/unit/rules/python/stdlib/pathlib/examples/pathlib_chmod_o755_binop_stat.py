@@ -6,6 +6,7 @@
 import pathlib
 import stat
 
+
 # 0o755 for rwxr-xr-x
 file_path = pathlib.Path("example.txt")
 file_path.chmod(

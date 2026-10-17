@@ -6,4 +6,5 @@
 import os
 import stat
 
+
 os.chmod("/etc/passwd", stat.S_IXOTH)

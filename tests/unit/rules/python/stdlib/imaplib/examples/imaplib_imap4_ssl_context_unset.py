@@ -6,6 +6,7 @@
 import getpass
 import imaplib
 
+
 imap4 = imaplib.IMAP4_SSL(timeout=5)
 imap4.login(getpass.getuser(), getpass.getpass())
 imap4.select()

@@ -5,6 +5,7 @@
 # end_column: 20
 import nntplib
 
+
 s = nntplib.NNTP_SSL("news.gmane.io", timeout=5)
 s.login("user", "password")
 f = open("article.txt", "rb")

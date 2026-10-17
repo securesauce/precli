@@ -5,4 +5,5 @@
 # end_column: 28
 import os
 
+
 os.fchmod("/etc/passwd", 511)

@@ -32,7 +32,9 @@ class TestGo:
         assert result.rank == -1.0
 
     def test_suppress_lowercase_rule(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_lowercase_rule.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_lowercase_rule.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -46,7 +48,9 @@ class TestGo:
 
     def test_suppress_multiline(self):
         # TODO: not testing multiline
-        artifact = Artifact(os.path.join(self.base_path, "suppress_multiline.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_multiline.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -74,7 +78,9 @@ class TestGo:
         assert result.rank == -1.0
 
     def test_suppress_multiple_rules(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_multiple_rules.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_multiple_rules.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -87,7 +93,9 @@ class TestGo:
         assert result.rank == -1.0
 
     def test_suppress_preceding(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_preceding.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_preceding.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -100,7 +108,9 @@ class TestGo:
         assert result.rank == -1.0
 
     def test_suppress_spaced_rules(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_spaced_rules.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_spaced_rules.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
@@ -113,7 +123,9 @@ class TestGo:
         assert result.rank == -1.0
 
     def test_suppress_wrong_rule(self):
-        artifact = Artifact(os.path.join(self.base_path, "suppress_wrong_rule.go"))
+        artifact = Artifact(
+            os.path.join(self.base_path, "suppress_wrong_rule.go")
+        )
         results = self.parser.parse(artifact)
         assert len(results) == 1
         result = results[0]
