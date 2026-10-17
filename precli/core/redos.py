@@ -5,12 +5,8 @@ import collections
 import itertools
 import sys
 
-if sys.version_info >= (3, 11):
-    from re import _constants as constants
-    from re import _parser as parser
-else:
-    import sre_constants as constants
-    import sre_parse as parser
+from re import _constants as constants
+from re import _parser as parser
 
 
 CR = collections.namedtuple("CR", ["cr_min", "cr_max"])

@@ -6,15 +6,11 @@ import os
 import pathlib
 import sys
 import tempfile
+import tomllib
 from argparse import ArgumentParser
 from datetime import datetime
 from importlib import metadata
 from importlib import util
-
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
 
 import requests
 from rich.console import Console
