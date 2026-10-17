@@ -79,7 +79,9 @@ class CreateUnverifiedContext(Rule):
             name="improper_certificate_validation",
             description=__doc__,
             cwe_id=295,
-            message=_("The '{0}' function does not properly validate certificates."),
+            message=_(
+                "The '{0}' function does not properly validate certificates."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -88,7 +90,8 @@ class CreateUnverifiedContext(Rule):
                 context=context,
                 deleted_location=Location(node=call.identifier_node),
                 description=_(
-                    "Use 'create_default_context' to safely validate " "certificates."
+                    "Use 'create_default_context' to safely validate "
+                    "certificates."
                 ),
                 inserted_content="create_default_context",
             )

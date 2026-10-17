@@ -39,7 +39,8 @@ class Json(Renderer):
                             deleted_region=sarif_om.Region(
                                 start_line=fix.deleted_location.start_line,
                                 end_line=fix.deleted_location.end_line,
-                                start_column=fix.deleted_location.start_column + 1,
+                                start_column=fix.deleted_location.start_column
+                                + 1,
                                 end_column=fix.deleted_location.end_column + 1,
                             ),
                             inserted_content=sarif_om.ArtifactContent(
@@ -52,7 +53,9 @@ class Json(Renderer):
             description=sarif_om.Message(text=fix.description),
         )
 
-    def create_rule_if_needed(self, result: Result, rules: dict, rule_indices: dict):
+    def create_rule_if_needed(
+        self, result: Result, rules: dict, rule_indices: dict
+    ):
         rule = Rule.get_by_id(result.rule_id)
         if not rule:
             return None, -1
@@ -154,7 +157,9 @@ class Json(Renderer):
         rule_indices = {}
 
         for result in run.results:
-            _, rule_index = self.create_rule_if_needed(result, rules, rule_indices)
+            _, rule_index = self.create_rule_if_needed(
+                result, rules, rule_indices
+            )
 
             fixes = []
             for fix in result.fixes:

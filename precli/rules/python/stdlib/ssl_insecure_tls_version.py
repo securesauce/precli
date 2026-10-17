@@ -100,7 +100,9 @@ class InsecureTlsVersion(Rule):
             name="inadequate_encryption_strength",
             description=__doc__,
             cwe_id=326,
-            message=_("The '{0}' protocol has insufficient encryption strength."),
+            message=_(
+                "The '{0}' protocol has insufficient encryption strength."
+            ),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -149,7 +151,9 @@ class InsecureTlsVersion(Rule):
             server_side = call.get_argument(
                 position=3, name="server_side", default=Argument(None, False)
             ).value
-            content = "PROTOCOL_TLS_SERVER" if server_side else "PROTOCOL_TLS_CLIENT"
+            content = (
+                "PROTOCOL_TLS_SERVER" if server_side else "PROTOCOL_TLS_CLIENT"
+            )
 
             if isinstance(version, str) and version in INSECURE_VERSIONS:
                 fixes = Rule.get_fixes(

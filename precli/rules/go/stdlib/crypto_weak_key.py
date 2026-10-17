@@ -163,7 +163,9 @@ class WeakKey(Rule):
             ),
         )
 
-    def analyze_call_expression(self, context: dict, call: Call) -> Optional[Result]:
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Optional[Result]:
         if call.name_qualified in ["crypto/dsa.GenerateParameters"]:
             SIZE_ERR = self.config.parameters.get("dsa_key_size_error")
 

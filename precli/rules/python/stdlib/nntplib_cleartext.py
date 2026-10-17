@@ -90,14 +90,18 @@ class NntpCleartext(Rule):
             return
 
         symbol = context["symtab"].get(call.var_node.text.decode())
-        if "starttls" in [x.identifier_node.text.decode() for x in symbol.call_history]:
+        if "starttls" in [
+            x.identifier_node.text.decode() for x in symbol.call_history
+        ]:
             return
 
         init_call = symbol.call_history[0]
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=init_call.identifier_node),
-            description=_("Use the 'NNTP_SSL' module to secure the connection."),
+            description=_(
+                "Use the 'NNTP_SSL' module to secure the connection."
+            ),
             inserted_content="NNTP_SSL",
         )
 

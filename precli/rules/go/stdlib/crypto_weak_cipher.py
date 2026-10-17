@@ -152,7 +152,9 @@ class WeakCipher(Rule):
             ),
         )
 
-    def analyze_call_expression(self, context: dict, call: Call) -> Optional[Result]:
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Optional[Result]:
         if call.name_qualified in [
             "crypto/des.NewCipher",
             "crypto/des.NewTripleDESCipher",

@@ -111,7 +111,8 @@ class FtpCleartext(Rule):
             description=__doc__,
             cwe_id=319,
             message=_(
-                "The FTP protocol can transmit data in cleartext without" " encryption."
+                "The FTP protocol can transmit data in cleartext without"
+                " encryption."
             ),
         )
 
@@ -120,7 +121,9 @@ class FtpCleartext(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=call.identifier_node),
-                description=_("Use the 'FTP_TLS' module to secure the connection."),
+                description=_(
+                    "Use the 'FTP_TLS' module to secure the connection."
+                ),
                 inserted_content="FTP_TLS",
             )
 

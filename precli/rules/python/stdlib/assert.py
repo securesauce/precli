@@ -85,7 +85,8 @@ class Assert(Rule):
             description=__doc__,
             cwe_id=703,
             message=_(
-                "Assert statements are disabled when optimizations are " "enabled."
+                "Assert statements are disabled when optimizations are "
+                "enabled."
             ),
         )
 

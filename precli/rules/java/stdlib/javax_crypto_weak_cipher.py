@@ -166,7 +166,9 @@ class WeakCipher(Rule):
             },
         )
 
-    def analyze_method_invocation(self, context: dict, call: Call) -> Optional[Result]:
+    def analyze_method_invocation(
+        self, context: dict, call: Call
+    ) -> Optional[Result]:
         if call.name_qualified not in [
             "javax.crypto.Cipher.getInstance",
         ]:

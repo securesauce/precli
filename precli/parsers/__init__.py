@@ -116,12 +116,18 @@ class Parser(ABC):
 
         for rule in self.rules.values():
             if enabled is not None:
-                if enabled == ["all"] or rule.id in enabled or rule.name in enabled:
+                if (
+                    enabled == ["all"]
+                    or rule.id in enabled
+                    or rule.name in enabled
+                ):
                     rule.enabled = True
                 else:
                     rule.enabled = False
             elif disabled is not None and (
-                disabled == ["all"] or rule.id in disabled or rule.name in disabled
+                disabled == ["all"]
+                or rule.id in disabled
+                or rule.name in disabled
             ):
                 rule.enabled = False
 

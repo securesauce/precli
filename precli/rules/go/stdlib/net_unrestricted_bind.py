@@ -112,7 +112,9 @@ class NetUnrestrictedBind(Rule):
             ),
         )
 
-    def analyze_call_expression(self, context: dict, call: Call) -> Optional[Result]:
+    def analyze_call_expression(
+        self, context: dict, call: Call
+    ) -> Optional[Result]:
         if call.name_qualified not in ("net.Listen",):
             return
 
@@ -133,7 +135,9 @@ class NetUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_("Use the localhost address to restrict binding."),
+                description=_(
+                    "Use the localhost address to restrict binding."
+                ),
                 inserted_content=f'"127.0.0.1:{address[1]}"',
             )
             return Result(
@@ -146,7 +150,9 @@ class NetUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_("Use the localhost address to restrict binding."),
+                description=_(
+                    "Use the localhost address to restrict binding."
+                ),
                 inserted_content=f'"[::1]:{address[1]}"',
             )
             return Result(

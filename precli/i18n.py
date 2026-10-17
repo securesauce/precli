@@ -10,7 +10,9 @@ LOCALE_DIR = os.path.join("precli", "locale")
 def set_language(lang_code: str = None) -> None:
     global _
     system_locale, _ = locale.getdefaultlocale()
-    lang_code = lang_code or system_locale.split("_")[0] if system_locale else "en"
+    lang_code = (
+        lang_code or system_locale.split("_")[0] if system_locale else "en"
+    )
 
     try:
         lang = gettext.translation(

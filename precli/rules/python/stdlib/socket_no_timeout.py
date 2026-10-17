@@ -136,7 +136,9 @@ class SocketNoTimeout(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(fix_node),
-            description=_("Set timeout parameter to a small number of seconds."),
+            description=_(
+                "Set timeout parameter to a small number of seconds."
+            ),
             inserted_content=content,
         )
         return Result(

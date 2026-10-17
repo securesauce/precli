@@ -45,7 +45,9 @@ class PyPI(Target):
 
                 # TODO: ideally set total to file size, but the Content-Length
                 # is not reliably sent in the response header.
-                task_id = progress.add_task("Downloading...", total=url.get("size"))
+                task_id = progress.add_task(
+                    "Downloading...", total=url.get("size")
+                )
                 chunk_size = 8192
                 with open(tar_gz_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=chunk_size):
@@ -60,7 +62,9 @@ class PyPI(Target):
         with progress:
             with tarfile.open(tar_gz_path, "r:gz") as tar:
                 name_list = tar.getnames()
-                for name in progress.track(name_list, description="Extracting..."):
+                for name in progress.track(
+                    name_list, description="Extracting..."
+                ):
                     tar.extract(name, temp_dir)
 
         os.remove(tar_gz_path)
@@ -85,7 +89,9 @@ class PyPI(Target):
                 target,
                 global_ignore_file_paths=[
                     os.path.join(".git", "info", "exclude"),
-                    os.path.expanduser(os.path.join("~", ".config", "git", "ignore")),
+                    os.path.expanduser(
+                        os.path.join("~", ".config", "git", "ignore")
+                    ),
                 ],
                 global_patterns=[".git"],
                 ignore_file_name=".gitignore",
