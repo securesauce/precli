@@ -5,5 +5,4 @@
 # end_column: 42
 import ssl
 
-
 ssl.SSLContext(protocol=ssl.PROTOCOL_SSLv2)

@@ -6,5 +6,4 @@
 import smtplib
 import ssl
 
-
 server = smtplib.LMTP("smtp.example.com", 587, timeout=None)

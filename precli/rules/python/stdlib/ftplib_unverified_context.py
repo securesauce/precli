@@ -121,9 +121,7 @@ class FtplibUnverifiedContext(Rule):
         fixes = Rule.get_fixes(
             context=context,
             deleted_location=Location(node=fix_node),
-            description=_(
-                f"Pass {CONTEXT_FIX} to safely validate certificates."
-            ),
+            description=_(f"Pass {CONTEXT_FIX} to safely validate certificates."),
             inserted_content=content,
         )
         return Result(

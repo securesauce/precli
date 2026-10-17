@@ -5,7 +5,6 @@
 # end_column: 18
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.findall(pattern, string)

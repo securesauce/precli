@@ -5,7 +5,6 @@
 # end_column: 26
 import nntplib
 
-
 context = None
 s = nntplib.NNTP("news.gmane.io", timeout=5)
 s.starttls(context=context)

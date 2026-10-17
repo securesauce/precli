@@ -5,7 +5,6 @@
 # end_column: 20
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.fullmatch(pattern, string)

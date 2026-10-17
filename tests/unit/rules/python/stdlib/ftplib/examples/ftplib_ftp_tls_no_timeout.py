@@ -5,5 +5,4 @@
 # end_column: 46
 import ftplib
 
-
 ftp_server = ftplib.FTP_TLS("ftp.example.com")

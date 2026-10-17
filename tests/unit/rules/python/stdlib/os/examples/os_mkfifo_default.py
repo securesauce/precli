@@ -2,7 +2,6 @@
 import os
 import sys
 
-
 fifo_path = "my_pipe"
 os.mkfifo(fifo_path)
 

@@ -6,6 +6,5 @@
 import os
 import stat
 
-
 mode = 0o777 & ~(stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
 os.chmod("my_secret_file", mode)

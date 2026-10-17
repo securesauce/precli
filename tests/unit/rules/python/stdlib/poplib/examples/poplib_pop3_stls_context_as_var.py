@@ -6,7 +6,6 @@
 import getpass
 import poplib
 
-
 context = None
 M = poplib.POP3("localhost", timeout=5)
 M.stls(context=context)

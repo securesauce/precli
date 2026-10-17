@@ -5,6 +5,5 @@
 # end_column: 14
 import os
 
-
 path = "examples"
 os.mkdir(path)

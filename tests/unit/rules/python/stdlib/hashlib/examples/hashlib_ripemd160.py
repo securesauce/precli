@@ -5,5 +5,4 @@
 # end_column: 17
 import hashlib
 
-
 hashlib.ripemd160()

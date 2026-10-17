@@ -124,9 +124,7 @@ class HttpServerUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_(
-                    "Use the localhost address to restrict binding."
-                ),
+                description=_("Use the localhost address to restrict binding."),
                 inserted_content=str(("127.0.0.1",) + server_address[1:]),
             )
             return Result(
@@ -139,9 +137,7 @@ class HttpServerUnrestrictedBind(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_(
-                    "Use the localhost address to restrict binding."
-                ),
+                description=_("Use the localhost address to restrict binding."),
                 inserted_content=str(("::1",) + server_address[1:]),
             )
             return Result(

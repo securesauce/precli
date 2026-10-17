@@ -5,5 +5,4 @@
 # end_column: 18
 import hashlib
 
-
 hashlib.new("sha1")

@@ -131,9 +131,7 @@ class OsLooseFilePermissions(Rule):
             or mode & stat.S_IXOTH
         )
 
-    def analyze_import_statement(
-        self, context: dict, package: str, alias: str
-    ) -> None:
+    def analyze_import_statement(self, context: dict, package: str, alias: str) -> None:
         if package == "stat":
             for constant in dir(stat):
                 if constant.startswith("S_"):

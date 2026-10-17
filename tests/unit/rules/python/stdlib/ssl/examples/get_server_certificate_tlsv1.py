@@ -5,5 +5,4 @@
 # end_column: 77
 import ssl
 
-
 ssl.get_server_certificate(("localhost", 443), ssl_version=ssl.PROTOCOL_TLSv1)

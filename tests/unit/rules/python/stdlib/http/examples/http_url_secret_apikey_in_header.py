@@ -1,7 +1,6 @@
 # level: NONE
 import http.client
 
-
 host = "example.com"
 headers = {"X-FullContact-APIKey": "value"}
 conn = http.client.HTTPSConnection(host)

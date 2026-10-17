@@ -93,9 +93,7 @@ class HttpUrlSecret(Rule):
             name="sensitive_query_strings",
             description=__doc__,
             cwe_id=598,
-            message=_(
-                "Secrets in URLs are vulnerable to unauthorized access."
-            ),
+            message=_("Secrets in URLs are vulnerable to unauthorized access."),
         )
 
     def analyze_call(self, context: dict, call: Call) -> Optional[Result]:
@@ -115,8 +113,7 @@ class HttpUrlSecret(Rule):
         params = parse_qs(query)
 
         if split_url.username or any(
-            key in params
-            for key in self.config.parameters.get("sensitive_params")
+            key in params for key in self.config.parameters.get("sensitive_params")
         ):
             return Result(
                 rule_id=self.id,

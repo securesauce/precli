@@ -5,7 +5,6 @@
 # end_column: 19
 import ftplib
 
-
 context = None
 ftp = ftplib.FTP_TLS(
     "ftp.us.debian.org",

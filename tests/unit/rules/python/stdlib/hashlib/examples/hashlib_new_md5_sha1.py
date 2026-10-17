@@ -5,5 +5,4 @@
 # end_column: 22
 import hashlib
 
-
 hashlib.new("md5-sha1")

@@ -6,7 +6,6 @@
 import nntplib
 import ssl
 
-
 s = nntplib.NNTP("news.gmane.io", timeout=None)
 s.starttls(context=ssl.create_default_context())
 s.login("user", "password")

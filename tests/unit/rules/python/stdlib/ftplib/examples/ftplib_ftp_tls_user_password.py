@@ -2,7 +2,6 @@
 import ftplib
 import ssl
 
-
 ftp = ftplib.FTP_TLS(
     "ftp.us.debian.org",
     "user",

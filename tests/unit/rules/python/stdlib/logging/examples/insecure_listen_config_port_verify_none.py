@@ -5,5 +5,4 @@
 # end_column: 30
 import logging.config
 
-
 thread = logging.config.listen(port=1111, verify=None)

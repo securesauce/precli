@@ -5,7 +5,6 @@
 # end_column: 11
 import socket
 
-
 addr = ("0.0.0.0", 80)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(addr)

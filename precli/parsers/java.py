@@ -178,9 +178,7 @@ class Java(Parser):
 
             # This is to help full resolution of an attribute/call.
             # This results in two entries in the symtab for this assignment.
-            self.current_symtab.put(
-                left_hand, NodeTypes.IDENTIFIER, right_hand
-            )
+            self.current_symtab.put(left_hand, NodeTypes.IDENTIFIER, right_hand)
 
             if var_nodes[1].type == NodeTypes.METHOD_INVOCATION:
                 call = self.method_call(var_nodes[1], right_hand)
@@ -307,20 +305,13 @@ class Java(Parser):
             if node.type == NodeTypes.OBJECT_CREATION_EXPRESSION:
                 # "new" (type_identifier | scoped_type_identifier)
                 # argument_list
-                if node.children[0].type == "new" and node.children[
-                    1
-                ].type in (
+                if node.children[0].type == "new" and node.children[1].type in (
                     NodeTypes.TYPE_IDENTIFIER,
                     NodeTypes.SCOPED_TYPE_IDENTIFIER,
                 ):
                     nodetext = node.children[1].string
-                    if (
-                        node.children[1].type
-                        == NodeTypes.SCOPED_TYPE_IDENTIFIER
-                    ):
-                        symbol = Symbol(
-                            nodetext, NodeTypes.IDENTIFIER, nodetext
-                        )
+                    if node.children[1].type == NodeTypes.SCOPED_TYPE_IDENTIFIER:
+                        symbol = Symbol(nodetext, NodeTypes.IDENTIFIER, nodetext)
                     else:
                         symbol = self.get_qual_name(node.children[1])
                     if symbol is not None:

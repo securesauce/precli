@@ -5,6 +5,5 @@
 # end_column: 19
 import pathlib
 
-
 file_path = pathlib.Path("/etc/passwd")
 file_path.chmod(0o7)

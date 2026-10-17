@@ -3,7 +3,6 @@ import os
 from stat import *
 import sys
 
-
 fifo_path = "my_pipe"
 os.mkfifo(fifo_path, mode=S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
 

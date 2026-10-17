@@ -5,5 +5,4 @@
 # end_column: 29
 import os
 
-
 os.chmod("/etc/passwd", 0o776)

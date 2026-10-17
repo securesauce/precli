@@ -8,7 +8,6 @@ import sys
 from re import _constants as constants
 from re import _parser as parser
 
-
 CR = collections.namedtuple("CR", ["cr_min", "cr_max"])
 
 CATEGORY_TO_RANGE = {
@@ -84,15 +83,13 @@ def _build_op_tree_helper(
         else:
             args.append(av)
 
-        current_backtrackable = (
-            parent_backtrackable or prev_sibling_backtrackable
-        )
+        current_backtrackable = parent_backtrackable or prev_sibling_backtrackable
         new_node = OpNode(op, tuple(args), current_backtrackable)
         for sp in reversed(subpatterns):
             _build_op_tree_helper(new_node, sp, current_backtrackable)
 
-        prev_sibling_backtrackable = (
-            prev_sibling_backtrackable or not optional_repeat(new_node)
+        prev_sibling_backtrackable = prev_sibling_backtrackable or not optional_repeat(
+            new_node
         )
         node.children.appendleft(new_node)
 
@@ -119,9 +116,7 @@ class CharacterRange:
     @classmethod
     def from_not_literal(cls, not_literal: tuple):
         """E.g. '[^a]'"""
-        return cls(
-            [CR(cr_min=not_literal[0], cr_max=not_literal[0])], negate=True
-        )
+        return cls([CR(cr_min=not_literal[0], cr_max=not_literal[0])], negate=True)
 
     @staticmethod
     def _parse_in_nodes(nodes: tuple):
@@ -135,8 +130,7 @@ class CharacterRange:
                 for c, r in CATEGORY_TO_RANGE.items():
                     if args is c:
                         results.extend(
-                            CR(cr_min=r_min, cr_max=r_max)
-                            for r_min, r_max in r
+                            CR(cr_min=r_min, cr_max=r_max) for r_min, r_max in r
                         )
 
         return results
@@ -211,13 +205,8 @@ class CharacterRange:
         )
 
     def __repr__(self) -> str:
-        ranges = ", ".join(
-            str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges
-        )
-        return (
-            f"<{self.__class__.__name__} - negate={self.negate} "
-            f"ranges={ranges}>"
-        )
+        ranges = ", ".join(str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges)
+        return f"<{self.__class__.__name__} - negate={self.negate} " f"ranges={ranges}>"
 
 
 def optional_repeat(node: OpNode):
@@ -265,15 +254,11 @@ def inclusive_alternation_branch(branch_node: OpNode):
     )
     return any(
         cr1.overlap(cr2)
-        for cr1, cr2 in itertools.combinations(
-            filter(None, character_ranges), 2
-        )
+        for cr1, cr2 in itertools.combinations(filter(None, character_ranges), 2)
     )
 
 
-def _mutually_inclusive_alternation_helper(
-    node: OpNode, nested_quantifier: bool
-):
+def _mutually_inclusive_alternation_helper(node: OpNode, nested_quantifier: bool):
     if not node.children:
         return False
 

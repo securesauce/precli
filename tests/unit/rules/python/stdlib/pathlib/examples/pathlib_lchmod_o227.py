@@ -5,7 +5,6 @@
 # end_column: 26
 from pathlib import Path
 
-
 mode = 0o227
 file_path = Path("/etc/passwd")
 file_path.lchmod(mode=mode)

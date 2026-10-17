@@ -6,7 +6,6 @@
 import getpass
 import imaplib
 
-
 imap4 = imaplib.IMAP4(timeout=5)
 authobject = object()
 imap4.authenticate("SKEY", authobject)

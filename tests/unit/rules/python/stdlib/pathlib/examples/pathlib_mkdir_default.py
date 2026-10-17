@@ -5,6 +5,5 @@
 # end_column: 17
 from pathlib import Path
 
-
 file_path = Path("examples")
 file_path.mkdir()

@@ -120,9 +120,7 @@ class SslContextWeakKey(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_(
-                    f"Use a curve with a minimum size of {SIZE_WARN} bits."
-                ),
+                description=_(f"Use a curve with a minimum size of {SIZE_WARN} bits."),
                 inserted_content='"secp256k1"',
             )
 

@@ -52,11 +52,7 @@ def parse_file(artifact: Artifact, config: dict) -> list[Result]:
         else:
             file_extension = pathlib.Path(artifact.file_name).suffix
             parser = next(
-                (
-                    p
-                    for p in parsers.values()
-                    if file_extension in p.file_extensions()
-                ),
+                (p for p in parsers.values() if file_extension in p.file_extensions()),
                 None,
             )
 
@@ -130,15 +126,11 @@ class Run:
         if custom_rules:
             for custom_rule in custom_rules:
                 if custom_rule["language"] not in parsers:
-                    parsers[custom_rule["language"]] = Basic(
-                        custom_rule["language"]
-                    )
+                    parsers[custom_rule["language"]] = Basic(custom_rule["language"])
                 parser = parsers[custom_rule["language"]]
 
                 default_config = Config()
-                default_config.level = Level(
-                    custom_rule.get("severity", Level.WARNING)
-                )
+                default_config.level = Level(custom_rule.get("severity", Level.WARNING))
                 rule = Rule(
                     id=custom_rule["id"],
                     name=custom_rule["name"],
@@ -206,9 +198,7 @@ class Run:
             )
 
             with progress:
-                task_id = progress.add_task(
-                    "Analyzing...", total=len(self._artifacts)
-                )
+                task_id = progress.add_task("Analyzing...", total=len(self._artifacts))
 
                 with Pool(processes=None) as pool:
                     try:

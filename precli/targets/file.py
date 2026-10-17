@@ -17,9 +17,7 @@ class File(Target):
                 target,
                 global_ignore_file_paths=[
                     os.path.join(".git", "info", "exclude"),
-                    os.path.expanduser(
-                        os.path.join("~", ".config", "git", "ignore")
-                    ),
+                    os.path.expanduser(os.path.join("~", ".config", "git", "ignore")),
                 ],
                 global_patterns=[".git"],
                 ignore_file_name=".gitignore",

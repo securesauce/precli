@@ -5,7 +5,6 @@
 # end_column: 23
 import os
 
-
 filename = "/etc/passwd"
 mode = 0x1FF
 os.chmod(filename, mode)

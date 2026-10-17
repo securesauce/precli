@@ -6,7 +6,6 @@
 import hashlib
 from random import randbytes
 
-
 data = b"super-secret-data"
 salt = randbytes(16)
 hashlib.blake2s(data, salt=salt)

@@ -5,7 +5,6 @@
 # end_column: 51
 import hashlib
 
-
 algorithms = {
     "weak": {
         "weaker": {

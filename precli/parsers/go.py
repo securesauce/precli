@@ -56,9 +56,7 @@ class Go(Parser):
                     if child.type == NodeTypes.IMPORT_SPEC:
                         imps = self.import_spec(child.children)
                         for key, value in imps.items():
-                            self.current_symtab.put(
-                                key, NodeTypes.IMPORT, value
-                            )
+                            self.current_symtab.put(key, NodeTypes.IMPORT, value)
 
     def import_spec(self, nodes: list[Node]):
         imports = {}

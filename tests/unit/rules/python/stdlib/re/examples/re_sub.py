@@ -5,7 +5,6 @@
 # end_column: 14
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.sub(pattern, print, string)

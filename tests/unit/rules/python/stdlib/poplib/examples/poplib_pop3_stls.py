@@ -3,7 +3,6 @@ import getpass
 import poplib
 import ssl
 
-
 M = poplib.POP3("localhost", timeout=5)
 M.stls(context=ssl.create_default_context())
 M.user(getpass.getuser())

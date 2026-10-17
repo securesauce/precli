@@ -5,5 +5,4 @@
 # end_column: 11
 import hashlib
 
-
 hashlib.sha()

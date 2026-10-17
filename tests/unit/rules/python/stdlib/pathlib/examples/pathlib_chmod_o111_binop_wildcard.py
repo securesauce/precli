@@ -6,7 +6,6 @@
 from pathlib import Path
 from stat import *
 
-
 file_path = Path("/etc/passwd")
 mode = S_IXUSR | S_IXGRP | S_IXOTH
 file_path.chmod(mode)

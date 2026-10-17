@@ -5,7 +5,6 @@
 # end_column: 47
 import hmac
 
-
 key = b"my-secret-key"
 message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod="md5-sha1")

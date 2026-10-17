@@ -4,7 +4,6 @@ import poplib
 import socket
 import ssl
 
-
 socket.setdefaulttimeout(5.0)
 M = poplib.POP3_SSL("localhost", context=ssl.create_default_context())
 M.user(getpass.getuser())

@@ -5,5 +5,4 @@
 # end_column: 30
 import secrets
 
-
 secrets.token_urlsafe(nbytes=8)

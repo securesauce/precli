@@ -17,9 +17,7 @@ class Artifact:
 
         if file_name != "-" and not uri:
             modified_time = os.path.getmtime(file_name)
-            self._last_modified = datetime.fromtimestamp(
-                modified_time, tz=timezone.utc
-            )
+            self._last_modified = datetime.fromtimestamp(modified_time, tz=timezone.utc)
 
     @property
     def file_name(self) -> str:

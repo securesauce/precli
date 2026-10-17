@@ -6,7 +6,6 @@
 import hmac
 import secrets
 
-
 key = secrets.token_bytes(nbytes=16)  # suppress: PY028
 message = b"Hello, world!"
 hmac.new(key, msg=message, digestmod="sha512_256")

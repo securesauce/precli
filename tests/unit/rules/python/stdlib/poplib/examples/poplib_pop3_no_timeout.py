@@ -6,6 +6,5 @@
 import poplib
 import ssl
 
-
 pop = poplib.POP3("mail.my-mail-server.com")
 pop.stls(ssl.create_default_context())

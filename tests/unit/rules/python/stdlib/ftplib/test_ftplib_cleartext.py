@@ -30,10 +30,7 @@ class TestFtpCleartext(test_case.TestCase):
         rule = Rule.get_by_id(self.rule_id)
         assert rule.id == self.rule_id
         assert rule.name == "cleartext_transmission"
-        assert (
-            rule.help_url
-            == f"https://docs.securesauce.dev/rules/{self.rule_id}"
-        )
+        assert rule.help_url == f"https://docs.securesauce.dev/rules/{self.rule_id}"
         assert rule.config.enabled is True
         assert rule.config.level == Level.WARNING
         assert rule.config.rank == -1.0
@@ -77,9 +74,7 @@ class TestFtpCleartext(test_case.TestCase):
         assert result.rank == -1.0
 
     def test_ftplib_ftp_login(self):
-        artifact = Artifact(
-            os.path.join(self.base_path, "ftplib_ftp_login.py")
-        )
+        artifact = Artifact(os.path.join(self.base_path, "ftplib_ftp_login.py"))
         results = self.parser.parse(artifact)
         assert len(results) == 2
         result = results[0]
@@ -101,9 +96,7 @@ class TestFtpCleartext(test_case.TestCase):
 
     def test_ftplib_ftp_login_single_statement(self):
         artifact = Artifact(
-            os.path.join(
-                self.base_path, "ftplib_ftp_login_single_statement.py"
-            )
+            os.path.join(self.base_path, "ftplib_ftp_login_single_statement.py")
         )
         results = self.parser.parse(artifact)
         assert len(results) == 2

@@ -5,6 +5,5 @@
 # end_column: 39
 import telnetlib
 
-
 telnet = telnetlib.Telnet()
 telnet.open("example.com", timeout=None)

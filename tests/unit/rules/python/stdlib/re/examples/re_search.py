@@ -5,7 +5,6 @@
 # end_column: 17
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.search(pattern, string)

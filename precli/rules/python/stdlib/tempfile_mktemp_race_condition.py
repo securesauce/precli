@@ -156,9 +156,7 @@ class MktempRaceCondition(Rule):
                             "closure, and cleanup."
                         ),
                         deleted_location=Location(node=call.node),
-                        inserted_content=(
-                            f"tempfile.NamedTemporaryFile({arg_str})"
-                        ),
+                        inserted_content=(f"tempfile.NamedTemporaryFile({arg_str})"),
                     ),
                 ]
 

@@ -5,5 +5,4 @@
 # end_column: 20
 import secrets
 
-
 secrets.token_hex(16)

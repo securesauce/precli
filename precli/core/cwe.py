@@ -34,8 +34,7 @@ class Cwe:
         328: _("Use of Weak Hash"),
         330: _("Use of Insufficiently Random Values"),
         338: _(
-            "Use of Cryptographically Weak Pseudo-Random Number Generator "
-            "(PRNG)"
+            "Use of Cryptographically Weak Pseudo-Random Number Generator " "(PRNG)"
         ),
         347: _("Improper Verification of Cryptographic Signature"),
         377: _("Insecure Temporary File"),

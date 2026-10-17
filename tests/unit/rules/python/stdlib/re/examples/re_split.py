@@ -5,7 +5,6 @@
 # end_column: 16
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.split(pattern, string)

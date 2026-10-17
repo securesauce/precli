@@ -5,7 +5,6 @@
 # end_column: 25
 import pathlib
 
-
 filename = "/etc/passwd"
 mode = 0o777
 file_path = pathlib.Path(filename)

@@ -49,9 +49,7 @@ class Plain(Renderer):
                 underline_width = (
                     result.location.end_column - result.location.start_column
                 )
-                underline = (
-                    " " * result.location.start_column + "^" * underline_width
-                )
+                underline = " " * result.location.start_column + "^" * underline_width
                 self.console.print(
                     Padding(code_line + underline, (0, 4)),
                 )

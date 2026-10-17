@@ -6,7 +6,6 @@
 import getpass
 import imaplib
 
-
 imap4 = imaplib.IMAP4(timeout=5)
 imap4.starttls(ssl_context=None)
 imap4.login(getpass.getuser(), getpass.getpass())

@@ -31,8 +31,7 @@ class Detailed(Renderer):
             if result.artifact.uri is not None:
                 if result.location.start_line != result.location.end_line:
                     lines = (
-                        f"L{result.location.start_line}-"
-                        f"L{result.location.end_line}"
+                        f"L{result.location.start_line}-" f"L{result.location.end_line}"
                     )
                 else:
                     lines = f"L{result.location.start_line}"
@@ -50,9 +49,7 @@ class Detailed(Renderer):
             if rule:
                 self.console.print(f"{rule.id}: {rule.cwe.name}", style=style)
             else:
-                self.console.print(
-                    f"{result.rule_id}: Parsing error", style=style
-                )
+                self.console.print(f"{result.rule_id}: Parsing error", style=style)
             self.console.print(f"{result.message}", style=style)
 
             line_offset = result.location.start_line - 2
@@ -110,11 +107,7 @@ class Detailed(Renderer):
                     line_after = linecache.getline(lineno=start_line + 1)
                     after = 1
 
-                code = (
-                    code[:start_column]
-                    + fix.inserted_content
-                    + code[end_column:]
-                )
+                code = code[:start_column] + fix.inserted_content + code[end_column:]
                 code = line_before + code + line_after
                 for i in range(start_line - 1 - before):
                     code = "\n" + code

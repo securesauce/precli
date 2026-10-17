@@ -64,9 +64,7 @@ class GitHub(Target):
         with progress:
             with zipfile.ZipFile(zip_path, "r") as zip_ref:
                 name_list = zip_ref.namelist()
-                for name in progress.track(
-                    name_list, description="Extracting..."
-                ):
+                for name in progress.track(name_list, description="Extracting..."):
                     zip_ref.extract(name, temp_dir)
 
         os.remove(zip_path)
@@ -109,9 +107,7 @@ class GitHub(Target):
                 target,
                 global_ignore_file_paths=[
                     os.path.join(".git", "info", "exclude"),
-                    os.path.expanduser(
-                        os.path.join("~", ".config", "git", "ignore")
-                    ),
+                    os.path.expanduser(os.path.join("~", ".config", "git", "ignore")),
                 ],
                 global_patterns=[".git"],
                 ignore_file_name=".gitignore",

@@ -105,9 +105,7 @@ class SecretsWeakToken(Rule):
             fixes = Rule.get_fixes(
                 context=context,
                 deleted_location=Location(node=arg.node),
-                description=_(
-                    "Pass None or no parameter to use the default entropy."
-                ),
+                description=_("Pass None or no parameter to use the default entropy."),
                 inserted_content="None",
             )
 

@@ -5,6 +5,5 @@
 # end_column: 14
 import os
 
-
 root = 0
 os.setuid(root)

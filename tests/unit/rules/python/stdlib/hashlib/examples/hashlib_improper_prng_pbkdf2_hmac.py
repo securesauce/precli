@@ -6,7 +6,6 @@
 import hashlib
 import ssl
 
-
 password = b"my_secure_password"
 salt = ssl.RAND_bytes(16)
 our_app_iters = 500_000

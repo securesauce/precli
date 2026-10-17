@@ -5,6 +5,5 @@
 # end_column: 34
 import os
 
-
 mode = 0o227
 os.lchmod("/etc/passwd", mode=mode)

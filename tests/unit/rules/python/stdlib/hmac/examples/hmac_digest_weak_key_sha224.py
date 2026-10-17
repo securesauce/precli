@@ -6,7 +6,6 @@
 import hmac
 import secrets
 
-
 key_size = 16
 key = secrets.token_bytes(nbytes=key_size)  # suppress: PY028
 message = b"Hello, world!"

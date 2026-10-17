@@ -5,7 +5,6 @@
 # end_column: 57
 import nntplib
 
-
 context = None
 s = nntplib.NNTP_SSL("news.gmane.io", ssl_context=context, timeout=5)
 s.login("user", "password")

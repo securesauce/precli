@@ -88,17 +88,13 @@ class Python(Parser):
         imps = self.import_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, NodeTypes.IMPORT, value)
-            self.analyze_node(
-                self.context["node"].type, package=value, alias=key
-            )
+            self.analyze_node(self.context["node"].type, package=value, alias=key)
 
     def visit_import_from_statement(self, nodes: list[Node]):
         imps = self.import_from_statement(nodes)
         for key, value in imps.items():
             self.current_symtab.put(key, NodeTypes.IMPORT, value)
-            self.analyze_node(
-                self.context["node"].type, package=value, alias=key
-            )
+            self.analyze_node(self.context["node"].type, package=value, alias=key)
 
     def visit_class_definition(self, nodes: list[Node]):
         class_id = self.context["node"].child_by_type(NodeTypes.IDENTIFIER)
@@ -136,9 +132,7 @@ class Python(Parser):
                 param_type.named_children[0],
                 default=param_type.named_children[0],
             )
-            self.current_symtab.put(
-                param_name, NodeTypes.IDENTIFIER, param_type
-            )
+            self.current_symtab.put(param_name, NodeTypes.IDENTIFIER, param_type)
 
         self.visit(nodes)
 
@@ -166,14 +160,10 @@ class Python(Parser):
                 if isinstance(right_hand, int):
                     if nodes[1].string == "&=":
                         value = symbol.value & right_hand
-                        self.current_symtab.put(
-                            left_hand, NodeTypes.IDENTIFIER, value
-                        )
+                        self.current_symtab.put(left_hand, NodeTypes.IDENTIFIER, value)
                     elif nodes[1].string == "|=":
                         value = symbol.value | right_hand
-                        self.current_symtab.put(
-                            left_hand, NodeTypes.IDENTIFIER, value
-                        )
+                        self.current_symtab.put(left_hand, NodeTypes.IDENTIFIER, value)
 
         self.visit(nodes)
 
@@ -211,14 +201,10 @@ class Python(Parser):
             left_hand = nodes[0].string
             right_hand = self.resolve(nodes[2], default=nodes[2])
 
-            self.current_symtab.put(
-                left_hand, NodeTypes.IDENTIFIER, right_hand
-            )
+            self.current_symtab.put(left_hand, NodeTypes.IDENTIFIER, right_hand)
 
             if nodes[2].type == NodeTypes.CALL:
-                call_args, call_kwargs = self.get_func_args(
-                    nodes[2].children[1]
-                )
+                call_args, call_kwargs = self.get_func_args(nodes[2].children[1])
 
                 if nodes[2].children:
                     # (attribute | identifier) argument_list
@@ -325,9 +311,7 @@ class Python(Parser):
         self.visit(nodes)
 
     def visit_with_item(self, nodes: list[Node]):
-        as_pattern = (
-            nodes[0] if nodes[0].type == NodeTypes.AS_PATTERN else None
-        )
+        as_pattern = nodes[0] if nodes[0].type == NodeTypes.AS_PATTERN else None
 
         if as_pattern is not None and as_pattern.children:
             statement = as_pattern.children[0]
@@ -342,9 +326,7 @@ class Python(Parser):
                 identifier = as_pattern_target.children[0]
                 identifier = self.resolve(identifier, default=identifier)
                 statement = self.resolve(statement, default=statement)
-                self.current_symtab.put(
-                    identifier, NodeTypes.IDENTIFIER, statement
-                )
+                self.current_symtab.put(identifier, NodeTypes.IDENTIFIER, statement)
 
                 if as_pattern.children[0].type == NodeTypes.CALL:
                     if as_pattern.children[0].children:
@@ -380,9 +362,7 @@ class Python(Parser):
                 operator=operator,
                 right_hand=right_hand,
             )
-            self.analyze_node(
-                NodeTypes.COMPARISON_OPERATOR, comparison=comparison
-            )
+            self.analyze_node(NodeTypes.COMPARISON_OPERATOR, comparison=comparison)
         self.visit(nodes)
 
     def import_statement(self, nodes: list[Node]) -> dict:
@@ -565,11 +545,7 @@ class Python(Parser):
             elif node.type == NodeTypes.SUBSCRIPT:
                 # TODO: fix other subscript usage like list, slice, etc?
                 var = self.resolve(node.named_children[0])
-                if (
-                    var is not None
-                    and isinstance(var, dict)
-                    or isinstance(var, tuple)
-                ):
+                if var is not None and isinstance(var, dict) or isinstance(var, tuple):
                     key = node.named_children[1]
                     try:
                         if key.type == NodeTypes.STRING:

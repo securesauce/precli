@@ -5,7 +5,6 @@
 # end_column: 11
 import socket
 
-
 address = "0.0.0.0"
 port = 80
 addr = (address, port)

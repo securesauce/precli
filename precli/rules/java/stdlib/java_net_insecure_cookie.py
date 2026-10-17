@@ -93,9 +93,7 @@ class InsecureCookie(Rule):
             name="insecure_cookie",
             description=__doc__,
             cwe_id=614,
-            message=_(
-                "The cookie '{0}' was found without the 'Secure' flag " "set."
-            ),
+            message=_("The cookie '{0}' was found without the 'Secure' flag " "set."),
             wildcards={
                 "java.net.*": [
                     "HttpCookie",
@@ -103,9 +101,7 @@ class InsecureCookie(Rule):
             },
         )
 
-    def analyze_method_invocation(
-        self, context: dict, call: Call
-    ) -> Optional[Result]:
+    def analyze_method_invocation(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in [
             "java.net.HttpCookie.setSecure",
         ]:

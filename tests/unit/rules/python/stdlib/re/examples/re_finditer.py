@@ -5,7 +5,6 @@
 # end_column: 19
 import re
 
-
 pattern = r"(a+)+"
 string = "aaaaaaaaaaaaaaaaaaaaaaaa!"
 re.finditer(pattern, string)

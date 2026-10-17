@@ -135,9 +135,7 @@ class NetHttpNoTimeout(Rule):
             ),
         )
 
-    def analyze_call_expression(
-        self, context: dict, call: Call
-    ) -> Optional[Result]:
+    def analyze_call_expression(self, context: dict, call: Call) -> Optional[Result]:
         if call.name_qualified not in (
             "net/http.ListenAndServe",
             "net/http.ListenAndServeTLS",
