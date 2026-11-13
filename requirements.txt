@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: BUSL-1.1
 tomli_w==1.2.0
 rich==15.0.0
-tree-sitter==0.26.0
+tree-sitter==0.26.1
 ignorelib==0.3.0
 requests==2.34.2
 sarif-om==1.0.4
